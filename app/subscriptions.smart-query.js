@@ -59,9 +59,30 @@ window.SubscriptionsSmartQuery = (function () {
     '6) Do not output extra fields like must_have / optional / exclude / rewrite_for_embedding.',
     '7) Return pure JSON only, no explanations.',
     '8) Tag suggestion should be concise, preferably under 6 characters.',
+    '9) Tag suggestion must NOT include any year. Do not append or embed years (including digits like 2026/2025/2024 etc.) in tag.',
   ].join('\n');
 
   const normalizeText = (v) => String(v || '').trim();
+
+  const sanitizeAutoTag = (value) => {
+    const base = normalizeText(value);
+    if (!base) return '';
+    let tag = base
+      .replace(/\((?:19|20)\d{2}(?:年)?\)/g, '')
+      .replace(/（(?:19|20)\d{2}(?:年)?）/g, '')
+      .replace(/([\u4e00-\u9fffA-Za-z]+)\s*(?:19|20)\d{2}(?!\d)/g, '$1')
+      .replace(/(?:19|20)\d{2}(?!\d)([\u4e00-\u9fffA-Za-z]+)/g, '$1')
+      .replace(/[\s_-]*(?:19|20)\d{2}(?:年)[\s_-]*/g, '')
+      .replace(/[\s_-]*(?:19|20)\d{2}[\s_-]*/g, '');
+    tag = tag
+      .replace(/\+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .replace(/[_-]+/g, ' ')
+      .replace(/[\s_-]+$/g, '')
+      .replace(/^[\s_-]+/g, '')
+      .trim();
+    return tag || base;
+  };
   const toStableId = (value) => {
     const text = normalizeText(value).toLowerCase();
     const slug = text
@@ -383,6 +404,7 @@ window.SubscriptionsSmartQuery = (function () {
         data.profile_tag ||
         '',
     );
+    const cleanedTag = sanitizeAutoTag(tag);
     const description = normalizeText(
       data.description ||
         data.中文描述 ||
@@ -503,7 +525,7 @@ window.SubscriptionsSmartQuery = (function () {
     const intentQueries = normalizeIntentQueryEntries(rawIntentQueries);
 
     return {
-      tag,
+      tag: cleanedTag,
       description,
       keywords,
       intent_queries: intentQueries,
@@ -1075,7 +1097,7 @@ window.SubscriptionsSmartQuery = (function () {
     if (isChat) {
       return `
         <div class="dpr-cloud-item dpr-inline-slot dpr-inline-slot-chat">
-          <div class="dpr-inline-slot-fields">
+        <div class="dpr-inline-slot-fields">
             ${renderDraftInputField(kind, idx, meta.primary, item[meta.primary], meta.primaryPlaceholder)}
             ${renderDraftInputField(
               kind,
@@ -1085,16 +1107,17 @@ window.SubscriptionsSmartQuery = (function () {
               meta.secondaryPlaceholder,
             )}
           </div>
-          <button
-            type="button"
-            class="arxiv-tool-btn dpr-inline-slot-add dpr-inline-slot-add-side"
-            data-action="append-draft-slot"
-            data-kind="${kind}"
-            data-index="${idx}"
-          >
-            新增
-          </button>
-        </div>
+        <button
+          type="button"
+          class="arxiv-tool-btn dpr-inline-slot-add dpr-inline-slot-add-side"
+          data-action="append-draft-slot"
+          data-kind="${kind}"
+          data-index="${idx}"
+          title="新增"
+        >
+          +
+        </button>
+      </div>
       `;
     }
     const wrapperClass = isChat ? 'dpr-cloud-item dpr-inline-slot' : 'dpr-pick-card dpr-inline-slot';
@@ -1110,8 +1133,9 @@ window.SubscriptionsSmartQuery = (function () {
           data-action="append-draft-slot"
           data-kind="${kind}"
           data-index="${idx}"
+          title="新增"
         >
-          新增
+          +
         </button>
       </div>
     `;
@@ -1333,7 +1357,9 @@ window.SubscriptionsSmartQuery = (function () {
 
   const openAddModal = (tag, description, candidates) => {
     const normalizedCandidates = parseCandidatesForState(candidates);
-    const suggestedTag = normalizeText(candidates && candidates.tag) || normalizeText(tag);
+    const suggestedTag = sanitizeAutoTag(
+      normalizeText(candidates && candidates.tag) || normalizeText(tag),
+    );
     const suggestedDesc = normalizeText(candidates && candidates.description) || normalizeText(description);
     modalState = {
       type: 'add',
@@ -1637,13 +1663,14 @@ window.SubscriptionsSmartQuery = (function () {
       const nextIntentQueries = isFirstRound
         ? nextCandidates.intent_queries
         : mergeCandidatesForNextRound(modalState.intent_queries, nextCandidates.intent_queries, 'query');
-      const suggestedTag = normalizeText(candidates.tag);
+    const suggestedTag = normalizeText(candidates.tag);
       const suggestedDesc = normalizeText(candidates.description);
-      if (!tag && suggestedTag) {
-        finalTag = suggestedTag;
+      const safeSuggestedTag = sanitizeAutoTag(suggestedTag);
+      if (!tag && safeSuggestedTag) {
+        finalTag = safeSuggestedTag;
       }
-      if (suggestedTag && !modalState.inputTag) {
-        modalState.inputTag = suggestedTag;
+      if (safeSuggestedTag && !modalState.inputTag) {
+        modalState.inputTag = safeSuggestedTag;
       }
       const finalDescForProfile = suggestedDesc || finalDesc;
       modalState.inputDesc = finalDescForProfile;
