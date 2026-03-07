@@ -1,9 +1,6 @@
-<div class="dpr-home-notice-card">
-  <h3 class="dpr-home-notice-title">使用教程面板</h3>
-  <ul class="dpr-home-notice-list">
-    <li>使用入口总览：<a href="#/newbie/README">查看导航页</a></li>
-    <li>从零开始配置：<a href="#/newbie/quick-start">查看页面</a></li>
-    <li>订阅与查询怎么配：<a href="#/newbie/configuration">查看页面</a></li>
-    <li>推荐链路怎么理解：<a href="#/newbie/workflow">查看页面</a></li>
-  </ul>
-</div>
+### 🚀 Start Here
+
+- [先看使用入口总览](/newbie/README)
+- [第一次配置：Fork → PAT → Actions → Pages](/newbie/quick-start)
+- [订阅关键词 / Query 怎么配](/newbie/configuration)
+- [推荐链路与日报结构说明](/newbie/workflow)

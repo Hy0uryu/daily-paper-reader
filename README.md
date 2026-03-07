@@ -1,75 +1,141 @@
-# Daily Paper Reader 
-## 每日 arXiv / OpenReview 论文推荐与 AI 阅读平台
+# Daily Paper Reader: 每日论文雷达与 AI 阅读平台
 
-* 一个开源的 **arXiv / OpenReview 论文推荐、阅读与 AI 问答平台**。  
-* Fork 一次，即可获得一个 **每天自动更新** 的个性化论文推荐站点。  
-* Open-source daily **arXiv / OpenReview** paper recommendation, reading, and Q&A platform powered by **GitHub Actions** and **GitHub Pages**.
+[![Stars](https://img.shields.io/github/stars/ziwenhahaha/daily-paper-reader?style=flat-square)](https://github.com/ziwenhahaha/daily-paper-reader/stargazers)
+[![Forks](https://img.shields.io/github/forks/ziwenhahaha/daily-paper-reader?style=flat-square)](https://github.com/ziwenhahaha/daily-paper-reader/network/members)
+[![License](https://img.shields.io/github/license/ziwenhahaha/daily-paper-reader?style=flat-square)](https://github.com/ziwenhahaha/daily-paper-reader/blob/main/LICENSE)
+[![Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-2ea44f?style=flat-square)](https://ziwenhahaha.github.io/daily-paper-reader)
+[![Docs](https://img.shields.io/badge/Docs-Quick%20Start-blue?style=flat-square)](https://ziwenhahaha.github.io/daily-paper-reader/#/newbie/README)
 
-[在线演示](https://ziwenhahaha.github.io/daily-paper-reader) \
-[5 分钟快速启动](#5-分钟快速启动)
+**Daily Paper Reader** 是一个面向研究者、学生和工程师的 **每日 arXiv / OpenReview 论文推荐、阅读与 AI 问答平台**。<br>
+⚡ **Fork 一次，即可获得一个每天自动更新的个性化论文站点。**<br>
+🧠 把 **发现论文 → 个性化筛选 → 深入阅读 → AI 提问总结** 放进同一条工作流。
 
-## 你能快速得到什么
+[在线演示](https://ziwenhahaha.github.io/daily-paper-reader) ·
+[5 分钟快速启动](#5-分钟快速启动) ·
+[使用教程](https://ziwenhahaha.github.io/daily-paper-reader/#/newbie/README) ·
+[提交 Issue](https://github.com/ziwenhahaha/daily-paper-reader/issues)
 
-- 每日自动抓取 arXiv / OpenReview 新论文
-- 基于关键词、研究方向与兴趣生成个性化推荐流
-- 沉浸式阅读体验，快速查看摘要、链接与核心信息
-- AI 论文问答助手，支持边读边问
-- GitHub Actions 自动更新，无需手动维护
-- GitHub Pages 一键部署，无需额外服务器
-- Fork 即用，5 分钟完成初始化
+## News
+
+- **2026-03-04** Released **v1.2.0** — 优化整体使用体验。
+- **2026-02-28** Released **v1.1.0** — 优化订阅面板逻辑，不再需要手动记关键词。
+- **2026-02-19** Released **v1.0.0** — 基础功能实现完成。
+
+## Why Daily Paper Reader?
+
+- **Daily Paper Radar**：每日自动抓取 arXiv / OpenReview 新论文，持续追踪研究前沿。
+- **Personalized Feed**：基于关键词、研究方向与兴趣生成个性化推荐流。
+- **Read + Ask in One Place**：支持沉浸式阅读与 AI 论文问答，边读边问。
+- **Zero-Server Deployment**：依托 GitHub Actions 自动更新、GitHub Pages 部署，无需额外服务器。
+- **Fork-and-Run**：Fork 后完成少量配置，即可上线自己的论文主页。
+
+## 你可以把它用在哪里？
+
+- **个人论文雷达**：持续追踪自己研究方向的新论文
+- **实验室主页**：沉淀团队关注的论文脉络与阅读结果
+- **日常阅读工作台**：把发现、阅读、问答、总结集中到一个入口
+
+## Workflow Architecture
+
+```mermaid
+flowchart LR
+    A[订阅关键词 / 研究方向 / Intent Queries] --> B[GitHub Actions 定时运行]
+    B --> C[抓取 arXiv / OpenReview 新论文]
+    C --> D[召回 / 过滤 / 推荐排序]
+    D --> E[生成每日报告与论文列表]
+    E --> F[GitHub Pages 对外展示]
+    F --> G[AI 阅读问答 / 持续追踪]
+```
+
+## 5 分钟内你能得到什么
+
+| 能力 | 说明 |
+| --- | --- |
+| 每日新论文发现 | 自动抓取 arXiv / OpenReview 最新论文 |
+| 个性化推荐流 | 按研究方向、关键词、兴趣推送 |
+| 沉浸式阅读 | 快速查看摘要、链接与关键信息 |
+| AI 论文问答 | 支持边读边问，辅助理解论文 |
+| 自动更新 | GitHub Actions 定时运行，无需手动维护 |
+| 一键部署 | GitHub Pages 发布，无需单独服务器 |
 
 ## 适合谁使用
 
-- 想持续追踪某个研究方向新论文的学生、研究者和工程师
+- 想持续追踪某个研究方向的学生、研究者和工程师
 - 想搭建私人论文推荐站点、实验室论文主页或阅读面板的开发者
-- 想把“发现论文 → 阅读论文 → 提问总结”放进同一工作流的人
+- 想把「发现论文 → 阅读论文 → 提问总结」放到同一工作流的人
 
 ## 5 分钟快速启动
 
-### 1. 提前准备两个密钥
+> [!TIP]
+> 先准备一个大模型 API Key 和一个 GitHub PAT，之后完成 Fork、开启 Actions、开启 Pages 即可。
 
-#### 1.1 获取大模型密钥
+### 1) 准备大模型 API Key
 
-> 不是柏拉图行不行？对比了市面上的集成平台，柏拉图是性价比最高的，柏拉图平台上有按0.001元/次的reranker模型调用，和非常便宜的gemini3 flash模型: 提示¥0.5/M tokens 补全 ¥3/M tokens，建议还是配这个，每天花费1~3毛钱。
+当前 README 默认以 **柏拉图 API 平台** 为示例，建议先按默认配置跑通。
 
-- 打开 **柏拉图 API 平台** [https://api.bltcy.ai/](https://api.bltcy.ai/) 完成注册/登录
-- 充值 5 元
-- 新建密钥
+- 打开 [柏拉图 API 平台](https://api.bltcy.ai/)
+- 完成注册 / 登录
+- 充值并创建密钥
 
-#### 1.2 获取 Github 访问许可 
-- 打开 [GitHub 新建 PAT 页面](https://github.com/settings/tokens/new?type=beta&scopes=repo,workflow,gist) 
-- 勾选 **这三项权限**（上面链接已预勾选）：
-  - `repo`
-  - `workflow`
-  - `gist`
+### 2) 准备 GitHub PAT
 
-### 2. Fork 本仓库 （第二步往后的操作均需要在自己仓库中点击）
-Fork 该仓库到自己账号下，建议仓库名字保持原样。
+打开 [GitHub 新建 PAT 页面](https://github.com/settings/tokens/new?type=beta&scopes=repo,workflow,gist)，勾选以下权限：
 
-### 3. 开启 Actions
-进入 Fork 的仓库 → 页面上方点 `Actions` → 左边 `daily-paper-reader` 开启
+- `repo`
+- `workflow`
+- `gist`
 
-### 4. 开启 GitHub Pages
-- GitHub Pages 设置 点击此链接[../../settings/pages](../../settings/pages)  或者 依次点击 `Settings → Pages → Source`
-- 
-- 选 `Deploy from a branch`，分支 `main`，目录 `/(root)`，保存
-- 静候1分钟，站点地址会显示在页面顶部
+### 3) Fork 本仓库
 
-### 5. 打开站点验收
-访问 `https://<你的用户名>.github.io/<仓库名>/`
+Fork 到自己的 GitHub 账号下，建议仓库名保持 `daily-paper-reader` 不变。
 
-此后所有操作均在网页端执行
+### 4) 开启 GitHub Actions
 
-## 版本迭代（请持续更新）
+进入你 Fork 的仓库，点击顶部 `Actions`，启用 `daily-paper-reader` 工作流。
+
+### 5) 开启 GitHub Pages
+
+进入 `Settings → Pages`：
+
+- Source 选择 `Deploy from a branch`
+- Branch 选择 `main`
+- Folder 选择 `/(root)`
+
+保存后等待约 1 分钟，站点地址会显示在页面顶部。
+
+### 6) 打开站点验收
+
+访问：
+
+```text
+https://<你的用户名>.github.io/<仓库名>/
+```
+
+后续日常使用和配置，基本都可以在网页端完成。
+
+## FAQ
+
+### 需要服务器吗？
+
+不需要。项目基于 **GitHub Actions + GitHub Pages** 运行和部署。
+
+### 可以做哪些个性化配置？
+
+你可以调整订阅关键词、研究方向、查询意图与日常阅读偏好，构建自己的论文推荐流。
+
+### 适合实验室或团队一起用吗？
+
+可以。它很适合做实验室公共论文面板，或者作为团队内部的论文发现与阅读入口。
+
+## 版本迭代
 
 | 版本 | 日期 | 更新内容 |
 | --- | --- | --- |
-| v1.0.0 | 2026-02-19 | 基础功能实现完成 |
-| v1.1.0 | 2026-02-28 | 优化订阅面板逻辑，不再需要手动记关键词 |
 | v1.2.0 | 2026-03-04 | 优化使用体验 |
+| v1.1.0 | 2026-02-28 | 优化订阅面板逻辑，不再需要手动记关键词 |
+| v1.0.0 | 2026-02-19 | 基础功能实现完成 |
 
-## Star 曲线（项目热度）
+## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=ziwenhahaha/daily-paper-reader&type=Date)](https://star-history.com/#ziwenhahaha/daily-paper-reader&Date)
-
 
