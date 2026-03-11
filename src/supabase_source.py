@@ -15,6 +15,18 @@ DEFAULT_TIMEOUT = 20
 _DEFAULT_SUPABASE_RETRY = 3
 _DEFAULT_SUPABASE_RETRY_WAIT_SECONDS = 1.0
 
+# PostgreSQL error code for "canceling statement due to statement timeout"
+_PG_STATEMENT_TIMEOUT_CODE = "57014"
+
+
+def _is_statement_timeout(resp: requests.Response) -> bool:
+    """判断响应是否为 PostgreSQL 语句超时（error code 57014）。"""
+    try:
+        body = resp.text or ""
+        return _PG_STATEMENT_TIMEOUT_CODE in body
+    except Exception:
+        return False
+
 
 def _parse_datetime_like(value: Any) -> datetime | None:
     if value is None:
@@ -204,6 +216,10 @@ def _request_with_retries(
         **kwargs,
       )
       if resp.status_code < 500 or attempt >= attempts:
+        return resp
+      # 语句超时（57014）是服务端配置限制，重试不会改善
+      if _is_statement_timeout(resp):
+        print(f"[WARN] {log_prefix} 检测到数据库语句超时 (57014)，跳过重试。", flush=True)
         return resp
       msg = f"{log_prefix} 状态码重试 ({attempt}/{attempts})：HTTP {resp.status_code}"
       print(f"[WARN] {msg}", flush=True)
