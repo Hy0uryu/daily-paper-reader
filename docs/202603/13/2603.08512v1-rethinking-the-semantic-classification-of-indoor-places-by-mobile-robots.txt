@@ -1,0 +1,64 @@
+Title: Rethinking the semantic classification of indoor places by mobile robots
+
+URL Source: https://arxiv.org/pdf/2603.08512v1
+
+Published Time: Tue, 10 Mar 2026 02:42:24 GMT
+
+Number of Pages: 3
+
+Markdown Content:
+# Rethinking the semantic classification of indoor places by mobile robots* 
+
+1st Oscar M. Mozos 
+
+AI for Life Lab, AASS ¨Orebro University 
+
+¨Orebro, Sweden oscar.mozos@oru.se 
+
+2nd Alejandra C. Hernandez 
+
+Robotics Lab, DISA Carlos III University of Madrid 
+
+Madrid, Spain alejhern@ing.uc3m.es 
+
+3rd Clara Gomez 
+
+Robotics Lab, DISA Carlos III University of Madrid 
+
+Madrid, Spain clgomezb@ing.uc3m.es 
+
+4th Ramon Barber 
+
+Robotics Lab, DISA Carlos III University of Madrid 
+
+Madrid, Spain rbarber@ing.uc3m.es 
+
+Abstract —A significant challenge in service robots is the semantic understanding of their surrounding areas. Traditional approaches addressed this problem by segmenting the floor plan into regions corresponding to full rooms that are assigned labels consistent with human perception, e.g. office or kitchen . However, different areas inside the same room can be used in different ways: Could the table and the chair in my kitchen become my office? What is the category of that area now? office or kitchen ?To adapt to these circumstances we propose a new paradigm where we intentionally relax the resulting labeling of semantic classifiers by allowing confusions inside rooms. Our hypothesis is that those confusions can be beneficial to a service robot. We present a proof of concept in the task of searching for objects. 
+
+Index Terms —Semantic place categorization, Robotic Percep-tion, Semantic Mapping, Object Search 
+
+I. I NTRODUCTION 
+
+Autonomous service robots are expected to perform a wide variety of everyday tasks in environments designed by and for humans. Therefore, they have to interpret the information about their surrounding environments in a similar way that people do. This is necessary to share perceptual and semantic concepts with users, to facilitate a natural communication with them and, in general, to improve their human-robot interaction capabilities [1]. An important functionality in service robots working in indoor environments is the semantic categorization of places [2], [3]. In this problem, an autonomous robot should determine the semantic label of the area where it is located. This label should be consistent with the human perception about the same area and, therefore, it should share the same semantic meaning with the user. Example labels for indoor areas include office or kitchen .Traditional methods for constructing 2D semantic maps of indoor environments aim to assign a semantic label to each full room of a given environment, and efforts are directed to get a clean room-based map like the one shown in Fig.1 [2]–[6]. However, the recent pandemic events have made some people change the way of perceiving or using their environments, mainly due to the shift to online activities from home. As 
+
+This work is funded by the Spanish Ministerio de Ciencia, Inno-vaci´ on y Universidades under projects HEROITEA (RTI2018-095599-B-C21) and ROBWELL (RTI2018-095599-A-C22); by the RoboCity2030-Madrid Robotics Digital Innovation Hub project (S2018/NMT-4331); and by the Wallenberg AI, Autonomous Systems and Software Program (WASP) funded by the Knut and Alice Wallenberg Foundation. 
+
+Fig. 1. Upper-left: the original indoor environment. Bottom-left: the semantic division based on full rooms. Right: example of our semantic division that keeps confusions based on appearance. 
+
+a consequence, people have changed the meaning of some spaces inside their homes by assigning different uses to the same area. For example, the table and chairs in the kitchen can be seen or used as an office. Inspired by those circumstances, we present a new paradigm for the problem of semantic place categorization by mobile robots. The main idea is to intentionally keep confusions in the classification of subareas inside the rooms that result from the perception system of the robot. Our claim is that those confusions can naturally correspond to real alternatives, like for example the table and the chair inside the kitchen that can be classified as a small office inside that kitchen. Moreover, those confusions can improve particular tasks carried out by a service robot. This paper presents a summary of our first approximation to transfer this change of paradigm into the perception system of a mobile robot working in an indoor environment [7]. Our approach creates a subdivision of the environment by main-taining the confusions of the perception system of the robot which are due to the scene appearance or to the distribution of objects. We do not aim to create new classifiers for this  
+
+> arXiv:2603.08512v1 [cs.RO] 9 Mar 2026 Fig. 2. Rows (1) and (2) show simulated environments while rows (3) and (4) depict real ones. Columns: (a) example scene image; (b) full 2D map; (c) appearance-based confusion map; (d) object-based confusion map; (e) merged confusion map.
+
+new categorization task. Instead, we use standard classifiers and rely on their confusions to obtain our subdivisions. An example is presented in the right part of Fig. 1 in which a full room is divided into different subregions that correspond to the output of the appearance classifier from different viewpoints. As a proof of concept we implemented a robotic task consisting of searching daily life objects in simulated and real-world scenarios that showed that keeping smaller confusing regions increased the efficiency in the search. II. M ETHODOLOGY AND EXPERIMENTAL RESULTS 
+
+To create our maps we use the output of two different classifiers. The appearance-based classifier is based on a deep VGG16 architecture trained on the Places365 database [8]. The object-based map is based on histograms of objects that are found in different indoor spaces from the NYU depth V2 dataset [9]. Each classifier output results in a different semantic map, appearance-based and object-based, which are merged in a later stage. For specific details on the implementation we refer the reader to our original work [7]. Fig.2 shows the results from our semantic segmentation that includes confusions based on appearance and on the distribution of objects applied to two simulated and two real home environments. We can see the difference between a man-ually segmented full room division (b) and the subdivisions obtained keeping the confusing areas (c-d-e). Many of those confused subdivisions make sense and correspond to potential real alternatives. For instance, in Fig.2 (1e) we can see how the living room (upper right room) is divided into several subregions: an office (blue), a storage room (magenta) and a living room (yellow), which make sense according to the contextual information and objects present in each subarea. In a next experiment, we compare the performance of our robot in a object searching task. We compare our results with the work in [10] (our baseline), where full rooms are assigned a single place category. We located the searched objects in three different places in decreasing order of their prior probability of being found, i.e., the first place has the highest probability of containing the object, the second place has the second highest probability, and so on. Location probabilities were obtained from statistics on object-scene co-occurrences of daily life objects [10], [11]. For each object, we repeated the search 3 times in each different probable place. Results are shown in Fig.3, where we show the number of viewpoints and the covered area needed by the robot to find the object. As the object is located in a less probable place, those values increase in the baseline strategy that uses full room maps [10], while our approach based on confusions keeps lower numbers. This is an important result since, usually, lost objects are not found in the most probable place, and that is why it is more difficult to find them. Our approach based on confusion maps provides better efficiency in those cases. Further experiments are shown in [7]. 
+
+(a) Simulated environment 
+
+(b) Real-world environment  
+
+> Fig. 3. Results considering different initial locations for the lost object ac-cording to prior probabilities. X-axis values: 1=most probable place; 2=second most probable place, 3=third most probable place. Our approach (yellow) improves the search task by keeping the covered area and the viewpoints visited at a low level both in simulated and real-world scenarios.
+
+III. C ONCLUSION 
+
+We presented a change of paradigm in the problem of semantic place categorization in indoor environments. Our claim is that confusions in the perception system of the robot can naturally correspond to real alternatives, i.e a small office inside a kitchen, and thus they can improve particular robotic tasks. Further improvements aim to study compatible confusions, e.g. a kitchen can be an office, versus incompatible ones, e.g. a corridor cannot be a toilet; and the integration of spatial-temporal human activities in different areas. REFERENCES [1] H. Zender, O. M. Mozos, P. Jensfelt, G.-J. Kruijff, W. Burgard, Con-ceptual spatial representations for indoor mobile robots, Robotics and Autonomous Systems 56 (6) (2008) 493–502. [2] I. Kostavelis, A. Gasteratos, Semantic mapping for mobile robotics tasks: A survey, Robotics and Autonomous Systems 66 (2015) 86–103. [3] J. Crespo, J. C. Castillo, O. Mozos, R. Barber, Semantic information for robot navigation: A survey, Applied Sciences 10 (2) (2020) 497. doi:10.3390/app10020497. [4] X. Qi, W. Wang, M. Yuan, Y. Wang, M. Li, L. Xue, Y. Sun, Building semantic grid maps for domestic robot navigation, International Journal of Advanced Robotic Systems 17 (1) (2020) 1729881419900066. [5] N. S¨ underhauf, F. Dayoub, S. McMahon, B. Talbot, R. Schulz, P. Corke, G. Wyeth, B. Upcroft, M. Milford, Place categorization and semantic mapping on a mobile robot, in: 2016 IEEE international conference on robotics and automation (ICRA), IEEE, 2016, pp. 5729–5736. [6] R. Goeddel, E. Olson, Learning semantic place labels from occupancy grids using cnns, in: 2016 IEEE/RSJ international conference on intel-ligent robots and systems (IROS), IEEE, 2016, pp. 3999–4004. [7] A. C. Hernandez, C. Gomez, R. Barber, O. M. Mozos, Exploiting the confusions of semantic places to improve service robotic tasks in indoor environments, Robotics and Autonomous Systems 159 (2023) 104290. [8] B. Zhou, A. Lapedriza, A. Khosla, A. Oliva, A. Torralba, Places: A 10 million image database for scene recognition, IEEE transactions on pattern analysis and machine intelligence 40 (6) (2017) 1452–1464. [9] N. Silberman, D. Hoiem, P. Kohli, R. Fergus, Indoor segmentation and support inference from rgbd images, in: European conference on computer vision, Springer, 2012, pp. 746–760. [10] A. C. Hernandez, E. Derner, C. Gomez, R. Barber, R. Babuˇ ska, Efficient object search through probability-based viewpoint selection, in: 2020 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), IEEE, 2020, pp. 6172–6179. [11] M. Brucker, M. Durner, R. Ambrus ¸, Z. C. M´ arton, A. Wendt, P. Jensfelt, K. O. Arras, R. Triebel, Semantic labeling of indoor environments from 3d rgb maps, in: 2018 IEEE International Conference on Robotics and Automation (ICRA), IEEE, 2018, pp. 1871–1878.

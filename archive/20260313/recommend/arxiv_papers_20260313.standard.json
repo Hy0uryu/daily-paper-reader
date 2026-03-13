@@ -1,0 +1,568 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-13T19:45:32.200863+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 12,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2603.04714v1",
+      "title": "Design, Mapping, and Contact Anticipation with 3D-printed Whole-Body Tactile and Proximity Sensors",
+      "abstract": "Robots operating in dynamic and shared environments benefit from anticipating contact before it occurs. We present GenTact-Prox, a fully 3D-printed artificial skin that integrates tactile and proximity sensing for contact detection and anticipation. The artificial skin platform is modular in design, procedurally generated to fit any robot morphology, and can cover the whole body of a robot. The skin achieved detection ranges of up to 18 cm during evaluation. To characterize how robots perceive nearby space through this skin, we introduce a data-driven framework for mapping the Perisensory Space -- the body-centric volume of space around the robot where sensors provide actionable information for contact anticipation. We demonstrate this approach on a Franka Research 3 robot equipped with five GenTact-Prox units, enabling online object-aware operation and contact prediction.",
+      "authors": [
+        "Carson Kohlbrenner",
+        "Anna Soukhovei",
+        "Caleb Escobedo",
+        "Nataliya Nechyporenko",
+        "Alessandro Roncone"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-05T01:29:30+00:00",
+      "link": "https://arxiv.org/pdf/2603.04714v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "whole-body tactile and proximity sensors for robot perception",
+      "llm_evidence_cn": "用于机器人感知的全身触觉与接近传感器",
+      "llm_evidence": "用于机器人感知的全身触觉与接近传感器",
+      "canonical_evidence": "用于机器人感知的全身触觉与接近传感器",
+      "llm_tldr_en": "Develops 3D-printed artificial skin for whole-body tactile and proximity sensing to anticipate contact.",
+      "llm_tldr_cn": "开发了一种3D打印的人造皮肤，集成全身触觉与接近传感，用于机器人的接触预测。",
+      "llm_tldr": "开发了一种3D打印的人造皮肤，集成全身触觉与接近传感，用于机器人的接触预测。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.09218v1",
+      "title": "Embodied Human Simulation for Quantitative Design and Analysis of Interactive Robotics",
+      "abstract": "Physical interactive robotics, ranging from wearable devices to collaborative humanoid robots, require close coordination between mechanical design and control. However, evaluating interactive dynamics is challenging due to complex human biomechanics and motor responses. Traditional experiments rely on indirect metrics without measuring human internal states, such as muscle forces or joint loads. To address this issue, we develop a scalable simulation-based framework for the quantitative analysis of physical human-robot interaction. At its core is a full-body musculoskeletal model serving as a predictive surrogate for the human dynamical system. Driven by a reinforcement learning controller, it generates adaptive, physiologically grounded motor behaviors. We employ a sequential training pipeline where the pre-trained human motion control policy acts as a consistent evaluator, making large-scale design space exploration computationally tractable. By simulating the coupled human-robot system, the framework provides access to internal biomechanical metrics, offering a systematic way to concurrently co-optimize a robot's structural parameters and control policy. We demonstrate its capability in optimizing human-exoskeleton interactions, showing improved joint alignment and reduced contact forces. This work establishes embodied human simulation as a scalable paradigm for interactive robotics design.",
+      "authors": [
+        "Chenhui Zuo",
+        "Jinhao Xu",
+        "Michael Qian Vergnolle",
+        "Yanan Sui"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-10T05:39:31+00:00",
+      "link": "https://arxiv.org/pdf/2603.09218v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "simulation framework for collaborative humanoid robots",
+      "llm_evidence_cn": "协作人形机器人的仿真框架",
+      "llm_evidence": "协作人形机器人的仿真框架",
+      "canonical_evidence": "协作人形机器人的仿真框架",
+      "llm_tldr_en": "Develops a musculoskeletal simulation framework for analyzing physical human-robot interaction.",
+      "llm_tldr_cn": "开发了一个基于肌肉骨骼模型的仿真框架，用于定量分析人形机器人与人的物理交互。",
+      "llm_tldr": "开发了一个基于肌肉骨骼模型的仿真框架，用于定量分析人形机器人与人的物理交互。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "humanoid robot research and development",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.11346v1",
+      "title": "Learning to Assist: Physics-Grounded Human-Human Control via Multi-Agent Reinforcement Learning",
+      "abstract": "Humanoid robotics has strong potential to transform daily service and caregiving applications. Although recent advances in general motion tracking within physics engines (GMT) have enabled virtual characters and humanoid robots to reproduce a broad range of human motions, these behaviors are primarily limited to contact-less social interactions or isolated movements. Assistive scenarios, by contrast, require continuous awareness of a human partner and rapid adaptation to their evolving posture and dynamics. In this paper, we formulate the imitation of closely interacting, force-exchanging human-human motion sequences as a multi-agent reinforcement learning problem. We jointly train partner-aware policies for both the supporter (assistant) agent and the recipient agent in a physics simulator to track assistive motion references. To make this problem tractable, we introduce a partner policies initialization scheme that transfers priors from single-human motion-tracking controllers, greatly improving exploration. We further propose dynamic reference retargeting and contact-promoting reward, which adapt the assistant's reference motion to the recipient's real-time pose and encourage physically meaningful support. We show that AssistMimic is the first method capable of successfully tracking assistive interaction motions on established benchmarks, demonstrating the benefits of a multi-agent RL formulation for physically grounded and socially aware humanoid control.",
+      "authors": [
+        "Yuto Shibata",
+        "Kashu Yamazaki",
+        "Lalit Jayanti",
+        "Yoshimitsu Aoki",
+        "Mariko Isogawa",
+        "Katerina Fragkiadaki"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR",
+        "cs.RO"
+      ],
+      "published": "2026-03-11T22:25:44+00:00",
+      "link": "https://arxiv.org/pdf/2603.11346v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Humanoid robot motion tracking and assistive interaction in physics engines",
+      "llm_evidence_cn": "物理引擎中的人形机器人运动跟踪与辅助交互",
+      "llm_evidence": "物理引擎中的人形机器人运动跟踪与辅助交互",
+      "canonical_evidence": "物理引擎中的人形机器人运动跟踪与辅助交互",
+      "llm_tldr_en": "Uses multi-agent RL to train humanoid policies for force-exchanging assistive human-robot interactions.",
+      "llm_tldr_cn": "利用多智能体强化学习训练人形机器人策略，以实现具有力交换的辅助性人机交互。",
+      "llm_tldr": "利用多智能体强化学习训练人形机器人策略，以实现具有力交换的辅助性人机交互。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "humanoid robot research and development",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.05017v1",
+      "title": "Direct Contact-Tolerant Motion Planning With Vision Language Models",
+      "abstract": "Navigation in cluttered environments often requires robots to tolerate contact with movable or deformable objects to maintain efficiency. Existing contact-tolerant motion planning (CTMP) methods rely on indirect spatial representations (e.g., prebuilt map, obstacle set), resulting in inaccuracies and a lack of adaptiveness to environmental uncertainties. To address this issue, we propose a direct contact-tolerant (DCT) planner, which integrates vision-language models (VLMs) into direct point perception and navigation, including two key components. The first one is VLM point cloud partitioner (VPP), which performs contact-tolerance reasoning in image space using VLM, caches inference masks, propagates them across frames using odometry, and projects them onto the current scan to generate a contact-aware point cloud. The second innovation is VPP guided navigation (VGN), which formulates CTMP as a perception-to-control optimization problem under direct contact-aware point cloud constraints, which is further solved by a specialized deep neural network (DNN). We implement DCT in Isaac Sim and a real car-like robot, demonstrating that DCT achieves robust and efficient navigation in cluttered environments with movable obstacles, outperforming representative baselines across diverse metrics. The code is available at: https://github.com/ChrisLeeUM/DCT.",
+      "authors": [
+        "He Li",
+        "Jian Sun",
+        "Chengyang Li",
+        "Guoliang Li",
+        "Qiyu Ruan",
+        "Shuai Wang",
+        "Chengzhong Xu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-05T10:05:00+00:00",
+      "link": "https://arxiv.org/pdf/2603.05017v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "VLM-integrated point perception and navigation",
+      "llm_evidence_cn": "集成视觉语言模型的点云感知与导航",
+      "llm_evidence": "集成视觉语言模型的点云感知与导航",
+      "canonical_evidence": "集成视觉语言模型的点云感知与导航",
+      "llm_tldr_en": "A direct contact-tolerant planner using VLMs for adaptive navigation in cluttered environments.",
+      "llm_tldr_cn": "一种利用视觉语言模型进行直接点云感知和导航的接触容忍路径规划器。",
+      "llm_tldr": "一种利用视觉语言模型进行直接点云感知和导航的接触容忍路径规划器。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.08512v1",
+      "title": "Rethinking the semantic classification of indoor places by mobile robots",
+      "abstract": "A significant challenge in service robots is the semantic understanding of their surrounding areas. Traditional approaches addressed this problem by segmenting the floor plan into regions corresponding to full rooms that are assigned labels consistent with human perception, e.g. office or kitchen. However, different areas inside the same room can be used in different ways: Could the table and the chair in my kitchen become my office? What is the category of that area now? office or kitchen? To adapt to these circumstances we propose a new paradigm where we intentionally relax the resulting labeling of semantic classifiers by allowing confusions inside rooms. Our hypothesis is that those confusions can be beneficial to a service robot. We present a proof of concept in the task of searching for objects.",
+      "authors": [
+        "Oscar Martinez Mozos",
+        "Alejandra C. Hernandez",
+        "Clara Gomez",
+        "Ramon Barber"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-09T15:43:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.08512v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "semantic classification of indoor places for mobile robots",
+      "llm_evidence_cn": "移动机器人的室内场所语义分类",
+      "llm_evidence": "移动机器人的室内场所语义分类",
+      "canonical_evidence": "移动机器人的室内场所语义分类",
+      "llm_tldr_en": "Explores a new paradigm for semantic place classification to improve robot environmental understanding.",
+      "llm_tldr_cn": "提出一种新的语义分类范式，通过放宽室内区域标签限制来增强机器人的环境理解。",
+      "llm_tldr": "提出一种新的语义分类范式，通过放宽室内区域标签限制来增强机器人的环境理解。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "advancements in humanoid robot perception and environmental mapping",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.08342v1",
+      "title": "PhaForce: Phase-Scheduled Visual-Force Policy Learning with Slow Planning and Fast Correction for Contact-Rich Manipulation",
+      "abstract": "Contact-rich manipulation requires not only vision-dominant task semantics but also closed-loop reactions to force/torque (F/T) transients. Yet, generative visuomotor policies are typically constrained to low-frequency updates due to inference latency and action chunking, underutilizing F/T for control-rate feedback. Furthermore, existing force-aware methods often inject force continuously and indiscriminately, lacking an explicit mechanism to schedule when / how much / where to apply force across different task phases. We propose PhaForce, a phase-scheduled visual--force policy that coordinates low-rate chunk-level planning and high-rate residual correction via a unified contact/phase schedule. PhaForce comprises (i) a contact-aware phase predictor (CAP) that estimates contact probability and phase belief, (ii) a Slow diffusion planner that performs dual-gated visual--force fusion with orthogonal residual injection to preserve vision semantics while conditioning on force, and (iii) a Fast corrector that applies control-rate phase-routed residuals in interpretable corrective subspaces for within-chunk micro-adjustments. Across multiple real-robot contact-rich tasks, PhaForce achieves an average success rate of 86% (+40 pp over baselines), while also substantially improving contact quality by regulating interaction forces and exhibiting robust adaptability to OOD geometric shifts.",
+      "authors": [
+        "Mingxin Wang",
+        "Zhirun Yue",
+        "Renhao Lu",
+        "Yizhe Li",
+        "Zihan Wang",
+        "Guoping Pan",
+        "Kangkang Dong",
+        "Jun Cheng",
+        "Yi Cheng",
+        "Houde Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-09T13:03:29+00:00",
+      "link": "https://arxiv.org/pdf/2603.08342v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "visual-force policy for contact-rich manipulation",
+      "llm_evidence_cn": "用于触觉丰富操作的视觉-力策略",
+      "llm_evidence": "用于触觉丰富操作的视觉-力策略",
+      "canonical_evidence": "用于触觉丰富操作的视觉-力策略",
+      "llm_tldr_en": "PhaForce coordinates visual planning and high-rate force correction for contact-rich robot manipulation.",
+      "llm_tldr_cn": "PhaForce 协调视觉规划与高频力反馈校正，用于处理复杂的接触式机器人操作任务。",
+      "llm_tldr": "PhaForce 协调视觉规划与高频力反馈校正，用于处理复杂的接触式机器人操作任务。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.09175v1",
+      "title": "STONE Dataset: A Scalable Multi-Modal Surround-View 3D Traversability Dataset for Off-Road Robot Navigation",
+      "abstract": "Reliable off-road navigation requires accurate estimation of traversable regions and robust perception under diverse terrain and sensing conditions. However, existing datasets lack both scalability and multi-modality, which limits progress in 3D traversability prediction. In this work, we introduce STONE, a large-scale multi-modal dataset for off-road navigation. STONE provides (1) trajectory-guided 3D traversability maps generated by a fully automated, annotation-free pipeline, and (2) comprehensive surround-view sensing with synchronized 128-channel LiDAR, six RGB cameras, and three 4D imaging radars. The dataset covers a wide range of environments and conditions, including day and night, grasslands, farmlands, construction sites, and lakes. Our auto-labeling pipeline reconstructs dense terrain surfaces from LiDAR scans, extracts geometric attributes such as slope, elevation, and roughness, and assigns traversability labels beyond the robot's trajectory using a Mahalanobis-distance-based criterion. This design enables scalable, geometry-aware ground-truth construction without manual annotation. Finally, we establish a benchmark for voxel-level 3D traversability prediction and provide strong baselines under both single-modal and multi-modal settings. STONE is available at: https://konyul.github.io/STONE-dataset/",
+      "authors": [
+        "Konyul Park",
+        "Daehun Kim",
+        "Jiyong Oh",
+        "Seunghoon Yu",
+        "Junseo Park",
+        "Jaehyun Park",
+        "Hongjae Shin",
+        "Hyungchan Cho",
+        "Jungho Kim",
+        "Jun Won Choi"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-10T04:26:00+00:00",
+      "link": "https://arxiv.org/pdf/2603.09175v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-modal surround-view 3D traversability dataset for robot navigation",
+      "llm_evidence_cn": "用于机器人导航的多模态环视3D可通行性数据集",
+      "llm_evidence": "用于机器人导航的多模态环视3D可通行性数据集",
+      "canonical_evidence": "用于机器人导航的多模态环视3D可通行性数据集",
+      "llm_tldr_en": "A large-scale multi-modal dataset for off-road robot navigation and 3D traversability prediction.",
+      "llm_tldr_cn": "一个用于越野机器人导航和3D可通行性预测的大规模多模态数据集。",
+      "llm_tldr": "一个用于越野机器人导航和3D可通行性预测的大规模多模态数据集。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.10438v1",
+      "title": "AsyncMDE: Real-Time Monocular Depth Estimation via Asynchronous Spatial Memory",
+      "abstract": "Foundation-model-based monocular depth estimation offers a viable alternative to active sensors for robot perception, yet its computational cost often prohibits deployment on edge platforms. Existing methods perform independent per-frame inference, wasting the substantial computational redundancy between adjacent viewpoints in continuous robot operation. This paper presents AsyncMDE, an asynchronous depth perception system consisting of a foundation model and a lightweight model that amortizes the foundation model's computational cost over time. The foundation model produces high-quality spatial features in the background, while the lightweight model runs asynchronously in the foreground, fusing cached memory with current observations through complementary fusion, outputting depth estimates, and autoregressively updating the memory. This enables cross-frame feature reuse with bounded accuracy degradation. At a mere 3.83M parameters, it operates at 237 FPS on an RTX 4090, recovering 77% of the accuracy gap to the foundation model while achieving a 25X parameter reduction. Validated across indoor static, dynamic, and synthetic extreme-motion benchmarks, AsyncMDE degrades gracefully between refreshes and achieves 161FPS on a Jetson AGX Orin with TensorRT, clearly demonstrating its feasibility for real-time edge deployment.",
+      "authors": [
+        "Lianjie Ma",
+        "Yuquan Li",
+        "Bingzheng Jiang",
+        "Ziming Zhong",
+        "Han Ding",
+        "Lijun Zhu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-03-11T05:40:25+00:00",
+      "link": "https://arxiv.org/pdf/2603.10438v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "real-time monocular depth estimation for robot perception",
+      "llm_evidence_cn": "用于机器人感知的实时单目深度估计",
+      "llm_evidence": "用于机器人感知的实时单目深度估计",
+      "canonical_evidence": "用于机器人感知的实时单目深度估计",
+      "llm_tldr_en": "Presents an asynchronous depth perception system to enable real-time MDE on edge platforms.",
+      "llm_tldr_cn": "提出一种异步深度感知系统，通过摊销计算成本实现边缘平台上的实时单目深度估计。",
+      "llm_tldr": "提出一种异步深度感知系统，通过摊销计算成本实现边缘平台上的实时单目深度估计。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "advancements in humanoid robot perception and environmental mapping",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.09175v2",
+      "title": "STONE Dataset: A Scalable Multi-Modal Surround-View 3D Traversability Dataset for Off-Road Robot Navigation",
+      "abstract": "Reliable off-road navigation requires accurate estimation of traversable regions and robust perception under diverse terrain and sensing conditions. However, existing datasets lack both scalability and multi-modality, which limits progress in 3D traversability prediction. In this work, we introduce STONE, a large-scale multi-modal dataset for off-road navigation. STONE provides (1) trajectory-guided 3D traversability maps generated by a fully automated, annotation-free pipeline, and (2) comprehensive surround-view sensing with synchronized 128-channel LiDAR, six RGB cameras, and three 4D imaging radars. The dataset covers a wide range of environments and conditions, including day and night, grasslands, farmlands, construction sites, and lakes. Our auto-labeling pipeline reconstructs dense terrain surfaces from LiDAR scans, extracts geometric attributes such as slope, elevation, and roughness, and assigns traversability labels beyond the robot's trajectory using a Mahalanobis-distance-based criterion. This design enables scalable, geometry-aware ground-truth construction without manual annotation. Finally, we establish a benchmark for voxel-level 3D traversability prediction and provide strong baselines under both single-modal and multi-modal settings. STONE is available at: https://konyul.github.io/STONE-dataset/",
+      "authors": [
+        "Konyul Park",
+        "Daehun Kim",
+        "Jiyong Oh",
+        "Seunghoon Yu",
+        "Junseo Park",
+        "Jaehyun Park",
+        "Hongjae Shin",
+        "Hyungchan Cho",
+        "Jungho Kim",
+        "Jun Won Choi"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-10T04:26:00+00:00",
+      "link": "https://arxiv.org/pdf/2603.09175v2",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-modal 3D traversability dataset for robot navigation",
+      "llm_evidence_cn": "用于机器人导航的多模态 3D 可通行性数据集",
+      "llm_evidence": "用于机器人导航的多模态 3D 可通行性数据集",
+      "canonical_evidence": "用于机器人导航的多模态 3D 可通行性数据集",
+      "llm_tldr_en": "STONE is a large-scale multi-modal dataset for off-road robot navigation and traversability prediction.",
+      "llm_tldr_cn": "STONE 是一个用于越野机器人导航和可通行性预测的大规模多模态数据集。",
+      "llm_tldr": "STONE 是一个用于越野机器人导航和可通行性预测的大规模多模态数据集。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.10871v1",
+      "title": "FG-CLTP: Fine-Grained Contrastive Language Tactile Pretraining for Robotic Manipulation",
+      "abstract": "Recent advancements in integrating tactile sensing into vision-language-action (VLA) models have demonstrated transformative potential for robotic perception. However, existing tactile representations predominantly rely on qualitative descriptors (e.g., texture), neglecting quantitative contact states such as force magnitude, contact geometry, and principal axis orientation, which are indispensable for fine-grained manipulation. To bridge this gap, we propose FG-CLTP, a fine-grained contrastive language tactile pretraining framework. We first introduce a novel dataset comprising over 100k tactile 3D point cloud-language pairs that explicitly capture multidimensional contact states from the sensor's perspective. We then implement a discretized numerical tokenization mechanism to achieve quantitative-semantic alignment, effectively injecting explicit physical metrics into the multimodal feature space. The proposed FG-CLTP model yields a 95.9% classification accuracy and reduces the regression error (MAE) by 52.6% compared to state-of-the-art methods. Furthermore, the integration of 3D point cloud representations establishes a sensor-agnostic foundation with a minimal sim-to-real gap of 3.5%. Building upon this fine-grained representation, we develop a 3D tactile-language-action (3D-TLA) architecture driven by a flow matching policy to enable multimodal reasoning and control. Extensive experiments demonstrate that our framework significantly outperforms strong baselines in contact-rich manipulation tasks, providing a robust and generalizable foundation for tactile-language-action models.",
+      "authors": [
+        "Wenxuan Ma",
+        "Chaofan Zhang",
+        "Yinghao Cai",
+        "Guocai Yao",
+        "Shaowei Cui",
+        "Shuo Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-11T15:21:54+00:00",
+      "link": "https://arxiv.org/pdf/2603.10871v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "tactile sensing for robotic manipulation and perception",
+      "llm_evidence_cn": "用于机器人操作和感知的触觉传感",
+      "llm_evidence": "用于机器人操作和感知的触觉传感",
+      "canonical_evidence": "用于机器人操作和感知的触觉传感",
+      "llm_tldr_en": "Introduces a fine-grained contrastive language tactile pretraining framework for robotic manipulation.",
+      "llm_tldr_cn": "提出一种细粒度对比语言触觉预训练框架，旨在提升机器人的精细操作感知能力。",
+      "llm_tldr": "提出一种细粒度对比语言触觉预训练框架，旨在提升机器人的精细操作感知能力。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.10158v1",
+      "title": "Cross-Hand Latent Representation for Vision-Language-Action Models",
+      "abstract": "Dexterous manipulation is essential for real-world robot autonomy, mirroring the central role of human hand coordination in daily activity. Humans rely on rich multimodal perception--vision, sound, and language-guided intent--to perform dexterous actions, motivating vision-based, language-conditioned manipulation systems for robots. However, training reliable vision-language-action (VLA) models for dexterous manipulation requires large-scale demonstrations across many robotic hands. In addition, as new dexterous embodiments appear rapidly, collecting data for each becomes costly and impractical, creating a need for scalable cross-embodiment learning. We introduce XL-VLA, a vision-language-action framework integrated with a unified latent action space shared across diverse dexterous hands. This embodiment-invariant latent space is directly pluggable into standard VLA architectures, enabling seamless cross-embodiment training and efficient reuse of both existing and newly collected data. Experimental results demonstrate that XL-VLA consistently outperforms baseline VLA models operating in raw joint spaces, establishing it as an effective solution for scalable cross-embodiment dexterous manipulation.",
+      "authors": [
+        "Guangqi Jiang",
+        "Yutong Liang",
+        "Jianglong Ye",
+        "Jia-Yang Huang",
+        "Changwei Jing",
+        "Rocky Duan",
+        "Pieter Abbeel",
+        "Xiaolong Wang",
+        "Xueyan Zou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-10T18:50:57+00:00",
+      "link": "https://arxiv.org/pdf/2603.10158v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "vision-language-action models for dexterous manipulation",
+      "llm_evidence_cn": "用于灵巧操作的视觉-语言-动作模型",
+      "llm_evidence": "用于灵巧操作的视觉-语言-动作模型",
+      "canonical_evidence": "用于灵巧操作的视觉-语言-动作模型",
+      "llm_tldr_en": "A VLA framework with a unified latent action space for cross-embodiment dexterous manipulation.",
+      "llm_tldr_cn": "一种具有统一潜动作空间的VLA框架，支持跨机器人的灵巧操作学习。",
+      "llm_tldr": "一种具有统一潜动作空间的VLA框架，支持跨机器人的灵巧操作学习。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "integrated locomotion and manipulation for humanoids",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.10878v1",
+      "title": "RL-Augmented MPC for Non-Gaited Legged and Hybrid Locomotion",
+      "abstract": "We propose a contact-explicit hierarchical architecture coupling Reinforcement Learning (RL) and Model Predictive Control (MPC), where a high-level RL agent provides gait and navigation commands to a low-level locomotion MPC. This offloads the combinatorial burden of contact timing from the MPC by learning acyclic gaits through trial and error in simulation. We show that only a minimal set of rewards and limited tuning are required to obtain effective policies. We validate the architecture in simulation across robotic platforms spanning 50 kg to 120 kg and different MPC implementations, observing the emergence of acyclic gaits and timing adaptations in flat-terrain legged and hybrid locomotion, and further demonstrating extensibility to non-flat terrains. Across all platforms, we achieve zero-shot sim-to-sim transfer without domain randomization, and we further demonstrate zero-shot sim-to-real transfer without domain randomization on Centauro, our 120 kg wheeled-legged humanoid robot. We make our software framework and evaluation results publicly available at https://github.com/AndrePatri/AugMPC.",
+      "authors": [
+        "Andrea Patrizi",
+        "Carlo Rizzardo",
+        "Arturo Laurenzi",
+        "Francesco Ruscelli",
+        "Luca Rossini",
+        "Nikos G. Tsagarakis"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-11T15:24:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.10878v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "RL-augmented MPC for legged locomotion and motion planning",
+      "llm_evidence_cn": "用于足式机器人运动规划的强化学习增强型MPC",
+      "llm_evidence": "用于足式机器人运动规划的强化学习增强型MPC",
+      "canonical_evidence": "用于足式机器人运动规划的强化学习增强型MPC",
+      "llm_tldr_en": "Couples RL and MPC for non-gaited legged locomotion, enabling adaptive motion planning in complex terrains.",
+      "llm_tldr_cn": "结合强化学习与MPC，实现非步态足式运动，支持复杂地形下的自适应运动规划。",
+      "llm_tldr": "结合强化学习与MPC，实现非步态足式运动，支持复杂地形下的自适应运动规划。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "state of the art in humanoid robot motion planning and control",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.10712v1",
+      "title": "FutureVLA: Joint Visuomotor Prediction for Vision-Language-Action Model",
+      "abstract": "Predictive foresight is important to intelligent embodied agents. Since the motor execution of a robot is intrinsically constrained by its visual perception of environmental geometry, effectively anticipating the future requires capturing this tightly coupled visuomotor interplay. While recent vision-language-action models attempt to incorporate future guidance, they struggle with this joint modeling. Existing explicit methods divert capacity to task-irrelevant visual details, whereas implicit methods relying on sparse frame pairs disrupt temporal continuity. By heavily relying on visual reconstruction, these methods become visually dominated, entangling static scene context with dynamic action intent. We argue that effective joint visuomotor predictive modeling requires both temporal continuity and visually-conditioned supervision decoupling. To this end, we propose FutureVLA, featuring a novel Joint Visuomotor Predictive Architecture. FutureVLA is designed to extract joint visuomotor embeddings by first decoupling visual and motor information, and then jointly encoding generalized physical priors. Specifically, in the pretraining stage, we leverage heterogeneous manipulation datasets and introduce a Joint Visuomotor Gating mechanism to structurally separate visual state preservation from temporal action modeling. It allows the motor stream to focus on continuous physical dynamics while explicitly querying visual tokens for environmental constraints, yielding highly generalizable joint visuomotor embeddings. Subsequently, in the post-training stage, we employ a latent embeddings alignment strategy, enabling diverse downstream VLA models to internalize these temporal priors without modifying their inference architectures. Extensive experiments demonstrate that FutureVLA consistently improves VLA frameworks.",
+      "authors": [
+        "Xiaoxu Xu",
+        "Hao Li",
+        "Jinhui Ye",
+        "Yilun Chen",
+        "Jia Zeng",
+        "Xinyi Chen",
+        "Linning Xu",
+        "Dahua Lin",
+        "Weixin Li",
+        "Jiangmiao Pang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-11T12:39:55+00:00",
+      "link": "https://arxiv.org/pdf/2603.10712v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "joint visuomotor prediction for embodied agents",
+      "llm_evidence_cn": "具身智能体的联合视觉运动预测",
+      "llm_evidence": "具身智能体的联合视觉运动预测",
+      "canonical_evidence": "具身智能体的联合视觉运动预测",
+      "llm_tldr_en": "FutureVLA improves robot control by jointly modeling future visual perception and motor action intent.",
+      "llm_tldr_cn": "FutureVLA 通过对未来视觉感知和运动意图进行联合建模，提升了具身智能体的控制能力。",
+      "llm_tldr": "FutureVLA 通过对未来视觉感知和运动意图进行联合建模，提升了具身智能体的控制能力。",
+      "llm_tags": [
+        "query:hr-rob:composite"
+      ],
+      "matched_query_tag": "query:hr-rob:composite",
+      "matched_query_text": "Papers central to 人形机器人运动规划、感知与全身操作相关论文检索, especially work that connects or combines: humanoid robot research and development; environmental perception and sensing for robots; integrated locomotion and manipulation for humanoids; whole-body control frameworks for humanoid robots; state of the art in humanoid robot motion planning and control; advancements in humanoid robot perception and environmental mapping; coordinated locomotion and manipulation strategies for humanoid robots; whole body motion planning for complex humanoid tasks.",
+      "matched_requirement_id": "req-composite-hr-rob",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.11072v1",
+      "title": "OA-NBV: Occlusion-Aware Next-Best-View Planning for Human-Centered Active Perception on Mobile Robots",
+      "abstract": "We naturally step sideways or lean to see around the obstacle when our view is blocked, and recover a more informative observation. Enabling robots to make the same kind of viewpoint choice is critical for human-centered operations, including search, triage, and disaster response, where cluttered environments and partial visibility frequently degrade downstream perception. However, many Next-Best-View (NBV) methods primarily optimize generic exploration or long-horizon coverage, and do not explicitly target the immediate goal of obtaining a single usable observation of a partially occluded person under real motion constraints. We present Occlusion-Aware Next-Best-View Planning for Human-Centered Active Perception on Mobile Robots (OA-NBV), an occlusion-aware NBV pipeline that autonomously selects the next traversable viewpoint to obtain a more complete view of an occluded human. OA-NBV integrates perception and motion planning by scoring candidate viewpoints using a target-centric visibility model that accounts for occlusion, target scale, and target completeness, while restricting candidates to feasible robot poses. OA-NBV achieves over 90% success rate in both simulation and real-world trials, while baseline NBV methods degrade sharply under occlusion. Beyond success rate, OA-NBV improves observation quality: compared to the strongest baseline, it increases normalized target area by at least 81% and keypoint visibility by at least 58% across settings, making it a drop-in view-selection module for diverse human-centered downstream tasks.",
+      "authors": [
+        "Boxun Hu",
+        "Chang Chang",
+        "Jiawei Ge",
+        "Man Namgung",
+        "Xiaomin Lin",
+        "Axel Krieger",
+        "Tinoosh Mohsenin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-10T18:46:03+00:00",
+      "link": "https://arxiv.org/pdf/2603.11072v1",
+      "tags": [
+        "keyword:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Active perception and viewpoint planning for mobile robots in cluttered environments",
+      "llm_evidence_cn": "移动机器人在复杂环境下的主动感知与视点规划",
+      "llm_evidence": "移动机器人在复杂环境下的主动感知与视点规划",
+      "canonical_evidence": "移动机器人在复杂环境下的主动感知与视点规划",
+      "llm_tldr_en": "Proposes an occlusion-aware planning method for robots to optimize observations of humans in cluttered scenes.",
+      "llm_tldr_cn": "提出一种遮挡感知的视点规划方法，优化移动机器人在复杂场景下对人的主动感知。",
+      "llm_tldr": "提出一种遮挡感知的视点规划方法，优化移动机器人在复杂场景下对人的主动感知。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
