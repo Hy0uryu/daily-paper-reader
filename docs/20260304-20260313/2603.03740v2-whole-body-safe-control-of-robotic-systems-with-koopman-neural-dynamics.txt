@@ -1,0 +1,889 @@
+Title: Whole-Body Safe Control of Robotic Systems with Koopman Neural Dynamics
+
+URL Source: https://arxiv.org/pdf/2603.03740v2
+
+Published Time: Fri, 06 Mar 2026 01:35:29 GMT
+
+Number of Pages: 11
+
+Markdown Content:
+# Whole-Body Safe Control of Robotic Systems with Koopman Neural Dynamics 
+
+Sebin Jung 1, Abulikemu Abuduweili 1, Jiaxing Li 1, Changliu Liu 1
+
+> Fig. 1: Left: Kinova Gen3 safely moving from START (red) to GOAL (green) while avoiding the collision volume (yellow); collision avoidance is enforced using the learned Koopman dynamics within our unified Koopman–SSA MPC. Middle: Floating-base safe control in Isaac simulation (Unitree Go2). The learned Koopman-MPC tracks the reference while actively avoiding the obstacle-induced unsafe region; collision avoidance is enforced using the learned Koopman dynamics within the MPC rollout. Right: We use the learned Koopman lifted space and its linear dynamics (blue) to predict motion in MPC and evaluate the safety constraints, which enables the collision avoidance shown in the left and middle panels.
+
+Abstract — Controlling robots with strongly nonlinear, high-dimensional dynamics remains challenging, as direct nonlinear optimization with safety constraints is often intractable in real time. The Koopman operator offers a way to represent nonlin-ear systems linearly in a lifted space, enabling the use of efficient linear control. We propose a data-driven framework that learns a Koopman embedding and operator from data, and integrates the resulting linear model with the Safe Set Algorithm (SSA). This allows the tracking and safety constraints to be solved in a single quadratic program (QP), ensuring feasibility and optimality without a separate safety filter. We validate the method on a Kinova Gen3 manipulator and a Go2 quadruped, showing accurate tracking and obstacle avoidance. 
+
+I. INTRODUCTION Ensuring safe control of robotic systems is fundamentally difficult due to the interplay of complex dynamics, high dimensionality, and safety-critical constraints. A first chal-lenge arises from the strong nonlinearity of the dynamics: joint couplings, contact interactions, and nonlinear actuation make the direct embedding of such models into optimization-based controllers computationally prohibitive. Even when accurate models are available, nonlinear formulations with safety constraints often lead to nonconvex programs that cannot be solved in real time [1]. A second challenge is on feasibility, which emerges at the boundary of the safe set, where a controller may fail to generate feasible inputs to steer the system back into safety. Finally, when using learned dynamics, approximation errors can propagate into safety constraints, rendering the assumed safe control unsafe. A range of data-driven methods learn predictive models of nonlinear dynamics, but they rarely translate into real-time    
+
+> 1Robotics Institute, Carnegie Mellon University, Pittsburgh, PA. Contact:
+> {sebinj, abulikea, jiaxingl, cliu6 }@andrew.cmu.edu
+
+safe control. Dynamic Mode Decomposition and its exten-sions approximate nonlinear systems with linear operators in lifted spaces [2], [3], [4], while sparse-regression methods such as SINDy identify compact governing equations [5]. Deep recurrent and latent-state models extend predictive power [6], and Koopman operator theory provides a prin-cipled framework for globally linearizing nonlinear dynam-ics [7], [8], [9]. Yet these approaches focus on prediction, and do not ensure that modeling errors or online computation limits can meet hard safety constraints during control. On the control side, no existing family of methods simul-taneously handles high dimensionality, model uncertainty, and strict safety guarantees. Classical nonlinear controllers such as feedback linearization require exact models [10], and trajectory-optimization techniques like Iterative Linear Quadratic Regulator (iLQR) or Nonlinear Model Predic-tive Control (NMPC) scale poorly as degrees of freedom grow [11]. Reinforcement learning has shown striking suc-cesses in robotics [12], but it demands large data and provides only probabilistic safety at best [13]. Control Barrier Functions (CBFs) and Safe-Set Algorithms provide convex safety-filtering mechanisms [14], [15] yet remain difficult to formally synthesize with learned or highly nonlinear models in real time. Even when synthesis is learned from data, optimization-based coupling with hard safety constraints is challenging and often exhibits feasibility issues in prac-tice. Moreover, under strongly nonlinear dynamics, safety is frequently enforced via a separate filtering layer on top of a nominal controller, which can induce performance– safety trade-offs such as overly conservative behavior or deadlock. Recent efforts to merge Koopman embeddings with CBFs [16] still separate nominal control from safety filtering, creating feasibility breakdowns near the boundary. 
+
+> arXiv:2603.03740v2 [cs.RO] 5 Mar 2026
+
+We propose a data-driven safe control framework that combines Koopman operator theory with whole-body robot dynamics. This framework (Fig. 3) tackles nonlinearity, safety-boundary infeasibility, and learned-model approxi-mation errors, enabling scalable, real-time safe control of nonlinear robotic systems. The main contributions are: 
+
+Synthesis of Safe Control via Koopman Linearization. 
+
+We formulate whole-body safe control of robotic manipula-tors by globally linearizing their nonlinear dynamics through the Koopman operator. Unlike filtering- or projection-based two-stage architectures [17], which apply safety constraints as a post-processing step on nominal controls, our approach synthesizes safety directly into the nominal controller. This unified formulation ensures consistent reasoning about per-formance and safety while avoiding the conservatism and inefficiencies of safety filtering. 
+
+Safety Index Synthesis for Learned Dynamics. To mitigate infeasible control issues that arise when coupling learned Koopman dynamics with hard safety constraints, we introduce an adversarial fine tuning scheme for the safety index. This procedure adapts the safety specification to the learned dynamics, improving forward invariance inside the safe set by significantly reducing the risk of unsolvable constraints. 
+
+Adaptation to Real-World Hardware. We demonstrate the effectiveness of the proposed framework through sim-to-real deployment on a Kinova Gen3 manipulator with minimal retraining. As illustrated in Fig. 1, the Kinova safely tracks the given trajectory while avoiding the designated collision volume (yellow). A video demonstration of this experiment is provided in the supplementary material. II. PRELIMINARIES 
+
+A. Koopman Operator Theory 
+
+Given the nonlinear system with discrete dynamics: 
+
+xk+1 = f (xk) (1) Koopman Operator K is an infinite dimensional linear op-erator that maps the nonlinear dynamics to linear dynamics [18] and evolves the embedding functions ψ of the state: 
+
+Kψ(x) = ψ ◦ f (x) (2) Considering a nonlinear system with the control input uk ∈U ⊆ Rm and system state xk ∈ X ⊂ Rn, given by xk+1 =
+
+f (xk, u k), the evolution flow follows as: 
+
+Kψ(xk, u k) = ψ(f (xk, u k)) = ψ(xk+1 ) (3) where ψ : Rn+m → R∞. In practice, we constrain the latent space to a finite-dimensional vector space and approximate the Koopman operator, making ψ : Rn+m → Rd where 
+
+d ∈ [0 , ∞) ⊂ R+.The embedding function ψ(x, u ) can be separated as 
+
+ψ(x, u ) = [ ψx(x, u ); ψu(x, u )] , and we focus on the case where ψx(x, u ) = ψx(x) and ψu(x, u ) = ˆu = u. Here 
+
+ψx : Rn → Rn′
+
+denotes state embedding and ˆu is control in latent space. Under this formulation, the system dynamics can be expressed as: 
+
+ψx(xk+1 ) = Aψ x(xk) + Bu k (4) where A, B comes from: 
+
+K =
+
+A ∈ Rn′×n′
+
+B ∈ Rn′×m
+
+C ∈ Rm×n′
+
+D ∈ Rm×m
+
+
+
+(5) We parameterize state embedding ψx as a neural net-work ψω and denote the lifted state zk = ψx(xk) =[xk; ψω (xk)] ⊤. This preserves the original state data along with the neural network embedded state in order to prevent the information loss that may occur through nonlinear map-ping [19]. Specifically, we can retrieve the original state via: 
+
+xk = P z k (6) where P = [In; 0] ∈ Rn×(n+n′). Then, the lifted state evolution takes the form: 
+
+zk+1 = Az k + Bu k (7) This formulation allows us to design linear controllers for state-constrained control problems (e.g., collision avoidance) by leveraging the linearity of lifted dynamics. In addition, we use end-to-end training framework for the acquisition of embedding function as well as the Koopman operator 
+
+(ψω , A, B ). Readers can refer to [18] for further understand-ing of Koopman Operator Theory. 
+
+B. Safe Control Synthesis through Adversarial Fine Tuning 
+
+The goal of safe control is to design a controller that tracks a reference while ensuring forward invariance inside the allowable set A [20]. For a function s : Rn → R
+
+let S := {s}≤0 be its zero-sublevel set, ∂S := {s}=0 the boundary of this set. Assuming we are given: (1) a control-affine system ˙x = f (x) + g(x)u where f : Rn → Rn and 
+
+g : Rn → Rn×m are locally Lipschitz continuous on Rn, (2) the control set U is a bounded convex polytope, (3) safety specification ϕ0 : Rn → R implicitly defines the allowable set A := {ϕ0}≤0.If we directly impose the constraint ˙ϕ0(x) ≤ 0 at the boundary of allowable set ∂A for a limit–agnostic index 
+
+ϕ0 and bounded U, the feasible set can collapse, caus-ing controller saturation or an unsolvable constraint. We therefore reshape the safety specification by introducing a parameterized index: 
+
+ϕρ = h(ρ, ϕ 0) (8) where h : R → R with learnable parameters represented as ρ.The zero-sublevel set of ϕρ defines a more conservative safe set S := {x|ϕρ(x) ≤ 0}. At its boundary, the safe control constraint is defined as: 
+
+˙ϕρ(x, u ) = ∇ϕρ(x)⊤f (x) + ∇ϕρ(x)⊤g(x)u ≤ 0
+
+∀x ∈ ∂S (9) in order to guarantee forward invariance inside S. Readers can refer to [21] for further details. Fig. 3: Overview of training framework for Koopman Safe Control. Neural embedding function and Koopman Operators are first trained, safety index is adapted to the learned dynamics via adversarial fine tuning, and the model is migrated to real environment. 
+
+To ensure feasibility under input limits and model approx-imation, we adapt ρ via the min–max program: 
+
+min  
+
+> ρ
+
+max  
+
+> x∈∂S
+
+inf 
+
+> u∈U
+
+˙ϕρ(x, u ) (10) which can be evaluated over the vertex set of control v ∈V(U) when U is a polytope [21]. Thus, the objective can be computed as a discrete minimization: 
+
+L(ρ, x ) := min 
+
+> v∈V (U)
+
+˙ϕρ(x, v ) (11) This procedure learns a safety index that avoids infeasible constraints while preserving forward invariance. III. PROBLEM FORMULATION In this paper, we consider whole-body safe control of an 
+
+n-DoF articulated rigid-body system (including fixed-base manipulators and floating-base legged or wheeled robots) operating amid static and dynamic obstacles. The target system is the dynamics in generalized coordinates: 
+
+M (q)¨ q + C(q, ˙q) ˙ q + G(q) = τ + J⊤(q)f (12) where q ∈ Rn denotes a vector of generalized coordinates (e.g., joint positions for fixed-based robots; joint and base positions for floating-based robots), and ˙q the corresponding generalized velocities. Here M (q) is the inertia matrix, 
+
+C(q, ˙q) the Coriolis and centrifugal terms, G(q) the gravity vector, τ the applied joint torques, J(q) the contact Jacobian, and f the contact forces. Equation (12) represents the low-level dynamics that must ultimately be respected, but which are highly nonlinear and high-dimensional to directly embed into real-time safety-critical controllers. Our control objective is trajectory tracking in the presence of obstacles, under uncertainty in both robot motion and obstacle motion. We consider all obstacles and robot link collision volumes to be spheres. This choice allows (i) dis-tance functions and gradients admit closed-form expressions, enabling efficient evaluation of safety constraints, and (ii) spherical volumes approximate local link geometry while simplifying multi-link safety verification into a minimum-distance calculation between spheres. We define a signed distance from the ego towards the obstacle as safety specification. Let the state be x := q.For a target link’s center of mass pego (x) ∈ R3 and obstacle center pobs ∈ R3:
+
+ϕ0(x) = dmin − ∥ pego (x) − pobs ∥2 (13) where dmin ∈ R+ is the minimum distance to be maintained between ego and obstacle. The nonlinear state-based safety specification ϕ0(x) ≤ 0 can be posed as state-dependent constraints on the control space: 
+
+˙ϕ0(xk, u k) ≤ bϕ(xk) (14) where the safety bound bϕ(x) is defined as 
+
+bϕ(x) = 
+
+
+
+0 if x ∈ ∂A,
+
+−λ if x / ∈ A ,
+
+∞ otherwise .
+
+(15) This safe control constraint can be directly embedded into NMPC. However, solving with full nonlinear dynamics is computationally prohibitive and often infeasible in real time, while local linearizations quickly lose validity away from the expansion point. Synthesizing safety-filtering methods is nontrivial especially at the safe set boundary, and black-box learned models risk false safety guarantees due to approximation error. These drawbacks highlight the need for an approach that embeds safety directly while remaining tractable. In summary, the problem we address is to synthesize safe, real-time feasible whole-body controllers for articu-lated rigid-body systems by (i) globally linearizing nonlinear dynamics via Koopman operators, (ii) embedding safety constraints directly within a single MPC optimization, and (iii) adversarially adapting the safety index to ensure non-emptiness of safe control set as well as constraint solvability under learned dynamics. IV. METHODOLOGY In this section we present a single linear MPC formula-tion for whole-body safe control of articulated robots. The approach (1) learns a globally linear lifted model via Koop-man operators, (2) embeds and redesigns the safe control constraint so it remains feasible at the safe state boundary, (3) adapts the model for hardware. 
+
+A. Safe MPC Formulation via Koopman Dynamics 
+
+Although naive models such as single-integrator dynam-ics [14] have been widely used for safety-critical control, they are ill-suited for articulated robots: they ignore actuation limits, joint coupling, and dynamic feasibility, leading to controllers that may certify safety in theory but fail in practice on high-DOF systems. To enable tractable safe control, we approximate (12) with a globally linear lifted model using Koopman operator. Following (2) and (3), we define an embedding ψ : Rn → Rn+d and lifted state 
+
+zk = [ xk; ψω (xk)] ⊤ where xk = [ pk; θk]⊤ where pk ∈ R3
+
+denotes the Cartesian position of the target point on the robot for linearization (e.g., end-effector or base location for tracking, center of the collision volume for collision avoidance). The dynamics are approximated as 
+
+zk+1 = Az k + Bu k, xk = P z k (16) where uk denotes joint velocity commands, A, B are Koop-man matrices, and P projects the lifted state back to the origi-nal coordinates. By wrapping the low-level torque dynamics (12) into the Koopman approximation (16), our controller operates at the velocity-control level. This design choice is crucial: it allows the use of first-order safety indices, simplifies safety constraint construction, and improves com-putational efficiency. 
+
+1) Feedforward Prediction: Given the current state xt,we predict K steps forward using the learned Koopman operators A and B, which are represented as linear layers. We roll out the dynamics: 
+
+ˆzt+k+1 = Az t+k + Bu t+k, k = [0 , ..., K − 1] (17) 
+
+zt = ψx(xt) = [ xt; ψω (xt)] ⊤ (18) 
+
+xt+k = P z t+k (19) 
+
+ut+k = ˆ ut+k (20) 
+
+2) K-steps Prediction Loss: Since we don’t have a sep-arate network for control embedding ψu, we only train the state embedding network ψω and Koopman matrices A, B
+
+end-to-end using a K-step prediction loss. Given dataset 
+
+{xi, u i} for i = 0 , . . . , K , we compute embedded states 
+
+zi = ψx(xi) and predicted lifted states ˆzi via forward rollout. The loss is: 
+
+Lpred (ω) = 
+
+> K
+
+X
+
+> i=1
+
+γi−1MSE (zi, ˆzi) (21) where γ is a decay factor and MSE is the mean squared error [19]. 
+
+3) Safe Linear MPC Formulation: Using the Koopman dynamics (16), the time derivative of safety constraint (14) and (15) can be expressed as: 
+
+˙ϕ0 = ∂ϕ 0(x)
+
+∂x ˙x
+
+≈ ∂ϕ 0(x)
+
+∂x
+
+xk+1 − xk
+
+∆t
+
+= ∇xϕ0(xk)⊤ (P A − P )zk + P Bu k
+
+∆t (22) This expression is linear in u and can be directly inserted as a linear constraint in MPC. Considering quadratic cost with desired state xdes , the system becomes linear in lifted space and we can formulate a quadratic programming (QP) over horizon N as: 
+
+min   
+
+> u0: N−1
+> N−1
+
+X
+
+> k=0
+
+∥P z k − xdes  
+
+> k
+
+∥2 
+
+> Q
+
++ ∥uk∥2 
+
+> R
+
++ ∥P z N − xdes  
+
+> N
+
+∥2
+
+> QN
+
+s.t. zk+1 = Az k + Bu k, ∀k = 0 , . . . , N − 1
+
+∇xϕ0(xk)⊤ (P A − P )zk + P Bu k
+
+∆t ≤ bϕ(xk), ∀kz0 = ψx(x0), uk ∈ [umin , u max ] (23) 
+
+B. Redesign the Safety Constraint for Persistent Feasibility 
+
+Although Koopman dynamics allows us to formulate a single QP for nonlinear systems, extra dimensions introduced by lifted space can cause feasibility issue. Let us take a more rigorous look at ˙ϕ0. First, matrices A, B can be decomposed as: 
+
+A =
+
+Axx Axψ 
+
+Aψx Aψψ 
+
+
+
+, B =
+
+Bx
+
+Bψ
+
+
+
+(24) Given zk = [ xk; ψω (xk)] ⊤, the lifted dynamics formulation for original state x becomes: 
+
+xk+1 = Axx xk + Axψ ψω (xk) + Bxuk (25) Extra term Axψ ψω (xk) propagates into the time derivative computation of (14) and ˙ϕ0 = ∇xϕ⊤ 
+
+> 0
+
+˙x ≤ bϕ in (23) becomes: 
+
+(pego − pobs )
+
+∥pego − pobs ∥
+
+∂p ego 
+
+∂x Bxuk ≤ bϕ −
+
+(pego − pobs )
+
+∥pego − pobs ∥
+
+∂p ego 
+
+∂x (Axx xk + Axψ ψω (xk) − xk) (26) These extra lifted contributions Axψ ψω (xk) can shift the half-space constraint on uk so that no bounded input uk ∈
+
+[umin , u max ] can satisfy ˙ϕ0 ≤ bϕ for all active links simul-taneously. To adapt our safety specification to learned dynamics, we introduce Learner-Critic architecture for adversarial fine tuning. Let d = ∥pego (x) − pobs ∥2 and define a nonlinear safety index ϕ(x) : Rn → R in Cartesian coordinate as: 
+
+ϕn,β (x) = dn 
+
+> min
+
+− dn + βd (27) where n, β ∈ R are learnable parameters. This parameteri-zation reduces the second order formulation in [20] to first order. Nevertheless, this updated formula will reshape the gradients in (26) to make it easier to find the corresponding 
+
+uk within the control limit and potentially conflicting con-straints from multiple collision volumes. Let Γ .
+
+= ( n, β ) and learning is formulated as a min-max optimization problem: 
+
+min  
+
+> Γ
+
+max  
+
+> x∈∂S
+
+Linfeas (Γ , x ) (28) where the infeasibility risk is: 
+
+Linfeas (Γ , x ) := min 
+
+> v∈V (U)
+
+˙ϕΓ(x, v ) (29) Unlike the original formulation in [21], where the safety index ϕ(x) is scalar and defined over the entire system, the application on the 7-DOF Kinova arm requires each link be evaluated for safety independently. We define a linkwise safety index ϕi(x) for each link i = 1 , . . . , 7, and consider all of them as safety constraints. This linkwise definition introduces substantial complexity into both the constraint evaluation and the process of counterexample collection, compared to [21], where only a single constraint is considered. To enable adversarial fine tuning under this setup, we modify a Learner–Critic architecture. The Critic attempts to collect boundary states and associated control counterex-amples that violate the constraint ˙ϕi(x, u ) ≤ 0 for all active links at the safety boundary. However, instead of performing explicit Projected Gradient Descent (PGD) on 
+
+infeasibility risk [22], our implementation uses a two-stage process that achieves an equivalent effect, adapted to the multi-link robotic setting. First, boundary states are sampled using a differentiable optimization procedure. Specifically, in the presence of an obstacle in 3D space we minimize the distance between any of the robot link’s center-of-mass positions and the obstacle center: 
+
+Ldist (x) = 
+
+> 7
+
+X
+
+> i=1
+
+max {0, d min − ∥ pi(x) − pobs ∥2} (30) We emphasize that this projection step is defined using the 
+
+geometric safety specification d = dmin (a 0.2 m clear-ance shell) rather than the learned level set {ϕn,β = 0 }
+
+as done in [21]. Anchoring counterexample collection to the physical clearance requirement ensures that the Critic explicitly probes where infeasibility first emerges for the original safety margin, while ϕn,β is subsequently tuned to restore feasibility under Koopman dynamics. This is also empirically plausible as we are working in a MPC setting instead reactive safety filtering setting. Gradient descent is used to optimize x until this projection loss reaches a small threshold (empirically set to 0.0001 ), ensuring that the robot is brought close to the safety boundary. This serves as a practical projection step, and thus effectively making this process a PGD. Next, for each near-boundary state, the Critic samples control candidates from a set of saturated control vertices 
+
+V(U). For each control u, it computes infeasibility risk .                  
+
+> Scenario # Infeasible / Texp
+> Single Obstacle (Untrained) 108 /4000
+> Multi Obstacle (Untrained) 632 /4000
+> Single Obstacle ( Trained )42 /4000
+> Multi Obstacle ( Trained )113 /4000
+> TABLE I: QP infeasibility counts comparison. Single Obstacle includes one dynamic obstacle chasing one of Kinova’s links, whereas Multi Obstacle includes seven extra static obstacles placed at random positions. This experiment is conducted without slack relaxation. Each entry reports the number of infeasible QP solves among the total control steps in the experiment ( Texp = 4000 ).
+
+A counterexample is recorded only if no control in the admissible set satisfies: 
+
+Li
+
+> infeas
+
+(Γ , x ) ≤ 0 ∀i ∈ ∂S (31) for all links i in contact with the boundary. To prevent the safety index from becoming overly con-servative, which could increase infeasibility, we bound the Critic’s influence by allowing 10 trials to collect the desired number of counterexamples (e.g., 50). If this quota is not reached, we consider it sufficiently tuned. This guards against overfitting to pathological states, which would otherwise cause the Learner to reshape ϕ in an attempt to satisfy constraints that cannot be satisfied, leading to an overly conservative and distorted safety index. The Learner then performs a gradient update on the safety index parameters Γ by minimizing a combined loss: 
+
+Ltotal = 1
+
+N
+
+X
+
+> x∈B
+
+Ei∈∂S
+
+h
+
+Li
+
+> infeas
+
+(Γ , x )
+
+i
+
++ Lreg (32) where B is the batch of counterexamples, Lreg = μ∥Γ−Γ0∥22
+
+is a regularization loss penalizing deviation from heuristically chosen good initial values Γ0 = (n0, β 0). The overall procedure is summarized in Algorithm 1. The final MPC problem then becomes: 
+
+min   
+
+> u0: N−1
+> N−1
+
+X
+
+> k=0
+
+∥P z k − xdes  
+
+> k
+
+∥2 
+
+> Q
+
++ ∥uk∥2 
+
+> R
+
++ ∥P z N − xdes  
+
+> N
+
+∥2
+
+> QN
+
+s.t. zk+1 = Az k + Bu k, ∀k = 0 , . . . , N − 1
+
+∇xϕi(xk)⊤ (P A − P )zk + P Bu k
+
+∆t ≤ bϕ(xk), ∀i, k z0 = ψx(x0), uk ∈ [umin , u max ] (33) The effectiveness of adversarial fine tuning in reducing infeasible cases is quantified in Table I, which compares QP infeasibility counts across different obstacle settings before and after training. 
+
+C. Sim to Real Adaptation 
+
+To bridge the gap between simulation and hardware, we first quantify the sim-to-real mismatch by executing iden-tical reference trajectory tracking experiments in PyBullet simulation and on the real robot. The deviation in tracking performance serves as a measure of model discrepancy. Instead of retraining the entire Koopman embedding and operator matrices, we collect hardware data and fine-tune only the A and B matrices of the lifted linear dynamics Algorithm 1 Adversarial Fine Tuning 
+
+Require: Γ0 = ( n0, β 0), pobs , dmin regularization weight μ, batch size Nbatch , trials for Critic Ntrials 
+
+1: function COLLECT CE( Γ, pobs , dmin , Nbatch , Ntrials )
+
+2: Set learning rate αc, Ncollected = 0 
+
+3: for Ntrials do 
+
+4: X ← uniformly sample within operating region 
+
+5: X ← X + αc · ∇ X Ldist 
+
+6: XCE ← min v∈V (U ) Li > 0∀i = 1 , ..., 7
+
+7: if Ncollected ≥ Nbatch then 
+
+8: return (XCE , U CE )
+
+9: end if 
+
+10: end for 
+
+11: Training complete 
+
+12: end function 
+
+13: function UPDATE (Γ, XCE , UCE )
+
+14: Set learning rate αl
+
+15: Γ ← Γ + αl · ∇ ΓLtotal (from Eq. (32)) 
+
+16: return Γ
+
+17: end function 
+
+18: function MAIN 
+
+19: Γ = ( n0, β 0)
+
+20: while not done do 
+
+21: (XCE , U CE ) ← CollectCE( n, β )
+
+22: Γ ← Learn( Γ, X CE , U CE )
+
+23: end while return Γ
+
+24: end function 0 5 10 15 20 25 30       
+
+> Steps
+> 2.0
+> 1.5
+> 1.0
+> 0.5
+> Log Err
+> Kinova Max Prediction Error Comparison
+> Koopman
+> NNDM
+> LTI
+> LTV 0510 15 20 25 30
+> Steps
+> 3.0
+> 2.5
+> 2.0
+> 1.5
+> 1.0
+> Log Err
+> Kinova Mean Prediction Error Comparison
+> Koopman
+> NNDM
+> LTI
+> LTV
+
+Fig. 4: Prediction Error Comparison. The analytic baselines (LTI and LTV), KDM, and NNDM are compared against PyBullet ground truth. KDM maintains the lowest long-horizon error growth, while the analytic model is competitive in short horizons but diverges. 
+
+(16). This lightweight adaptation step efficiently accounts for actuation and unmodeled dynamics differences between simulation and hardware, enabling migration with minimal retraining. As a result, the controller preserves the structure of the learned embedding while maintaining high accuracy in real-world deployment. V. EXPERIMENTS In this section, we conduct experiments using a Kinova Gen3 manipulator and a Unitree Go2 to evaluate our ap-proach. 
+
+A. Experiment Setup 
+
+For all dynamics models considered—Koopman Dynamics Model (KDM), Neural Network Dynamics Model (NNDM) [15], and the analytic baselines—the state is defined as the concatenation of target position pk and joint angles qk: xk =pk; qk
+
+⊤.
+
+1) Analytic Baselines: We compare two analytic formula-tions: a time-invariant (LTI) model and a time-varying (LTV) variant. Both share the same state update for the joint angles and end-effector: 
+
+pk+1 = pk + ∆ t J (¯ qk) uk (34) 
+
+qk+1 = qk + ∆ t u k (35) where uk is the joint velocity command and J(¯ qk) denotes the manipulator Jacobian evaluated at a reference configu-ration ¯qk. For the LTI baseline, ¯qk = q∗ is fixed, giving a globally linear but coarse approximation. For the LTV system, ¯qk = qk is updated at each step, yielding a locally valid linearization that improves tracking while keeping qk
+
+integrated directly. This LTV formulation supports an MPC controller (LTVMPC) that bridges the gap between a static linear model and full nonlinear MPC. 
+
+2) Learned Models: We train NNDM and KDM within PyBullet simulation. Both employ fully connected feedfor-ward networks with hidden layers [256, 256, 256] for either the lifting function ψω (KDM) or direct dynamics mapping (NNDM). Fig. 4 compares the prediction errors across mod-els, showing that the Koopman-based network achieves the lowest prediction error. Once trained, we formulate linear MPC for KDM, LTI, and LTV baselines, and shooting-based NMPC for the other models. For all non-Koopman models, a safety filter is additionally applied to enforce state constraints. 
+
+3) Controller and solver setup: All QP-based controllers (KMPC, LTIMPC, LTVMPC, and the safety filters) are solved using OSQP . For a fair comparison, we use the same MPC horizon H = 9 for all methods with control input a 7D joint velocity command uk ∈ R7 along with box limits matching the Kinova joint velocity saturation. We use a first-order safety bound with λ = 0 .05 in all rollouts. For numerical stability, slack relaxation is used whenever we enforce safety constraints via a QP: KMPC includes slack directly in its unified QP, while the analytic baselines and NNDM apply slack in the separate safety-filter QP. 
+
+B. Safe Control in 2D Space 
+
+This experiment incorporates collision avoidance of the 
+
+end-effector as a safety constraint. We use the first-order safety index from (13) with dmin = 0 .2 for NNDM and the analytic baseline, and the adapted safety index from (27) for KDM. The KDM control law solves the QP in (23), whereas MPC for the other models solve equivalent tracking problem in original state space with the safety filter formulated as: 
+
+min 
+
+> uk
+
+∥uk − uref  
+
+> k
+
+∥2
+
+s.t. ∇xϕ0(xk)⊤ xk+1 − xk
+
+∆t ≤ bϕ(x). (36) We employ a 9-step horizon for all models to ensure con-sistent comparison. Results depicted in Fig. 5 demonstrate effective obstacle avoidance and accurate tracking of KDM-MPC. Single Obstacle Multi Obstacle (6 total) Avg. Distance to Target [m] Avg. Max ϕ                                                         
+
+> Over Links Avg. Mean ϕ
+> Over Links Avg. Min Dist. to Obstacle [m] Cumulative Cost Avg. Comp. Time [s] Avg. Comp. Time [s] KMPC (Ours) 9.66e-3 ±0.15e-3 1.496e-2 ±0.23e-3 0.071860 -0.03828 -0.21492 0.21913 13154 LTIMPC 5.19e-3 ±0.43e-3 0.629e-2 ±0.79e-3 0.572857 -0.15237 -0.33137 0.32237 307378578 LTVMPC 14.98e-3 ±0.12e-3 0.629e-2 ±0.79e-3 0.144116 -0.09723 -0.18294 0.26745 93292 NMPC-10 40.49e-3 ±0.96e-3 5.299e-2 ±3.06e-3 0.116499 -0.16023 -0.25239 -81261 NMPC-100 412.59e-3 ±227.05e-3 1.04704 ±0.03220 0.009787 -0.12234 -0.25224 -160
+
+TABLE II: Computation Time and Performance Comparison for an episode length of 4000 control steps. The two left columns report average computation time for safe control, while the remaining columns summarize tracking performance and safety in the 3D space. Cumulative cost reflects tracking performance. For safety, Avg. Max ϕ denotes the maximum ϕ over all links at each time step, averaged over the episode, and Avg. Mean ϕ denotes the mean ϕ over links at each time step, averaged over the episode; in both cases, lower values indicate safer behavior. Avg. Min Dist. to Obstacle reports the minimum link-to-obstacle distance averaged over the episode, where larger values indicate safer separation. The symbol “–” indicates that the robot collided with the obstacle during the experiment. Across these complementary metrics, KMPC achieves the best performance–safety trade-off , attaining low tracking cost while making only necessary evasion, thereby maintaining moderately low ϕ (both Avg. Max and Avg. Mean). 0.8 0.6 0.4 0.2 0.0 0.2 0.4 
+
+> Y (m)
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Z (m)
+> End-effector Trajectory
+> Desired
+> KMPC
+> NMPC-10(1e-2)
+> NMPC-10(1e-1)
+> NMPC-10(1e0)
+> NMPC-10(1e1)
+> LTIMPC
+> LTVMPC
+> Obstacle
+
+Fig. 5: Safe Tracking Comparison. NMPC-10 is nonlinear MPC with 10 times shooting, values in parentheses represent slack weight for safety filter relaxation. Linear counterparts, including KMPC did not require slack relaxation for this experiment. KMPC outperforms NMPC-10 both in tracking and safety constraint satisfaction. 
+
+C. Safe Control in 3D Space 
+
+In this scenario, the robot is tasked with tracking a refer-ence end-effector trajectory in full 3D space while avoiding static obstacles placed along the path. This setting requires si-multaneous trajectory tracking and obstacle avoidance across all seven links. The MPC optimization problem is identical except for the linkwise-extended safety constraint: 
+
+˙ϕi(x, u ) ≤ bϕ(x), ∀i = 1 , ..., 7. (37) The performance results in Table II illustrate robust trajec-tory tracking with obstacle evasion, validating the practicality of KMPC frameworks for safe robot control. While KMPC does not attain the numerically best value for every individual safety metric ( ϕ) or cumulative cost, the aggregate results in-dicate that KMPC selects the most favorable operating point between aggressive tracking and conservative safety among all baselines. LTI and LTV baselines show poor tracking cost (over 7.1× higher than KMPC) due to model mismatch and increased penalty from constraint handling, while NMPCs risks colliding into the obstacle. The proposed KMPC also achieves faster computation compared to NMPC (over 4.2×
+
+faster) by exploiting linear Koopman dynamics, whereas shooting-based MPC becomes computationally impractical in these scenarios. 
+
+D. Sim-to-Real Adaptation 
+
+To evaluate the robustness of our approach beyond sim-ulation, we deployed the fine-tuned Koopman-based safe control pipeline directly on the Kinova Gen3 manipulator. Figure 7 compares state prediction errors before and after fine-tuning, showing substantial reduction in both joint an-gle and end-effector position errors. These results confirm that the proposed methodology not only improves model accuracy in simulation but also transfers effectively to real hardware without retraining the embedding. Our experiments demonstrate that the unified pipeline, combining Koopman lifting and adversarial safety index tuning, achieves reliable performance on the physical system. A supplementary demo video is provided, illustrating safe control execution on hardware and validating the practical deployability of the proposed framework. Figure 6 shows that fine-tuning consistently shifts the joint-angle error histograms left across all five hardware tra-jectories, reducing both the typical error and the probability of large-error events (i.e., a thinner right tail). Importantly, this improvement is achieved by adapting only the linear Koopman operators while keeping the lifting/embedding fixed, suggesting that the learned latent coordinates remain transferable and that the dominant sim-to-real mismatch is captured by linear dynamics in lifted space. Although the fine-tuned model reduces the mean error to 0.140 rad, the remaining worst-case errors (up to 0.546 rad) indicate occasional transients likely caused by unmodeled hardware effects such as actuation delays, friction, and state-estimation noise. The corresponding reduction in end-effector error (mean 0.031 m, max 0.143 m) confirms that the improvement is not limited to configuration space but also translates to task-space accuracy. Collectively, these experiments demonstrate the versatility and effectiveness of our proposed Koopman-based control methodology, from simple trajectory tracking to dynamic safety-critical scenarios. It is worth noting that since safety specification is derived from Koopman space, successful evasion also depicts the accuracy in model approximation. 0.1 0.2 0.3 0.4 0.5 0.6 0.7                    
+
+> Joint Angle Error (radians)
+> 0
+> 50
+> 100
+> 150
+> 200
+> 250
+> Frequency
+> Joint Angle Error Distribution (rectangle)
+> Fine-tuned
+> Original
+> 0.2 0.4 0.6 0.8 1.0
+> Joint Angle Error (radians)
+> 0
+> 250
+> 500
+> 750
+> 1000
+> 1250
+> 1500
+> Frequency
+> Joint Angle Error Distribution (sin)
+> Fine-tuned
+> Original
+> 0.2 0.4 0.6 0.8 1.0
+> Joint Angle Error (radians)
+> 0
+> 20
+> 40
+> 60
+> 80
+> Frequency
+> Joint Angle Error Distribution (star)
+> Fine-tuned
+> Original
+> 0.05 0.10 0.15 0.20 0.25 0.30 0.35 0.40
+> Joint Angle Error (radians)
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> Frequency
+> Joint Angle Error Distribution (triangle)
+> Fine-tuned
+> Original
+> 0.1 0.2 0.3 0.4 0.5
+> Joint Angle Error (radians)
+> 0
+> 100
+> 200
+> 300
+> 400
+> Frequency
+> Joint Angle Error Distribution (spiral)
+> Fine-tuned
+> Original
+
+Fig. 6: Histogram of single-step joint-angle prediction error norms (radians) over five hardware trajectories (rectangle, sin, star, triangle, spiral), comparing the original Koopman model (blue) against the fine-tuned Koopman model (orange). Fine-tuning shifts the error distributions toward smaller values across all trajectories, yielding a mean joint-angle error of 0.140 rad (maximum 0.546 rad) and a mean end-effector position error of 0.031 m (maximum 0.143 m) on the evaluated hardware dataset. 0 2 4 6    
+
+> Original Model Error
+> 0
+> 2
+> 4
+> 6
+> Fine-tuned Model Error
+> Error Comparison
+> 246810
+> Prediction Step
+> 1.75
+> 1.50
+> 1.25
+> 1.00
+> 0.75
+> 0.50
+> 0.25
+> Log10(Mean Error)
+> Log10 Average Error by Prediction Step
+> Original
+> Fine-tuned
+
+Fig. 7: Prediction error comparison for Kinova-Gen3 before and after fine-tuning. (Left) Scatter plot of original versus fine-tuned model errors, where nearly all points lie below the y = x line (red), indicating consistent improvement; (Right) Average prediction error across horizons (log 10 
+
+scale), showing that fine-tuned Koopman dynamics maintain significantly lower error over multiple steps. 
+
+VI. FUTURE WORK While the proposed Koopman-based control framework shows promising results, several limitations remain and mo-tivate future directions. 
+
+a) Higher-Order Safety Constraints: The current for-mulation relies on a first-order safety index based on posi-tional information. This may be insufficient for dynamic or fast-evolving environments. Future work will explore higher-order safety indices incorporating velocity and curvature, which require torque or acceleration control rather than velocity control. 
+
+b) Scaling to High-Dimensional Systems: Our experi-ments focused on the control of the fixed manipulators. We aim to extend this framework to higher dimensional systems, such as humanoid, targeting whole-body safe control. These extensions will further improve the scalability, safety, and real-world viability of Koopman-based safe con-trol. VII. CONCLUSION This project presents a data-driven safe control framework that combines Koopman operator theory, Safe Set Algorithm, and adversarial fine tuning to enable efficient, verifiable control of nonlinear robotic systems. By lifting nonlinear dynamics into a latent linear space via a neural embedding, we exploit classical linear control techniques while enforcing safety constraints through a single QP. We validate the approach on the Kinova Gen3 manipulator in tasks ranging from trajectory tracking to dynamic obstacle avoidance with multi-step MPC, demonstrating reliable tracking and real-time safety. The framework’s linear structure also facilitates adaptive extensions and hardware deployment. Looking for-ward, we aim to scale to higher-dimensional systems and incorporate higher-order safety indices. Overall, Koopman-based safe control offers a scalable and interpretable alter-native to conventional model-free methods, particularly in safety-critical robotics. REFERENCES [1] S. Gros, M. Zanon, R. Quirynen, A. Bemporad, and M. Diehl, “From linear to nonlinear mpc: bridging the gap via the real-time iteration,” 
+
+International Journal of Control , vol. 93, no. 1, pp. 62–80, 2020. [2] P. J. Schmid, “Dynamic mode decomposition of numerical and exper-imental data,” Journal of fluid mechanics , vol. 656, pp. 5–28, 2010. [3] M. O. Williams, I. G. Kevrekidis, and C. W. Rowley, “A data–driven approximation of the koopman operator: Extending dynamic mode decomposition,” Journal of Nonlinear Science , vol. 25, pp. 1307–1346, 2015. [4] M. Korda and I. Mezi´ c, “Linear predictors for nonlinear dynamical systems: Koopman operator meets model predictive control,” Auto-matica , vol. 93, pp. 149–160, 2018. [5] S. L. Brunton, J. L. Proctor, and J. N. Kutz, “Discovering governing equations from data by sparse identification of nonlinear dynamical systems,” Proceedings of the national academy of sciences , vol. 113, no. 15, pp. 3932–3937, 2016. [6] M. Watter, J. Springenberg, J. Boedecker, and M. Riedmiller, “Embed to control: A locally linear latent dynamics model for control from raw images,” Advances in neural information processing systems , vol. 28, 2015. [7] F. Li, A. Abuduweili, Y. Sun, R. Chen, W. Zhao, and C. Liu, “Continual learning and lifting of koopman dynamics for linear control of legged robots,” in Proceedings of the 7th Annual Learning for Dynamics &amp; Control Conference , ser. Proceedings of Machine Learning Research, N. Ozay, L. Balzano, D. Panagou, and A. Abate, Eds., vol. 283. PMLR, 04–06 Jun 2025, pp. 136–148. [8] B. Lusch, J. N. Kutz, and S. L. Brunton, “Deep learning for universal linear embeddings of nonlinear dynamics,” Nature communications ,vol. 9, no. 1, p. 4950, 2018. [9] H. Chen, A. ABUDUWEILI, A. Agrawal, Y. Han, H. Ravichandar, C. Liu, and J. Ichnowski, “Korol: Learning visualizable object feature with koopman operator rollout for manipulation,” in Conference on Robot Learning . PMLR, 2025, pp. 4509–4524. [10] H. K. Khalil and J. W. Grizzle, Nonlinear systems . Prentice hall Upper Saddle River, NJ, 2002, vol. 3. [11] Y. Tassa, T. Erez, and E. Todorov, “Synthesis and stabilization of complex behaviors through online trajectory optimization,” in 2012 IEEE/RSJ International Conference on Intelligent Robots and Systems .IEEE, 2012, pp. 4906–4913. [12] J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov, “Proximal policy optimization algorithms,” arXiv preprint arXiv:1707.06347 , 2017. [13] R. Cheng, G. Orosz, R. M. Murray, and J. W. Burdick, “End-to-end safe reinforcement learning through barrier functions for safety-critical continuous control tasks,” 2019. [Online]. Available: https://arxiv.org/abs/1903.08792 [14] A. D. Ames, X. Xu, J. W. Grizzle, and P. Tabuada, “Control barrier function based quadratic programs for safety critical systems,” IEEE Transactions on Automatic Control , vol. 62, no. 8, pp. 3861–3876, 2016. [15] T. Wei and C. Liu, “Safe control with neural network dynamic models,” in Learning for Dynamics and Control Conference . PMLR, 2022, pp. 739–750. [16] V. Zinage and E. Bakolas, “Neural koopman control barrier functions for safety-critical control of unknown nonlinear systems,” 2022. [Online]. Available: https://arxiv.org/abs/2209.07685 [17] K. P. Wabersich and M. N. Zeilinger, “A predictive safety filter for learning-based control of constrained nonlinear dynamical systems,” 
+
+Automatica , vol. 129, p. 109597, 2021. [18] S. L. Brunton, M. Budiˇ si´ c, E. Kaiser, and J. N. Kutz, “Modern koop-man theory for dynamical systems,” arXiv preprint arXiv:2102.12086 ,2021. [19] H. Shi and M. Q.-H. Meng, “Deep koopman operator with control for nonlinear systems,” IEEE Robotics and Automation Letters , vol. 7, no. 3, pp. 7700–7707, 2022. [20] C. Liu and M. Tomizuka, “Control in a safe set: Addressing safety in human-robot interactions,” in Dynamic Systems and Control Confer-ence , vol. 46209. American Society of Mechanical Engineers, 2014, p. V003T42A003. [21] S. Liu, C. Liu, and J. Dolan, “Safe control under input limits with neural control barrier functions,” in Proceedings of The 6th Conference on Robot Learning , ser. Proceedings of Machine Learning Research, K. Liu, D. Kulic, and J. Ichnowski, Eds., vol. 205. PMLR, 14–18 Dec 2023, pp. 1970–1980. [Online]. Available: https://proceedings.mlr.press/v205/liu23e.html [22] A. Madry, A. Makelov, L. Schmidt, D. Tsipras, and A. Vladu, “Towards deep learning models resistant to adversarial attacks,” arXiv preprint arXiv:1706.06083 , 2017. APPENDIX 
+
+A. Extension to Floating-Base Systems 
+
+While the main body of this paper focuses on fixed-base manipulation, we additionally evaluate the proposed Koop-man Safe MPC on a floating-base legged system (Unitree Go2) in Isaac simulation (Fig. 8–9). This appendix clarifies the key modeling and safety-constraint differences between fixed-base and floating-base robots, and explains the practical controller implementation used in our Go2 experiments. 
+
+a) Difference between fixed-base and floating-base sys-tems for safe control.: For fixed-base manipulators, the con-trolled configuration fully determines the world pose of each link through forward kinematics. Consequently, the signed-distance safety specification (13) is naturally expressed as a function of joint configuration q:
+
+ϕ0(q) = dmin − ∥ pego (q) − pobs ∥2 (38) In contrast, for floating-base robots, link positions in the world depend on both joint configuration and the base pose. In practice, relying on globally-referenced base translation (e.g., absolute x, y in a world frame) can be brittle in real environments due to drift and intermittent global localization. Therefore, in our Go2 setup we construct the state using joint positions/velocities and base orientation/velocities, without the global base translation components ( x, y ). This choice is consistent with legged locomotion policies that are typically trained and executed in a locally-referenced representation. 
+
+b) Whole-body kinematics and safety derivative.: The essential difference in safety constraint construction is the kinematic mapping from generalized motion to link Carte-sian velocity. For fixed-base manipulators, the link velocity depends only on joint motion: 
+
+vw 
+
+> link
+
+= Jq (q) ˙ q (39) where Jq denotes a link position’s Jacobian with respect to configuration, and ˙ϕ can be written using the joint Jacobian alone. Throughout the paper, we write the safety derivative as 
+
+˙ϕ = ∇xϕ(x)⊤ ˙x. For a distance-based safety specification 
+
+ϕ(x) = φ(d(x)) with d(x) = ∥pw 
+
+> obs
+
+− pw
+
+> link
+
+(x)∥2, the chain rule gives 
+
+˙ϕ = ∇xϕ(x)⊤ ˙x = φ′(d) ˙d = φ′(d) ˆ u⊤
+
+> d
+
+ vw 
+
+> link
+
+− vw
+
+> obs
+
+ (40) where ˆud := ( pw 
+
+> obs
+
+− pw
+
+> link
+
+)/∥pw 
+
+> obs
+
+− pw
+
+> link
+
+∥2 is the unit vector pointing from the link toward the obstacle center and φ′(d)
+
+is a scalar factor (e.g., φ′(d) = −1 for signed distance; for adversarially fine-tuned indices such as dn 
+
+> min
+
+− dn − βd ,
+
+φ′(d) = −(nd n−1 + β)). Thus, the kinematic expression is not a different definition, it is a specialization of ∇xϕ⊤ ˙x for distance-based ϕ.In the fixed-base setting, we evaluate ˙x using the learned Koopman rollout: 
+
+˙xk ≈ xk+1 − xk
+
+∆t , xk+1 = P (Az k + Bu k) (41) 1 0 1 2 3          
+
+> X [m]
+> 0
+> 1
+> 2
+> 3
+> 4
+> Y [m]
+> Go2 Base Trajectories
+> Unsafe Set Center
+> Reference
+> Start
+> End
+> Obstacle
+> Fig. 8: Go2 base trajectories over five runs. The reference (black) passes through the unsafe region (red), whereas Koopman Safe MPC produces evasive behavior and steers the robot back toward safety. Run-to-run variation is primarily due to omitting globally-referenced base translation
+> (x, y )from the predictive state, so the controller does not explicitly regulate absolute global position.
+
+which yields a control-affine form in uk and enables enforc-ing ˙ϕ constraints at each step of the MPC horizon using the predicted state sequence. However, for floating-base systems, the link world velocity includes both base and joint contributions: 
+
+vw 
+
+> link
+
+= Jb(x) vbase + Jq (x) ˙ q (42) where vbase denotes the base spatial velocity (twist) and Jb(·),
+
+Jq (·) are the corresponding whole-body Jacobian blocks. For the signed distance ϕ0 = dmin − ∥ pw 
+
+> obs
+
+− pw
+
+> link
+
+∥2, the time derivative satisfies 
+
+˙ϕ0 = ˆ u⊤
+
+> d
+
+ vw 
+
+> link
+
+− vw
+
+> obs
+
+ (43) which reduces to ˆu⊤ 
+
+> d
+
+vw 
+
+> link
+
+for static obstacles. Substitut-ing (42) yields a control-affine inequality in ˙q:
+
+(ˆ u⊤ 
+
+> d
+
+Jq )
+
+| {z } 
+
+> Lgϕ
+
+˙q ≤ bϕ(x) − ˆu⊤ 
+
+> d
+
+(Jbvbase − vw
+
+> obs
+
+)
+
+| {z } 
+
+> Lfϕ
+
+(44) where the base-motion term acts as a known drift (measured from the robot state at the current time), and the decision variable remains the joint-velocity command uk = ˙ qk. This is the key modification from the fixed-base case: ignoring 
+
+Jbvbase can severely mis-estimate ˙ϕ and cause safety con-straints to activate too late or appear infeasible. In summary, equations (40)–(44) unify the two viewpoints used in this paper. For fixed-base manipulation, we compute 
+
+˙ϕ along the MPC horizon by combining (i) the chain rule 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15         
+
+> Link index
+> 1.5
+> 1.0
+> 0.5
+> 0.0
+> Linkwise across 5 runs
+> = 0 safe set boundary Fig. 9: Linkwise safety index ϕacross five runs. Dots indicate the mean linkwise ϕper link, with whiskers showing min/max across runs. Positive values correspond to temporary unsafe-set violations induced by the ref-erence; nevertheless, the overall trend shows rapid recovery back toward
+> ϕ≤0after avoidance maneuvers.
+
+˙ϕ = ∇xϕ⊤ ˙x with (ii) Koopman-based finite-difference pre-diction ˙x ≈ (xk+1 − xk)/∆t. For floating-base locomotion, since our predictive state omits global base translation, we compute ˙ϕ at the velocity level using whole-body kinematics, i.e., (42). This preserves control-affinity in the commanded joint velocities while explicitly capturing base-induced link motion. Extending this construction to time-varying horizon-wise geometry (i.e., updating ˆud, Jb, and Jq at each predicted step) would require additional global pose propagation or surrogate kinematics rollouts, and is left for future work. 
+
+c) KMPC formulation.: In our Go2 experiment, we embed the safety constraint into the same QP used for tracking, consistent with the unified Koopman Safe MPC philosophy. However, enforcing (44) with exact per-step ge-ometry across the full horizon requires evaluating ˆud, Jb, and 
+
+Jq at each predicted state. Because these quantities depend on forward kinematics and normalization in the world frame, they are nonlinear functions of the predicted configuration. In our current implementation, we adopt a standard linear-MPC approximation: we evaluate (ud, J b, J q ) at the current measured state and reuse this linearization along the horizon. 
+
+min  
+
+> uk
+> N−1
+
+X
+
+> k=1
+
+∥P z k − xdes  
+
+> k
+
+∥2 
+
+> Q
+
++ ∥uk∥2 
+
+> R
+
++ ∥P z N − xdes  
+
+> N
+
+∥2
+
+> QN
+
+s.t. zk+1 = Az k + Bu k, ∀k = 0 , . . . , N − 1
+
+ ˆu⊤ 
+
+> d
+
+Jq (xt) uk ≤ bϕ(xt)
+
+− ˆu⊤
+
+> d
+
+
+
+Jb(xt) vbase ,t − vw
+
+> obs ,t
+
+
+
+, ∀k = 0 , . . . , N − 1
+
+z1 = ψx(x1), uk ∈ [umin , u max ] (45) This yields a tractable QP while capturing the dominant floating-base drift term through vbase . Developing a fully time-varying horizon linearization and incorporating robust global pose propagation is left as future work. 
+
+d) Koopman model and controller setup.: We use a Koopman dynamics model with a ResNet-3 encoder ψω
+
+with hidden dimension [256] to lift the state into a linear latent space. The lifted dynamics evolve linearly as zk+1 =
+
+Az k + Bu k with a learned A and B. The controller solves a QP via OSQP at each step using the learned linear lifted dynamics, with the first-order safety bound ˙ϕ ≤ bϕ(x)
+
+applied linkwise. Figures 8–9 summarize typical rollouts, showing that the robot follows the reference motion while producing obstacle-avoidance behavior when the safety con-straint becomes active. 
+
+B. Remarks and Limitations 
+
+Figures 8–9 demonstrate that the proposed unified Koop-man Safe MPC can be applied to a floating-base system when safety is expressed through whole-body kinematics. Fig. 1 visualizes the qualitative behavior: the robot tracks the provided motion while producing a clear avoidance maneuver near the obstacle. Fig. 8 aggregates five rollouts and shows that, although the reference passes through the unsafe region, the controller consistently steers the base trajectory around the obstacle. Fig. 9 further confirms safety recovery link-by-link: while some links incur brief positive 
+
+ϕ (unsafe-set violations) due to the reference-induced ap-proach, the controller reduces ϕ back toward the safe set shortly thereafter. Whole-body drift is essential. Unlike fixed-base manipula-tion, floating-base link motion is strongly influenced by base drift. Accordingly, the safety derivative must account for the whole-body velocity decomposition vw 
+
+> link
+
+= Jbvbase + Jq ˙q;neglecting the Jbvbase term can under-estimate ˙ϕ and delay constraint activation. Our current implementation evaluates the unit vector ˆud
+
+and Jacobian blocks (Jb, J q ) at the current measured state and reuses this linearization along the MPC horizon, which yields a single QP per control step. This approximation is computationally efficient and sufficient to demonstrate feasibility of unified safe control on Go2; however, enforc-ing time-varying, horizon-accurate constraints would require updating ˆud and Jacobians at predicted states. In addition, since the predictive state omits globally-referenced base translation (x, y ), the controller does not explicitly track absolute global position, which contributes to the trajectory variability observed in Fig. 8. Developing robust horizon-wise geometry updates and global pose propagation (or equivalent local-frame formulations) is left as future work, especially for deployment in real-world environments where global localization may be intermittent.

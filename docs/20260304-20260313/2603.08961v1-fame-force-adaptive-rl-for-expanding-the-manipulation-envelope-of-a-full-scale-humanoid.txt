@@ -1,0 +1,451 @@
+Title: FAME: Force-Adaptive RL for Expanding the Manipulation Envelope of a Full-Scale Humanoid
+
+URL Source: https://arxiv.org/pdf/2603.08961v1
+
+Published Time: Wed, 11 Mar 2026 00:13:48 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# FAME: Force-Adaptive RL for Expanding the Manipulation Envelope of a Full-Scale Humanoid 
+
+Niraj Pudasaini, Yutong Zhang, Jensen Lavering, Alessandro Roncone, and Nikolaus Correll 
+
+Fig. 1: FAME overview and real demonstration. Left: FAME conditions a standing policy on an upper-body context encoder that maps torso and arm joint configuration ∈ R15 and bimanual interaction forces [F L, F R] ∈ R6 to a latent context ˆzt for force-adaptive balance. 
+
+Right: Unitree H12 carrying a 30 N load. Stable standing with FAME; failure without FAME (no upper-body context encoding). 
+
+Abstract — Maintaining balance under external hand forces is critical for humanoid bimanual manipulation, where interaction forces propagate through the kinematic chain and constrain the feasible manipulation envelope. We propose FAME, a force-adaptive reinforcement learning framework that conditions a standing policy on a learned latent context encoding upper-body joint configuration and bimanual interaction forces. During training, we apply diverse, spherically sampled 3D forces on each hand to inject disturbances in simulation together with an upper-body pose curriculum, exposing the policy to manipulation-induced perturbations across continuously vary-ing arm configurations. At deployment, interaction forces are estimated from the robot dynamics and fed to the same encoder, enabling online adaptation without wrist force/torque sensors. In simulation across five fixed arm configurations with randomized hand forces and commanded base heights, FAME improves mean standing success to 73.84%, compared to 51.40% for the curriculum-only baseline and 29.44% for the base policy. We further deploy the learned policy on a full-scale Unitree H12 humanoid and evaluate robustness in representative load-interaction scenarios, including asymmetric single-arm load and symmetric bimanual load. Code and videos are available on the project website. 
+
+> Department of Computer Science, University of Colorado Boulder, Boul-der, CO 80309. Corresponding author: niraj.pudasaini@colorado.edu
+
+I. INTRODUCTION Humanoid robots are designed to operate in human-centered environments, where interaction with tools, objects, and existing infrastructure requires coordinated upper-body bimanual manipulation with stable lower-body control. Dur-ing bimanual manipulation, external forces applied at the hands propagate through the kinematic chain and directly dis-turb the lower-body balance. Unless actively mitigated, these interaction forces constrain the feasible manipulation enve-lope of the robot and couple upper-body tasks with stance stability. We define the manipulation envelope as the region of admissible external hand forces and arm configurations under which the robot can maintain stable standing. Enabling humanoids to maintain stable standing under varying and uncertain hand loads remains a fundamental challenge. Traditional model-based methods [1], [2] (LIPM [3], MPC, trajectory optimization) for humanoid balance strug-gle under highly dynamic conditions with significant exter-nal disturbances. Deep reinforcement learning (DRL) has emerged as a promising alternative [4], [5], [6], yet training policies that maintain stability under varying and uncertain hand forces during manipulation remains challenging. The core difficulty lies in the high-dimensional, coupled nature 
+
+> arXiv:2603.08961v1 [cs.RO] 9 Mar 2026
+
+of the disturbance: interaction forces at the hands depend on both the magnitude and direction of applied loads as well as the geometric configuration of the arms, creating a complex state space that is difficult to explore exhaustively during training. To address this challenge, we draw upon techniques orig-inally developed to address the sim-to-real transfer chal-lenge. Domain randomization [7] exposes policies to diverse conditions during training, while latent context adaptation approaches like RMA [8], [9] learn compact representations of state variations that enable online policy adaptation. While these methods have primarily targeted environmental variations (terrain, mass distribution, contact dynamics), they provide a natural framework for handling the structured force variations encountered during manipulation. Recent work has employed upper-body pose curricula [10] or force-aware training [11] to improve manipulation stability, but these approaches do not explicitly learn latent representations of force-induced disturbances for adaptive standing balance. In this work, we introduce FAME, a force-adaptive RL approach that conditions a standing policy on a latent context of upper-body configurations and bimanual forces, enabling robust balance through diverse arm configuration scenarios. During training, diverse 3D forces are applied on each hand together with an upper-body pose curriculum to expose the policy to manipulation-induced perturbations across continu-ously varying arm configurations. At deployment, interaction forces are estimated from robot dynamics without requiring wrist force sensors, enabling online adaptation to force variations and expanding the feasible manipulation envelope. The contributions of this paper are: 1) We propose a force-adaptive standing framework, FAME, that uses latent context encoding for the upper-body to maintain lower-body stability under varying bimanual interaction forces by encoding the coupling between upper-body joint states and applied forces at the wrist. 2) We introduce a sensor-free deployment strategy that estimates wrist interaction forces from measured joint torques and states using rigid-body dynamics and Ja-cobian mappings, without wrist force/torque sensors. 3) We demonstrate an expanded manipulation envelope, achieving a 73.84% mean success rate with FAME compared to 51.40% for the Base+Curr baseline and 29.44% for the Base policy (no curriculum or encoder). 4) We validate FAME on the Unitree H12 full-scale hu-manoid, demonstrating robust standing under represen-tative load-interaction scenarios, including asymmetric single-arm pulling (RE1) and symmetric bimanual load augmentation (RE2). II. R ELATED WORK 
+
+A. Force-adaptive control in humanoid loco-manipulation 
+
+Recent humanoid whole-body control research has ad-dressed the challenge of maintaining stability under external interaction forces. Frameworks like FALCON [11] adopt dual-agent reinforcement learning with 3D force curricula to achieve forceful tasks such as heavy lifting and cart-pulling. HAFO [12] explicitly models disturbances using virtual spring-damper systems, while Thor [13] introduces force-adaptive torso-tilt rewards to maximize interaction strength. Heterogeneous Meta-Control (HMC) [14] adaptively com-bines multiple control modalities within a torque space interface. These approaches primarily focus on maximizing force application capabilities or handling known disturbance models. In contrast, FAME addresses standing stability under varying and uncertain bimanual forces by learning a latent representation of the force-configuration coupling, enabling online adaptation without explicit disturbance modeling. 
+
+B. Force estimation and torque-based sensing 
+
+Accurate perception of interaction forces is critical for force-adaptive control. Yu et al. [15] provide a systematic saliency analysis quantifying the relative importance of dif-ferent feedback states in deep reinforcement learning for lo-comotion, identifying joint torque as a critical proprioceptive signal. Several approaches leverage torque measurements for control: Kim et al. [16] demonstrate torque-based deep RL on a real human-sized bipedal robot (TOCABI), while Xie et al. [17] incorporate motor-level current feedback to compensate for torque-tracking inaccuracies. Singh et al. [18] further validate torque-based feedback for locomotion on compliant terrain. While these works use torque sensors directly, FAME estimates wrist interaction forces from joint torques and the Jacobian using robot dynamics, eliminating the need for dedicated wrist force/torque sensors during deployment. 
+
+C. Latent context adaptation for state variations. 
+
+Latent context adaptation enables online policy adaptation by learning compact representations of varying conditions. Rapid Motor Adaptation (RMA) [8] learns a latent encoder of environment dynamics during simulation and conditions the control policy on inferred latent context without weight updates. This approach has been extended to bipedal lo-comotion [9] and manipulation [19], enabling adaptation to variations in terrain properties, contact dynamics, and mass distribution. While RMA and related methods primarily target unstructured environmental variations, FAME applies the latent encoding paradigm to a structured, task-relevant disturbance: the coupling between upper-body configuration and bimanual interaction forces. This enables the policy to learn a compact representation of manipulation-induced perturbations and adapt lower-body balance in real time. 
+
+D. Bipedal standing and balance under disturbances 
+
+Recent work has leveraged deep reinforcement learning to learn robust bipedal walking and standing policies through large-scale simulation training [4], [20], [6], with state-of-the-art approaches demonstrating impressive real-world capabilities [5], [21], [18]. However, most prior work focuses on standing and locomotion in the absence of significant external hand forces. FAME extends these approaches by specifically addressing the challenge of maintaining stable 2Fig. 2: Overview of the proposed standing framework. During training (top), an upper-body dynamics encoder processes upper-body joint states and sampled hand forces to produce a latent context variable that conditions the base standing policy in simulation. During deployment (bottom), the same encoder operates on measured upper-body joints and estimated hand forces to infer the latent context online, enabling rapid adaptation to upper-body-induced disturbances. standing under bimanual manipulation-induced force distur-bances, where upper-body pose variations and wrist forces couple to strongly perturb lower-body balance. 
+
+E. Curriculum learning and progressive training 
+
+Curriculum learning has proven effective for training ro-bust policies in complex control tasks by progressively ex-posing the policy to increasingly difficult scenarios. In robot learning, curricula are widely used to scale command ranges, terrain difficulty, and external perturbations for legged lo-comotion, enabling stable training and improved robustness [22], [23]. Recent humanoid control frameworks [10] employ upper-body pose curricula to train policies under continu-ously varying arm configurations while maintaining balance. FAME combines upper-body pose curriculum learning with force-based context encoding, enabling the policy to learn both geometric diversity (varying arm poses) and dynamic diversity (varying interaction forces) during training. III. M ETHODOLOGY 
+
+A. Overview 
+
+Our framework enables force-adaptive standing by con-ditioning a base policy on a learned latent representation of upper-body contex. As illustrated in Fig. 2, the system consists of two main components: (i) an upper-body context encoder and (ii) a base standing policy. The encoder processes upper-body joint states together with hand interaction forces and produces a latent context vector that captures the disturbance induced by bimanual manipulation. This latent variable conditions the base policy, allowing it to adapt its lower-body control strategy according to the current upper-body loading condition. During training, we expose the policy to diverse manipulation-induced disturbances by (i) sampling and ap-plying external forces at the hands (see Sec. III-C) and (ii) randomizing upper-body target poses through an upper-body pose curriculum that gradually expands the pose range as standing quality improves (see Sec. III-B). 
+
+Baselines: We consider three training variants to isolate the effect of curriculum learning and force-conditioned latent adaptation. Base trains a standing policy with the upper-body held at a fixed nominal posture (no upper-body pose curriculum) and without any latent context conditioning. 
+
+Base+Curr adds the upper-body pose curriculum, exposing the policy to continuously varying upper-body joint targets during training, but still does not provide the encoder latent. 
+
+FAME combines both components: the upper-body pose curriculum and the upper-body context encoder, whose latent context conditions the standing policy for force-adaptive balance. 
+
+B. Upper-Body Pose Curriculum 
+
+To train the standing controller under continuously vary-ing upper-body configurations while maintaining upper-body motion diversity, we employ a pose curriculum following OpenHomie [10] that progressively increases the perturbation range of randomized target poses. We expand the upper-body pose range as standing quality improves. Concretely, we maintain a scalar upper-body action ratio ρa ∈ [0 , 1] ,initialized to 0 and increased by ∆ρ when the standing-3quality metric (we use the height-tracking reward) exceeds a threshold. 
+
+a) Curriculum-scaled ratio sampling: At each resam-pling event, we draw an auxiliary ratio ρ′ 
+
+> a
+
+∈ [0 , 1] that concentrates near zero early in training and broadens as ρa
+
+increases: 
+
+ρ′ 
+
+> a
+
+= − 1
+
+κ(1 − ρa) ln 
+
+
+
+1 − u 1 − exp( −κ(1 − ρa)) 
+
+where u ∼ U (0 , 1) and we set κ = 20 . where κ controls the sharpness of the curriculum (we use κ = 20 ). When ρa
+
+is small, ρ′ 
+
+> a
+
+is typically small; as ρa → 1, ρ′ 
+
+> a
+
+approaches a near-uniform spread over [0 , 1] .
+
+b) Sampling upper-body targets: Let qub ∈ R15 denote the torso+arm joint positions (ordered as in Table VII). For each upper-body joint j, we sample 
+
+aj ∼ U (0 , ρ ′
+
+> a
+
+)
+
+and then sample a new target angle within a curriculum-scaled interval around the default posture q0ub :
+
+q⋆ 
+
+> ub ,j
+
+∼ U 
+
+
+
+q0ub ,j −aj
+
+ q0ub ,j −qmin ub ,j 
+
+, q 0ub ,j +aj
+
+ qmax ub ,j −q0ub ,j 
+
+
+
+We resample q⋆ 
+
+> ub
+
+every Tub = 1 s. As ρa increases over training, the sampled targets expand from small perturbations around q0ub to covering a larger portion of the feasible joint ranges. 
+
+C. Upper-Body Context Encoder 
+
+The upper-body context encoder ( μ) takes the torso and arm joint positions qub ∈ R15 , ordered according to Ta-ble VII, and sampled hand forces (6 DoF), 3 DoF for each hand as contextual information. The encoder therefore operates on the concatenated input 
+
+xenc = [ qub , FL, FR]
+
+where FL, FR ∈ R3 denote the left and right wrist forces, respectively. This representation allows the encoder to cap-ture the coupled effect of upper-body pose and interaction forces on whole-body balance. The encoder maps xenc to a latent context vector 
+
+zt = μθ (xenc ) ∈ R8
+
+where θ denotes encoder parameters for a multi-layer per-ceptron (MLP), as referenced in Listing 1. 
+
+During training , we generate external forces by first sampling a force magnitude and then sampling a random direction uniformly over the sphere (i.e., uniform in spherical coordinates). Specifically, let z ∼ N (0, I3) be a 3D Gaussian random vector. A unit-norm direction u ∈ S2 is obtained by normalization: 
+
+u = z
+
+∥z∥2
+
+A force magnitude r is then sampled from a predefined range, 
+
+r ∼ U (rmin , r max )
+
+and the external force applied at the wrist is constructed as 
+
+F = ru
+
+This procedure yields an isotropic and unbiased distribu-tion of external forces, ensuring broad coverage of the 3D force space during training. 
+
+During deployment , instead of sampling the force, we estimate it from the robot dynamics. Specifically, we mea-sure the joint torques τ , compute the gravity compensation torques τg , and map the residual joint torques into Cartesian space using the wrist Jacobian J. The external force is estimated as 
+
+Fext = −(J⊤)†(τ − τg )
+
+where † denotes the pseudo-inverse. Both the Jacobian J
+
+and the gravity compensation torques τg are computed online using the Pinocchio library [24]. 
+
+D. Base policy 
+
+We formulate our problem for training base policy as Partially Observable Markov decision process (POMDP) 
+
+M =   S, A, T, O, R, γ 
+
+and utilize Proximal Policy Optimization (PPO) [4] to learn a parameterized policy πθ (at | ot) that maximizes the expected return. 
+
+J(θ) = Eπθ
+
+X 
+
+> t
+
+rt
+
+
+
+We implement PPO from the RSL-RL library [25] with both actor and critic as defined in Listing 1. Table I provides a summary of the detailed reward components for training standing policy for Unitree H12. The policy outputs a 12D action at ∈ R12 , corresponding to target joint position offsets for the lower-body joints (6 per leg): We compute target joint positions as 
+
+qtar  
+
+> t
+
+= q0lb + sa at
+
+where q0lb is the default lower-body posture and sa is an action scaling factor. Targets are tracked by a joint-space PD controller running at 50 Hz: 
+
+τt = Kp
+
+ qtar  
+
+> t
+
+− qt
+
+ + Kd
+
+  ˙qtar  
+
+> t
+
+− ˙qt
+
+
+
+with PD gains Kp, Kd and ˙qtar  
+
+> t
+
+= 0.IV. E XPERIMENTS 
+
+The question we wish to address is whether encoding upper-body interaction forces and upper-body joints in-creases the admissible hand-force range under which stable standing can be maintained across diverse arm configura-tions. 4Fig. 3: Standing outcomes under spherically sampled hand-force disturbances for asymmetric arm configurations (C5). Green indicates successful standing over 10 s; red indicates failure. Our proposed FAME policy maintains stability over a larger admissible force region compared to the Base+Curr Policy. 
+
+Fig. 4: Real-robot qualitative results. Snapshot sequence from our real-robot evaluation on the Unitree H12 under representative load-interaction disturbances (RE1–RE2). For each experiment, we report the joint trajectories and torques of the hip pitch, ankle pitch, and elbow joints. With FAME, the robot remains stable under external loads and the joint positions stay close to their nominal standing configuration (marked in green). Without FAME, the joint positions drift away from the stable configuration, ultimately causing the robot to lose balance and fall (marked in red). 
+
+A. Simulation 
+
+Experimental Setup. We define five fixed upper-body arm configurations spanning forward-reaching, lateral, and asymmetric poses, summarized in Table VIII. For each configuration, we apply randomized external hand forces sampled as Fx, F y ∈ [−20 , 20] N and Fz ∈ [−30 , 30] N. Simultaneously, the commanded base height is randomized within hcmd ∈ [0 .7, 1.0] m. The results are reported for 500 random configurations. A trial is considered successful if the robot remains upright standing without falling for an evaluation horizon of 10 seconds. We compare three policies: The Base policy without cur-riculum or encoder. Base+Curr policy with upper-body pose curriculum only but no encoder, and our FAME policy that consists both upper-body context encoder and curriculum. 
+
+Results and Discussions. Table II highlights how the three training variants behave differently across arm config-urations. First, the Base policy performs non-trivially only in configurations that are closer to symmetric arm placements, e.g., C3 (Full Sideways, 31.8%) and C4 (Near Full Sideways, 44.2%). These poses induce more balanced moments about the sagittal plane under some of the force sampling, allowing the lower-body policy to get a stabilization behaviors even 5Term Expression Weight Remarks Base Stability & Uprightness                                                                                                                           
+
+> Base height tracking exp( −4|hbase −hcmd |)3.0hcmd = 1 .0
+> Vertical velocity v2
+> z−5.0Penalize bouncing Angular velocity (xy) ∥ωxy ∥22−0.1Suppress roll/pitch motion Orientation ∥gxy ∥22−3.0Projected gravity error Stand still (zero command) 1(motion at zero cmd )−0.8Encourage static stability
+> Posture & Joint Deviation
+> Hip deviation ∥qhip −q0
+> hip ∥22−0.2
+> Ankle deviation ∥qankle −q0
+> ankle ∥22−0.5
+> Knee deviation |(dknee −0.5) ·(hbase −hcmd )|−1.5Height-coupled shaping Joint tracking error ∥qtarget −q∥22−0.1
+> DoF acceleration ∥¨q∥22−2.5×10 −5
+> Feet Contact & Grounding
+> Feet lateral distance clamp (dfeet )0.5Maintain stance width Knee lateral distance clamp (dknee )1.0
+> Feet parallel Var( dfeet )−2.5Symmetry constraint Feet ground parallel Var( hfeet )−2.0
+> Feet slip ∥vfeet ,xy ∥2−1.0
+> Feet stumble 1(Fxy >3Fz)−1.5
+> Feet contact forces max( ∥F∥ − 900 ,0) −2.5×10 −4
+> Contact momentum v−
+> z·(Fz−50) 2.5×10 −4Encourage soft landing No-fly (single contact) 1(single foot contact )0.75
+> Control Smoothness & Energy
+> Action rate ∥at−at−1∥22−0.02
+> Second-order smoothness ∥at−2at−1+at−2∥22−0.1
+> Joint power P|˙qiτi|−2×10 −5
+> Torque penalty ∥τ∥22−2.5×10 −6
+> Action vanish action saturation error −1.0
+> Safety & Limits
+> DoF position limits limit violation −2.0Soft limit = 0.975 DoF velocity ∥˙q∥22−5×10 −3
+> DoF velocity limits soft vel violation −2×10 −3
+> Torque limits soft torque violation −0.1Soft limit = 0.95
+
+TABLE I: Standing reward components and weights, ad-justed from [10] for Unitree H12. Terms are grouped by: base stability, posture shaping, grounding constraints, smooth control, and safety regularization. 
+
+Cfg Arm Configuration Base Base +Curr FAME 
+
+C1 Forward Extended 00.0 61.2 81.6 
+
+C2 Mid Sideways 00.0 30.2 50.0 
+
+C3 Full Sideways 31.8 52.4 72.6 
+
+C4 Near Full Sideways 44.2 57.2 79.6 
+
+C5 Asymmetric Forward 71.2 56.0 85.4 Mean Success 29.44 51.40 73.84 
+
+TABLE II: Success rate (%) under randomized hand-force disturbances for five fixed upper-body configurations. Base :no encoder, no upper-body pose curriculum. Base+Curr :curriculum only. FAME : encoder + curriculum. without explicit upper-body variation during training. However, this trend breaks in configurations that introduce pronounced asymmetry or forward-reaching leverage. In C1 (Forward Extended) and C2 (Mid Sideways), Base collapses to 0% success, indicating that even moderate hand forces become destabilizing when the arms create long moment arms or unbalanced torque about the stance. Interestingly, the Base+Curr baseline improves in most cases by exposing the policy to continuously varying upper-body poses during training, but it can underperform Base in asymmetric configurations (C5: 56.0% vs. 71.2%). A plausi-ble explanation is that the pose curriculum increases upper-body variability without providing an explicit mechanism to disambiguate the induced disturbance; the policy must im-plicitly infer the effect of pose and force from proprioception alone, which may encourage conservative or occasionally mismatched stabilization strategies when asymmetry is high. In contrast, FAME achieves the strongest and most con-sistent performance across all configurations, with significant success in the most challenging cases, reaching 81.6% in C1, 50.0% in C2, and 85.4% in C5. Overall, conditioning on a latent context that encodes both upper-body configuration and bimanual interaction forces provides a structured signal for disambiguating pose-induced disturbances, enabling the lower-body controller to adapt to the disturbance direction and magnitude rather than relying on implicit robustness. As a result, FAME yields more effective stabilization and expands the feasible manipulation envelope as in Fig 3). 
+
+B. Real Experiments 
+
+Real Robot Setup. We conduct our experiments on the Unitree H12 humanoid robot, which features 27 degrees of freedom (DoF), including two 7-DoF arms, two 6-DoF legs, and a 1-DoF waist. For deployment on the physical robot, we rely on the onboard IMU to measure the base orientation and angular velocity, while joint encoders provide the joint angles and their corresponding velocities. We run the base policy in real time with the control frequency of 50 Hz. 
+
+Experiments. While simulation results indicate that FAME expands the admissible bimanual force region (Fig. 3), real-world deployment introduces additional chal-lenges, including unmodeled actuator dynamics, contact un-certainty, imperfect state estimation, and force-estimation noise. We therefore design a set of real-robot experiments that directly stress the same coupling highlighted in simula-tion: upper-body interaction forces and arm configurations that induce destabilizing moments about the stance feet. The goal is to validate that force-conditioned latent adapta-tion improves standing stability not only under randomized force sampling in simulation, but also under structured manipulation-relevant disturbances on hardware. Specifically, we evaluate two representative scenarios (RE1–RE2). RE1: Asymmetric Single-Arm Load tests robustness to an asymmetric disturbance where one arm is carrying a load. RE2: Symmetric Bimanual Load evaluates stability as the carried weight is distributed to both arms, probing the policy’s ability to adapt to symmetric loading. 
+
+Results and Discussions. As shown in Fig. 4, the robot remains stable under both symmetric and asymmetric loads with the FAME policy, but loses balance and falls with the 
+
+Base + Curr policy. This distinction is most evident in the hip pitch and ankle pitch joint trajectories. FAME regulates joint torques to maintain stable joint positions near the nominal standing posture. In contrast, Base + Curr cannot adequately account for the external disturbance, resulting in joint-position drift and loss of the balanced pose. V. C ONCLUSION 
+
+We presented FAME , a force-adaptive RL framework that expands the manipulation envelope of a full-scale humanoid by conditioning standing control on a learned latent context of upper-body configuration and bimanual interaction forces. In simulation across five fixed arm configurations with randomized 3D hand-force disturbances and commanded 6base heights, FAME achieves 73.84% mean standing suc-cess, outperforming a curriculum-only baseline ( 51.40% )and a base policy without curriculum or force-conditioning (29.44% ). These results indicate that explicitly encoding force–configuration coupling provides a structured context signal that improves balance recovery under manipulation-induced disturbances. We additionally deploy FAME on the Unitree H12 humanoid and validate robust standing under representative load-interaction scenarios, including asymmet-ric single-arm pulling and symmetric bimanual load augmen-tation. ACKNOWLEDGMENT This work has been supported by ARPA-E contract DE-AR0001966. We are grateful for this support. We leverage generative AI tools (GPT-5.2 Thinking) for structural and grammatical proofreading in all sections and for assistance in generating code for plots in this manuscript. N. Correll is CEO of Realtime Manufacturing, Inc., which is working on humanoids for manufacturing applications. REFERENCES [1] S. Gupta and A. Kumar, “A brief review of dynamics and control of underactuated biped robots,” Advanced Robotics , vol. 31, no. 12, pp. 607–623, 2017. [2] J. Reher and A. D. Ames, “Dynamic walking: Toward agile and efficient bipedal robots,” 2020. [3] P. M. Wensing and D. E. Orin, “High-speed humanoid running through control with a 3d-slip model,” in 2013 IEEE/RSJ International Conference on Intelligent Robots and Systems , pp. 5134–5140, 2013. [4] J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov, “Proximal policy optimization algorithms,” 2017. [5] X. Gu, Y.-J. Wang, and J. Chen, “Humanoid-gym: Reinforcement learning for humanoid robot with zero-shot sim2real transfer,” 2024. [6] N. Heess, D. TB, S. Sriram, J. Lemmon, J. Merel, G. Wayne, Y. Tassa, T. Erez, Z. Wang, S. M. A. Eslami, M. Riedmiller, and D. Silver, “Emergence of locomotion behaviours in rich environments,” 2017. [7] J. Tobin, R. Fong, A. Ray, J. Schneider, W. Zaremba, and P. Abbeel, “Domain randomization for transferring deep neural networks from simulation to the real world,” 2017. [8] A. Kumar, Z. Fu, D. Pathak, and J. Malik, “Rma: Rapid motor adaptation for legged robots,” 2021. [9] A. Kumar, Z. Li, J. Zeng, D. Pathak, K. Sreenath, and J. Malik, “Adapting rapid motor adaptation for bipedal robots,” 2022. [10] Q. Ben, F. Jia, J. Zeng, J. Dong, D. Lin, and J. Pang, “Homie: Humanoid loco-manipulation with isomorphic exoskeleton cockpit,” 2025. [11] Y. Zhang, Y. Yuan, P. Gurunath, I. Gupta, S. Omidshafiei, A.-a. Agha-mohammadi, M. Vazquez-Chanlatte, L. Pedersen, T. He, and G. Shi, “Falcon: Learning force-adaptive humanoid loco-manipulation,” arXiv preprint arXiv:2505.06776 , 2025. [12] C. Dong, H. Xu, W. Feng, Z. Wang, Y. Zhou, Y. Zhao, and B. He, “Hafo: A force-adaptive control framework for humanoid robots in intense interaction environments,” 2026. [13] G. Li, Q. Shi, Y. Hu, J. Hu, Z. Wang, X. Wang, and S. Luo, “Thor: Towards human-level whole-body reactions for intense contact-rich environments,” ArXiv , vol. abs/2510.26280, 2025. [14] L. Wei, X. Peng, R.-Z. Qiu, T. Huang, X. Cheng, and X. Wang, “Hmc: Learning heterogeneous meta-control for contact-rich loco-manipulation,” 2025. [15] W. Yu, C. Yang, C. McGreavy, E. Triantafyllidis, G. Wang, M. Torres-Ocrossa, and E. C. Tan, “Identifying important sensory feedback for learning locomotion skills,” Nature Machine Intelligence , vol. 5, no. 12, pp. 1284–1294, 2023. [16] D. Kim, G. Berseth, M. Schwartz, and K. Treptow, “Torque-based deep reinforcement learning for task-and-robot agnostic learning on bipedal robots using sim-to-real transfer,” IEEE Robotics and Automation Letters , vol. 8, no. 10, pp. 6416–6423, 2023. [17] Z. Xie, P. Gergondet, and F. Kanehiro, “Learning bipedal walking for humanoids with current feedback,” IEEE Access , vol. 11, pp. 26285– 26296, 2023. [18] R. P. Singh, M. Morisawa, M. Benallegue, et al. , “Robust humanoid walking on compliant and uneven terrain with deep reinforcement learning,” in 2024 IEEE-RAS 23rd International Conference on Hu-manoid Robots (Humanoids) , pp. 1–8, IEEE, 2024. [19] Y. Liang, K. Ellis, and J. Henriques, “Rapid motor adaptation for robotic manipulator arms,” 2024. [20] T. P. Lillicrap, J. J. Hunt, A. Pritzel, N. Heess, T. Erez, Y. Tassa, D. Silver, and D. Wierstra, “Continuous control with deep reinforce-ment learning,” 2019. [21] I. Radosavovic, T. Xiao, B. Zhang, T. Darrell, J. Malik, and K. Sreenath, “Real-world humanoid locomotion with reinforcement learning,” Science Robotics , vol. 9, no. 89, p. eadi9579, 2024. [22] J. Hwangbo, J. Lee, A. Dosovitskiy, D. Bellicoso, V. Tsounis, V. Koltun, and M. Hutter, “Learning agile and dynamic motor skills for legged robots,” Science Robotics , vol. 4, Jan. 2019. [23] N. Rudin, D. Hoeller, P. Reist, and M. Hutter, “Learning to walk in minutes using massively parallel deep reinforcement learning,” 2022. [24] J. Carpentier, G. Saurel, G. Buondonno, J. Mirabel, F. Lamiraux, O. Stasse, and N. Mansard, “The pinocchio c++ library – a fast and flexible implementation of rigid body dynamics algorithms and their analytical derivatives,” in IEEE International Symposium on System Integrations (SII) , 2019. [25] C. Schwarke, M. Mittal, N. Rudin, D. Hoeller, and M. Hutter, “Rsl-rl: A learning library for robotics research,” arXiv preprint arXiv:2509.10771 , 2025. [26] J. Long, Z. Wang, Q. Li, J. Gao, L. Cao, and J. Pang, “Hybrid internal model: Learning agile legged locomotion with simulated robot response,” 2024. 
+
+APPENDIX 
+
+A. State Space Design 
+
+Actor (policy) observations. The actor observation at time t is a stacked history of length Ha = 3: oπt =[ot, ot−1, ot−2], where each one-step vector ot ∈ Rdo is defined in III. We inject uniform noise to the actor input during training. 
+
+Actor observation term (one-step) Symbol Dim 
+
+Command (scaled) ct 3Commanded base height hcmd  
+
+> t
+
+1IMU angular velocity (body frame, scaled) 
+
+ωt 3Projected gravity (body frame) gt 3Joint position error (scaled) ˜qt Ndof 
+
+Joint velocity (scaled) ˜˙qt Ndof 
+
+Previous action at−1 Nact 
+
+One-step proprio obs: do = 3 + 1 + 3 + 3 + 2 Ndof + Nact 
+
+For Ndof = 27 , Nact = 12 : do = 76 
+
+Proprio h: Ha = 3 ⇒ dim( oprop  
+
+> t
+
+) = Hado = 228 
+
+Latent h: zt = μ(et) ∈ R8, H z = 3 ⇒ dim( ozt ) = Hz · 8 = 24 
+
+Final actor input: oπt = [ oprop  
+
+> t
+
+, ozt ] ⇒ 228 + 24 = 252 
+
+TABLE III: Actor (policy) observation space. 
+
+Critic (value) observations. The critic uses a privileged one-step vector oVt ∈ Rdv that augments ot with the base linear velocity (available in simulation). We use a history length Hc = 1 , i.e., oVt only, as summarized in IV. 
+
+B. Domain Randomization 
+
+Table V summarizes the domain randomization strategies that we used. 7Critic observation term Symbol Dim 
+
+All actor one-step terms ot 76 Latent context (from encoder) zt 8Base linear velocity (privileged, scaled) vbase  
+
+> t
+
+3
+
+One-step critic obs: dv = do + 8 + 3 = 87 
+
+History stacking: Hc = 1 ⇒ dim( oVt ) = 87 
+
+TABLE IV: Critic observation design. The critic is addition-ally provided latent context zt and privileged base linear velocity in simulation during training. 
+
+Term Value External Disturbances 
+
+Push robot interval = 4 s , vxy ∼ U (0 , 0.5) m /s
+
+Upper-body disturbance curriculum 
+
+ρa ← 0.0 initially; increased with standing quality, interval = 1 s 
+
+Actuation & Observation Noise 
+
+Joint injection noise q ← q + ϵ, ϵ ∼ U (−0.05 , 0.05) 
+
+Actuation offset a ← a + δ, δ ∼ U (−0.05 , 0.05) 
+
+Control delay enabled 
+
+Inertial & Body Parameter Randomization 
+
+Payload mass mpayload ∼ U (−3, 5) kg 
+
+Hand payload mass mhand = 0 (disabled) Body displacement ∆pbody ∼ U (−0.1, 0.1) m 
+
+Link mass scaling mlink ← s m default , s ∼ U (0 .8, 1.2) 
+
+Contact Randomization 
+
+Friction coefficient μ ∼ U (0 .1, 3.0) 
+
+Restitution e ∼ U (0 .0, 1.0) 
+
+Controller Randomization 
+
+Proportional gain scaling 
+
+kp ← s k p, default , s ∼ U (0 .9, 1.1) 
+
+Derivative gain scaling 
+
+kd ← s k d, default , s ∼ U (0 .9, 1.1) 
+
+Initial joint position scale 
+
+q0 ← s q 0,default , s ∼ U (0 .8, 1.2) 
+
+Initial joint position offset 
+
+q0 ← q0 + ∆ q, ∆q ∼ U (−0.1, 0.1) 
+
+TABLE V: Domain randomizations used for training the standing policy. U(·) denotes a uniform distribution. 
+
+C. Upper-Body Context Encoder (μ) and Base Policy (π)
+
+Architectures 
+
+In our framework, for the upper-body context encoder 
+
+μ, we use MLP that maps upper-body pose and bimanual interaction forces to a latent context zt, which conditions the actor for force-adaptive standing. For the actor-critic, we use HIM-style [26], [10], where the actor consists of an estimator network E and a follow-up policy network N , and the critic is a separate value network C.Listing 1: Network architectures used in our framework 
+
+(mu): Upper-body Context Encoder (MLP) Input: x_enc=[ q_ub(15),F_L(3),F_R(3)] Linear(21 -> 256), ELU Linear(256 -> 128), ELU Linear(128 -> 8) # z_t 
+
+(E): HIMEstimator # part of Actor 
+
+Encoder: Linear(3 (history) * 84 ([O_t,z_t]) -> 256), ELU Linear(256 -> 256), ELU Linear(256 -> 35) # I_hat_t 
+
+Target: Linear(84 ([O_t,z_t]) -> 256), ELU Linear(256 -> 256), ELU Linear(256 -> 32) Proto: Embedding(64, 32) (N): Follow-up Policy Network # Actor head 
+
+Input: [ O_t (76), z_t (8), I_hat_t (35) ] Linear(35 + 84 -> 512), ELU Linear(512 -> 256), ELU Linear(256 -> 256), ELU Linear(256 -> 12) # N_lower (leg DoF) 
+
+(C): Critic / Value Network (asymmetric) Input: [ O_t (76), z_t (8), 3 (privileged lin_vel) ]Linear(87 -> 512), ELU Linear(512 -> 256), ELU Linear(256 -> 256), ELU Linear(256 -> 1) 
+
+D. Hyperparameters 
+
+Table VI presents the hyperparameters used for training. 
+
+Hyperparameters Values 
+
+Optimizer Adam Learning rate 1 × 10 −3
+
+Schedule adaptive Discount factor ( γ) 0.99 GAE ( λ) 0.95 Clip param ( ϵ) 0.2 Value loss coef 1.0 Clipped value loss True Entropy coef 0.01 Desired KL 0.01 Max grad norm 1.0 Num learning epochs 5Num mini-batches 4Init noise std 1.0 Actor MLP size [512, 256, 256] Critic MLP size [512, 256, 256] Activation ELU Symmetry scale 1.0 
+
+TABLE VI: PPO hyperparameters used for training the standing policy. 
+
+E. Arm Configuration for Experiments 
+
+Joint order (torso → arms) Idx Joint name Idx Joint name 
+
+1 torso 9 right shoulder pitch 2 left shoulder pitch 10 right shoulder roll 3 left shoulder roll 11 right shoulder yaw 4 left shoulder yaw 12 right elbow pitch 5 left elbow pitch 13 right elbow roll 6 left elbow roll 14 right wrist pitch 7 left wrist pitch 15 right wrist yaw 8 left wrist yaw 
+
+TABLE VII: Joint ordering used to define fixed upper-body configurations (torso → left arm → right arm). Table VIII shows the different arm configurations used for our evaluations. 8Cfg Preset values qub (rad), ordered as Tab. VII 
+
+C1 forward extended: [0 , −0.9, 0, 0, 0.5, 0, 0, 0,
+
+−0.9, 0, 0, 0.5, 0, 0, 0] 
+
+C2 mid sideways: [0 , −0.9, 1.3, 0, 0, 0, 0, 0,
+
+−0.9, −1.3, 0, 0, 0, 0, 0] 
+
+C3 full sideways: [0 , 1.3, 0, 1.2, 0, 0, 0, 0,
+
+−1.3, 0, 1.2, 0, 0, 0, 0] 
+
+C4 near full sideways: [0 , 1.0, 0, 0.9, 0, 0, 0, 0,
+
+−1.0, 0, 0.9, 0, 0, 0, 0] 
+
+C5 asym forward full: [0 , −0.9, 0, 0, 0.5, 0, 0, 0,
+
+1.3, 0, 1.2, 0, 0, 0, 0] 
+
+TABLE VIII: Five fixed upper-body configurations used for evaluation. 9

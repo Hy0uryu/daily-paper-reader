@@ -1,0 +1,577 @@
+Title: Gaussian Mixture-Based Inverse Perception Contract for Uncertainty-Aware Robot Navigation
+
+URL Source: https://arxiv.org/pdf/2603.04329v1
+
+Published Time: Thu, 05 Mar 2026 02:25:21 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# Gaussian Mixture-Based Inverse Perception Contract for Uncertainty-Aware Robot Navigation 
+
+Bingyao Du 1, Joonkyung Kim 2 and Yiwei Lyu 2
+
+Abstract — Reliable navigation in cluttered environments re-quires perception outputs that are not only accurate but also equipped with uncertainty sets suitable for safe control. An inverse perception contract (IPC) provides such a connection by mapping perceptual estimates to sets that contain the ground truth with high confidence. Existing IPC formulations, however, instantiate uncertainty as a single ellipsoidal set and rely on deterministic trust scores to guide robot motion. Such a representation cannot capture the multi-modal and irregular structure of fine-grained perception errors, often resulting in over-conservative sets and degraded navigation performance. In this work, we introduce Gaussian Mixture-based Inverse Perception Contract (GM-IPC), which extends IPC to represent uncertainty with unions of ellipsoidal confidence sets derived from Gaussian mixture models. This design moves beyond de-terministic single-set abstractions, enabling fine-grained, multi-modal, and non-convex error structures to be captured with formal guarantees. A learning framework is presented that trains GM-IPC to account for probabilistic inclusion, distri-bution matching, and empty-space penalties, ensuring both validity and compactness of the predicted sets. We further show that the resulting uncertainty characterizations can be leveraged in downstream planning frameworks for real-time safe navigation, enabling less conservative and more adaptive robot motion while preserving safety in a probabilistic manner. 
+
+I. I NTRODUCTION 
+
+Autonomous systems are increasingly deployed in safety-critical domains such as urban driving, aerial delivery, and indoor service robotics. In these settings, perception errors, such as missed detections, inaccurate localization, or de-layed updates, can quickly propagate into unsafe control actions [1]. Robust control mitigates such risks by assum-ing bounded disturbances but often sacrifices efficiency for safety. Achieving safe yet effective autonomy thus requires perception outputs that are accurate and accompanied by uncertainty sets suitable for decision making and control [2]. Existing methods quantify uncertainty in different ways. Robust control theory provides worst-case guarantees but is overly conservative in complex environments [3]. Bayesian deep learning [4] produces probabilistic outputs without certified guarantees once embedded in closed-loop systems, while conformal prediction [5] offers distribution-free confi-dence sets but is limited to low-dimensional outputs. Percep-tion contract (PC [6]) formalizes bounded perception errors for control synthesis, and its inverse form (IPC [7]) directly maps perception estimates to sets guaranteed to contain the   
+
+> 1The author is with the Department of Computer Science, Columbia Uni-versity, New York, NY 10027, USA. Email:
+
+bd2747@columbia.edu 
+
+> 2The authors are with the Department of Computer Science and Engi-neering, Texas A&M University, College Station, TX 77843, USA. Email:
+
+joonkyung,yiweilyu@tamu.edu. 
+
+ground truth. IPCs are attractive because they can wrap around existing perception modules to generate uncertainty sets for safe navigation. However, existing IPC formulations instantiate uncertainty as a single ellipsoidal set and rely on deterministic trust scores to guide robot motion. This abstraction is suitable for simple outputs but fails for complex perception tasks like segmentation or point-cloud estimation, since it cannot capture the multimodal and irregular structure of fine-grained perception errors, which often results in over-conservative sets and degraded navigation performance. In this work, we introduce Gaussian Mixture-Based In-verse Perception Contract (GM-IPC), which extends IPC to represent uncertainty with unions of ellipsoidal confidence sets derived from Gaussian mixture models. This design moves beyond deterministic single-set abstractions, enabling fine-grained, multimodal, and non-convex error structures to be captured with formal guarantees. A learning framework is presented that trains GM-IPC to account for probabilistic inclusion, distribution matching, and empty-space penalties, ensuring both validity and compactness of the predicted sets. Our main contributions are: 1) We formalize the representa-tion of GM-IPC as a union of ellipsoidal confidence regions, allowing uncertainty to be expressed in multimodal and ir-regular forms beyond the limitations of single-ellipsoid IPC; 2) We propose a learning framework for training GM-IPC from perception data, together with theoretical guarantees on probabilistic coverage under mild assumptions; and 3) We demonstrate how the information encoded in GM-IPC can be exploited to inform downstream planning, enabling adaptive collision-avoidance maneuvers around obstacles of varying predicted significance during navigation. II. R ELATED WORK 
+
+A. Perception-based Safe Navigation 
+
+Perception-based navigation has become a dominant paradigm in both autonomous driving and mobile robotics. Typical pipelines combine raw sensor inputs with learned or model-based perception modules and planners, often without explicit environment modeling. In autonomous driving, com-mon perception formats include 2D images, semantic seg-mentation maps, or bird’s-eye-view feature maps extracted from multi-camera systems and LiDAR sensors (e.g., [8], [9], [10], [11]). For indoor mobile robots, point cloud–based representations are widely used, often paired with learned 3D detection or mapping modules (e.g., [12], [13], [14], [15]). VoteNet is a representative example that directly processes 3D point clouds to detect objects in cluttered indoor scenes. 
+
+> arXiv:2603.04329v1 [cs.RO] 4 Mar 2026
+
+While such pipelines achieve strong empirical performance, they generally lack formal safety guarantees. The reliability of the controller depends on the training distribution and may degrade under domain shifts, sensor noise, or occlusions [16]. This limitation poses significant risks in safety-critical set-tings such as healthcare, urban driving, or human–robot interaction. Uncertainty in perception-based navigation arises from multiple sources [6], [17]: sensor-level noise and occlusion create missing or corrupted data; model-level uncertainty emerges from limited training data, distribution shifts, and inductive biases of neural architectures. For example, con-volution assumes local spatial correlation. In navigation, a CNN may wrongly assume nearby pixels represent nearby obstacles, causing confusion in occluded scenes; task-level uncertainty stems from partial observability and temporal aliasing, where the same sensor input may correspond to multiple plausible world states. Without explicitly modeling these uncertainties, systems remain vulnerable to unsafe decision-making. 
+
+B. Uncertainty Modeling and Quantification for Perception 
+
+A central challenge in perception-based control is quan-tifying uncertainty for perception modules. PC [6], [18] and IPC [7] address this by representing perception errors with structured uncertainty sets. PC certifies that the per-ception error lies within a known bound, while IPC maps perceptual estimates directly to uncertainty sets guaranteed to contain the ground truth. These frameworks enable certified uncertainty wrappers around existing perception modules and integrate naturally with safe control synthesis. For low-dimensional outputs such as object positions, simple convex sets such as ellipsoids are typically sufficient. As perception modules advance, however, their outputs become higher-dimensional and less structured. Fine-grained perceptual outputs—such as point clouds, bounding boxes, or segmentation masks—exhibit uncertainty that is multimodal (e.g., two disjoint regions may both plausibly contain an obstacle), irregular in shape (e.g., uncertainty may follow the contour of furniture rather than a convex blob), and history-dependent (e.g., occlusions may be resolved only after multiple observations over time) [19], [20]. Single-ellipsoid modeling is either overly conservative or fails to capture true obstacle geometry, leading to unsafe maneuvers. Recent work has built high-confidence uncertainty sets within perception training or robust planning [21]. In con-trast, we propose an expressive uncertainty representation, Gaussian Mixture–based IPC, that wraps around any vision-based perception module and integrates it directly with safe planners. By modeling multimodal, irregular errors as unions of confidence ellipsoids, GM-IPC enables adaptive conser-vatism that avoids both overreaction and underestimation in navigation. III. M ETHOD 
+
+A. Problem Statement and Notation 
+
+We consider a robot navigating in an environment with obstacles detected by a perception module. Let x ∈ X denote the robot state, ˆy ∈ Y the perceptual estimate, and y ∈ Y 
+
+the unknown ground truth. In our experiment, ˆy represents a subset of all points captured by the sensor, consisting of those classified by the perception algorithm as obstacle points. The goal of an IPC is to construct a set 
+
+Aθ (x, ˆy) ⊆ Y , (1) parameterized by θ, such that with high probability 
+
+y ∈ Aθ (x, ˆy).
+
+This set acts as a safety certificate: if the planner synthe-sizes a control input that avoids Aθ (x, ˆy), then the ground-truth obstacle will also be avoided with the same probability. Classical IPCs construct Aθ as a single deterministic ellipsoid or sphere, which is too coarse to capture fine-grained perceptual uncertainty. Our goal is to design an IPC representation and training procedure that (i) better models complex error distributions, (ii) admits probabilistic coverage guarantees, and (iii) integrates naturally with downstream safe control. 
+
+B. Representing Perceptual Uncertainty with Gaussian Mix-tures 
+
+We model perception uncertainty using a Gaussian mixture model [22], [23]. Each component i ∈ {1, . . . , K } is a Gaussian distribution with mean μi and covariance Σi ≻ 0.Here, K is the number of Gaussian components used to represent the uncertainty set. In practice, we parameterize Σi
+
+as LL T -like form with softplus-positive diagonals, and add a small diagonal regularization term to ensure strict positive definiteness numerically. This induces ellipsoidal confidence regions, which we use to construct Inverse Perception Con-tracts. 
+
+Definition 1 (Ellipsoidal Confidence Region): For Yi ∼N (μi, Σi) in Rd, the ellipsoidal confidence region at level 
+
+ρ ∈ (0 , 1) is 
+
+E(μi, Σi, τ ) = {y ∈ Rd : ( y − μi)⊤Σ−1 
+
+> i
+
+(y − μi) ≤ τ }, (2) where τ = χ2 
+
+> d,ρ
+
+is the chi-square quantile. By construction, since the quadratic form (Yi −
+
+μi)⊤Σ−1 
+
+> i
+
+(Yi − μi) follows a chi-square distribution with d
+
+degrees of freedom, the ellipsoid E(μi, Σi, χ 2
+
+> d,ρ
+
+) contains the true value with probability ρ.
+
+Definition 2 (Gaussian Mixture–based IPC): Given state 
+
+x ∈ X and perceptual estimate ˆy ∈ Y , a GM-IPC is defined as 
+
+Aθ (x, ˆy) = 
+
+> K
+
+[
+
+> i=1
+
+E μi(x, ˆy), Σi(x, ˆy), χ 2
+
+> d,ρ
+
+ . (3) The IPC condition is satisfied if the ground truth y lies inside 
+
+Aθ (x, ˆy).
+
+Remark 1: Classical IPCs correspond to the special case 
+
+K = 1. GM-IPCs generalize this formulation by using unions of ellipsoids, enabling multimodal and irregular un-certainty patterns to be captured while retaining a probabilis-tic coverage interpretation. (a) (b) (c) 
+
+Fig. 1: Overview of GM-IPC. (a) Perception module: the robot camera captures the point cloud of environment, and the perception module predicts obstacle bounding boxes. Points inside the boxes are mapped to a 2D binary occupancy map. (b) IPC network: The map is processed by a convolutional encoder, with the robot state processed by an MLP. Their representations are then fused through one fusion layer, followed by 3 linear heads to produce the Gaussian parameters (c) Uncertainty sets: given a confidence value p, the boundaries of all Gaussians are extracted to cover the obstacle region. 
+
+C. Learning GM-IPC 
+
+The parameters of Aθ (x, ˆy) are learned from data so that the resulting sets cover ground-truth obstacles with high probability while remaining compact. We optimize a composite objective 
+
+L(θ) = Lincl + α L nll + β L empty , (4) where Lincl enforces probabilistic coverage, Lnll encourages component specialization, and Lempty penalizes spurious coverage of free space. Scalars α, β ≥ 0 control the trade-off. 
+
+Inclusion loss. Let the training sample at time t provide robot state xt, perceptual estimate ˆyt, and ground-truth obstacle points Vt = {y}. For each component i, define a 
+
+soft membership function 
+
+qi : Rd → (0 , 1) ,qi(y) = σ χ2 
+
+> d,ρ
+
+− (y − μi)⊤Σ−1 
+
+> i
+
+(y − μi)
+
+s
+
+!
+
+, (5) where σ(·) is the logistic function and s > 0 is a fixed smoothing scale. The weighted probability that y is covered by at least one component is 
+
+pcover (y) = 1 − exp 
+
+> K
+
+X
+
+> i=1
+
+wi log  1 − qi(y)!
+
+= 1 −
+
+> K
+
+Y
+
+> i=1
+
+ 1 − qi(y)wi
+
+.
+
+(6) The inclusion loss is then 
+
+Lincl (θ; xt, ˆyt, Vt) = − 1
+
+|V t|
+
+X
+
+> y∈V t
+
+log pcover (y). (7) Using − log u ≥ 1 − u for u ∈ (0 , 1] , this directly upper-bounds the miscoverage probability: 
+
+E1{y / ∈ Aθ (xt, ˆyt)} ≤ E − log pcover (y). (8) For reference, the ideal non-smooth formulation uses hard set indicators 1{y ∈ Ei} with Ei = E(μi, Σi, χ 2
+
+> d,ρ
+
+):
+
+p⋆
+
+> cover
+
+(y) = 1 −
+
+> K
+
+Y
+
+> i=1
+
+ 1 − 1{y ∈ Ei},L⋆
+
+> incl
+
+(θ; xt, ˆyt, Vt) = − 1
+
+|V t|
+
+X
+
+> y∈V t
+
+log p⋆
+
+> cover
+
+(y).
+
+(9) Because hard membership and the resulting OR over components are non-differentiable, we optimize the smooth surrogate in (5)–(6), which remains differentiable while still controlling miscoverage via an upper bound. 
+
+Distribution-matching loss. To promote non-redundant components that specialize to different regions, we fit ground-truth points under the Gaussian mixture: 
+
+Lnll (θ; Vt) = − 1
+
+|V t|
+
+X
+
+> y∈V t
+
+log 
+
+> K
+
+X
+
+> i=1
+
+wi N y μi, Σi
+
+!
+
+. (10) 
+
+Empty-space penalty. To discourage ellipsoids from ex-tending into unsupported regions, we penalize coverage of free-space cells. Let Ω be a workspace discretization and 
+
+Ωneg ⊂ Ω the cells known to be obstacle-free. For cell 
+
+c, define per-component soft membership pi(c) analogously to qi(·) (e.g., by evaluating at the cell center). The union probability over the mixture is 
+
+punion (c) = 1 −
+
+> K
+
+Y
+
+> i=1
+
+ 1 − pi(c), (11) and the empty-space penalty is 
+
+Lempty (θ; Ω neg ) = 1
+
+|Ωneg |
+
+X
+
+> c∈Ωneg
+
+ϕ punion (c), (12) where ϕ(·) is a weighting that emphasizes boundary or hard negatives (e.g., focal-style weighting). In implementation, we parameterize GM-IPC with alightweight network that fuses perception and state (see Fig. 1). Filtered point clouds are rasterized into a fixed-resolution occupancy map and encoded via a shallow con-volutional encoder; the robot state xt is embedded with a small MLP. Fused features feed three linear heads that output 
+
+{μi}Ki=1 , {Σi}Ki=1 (parameterized to ensure Σi ≻ 0), and 
+
+{wi}Ki=1 (normalized to range (0 , 1] ). 
+
+D. Theoretical Guarantees 
+
+We state generalization guarantees at the trial level and connect them to probabilistic coverage. 
+
+Setup. Let a trial be Z = (x1: T , ˆy1: T , V1: T ). Trials 
+
+{Zm}Mm=1 are generated by randomizing the environment (e.g., obstacle placement and start/goal) and then running a fixed controller; thus, Zm are i.i.d. — that is, each trial 
+
+Zm is generated independently under identical experimental conditions and follows the same underlying distribution, even though samples within a trial are temporally correlated. R(θ)
+
+denotes the expected trial-level risk under the data-generating distribution, while ˆRM (θ) is its empirical estimate computed as the average loss over M i.i.d. trials. Define 
+
+Ltrial (θ; Z) = 1
+
+T
+
+> T
+
+X
+
+> t=1
+
+Lincl (θ; xt, ˆyt, Vt), (13) 
+
+R(θ) = E[ Ltrial ], ˆRM (θ) = 1
+
+M
+
+> M
+
+X
+
+> m=1
+
+Ltrial (θ; Zm). (14) 
+
+From empirical loss to coverage. Section III.C established inequality 8, which upper-bounds the (stepwise) miscoverage by the inclusion loss. Averaging over t shows that controlling 
+
+Ltrial controls the trial-averaged miscoverage rate. 
+
+Lemma 1 (PAC generalization bound over trials): Let 
+
+F = {Z 7 → Ltrial (θ; Z) : θ ∈ Θ} ⊂ [0 , 1] have pseudo-dimension P < ∞.1 For any δ ∈ (0 , 1) , with probability at least 1 − δ over M i.i.d. trials, the original PAC generalization bound [24], [25] gives 
+
+R(θ) ≤ ˆRM (θ) + 
+
+r ln(1 /δ )2M . (15) Moreover, according to PAC theory based on uniform con-vergence with empirical Rademacher complexity, 
+
+R(θ) ≤ ˆRM (θ) + 2 RM (F) + 
+
+r ln(1 /δ )2M , (16) where RM (F) is the empirical Rademacher complexity. Furthermore, RM (F) ≤ CpP/M for a universal constant 
+
+C, yielding 
+
+R(θ) ≤ ˆRM (θ) + O
+
+q P +ln(1 /δ )
+
+> M
+
+
+
+. (17) Combining (5) with Lemma 1 implies that, with probabil-ity at least 1 − δ, a small empirical inclusion loss leads to a small true miscoverage rate, provided the hypothesis class has bounded complexity.          
+
+> 1Clipping Lincl to [0 ,1] is standard to ensure Ltrial ∈[0 ,1] ; constants adjust accordingly.
+
+Remark 2: (1) Trials are treated as i.i.d. draws even though samples within a trial are temporally correlated; the learning guarantees apply at the trial level. (2) Lemma 1 
+
+provides the generalization bound that controls the realized miscoverage under the data-generating process. 
+
+Corollary 1 (Consistency of ERM [25] for GM-IPC): 
+
+Let ˆθM ∈ arg min θ∈Θ ˆRM (θ) be any empirical risk minimizer for the trial loss Ltrial . If the uniform convergence in Lemma 1 holds and the population risk R(θ) has a unique minimizer θ⋆, then 
+
+R(ˆθM ) P
+
+−−−−→  
+
+> M→∞
+
+R(θ⋆). (18) If the model is well specified (there exists θ† achieving the target coverage), then R(θ⋆) = R(θ†); otherwise, R(θ⋆) is the best-in-class risk over Θ.
+
+Proof: Lemma 1 implies sup θ∈Θ |R(θ) − ˆRM (θ)| → 0
+
+in probability. The inequalities below follow from uniform convergence, implying that minimizing ˆRM yields a solution whose population risk is close to optimal. For any ε > 0,with high probability and large M ,
+
+R(ˆθM ) ≤ ˆRM (ˆθM ) + ε ≤ ˆRM (θ⋆) + ε ≤ R(θ⋆) + 2 ε, (19) hence R(ˆθM ) → R(θ⋆) in probability. 
+
+Remark 3: Corollary 1 establishes statistical consistency of ERM, but does not guarantee convergence of the noncon-vex training algorithm; in practice, we rely on approximate ERM via stochastic optimization. 
+
+E. Navigation Pipeline 
+
+Safe navigation requires explicit constraints that guarantee the robot will not enter obstacle regions predicted by the perception stack. Control Barrier Functions (CBFs [26]) provide such constraints by enforcing forward invariance of a safety set along the system dynamics. In our pipeline, the GM-IPC supplies a collection of ellipsoidal obstacle sets, which we convert into CBFs and embed in a model predictive controller. 
+
+From Ellipsoids to Barrier Functions. Given a Gaussian component with mean μk ∈ R2 and covariance Σk ∈ R2×2,we form a ρ confidence ellipsoid (we choose ρ = 95% em-pirically) to represent the obstacle set seen by the controller. Let Σk = V ΛV ⊤ with eigenvalues λmax , λ min and principal eigenvector [v11 , v 21 ]⊤. With χ2 = χ22,0.95 = 5 .991 , the semi-axes and orientation are 
+
+ak = pλmax χ2, bk = pλmin χ2, θk = arctan 2( v21 , v 11 ).
+
+Let (xc, y c) be the ellipsoid center. The associated barrier function 
+
+hk(x) = 1 −
+
+ ˜xak
+
+2
+
+−
+
+ ˜ybk
+
+2
+
+,
+
+˜x
+
+˜y
+
+
+
+= R(−θk)
+
+x − xc
+
+y − yc
+
+
+
+,
+
+(20) satisfies hk(x) ≥ 0 outside the ellipsoid and hk(x) = 0 
+
+on its boundary. Enforcing a discrete-time CBF condition on hk yields forward invariance of the safe set, which is precisely the property needed for obstacle avoidance under time-varying perception. Fig. 2: Overview of navigation pipeline. At each time step, raw sensor readings P t are processed by the perception module to produce perceptual estimates ˆyt. The IPC network then generates a Gaussian Mixture uncertainty set, which is passed to the MPC-CBF planner to compute a sequence of safe future states (ph, vh)Hh=1 . The first control output is applied to the robot, and the process repeats at the next time step. White blocks denote intermediate results, while gray blocks represent modules. 
+
+Perception-IPC Interface. At time t, the perception stack provides an occupancy representation Mt and the robot state is xt. The IPC network maps (Mt, x t) to a Gaussian mixture 
+
+{(μk, Σk, w k)}Kk=1 , with μk ∈ R2 and Σk ∈ R2×2. Each 
+
+(μk, Σk) induces a 95% confidence ellipsoid via χ22,0.95 and the barrier function hk(x) in (20). These barriers are updated online and used in the MPC-CBF( [27]) problem (21). 
+
+Safe Planning via MPC-CBF. To leverage formal forward invariance properties with the probabilistic safety regions characterized by GM-IPC, we adopt the MPC-CBF formula-tion from [27] and incorporate the CBF constraints of all ellipsoids into the predictive optimization. At time t, the controller solves 
+
+J∗ 
+
+> t
+
+(xt) = min  
+
+> ut:t+N−1|t
+
+p(xt+N |t) +  
+
+> N−1
+
+X
+
+> k=0
+
+q(xt+k|t, u t+k|t)
+
+s.t. xt+k+1 |t = xt+k|t + ut+k|t∆t, xt+k|t ∈ X , u t+k|t ∈ U ,xt|t = xt, xt+N |t ∈ X f ,
+
+∆h(xt+k|t, u t+k|t) ≥ − γ h (xt+k|t),
+
+(21) where ∆h(x, u ) = h(x+) − h(x) is the discrete-time CBF condition and γ ∈ (0 , 1] is a relaxation parameter. Em-bedding (20) into (21) enforces forward invariance of the complement of each predicted ellipsoid, thereby guaranteeing obstacle avoidance consistent with the IPC. To adapt conservativeness to perception quality, we use an adaptive relaxation γad . First compute a confidence-weighted average 
+
+¯ρ = X
+
+> i∈O
+
+wdist  
+
+> i
+
+ρi
+
+P 
+
+> j∈O
+
+wdist  
+
+> j
+
+ρj
+
+, wdist  
+
+> i
+
+= 1
+
+∥x − xc,i ∥ + ϵ , (22) where x ∈ R2 is the robot position, wdist  
+
+> i
+
+is an inverse-distance weight ( ϵ > 0), and ρi is the normalized confidence for obstacle i. The adaptive relaxation is 
+
+γad = γmin + ( γmax − γmin ) · ¯ρ − ρmin 
+
+ρmax − ρmin 
+
+, (23) with γmin , γ max ∈ (0 , 1] user-defined and ρmin , ρ max the minimum/maximum confidence levels. When ¯ρ is small (nearby obstacles with low confidence dominate), γad →
+
+γmin , tightening the constraint ∆h ≥ − γad h and enlarging the effective safety margin. When obstacles are distant and ρi
+
+is high, ¯ρ increases and γad → γmax , relaxing the constraint and allowing more efficient motion. 
+
+Execution and Iteration. The first control input from (21) is applied, the robot transitions to the next state, and the cycle repeats with updated perception, IPC estimates, and CBFs. IV. E XPERIMENTS 
+
+We evaluate GM-IPC on (i) validity and compactness of learned uncertainty sets and (ii) utility for online navigation 
+
+with MPC-CBF controller. 
+
+A. Setup and Protocol 
+
+Simulation environment and robot: All experiments are run in Isaac Sim Simulator with the Nova Carter platform and a depth camera that provides point clouds in the camera frame. 
+
+Data generation: Scenes are randomized for each trial, with variations in start/goal locations, obstacle configurations, and object instances. Point clouds are streamed at each step; the pipeline in Sec. III produces ellipsoids used by the controller. 
+
+Training protocol: Models are trained on randomized trials separate from evaluation scenes. Unless noted, the maxi-mum number of ellipsoids is Kmax =5 (single-object) and 
+
+Kmax =7 (multi-object); loss weights are fixed to (α, β ) as in Sec. III C. We use Adam, batch size 16, learning rate 
+
+1e −3 with cosine decay, and early stopping on validation inclusion loss. 
+
+B. Scenarios 
+
+We consider four indoor navigation scenarios of increasing geometric complexity, with a fixed arena size:  
+
+> •
+
+Single chair (simple): compact geometry, typically well-approximated by one ellipsoid.  
+
+> •
+
+Single L-shaped sofa (moderate): non-convex foot-print, challenging for single-ellipsoid coverage.  
+
+> •
+
+Multiple sofas (hard): several instances of a complex shape.  
+
+> •
+
+Mixed objects (challenging): one sofa + one chair (heterogeneous shapes). Each scenario is evaluated over 20 i.i.d. trials with random-ized start/goal configurations and obstacle placement. 
+
+C. Metrics 
+
+Inclusion rate: Fraction of ground-truth obstacle points inside the union of 95% ellipsoids per step; we also report 
+
+stepwise validity (percentage of steps with ≥ 95% inclusion). 
+
+Compactness: Inclusion normalized by set size: # of ground-truth points inside the union divided by the union area. The union area is estimated by Monte Carlo method ([28]). TABLE I: Validity of IPC models.                                                                                  
+
+> Scenario Model Mean Inclusion Rate % Steps ≥95% Compactness Final All Final All Final ( μ±σ)Chair GMM 1.000 0.999 100.0 99.8 9.52 ±0.46
+> Ellip 0.999 0.989 100.0 96.6 11.74 ±0.35
+> Sofa GMM 0.997 0.993 100.0 97.8 10.50 ±1.00
+> Ellip 0.994 0.988 96.7 93.7 9.48 ±0.39
+> Multi Sofa GMM 0.999 0.998 100.0 99.0 5.58 ±0.30
+> Ellip-1 0.990 0.989 100.0 97.9 4.05 ±0.45
+> Ellip-2 0.999 0.997 100.0 99.4 4.60 ±0.22
+> Mixed GMM 0.996 0.995 100.0 98.3 7.35 ±0.48
+> Ellip-1 0.983 0.984 90.0 90.9 4.87 ±0.68
+> Ellip-2 0.995 0.992 96.7 97.3 6.25 ±0.34
+
+Navigation performance: We report the number of con-trol steps, path length, path efficiency (ratio between the Euclidean start–goal distance and the actual path length, notated as Eff. in Table. IV), average control time (mean computation time per control command, Ctrl.), and success rate (percentage of trials reaching the goal without collision, Succ.). 
+
+Baselines: Single-ellipsoid IPC with identical training and planner with K=1 and K=2 .
+
+Ablations: Vary loss function by (i) removing Lnll or (ii) removing Lempty .
+
+D. Validity of GM-IPC 
+
+We evaluate validity in closed-loop rollouts across four scenarios. In Table I, we record stepwise validity as the percentage of steps in which at least 95% of ground-truth (GT) obstacle points are covered by at least one ellipsoid. The inclusion rate is defined as the ratio of covered GT points to total GT points. Compactness is the inclusion rate normalized by the union area (estimated via Monte Carlo sampling). We use Ellip-1 and Ellip-2 to denote the baseline ellipsoid-based IPC models with non-adaptive deterministic boundaries. For multi-obstacle case, Ellip-2 (two ellipsoids, one per obstacle) is included as an additional baseline. As a proof of concept, Fig. 2 shows that GM-IPC adapts the number of active components: in the single-sofa case, two to three ellipsoids suffice for high compactness, while remaining components are automatically shrunk and assigned negligible weights, limiting their influence during navigation. Table I indicates that GM-IPC achieves near-perfect final inclusion and high stepwise validity across all scenarios. In the Chair and Sofa cases, coverage is reliably maintained. In Multi-Sofa and Mixed scenes, inclusion remains very high while compactness decreases, reflecting the challenge of covering disjoint or heterogeneous shapes with a finite number of components; nevertheless, validity remains strong. Overall, empirical miscoverage is rare: ≥ 97% steps meet or exceed the ≥ 95% requirement. The compactness trend aligns with intuition: simpler convex objects admit larger, more conservative ellipsoids, whereas multiple or irregular objects require tighter, more fragmented coverings. 
+
+Ablation Study. To demonstrate the effect of the regulariza-tion loss terms, we conducted an ablation study on the single-sofa case by removing (i) the NLL term (see Eq. 10) or (ii) the empty penalty term (see Eq. 12), while keeping all other training configurations identical and performing inference on the same test set. As shown in Fig. 3, when the empty-penalty term is removed, the IPC network tends to predict large, low-weight ellipsoids, which may cause the navigation to take inefficient detours. When the NLL term is removed, the predicted ellipsoids often overlap excessively and fail to fully cover the ground-truth region. TABLE II: Ablation study on loss functions.                                 
+
+> Loss Function Mean Inclusion Rate % Steps ≥95% Compactness Final All Final All Final ( μ±σ)Full 0.997 0.993 100.0 97.8 10.50 ±1.00 No Empty Penalty 1.0 1.0 100.0 100.0 1.00 ±0.00 No NLL 0.997 0.993 100.0 97.0 9.43 ±0.64
+
+(a) (b) (c) 
+
+Fig. 3: Ablation study on the loss function in the single-sofa case. (a) full loss function, (b) without the empty penalty term, and (c) without the NLL term. 
+
+E. Comparison with Ellipsoid-based IPC 
+
+We compare GM-IPC to single-ellipsoid IPC along two axes: (i) compactness at matched coverage and (ii) confi-dence at matched set size (equal union area of ellipsoids). From Table I, we observe that GM-IPC achieves higher mean inclusion rates than the baseline across all four sce-narios. Compactness gains are most pronounced as scene complexity increases. In the single-sofa case, compactness is slightly lower, likely due to the difficulty of training the network to align five distinct components compactly, compared to fitting a single near-spherical ellipsoid. To further assess confidence, we compare GM-IPC and Ellip-IPC under the same union area. Given a fixed target size S which is near the ground-truth area, we select a confidence level to define the ellipsoidal boundary, compute the resulting Gaussian union area, and adjust the confidence level so that the union size equals S. Intuitively, a higher solved confidence for the same allowed area indicates greater statistical certainty of covering ground-truth points. Across all scenarios (see Table III), GM-IPC consistently attains higher solved confidence than Ellip-IPC, indicating more reliable coverage for a given set size. 
+
+F. Application in Navigation 
+
+To demonstrate the contribution of GM-IPC’s compact fitting ability to safe navigation, we conducted experiments in multi-object scenarios (two sofas, and mixed obstacles, i.e. one chair plus one sofa) with active online navigation. The overall navigation pipeline is described in Section III-E. Scenario Ellip-IPC GM-IPC         
+
+> Mixed 0.817 0.982 Two sofas 0.773 0.935 Single sofa 0.953 0.990 Single chair 0.894 0.929
+
+TABLE III: Average solved confidence level under equal union area of ellipsoids (30 trials per scenario; aggregated across steps).   
+
+> (a) (b)
+> (c) (d)
+
+Fig. 4: Coverage under equal union area of ellipsoids: (a) GMM single-sofa, (b) Ellipsoid single-sofa, (c) GMM multi-sofa, (d) Ellipsoid multi-sofa. For each scenario, we ran 50 independent trials, ran-domizing the start and goal positions as well as the obsta-cle poses. The start and goal positions were chosen near the ±5.0 boundary of the environment to ensure that the robot traversed sufficiently long trajectories. This setting both increases the difficulty of obstacle-avoidance tasks and guarantees complete data collection. During each trial, we recorded the navigation success rate (defined as reaching the goal without collision within the 500 steps), the total number of steps, the trajectory length, and the path efficiency. Path efficiency is computed as the ratio between the Euclidean distance from start to goal and the actual trajectory length. Among these metrics, success rate reflects the safety guarantee, while total steps and path efficiency quantify the efficiency benefits of GM modeling (see Table IV). From Table IV, we can tell that GM-IPC outperforms in both scenarios in all metrics. This shows that Gaussian mixture modeling of uncertainty sets provides not only more compact and efficient uncertainty sets, but also safer guidance for obstacle avoidance. From Figure 5, 2 typical cases illustrate where GMM-IPC TABLE IV: Navigation evaluation results across scenarios (50 trials each).                                       
+
+> Scenario Model Steps Len Eff. Ctrl Succ. Mixed Ellip-1 434.2 12.69 0.90 0.18 0.76 Ellip-2 408.3 11.95 0.95 0.12 0.70 GMM 403.1 11.62 0.97 0.12 0.88
+> Multi Sofa Ellip-1 440.0 12.79 0.89 0.22 0.74 Ellip-2 412.4 12.08 0.94 0.13 0.86 GMM 397.2 11.42 0.99 0.13 0.90
+
+provides stronger navigation support. In the top row, when only a narrow gap exists between two obstacles, the ellipsoid-based IPC is overly conservative: although passing through the gap is the most effective path, the robot is forced to detour, whereas GM-IPC’s compact representation enables it to follow a more efficient trajectory. In the bottom row, the limited expressive power of a single ellipsoid often fails to fully cover the ground-truth obstacle region where there are fewer perceived points. In contrast, GM-IPC employs multiple ellipsoids to capture different possible obstacle configurations, including those hidden in the camera’s blind spots. Thus, regions poorly covered by perceived points are still better represented than with ellipsoid-based IPC, demonstrating GM-IPC’s greater robustness under unstable perception. V. C ONCLUSION 
+
+We presented GM-IPC , a probabilistic extension of Inverse Perception Contracts that represents fine-grained perception uncertainty as a union of confidence ellipsoids induced by a Gaussian mixture. The formulation retains a formal coverage interpretation, and the learning objective couples an inclusion-driven term with regularizers for specialization and compactness. At the trial level, a PAC-style generalization bound links empirical inclusion loss to true miscoverage, and a consistency corollary shows that empirical risk minimiza-tion attains optimal population risk within the hypothesis class. We integrated GM-IPC with an MPC-CBF planner by converting mixture components into barrier functions and adapting constraint tightness to the predicted significance of obstacle regions. Experiments in simulated indoor naviga-tion demonstrate that GM-IPC produces valid and compact uncertainty sets across scenes of varying complexity, often activating only the components needed for coverage. Relative to single-ellipsoid IPC, GM-IPC achieves comparable or higher inclusion and stepwise validity, higher solved con-fidence under equal union area, and improved compactness in multi-object and heterogeneous scenarios, enabling less conservative and more adaptive motion while maintaining probabilistic safety. While GM-IPC models spatially structured, multimodal uncertainty, the reliance on a fixed maximum number of Gaussian components may limit scalability in more complex scenes. Future work will investigate adaptive component selection and more efficient uncertainty representations that balance expressiveness with real-time performance. (a) (b) 
+
+(c) (d) 
+
+(e) (f) 
+
+Fig. 5: Navigation trajectories in multi-object scenarios using IPC. Yellow regions indicate the ground-truth obstacles, and blue points are the observations from the perception module. (a, e) Two-sofa case with GM-IPC, (b) Two-sofa case with Ellip-IPC, (c, f) Mixed case with GM-IPC, (d) Mixed case with Ellip-IPC. REFERENCES [1] S. Dean, N. Matni, B. Recht, and V. Ye, “Robust guarantees for perception-based control,” in Learning for Dynamics and Control .PMLR, 2020, pp. 350–360. [2] W. Shao, J. Xu, Z. Cao, H. Wang, and J. Li, “Uncertainty-aware predic-tion and application in planning for autonomous driving: Definitions, methods, and comparison,” arXiv preprint arXiv:2403.02297 , 2024. [3] J. Berberich and F. Allg¨ ower, “An overview of systems-theoretic guarantees in data-driven model predictive control,” Annual Review of Control, Robotics, and Autonomous Systems , vol. 8, no. 1, pp. 77– 100, 2025. [4] C. Guo, G. Pleiss, Y. Sun, and K. Q. Weinberger, “On calibration of modern neural networks,” in International conference on machine learning . PMLR, 2017, pp. 1321–1330. [5] M. Fontana, G. Zeni, and S. Vantini, “Conformal prediction: a unified review of theory and new challenges,” Bernoulli , vol. 29, no. 1, pp. 1–23, 2023. [6] C. Hsieh, Y. Li, D. Sun, K. Joshi, S. Misailovic, and S. Mitra, “Verifying controllers with vision-based perception using safe approx-imate abstractions,” IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems , vol. 41, no. 11, pp. 4205–4216, 2022. [7] D. Sun, B. C. Yang, and S. Mitra, “Learning-based inverse perception contracts and applications,” in IEEE International Conference on Robotics and Automation (ICRA) . IEEE, 2024, pp. 11 612–11 618. [8] H. Caesar, V. Bankiti, A. H. Lang, and et al., “nuscenes: A multi-modal dataset for autonomous driving,” in IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2020, pp. 11 621– 11 631. [9] A. H. Lang, S. Vora, H. Caesar, L. Zhou, J. Yang, and O. Beijbom, “Pointpillars: Fast encoders for object detection from point clouds,” in 
+
+IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2019, pp. 12 689–12 697. [10] J. Philion and S. Fidler, “Lift, splat, shoot: Encoding images from arbitrary camera rigs by implicitly unprojecting to 3d,” in European Conference on Computer Vision (ECCV) , 2020. [11] J. Janai, F. G¨ uney, A. Behl, and A. Geiger, “Computer vision for autonomous vehicles: Problems, datasets and state-of-the-art,” Inter-national Journal of Computer Vision , vol. 128, no. 2, pp. 693–742, 2020. [12] Y. Wang, W.-L. Chao, D. Garg, B. Hariharan, M. Campbell, and K. Q. Weinberger, “Pseudo-lidar from visual depth estimation: Bridging the gap in 3d object detection for autonomous driving,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition ,2019, pp. 8445–8453. [13] C. R. Qi, O. Litany, K. He, and L. J. Guibas, “Deep hough voting for 3d object detection in point clouds,” in Proc. of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) ,2019, pp. 9277–9286. [14] Z. Liu, Z. Zhang, Y. Cao, H. Hu, and X. Tong, “Group-free 3d object detection via transformers,” in Proceedings of the IEEE/CVF international conference on computer vision , 2021, pp. 2949–2958. [15] Y. Yang, X. Wu, T. He, H. Zhao, and X. Liu, “Sam3d: Segment anything in 3d scenes,” arXiv preprint arXiv:2306.03908 , 2023. [16] L. Lindemann, M. Cleaveland, Y. Kantaros, and G. J. Pappas, “Robust motion planning in the presence of estimation uncertainty,” in IEEE Conference on Decision and Control (CDC) . IEEE, 2021, pp. 5205– 5212. [17] A. Khazraei, H. Pfister, and M. Pajic, “Resiliency of perception-based controllers against attacks,” in Learning for Dynamics and Control Conference . PMLR, 2022, pp. 713–725. [18] A. Astorga, C. Hsieh, P. Madhusudan, and S. Mitra, “Perception contracts for safety of ml-enabled systems,” Proceedings of the ACM on Programming Languages , vol. 7, no. OOPSLA2, pp. 2196–2223, 2023. [19] L. Chen, J. Wang, T. Mortlock, P. Khargonekar, and M. A. Al Faruque, “Hyperdimensional uncertainty quantification for multimodal uncer-tainty fusion in autonomous vehicles perception,” in Proceedings of the Computer Vision and Pattern Recognition Conference , 2025, pp. 22 306–22 316. [20] T. Sur, S. Mukherjee, K. Rahaman, S. Chaudhuri, M. H. Khan, and B. Banerjee, “Hyperbolic uncertainty-aware few-shot incremental point cloud segmentation,” in Proceedings of the Computer Vision and Pattern Recognition Conference , 2025, pp. 11 810–11 821. [21] K. Ren, C. Chen, H. Sung, H. Ahn, I. M. Mitchell, and M. Kam-garpour, “Recursively feasible chance-constrained model predictive control under gaussian mixture model uncertainty,” IEEE Transactions on Control Systems Technology , 2024. [22] A. P. Dempster, N. M. Laird, and D. B. Rubin, “Maximum likelihood from incomplete data via the em algorithm,” Journal of the royal statistical society: series B (methodological) , vol. 39, no. 1, pp. 1– 22, 1977. [23] C. M. Bishop and N. M. Nasrabadi, Pattern recognition and machine learning . Springer, 2006, vol. 4, no. 4. [24] P. L. Bartlett and S. Mendelson, “Rademacher and gaussian complexi-ties: Risk bounds and structural results,” Journal of Machine Learning Research , vol. 3, pp. 463–482, 2002. [25] S. Shalev-Shwartz and S. Ben-David, Understanding Machine Learn-ing: From Theory to Algorithms . Cambridge University Press, 2014. [26] A. D. Ames, S. Coogan, M. Egerstedt, G. Notomista, K. Sreenath, and P. Tabuada, “Control barrier functions: Theory and applications,” in European Control Conference (ECC) . Ieee, 2019, pp. 3420–3431. [27] J. Zeng, B. Zhang, and K. Sreenath, “Safety-critical model predictive control with discrete-time control barrier function,” in American Control Conference (ACC) , 2021, pp. 3882–3889. [28] D. P. Kroese, T. Taimre, and Z. I. Botev, Handbook of monte carlo methods . John Wiley & Sons, 2013.

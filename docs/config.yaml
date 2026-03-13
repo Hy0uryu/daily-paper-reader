@@ -25,3 +25,42 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: HR ROB
+      description: 人形机器人运动规划、感知与全身操作相关论文检索
+      enabled: true
+      keywords:
+        - keyword: humanoid robot
+          keyword_cn: 人形机器人
+          query: humanoid robot research and development
+        - keyword: robot perception
+          keyword_cn: 机器人感知
+          query: environmental perception and sensing for robots
+        - keyword: loco-manipulation
+          keyword_cn: 移动操作
+          query: integrated locomotion and manipulation for humanoids
+        - keyword: whole-body control
+          keyword_cn: 全身控制
+          query: whole-body control frameworks for humanoid robots
+      intent_queries:
+        - query: state of the art in humanoid robot motion planning and control
+          query_cn: 人形机器人运动规划与控制的最新进展
+          enabled: true
+          source: manual
+          note: ''
+        - query: advancements in humanoid robot perception and environmental mapping
+          query_cn: 人形机器人感知与环境建模的进展
+          enabled: true
+          source: manual
+          note: ''
+        - query: coordinated locomotion and manipulation strategies for humanoid robots
+          query_cn: 人形机器人协同移动与操作策略
+          enabled: true
+          source: manual
+          note: ''
+        - query: whole body motion planning for complex humanoid tasks
+          query_cn: 复杂任务下的人形机器人全身运动规划
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-03-10T15:40:59.041Z'
