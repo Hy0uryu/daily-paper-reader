@@ -1,0 +1,149 @@
+Title: Low-Cost Teleoperation Extension for Mobile Manipulators
+
+URL Source: https://arxiv.org/pdf/2603.07672v1
+
+Published Time: Tue, 10 Mar 2026 01:22:03 GMT
+
+Number of Pages: 5
+
+Markdown Content:
+# Low-Cost Teleoperation Extension for Mobile Manipulators 
+
+# Danil Belov ∗
+
+Research Center for Digital Engineering and Innovation Moscow, Russia d.belov@rcdei.com 
+
+# Artem Erkhov ∗
+
+Research Center for Digital Engineering and Innovation Moscow, Russia a.erkhov@rcdei.com 
+
+# Yaroslav Savotin 
+
+Research Center for Digital Engineering and Innovation Moscow, Russia y.savotin@rcdei.com 
+
+# Tatiana Podladchikova 
+
+Research Center for Digital Engineering and Innovation Moscow, Russia t.podladchikova@rcdei.com 
+
+# Pavel Osinenko 
+
+Research Center for Digital Engineering and Innovation Moscow, Russia p.osinenko@rcdei.com 
+
+## Abstract 
+
+Teleoperation of mobile bimanual manipulators requires simulta-neous control of high-dimensional systems, often necessitating ex-pensive specialized equipment. We present an open-source teleop-eration framework that enables intuitive whole-body control us-ing readily available commodity hardware. Our system combines smartphone-based head tracking for camera control, leader arms for bilateral manipulation, and foot pedals for hands-free base nav-igation. Using a standard smartphone with IMU and display, we eliminate the need for costly VR helmets while maintaining immer-sive visual feedback. The modular architecture integrates seam-lessly with the XLeRobot framework, but can be easily adapted to other types of mobile manipulators. We validate our approach through user studies that demonstrate improved task performance and reduced cognitive load compared to keyboard-based control. 
+
+## Keywords 
+
+Teleoperation, Mobile Manipulation, Accessible Robotics, Low-Cost Systems 
+
+## 1 Introduction 
+
+Mobile manipulators combine mobility with dexterity, enabling robots to navigate environments while performing manipulation tasks. However, effectively controlling these high-dimensional sys-tems remains challenging, as operators must simultaneously coor-dinate base locomotion, arm movements, and camera orientation across numerous degrees of freedom. Existing teleoperation solutions face fundamental trade-offs. High-end systems using VR headsets and motion capture provide immersive control but require expensive specialized hardware, cre-ating barriers for research groups. More affordable keyboard-based interfaces offer discrete control that conflicts with natural manipu-lation, forcing operators to mentally translate desired motions into sequences of key presses while their hands are occupied with input devices. We address these limitations by leveraging commodity hard-ware: smartphones for head tracking and visual feedback and foot pedals for hands-free base navigation. The smartphone serves dual purposes—its IMU tracks head orientation while its display pro-vides immersive visual feedback—eliminating the need for costly 
+
+> ∗*These authors contributed equally to this work. Я
+> Google
+> Cardboard
+> Leader
+> Hands
+> Custom
+> Pedals
+> Server
+
+(a) Teleoperation Setup. (b) Mobile robot. 
+
+Figure 1: Manipulation system components. 
+
+VR equipment. Foot pedals free the hands for manipulation, creat-ing clear separation between navigation and manipulation control. Built on the LeRobot framework [2], our system provides seam-less integration for real-world data collection and policy training. Through user studies, we demonstrate improved task performance and reduced cognitive load compared to keyboard-based control. Our contributions include: (1) A complete open-source teleoperation framework combin-ing smartphone-based head control with adaptive visual feedback, two arm manipulation, and pedal-based naviga-tion (2) Empirical validation that demonstrate improved perfor-mance and reduced cognitive load compared to baseline approaches (3) Integration with LeRobot supporting real-world deploy-ment and simulation-based development The complete system implementation is available at https:// github.com/HRI2026LBR/xlerobot-teleop. 
+
+> arXiv:2603.07672v1 [cs.RO] 8 Mar 2026 Danil Belov, Artem Erkhov, Yaroslav Savotin, Tatiana Podladchikova, and Pavel Osinenko
+
+## 2 Related Works 
+
+Teleoperation of mobile manipulators has been extensively stud-ied, with various approaches addressing the challenges of simulta-neous control of multiple degrees of freedom. Research in human factors and ergonomics has demonstrated that simultaneous con-trol of multiple degrees of freedom creates significant cognitive burden [8], and interfaces requiring constant modality switching lead to decreased performance and mental fatigue. This aligns with findings from Wizard of Oz interfaces in HRI research [1], which emphasize the importance of seamless, intuitive control for effec-tive human-robot interaction. This section reviews the evolution of teleoperation interfaces and highlights the remaining challenges that motivate our approach. Early approaches to whole-body teleoperation emphasized physical coupling between operator and robot. Mobile ALOHA [6] enables natural coordination by physically tethering the operator to directly backdrive the base wheels while puppeteering the ma-nipulators. This approach achieves intuitive motion mapping but sacrifices remote operation capabilities and causes operator fatigue during extended use. To enable remote control, researchers turned to head-based in-terfaces. Padmanabha et al. [11] introduced a head-worn IMU em-bedded in a baseball cap, mapping head orientation to velocity com-mands for base, arm, and end-effector. While providing accessibil-ity and remote operation, this approach requires frequent calibra-tion and suffers from drift due to limited sensor fusion capabilities. Building on head-based control, VR systems [3], [5], [7] enhance spatial perception through stereoscopic video streaming and active camera control that follows operator head movements. These im-mersive interfaces improve manipulation precision but introduce significant cost barriers through specialized VR hardware require-ments. Recognizing the limitations of single-modality interfaces, mod-ular frameworks emerged to unify multiple input devices. Tele-MoMa [4] integrates RGB-D cameras, VR controllers, key-boards, and joysticks within a flexible architecture, while Sketch-MoMa [12] explores vision-language interpretation of hand-drawn sketches for task generation. These multimodal approaches lower entry barriers but often compromise precision or introduce pro-cessing latency that conflicts with real-time manipulation require-ments. As an alternative to requiring simultaneous control of all de-grees of freedom, automation-based approaches delegate naviga-tion to reduce operator burden. Honerkamp et al. [10] present MoMa-Teleop, where base motion is handled by a pre-trained rein-forcement learning agent while the operator focuses solely on end-effector control. This significantly reduces cognitive load but re-quires extensive pre-training and limits flexibility for non-standard scenarios. Despite this evolution from physical tethering to head inter-faces, VR systems, modular frameworks, and automation-assisted control, a fundamental challenge remains: enabling simultaneous, intuitive control of arms, head, and base using affordable hardware without compromising precision or requiring extensive training. Existing systems face inherent trade-offs between cost and capa-bility, between physical presence and remote operation, and be-tween automation and flexibility. The challenge of coordinating multiple control inputs—manipulator arms, active camera system, and mobile base—continues to create high cognitive burden, lead-ing to suboptimal performance or extensive training requirements. Our system addresses these limitations by combining commod-ity hardware in a modular architecture that separates control modalities without requiring automation. Leader-follower arms provide intuitive bilateral manipulation, smartphone-based head control offers VR-like immersion without expensive hardware, and pedal-based navigation enables hands-free base control. This de-sign philosophy maintains direct operator control across all de-grees of freedom while reducing cognitive load through ergonomic modality separation. This approach emerges as a natural response to the accumulated challenges identified in existing teleoperation approaches. 
+
+## 3 System Overview 
+
+The XLeRobot [13] is a mobile bimanual robot platform designed for general manipulation tasks. The system consists of a three-wheeled omnidirectional mobile base, two 5-DOF manipulator arms (left and right), and a 2-DOF head mechanism. The robot is equipped with a single head-mounted camera that provides first-person perspective for the operator. The baseline teleoperation system employs a bimanual leader-follower configuration using two SO101 leader arms. The leader arms are physically controlled by the operator and capture joint po-sitions in real-time, which are then transmitted to the correspond-ing follower arms on the XLeRobot. This bilateral teleoperation ap-proach provides intuitive and precise control of the robot’s manip-ulators, allowing the operator to perform complex manipulation tasks through direct physical interaction with the leader devices. The system also includes built-in keyboard-based control for the head and mobile base. Keyboard commands allow control of head orientation (yaw and roll) and base movement (forward/backward, lateral translation, and rotation) through key presses. However, this approach has significant limitations: (1) keyboard input pro-vides discrete, step-based control rather than continuous motion, resulting in jerky and unnatural movements; (2) the operator’s hands are occupied with keyboard input, conflicting with the si-multaneous use of leader arms for manipulation; (3) the control lacks the intuitive mapping between operator motion and robot motion that is essential for immersive teleoperation. These limita-tions motivated the development of the enhanced control modali-ties described below. 
+
+## 3.1 Smartphone-Based Head Control 
+
+We extend the existing teleoperation framework with two key en-hancements: (1) smartphone-based head control and adaptive vi-sual feedback, and (2) pedal-based base control. These additions enable more natural and immersive teleoperation while maintain-ing compatibility with the existing arm control system. Low-Cost Teleoperation Extension for Mobile Manipulators 
+
+The head control subsystem utilizes a smartphone as a wire-less IMU sensor and VR display. The smartphone’s built-in orien-tation sensors (gyroscope, accelerometer, and magnetometer) pro-vide real-time head orientation data through a WebSocket connec-tion over HTTPS. The orientation angles (roll, pitch, and yaw) are normalized to a ±90 ° range relative to an initial calibration point, ensuring stable control within the robot’s mechanical limits. The system implements automatic calibration upon connection, estab-lishing the initial head position as the zero reference point, with the capability for dynamic recalibration during operation. In our user study, we tested the Smartphone VR setup using an iPhone 16 (170 grams) with Google Cardboard VR [9] (80 grams), resulting in a total weight of 250 grams, compared to Meta Quest 3 (515 grams). This significant weight difference contributes to re-duced neck fatigue during extended teleoperation sessions. The visual feedback system streams the robot’s head camera feed to the smartphone in real-time, presenting it in a split-screen VR format optimized for head-mounted displays (Figure 2). The system includes several adaptive features to enhance the operator experience: 
+
+• Full-screen display: The video stream is rendered without borders, utilizing the entire smartphone screen for maxi-mum immersion. 
+
+• Convergence adjustment: A configurable slider allows fine-tuning of the inter-eye image offset to eliminate double vi-sion and match the operator’s interpupillary distance. 
+
+• Image scaling: A zoom control enables adjustment of the displayed image size to accommodate different VR headset form factors and user preferences. These parameters are persisted in browser local storage, main-taining user preferences across sessions. The video stream is op-timized for VR viewing, automatically rotating portrait-oriented frames to landscape and maintaining aspect ratio. Maximum reso-lution is up to 1920 ×1080 pixels. 
+
+Figure 2: Smartphone VR interface control. 
+
+## 3.2 Pedal-Based Base Control 
+
+A four-pedal interface provides hands-free base navigation. Pedals correspond to forward, backward, left, and right translation. Ro-tation is achieved by combining the forward pedal with the left (counterclockwise) or right (clockwise) pedal. An STM32 microcontroller processes pedal signals, performing debouncing and state management before sending velocity com-mands to the base. This design frees the operator’s hands for ma-nipulation, offers an ergonomic control method, and reduces cog-nitive load by separating navigation from arm control. 
+
+## 3.3 System Integration 
+
+The system integrates leader arms, smartphone head control, and pedal base control into a unified 30 Hz control loop. Each modality operates independently but combines into a single command. The architecture is modular, supports disconnections, and uses contin-uous calibration to prevent drift during extended operation. 
+
+## 4 User Study 
+
+Participants. A total of 30 participants (aged 24–35) were re-cruited for the study. No dedicated pre-training was provided prior to the experiment. Only two participants reported prior experience with robotic systems, while the remaining participants had little or no exposure to robotics. 
+
+Tasks . The user study consisted of three representative ma-nipulation tasks. These tasks involved a mobile robotic platform equipped with two manipulators operating in a laboratory envi-ronment: 1. Pack the 3d printed part in a box. 2. Place the bottle on the shelf in the locker (Fig. 4). 3. Throw the cup in the trash can (Fig. 5). Each participant performed the full sequence of three tasks us-ing three different control setups: (1) conventional keyboard-based control interface, (2) Meta Quest 3 VR headset with pedals for base control, and (3) smartphone-based head control with pedals (the proposed system). The order of control setups was counterbal-anced across participants to control for learning effects. 
+
+Figure 3: Pack printed part task sequence of actions. Measures. Both objective performance metrics and subjective workload assessments were collected in order to evaluate the ef-fectiveness and usability of the proposed low-cost teleoperation setup. 
+
+Objective measures included task success rate and task comple-tion time for each of the three tasks. A task was considered success-ful if the participant completed the required manipulation without external assistance. 
+
+Subjective measures were collected using the NASA Task Load Index (NASA-TLX) questionnaire, administered after each control Danil Belov, Artem Erkhov, Yaroslav Savotin, Tatiana Podladchikova, and Pavel Osinenko 
+
+Figure 4: Locker task sequence of actions. 
+
+Figure 5: Trash can task sequence of actions. 
+
+condition. The NASA-TLX evaluates perceived workload across six dimensions: Mental Demand, Physical Demand, Temporal De-mand, Performance, Effort, and Frustration Level. Weighted over-all workload scores were computed following the standard NASA-TLX procedure for all 30 participants 
+
+Participants’ Results. Objective performance results indicate that both VR-based teleoperation setups (Meta Quest 3 + pedals and Smartphone VR + pedals) consistently outperformed keyboard control across all tasks. As summarized in Table 1, both VR setups resulted in higher task success rates and reduced average comple-tion times compared to keyboard control. Meta Quest 3 + pedals achieved the best overall performance, with the most notable im-provement observed in the trash can task, where it reached a suc-cess rate of 88.1% (compared to 75.3% for keyboard) and reduced average completion time from 80 s to 64 s. Smartphone VR + ped-als also showed significant improvements, achieving 86.6% success rate and 67 s completion time for the same task. These results sug-gest that continuous, simultaneous control of robot motion and ma-nipulation contributes to more efficient task execution, with dedi-cated VR hardware providing additional performance benefits. Subjective workload analysis using NASA-TLX further supports these findings in Figure 6. The aggregated task load scores show a clear reduction in perceived workload when using both VR-based teleoperation systems compared to keyboard control. Across all participants, keyboard control resulted in consistently higher over-all task load values, with many participants reporting high Effort, Frustration, and Temporal Demand. In contrast, both Meta Quest 3 + pedals and Smartphone VR + pedals showed lower and less vari-able scores, indicating improved usability and reduced cognitive burden. Qualitative feedback aligns with the quantitative work-load measures. Participants reported that both VR-based teleoper-ation interfaces felt more natural and continuous, allowing them to observe the environment, navigate the robot, and manipulate objects simultaneously. In comparison, keyboard control required frequent mode switching between navigation and manipulation, which participants associated with increased mental demand and frustration. One participant with no prior robotics or VR experience (but with a driver’s license) provided detailed feedback comparing the systems: 
+
+It’s much easier to control the robot’s arms and move objects while looking into a VR device than at a com-puter monitor. Similarly, it’s easier to control the ro-bot’s movement using pedals than via keyboard. It was intuitive for me. Comparing Smartphone VR and Meta Quest 3, I no-ticed that my head got tired from the weight of Meta Quest 3. It’s too heavy and my neck hurts. Smart-phone VR is significantly lighter, although the pic-ture quality is worse. 
+
+## 5 Conclusion 
+
+The open-source implementation, built on the LeRobot framework and XLerobot mobile platform, lowers barriers to entry for mo-bile manipulation research. By proving that effective teleoperation can be achieved with readily available components, we hope to democratize access to advanced robotics capabilities. This enables broader participation in human-robot interaction research. Future work will explore enhanced visual feedback through stereoscopic camera systems, continuous pedal interfaces for finer locomotion control, and integration of haptic feedback from the ro-bot to the operator. Additionally, we plan to investigate how data collection using our system can accelerate imitation learning for autonomous mobile manipulation policies. The complete system is available as open-source to support replication and extension by the research community. 
+
+## References         
+
+> [1] Alexandra Bejarano, Saad Elbeleidy, Terran Mott, Sebastian Negrete-Alamillo, Luis Angel Armenta, and Tom Williams. 2024. Hardships in the Land of Oz: Robot Control Challenges Faced by HRI Researchers and Real-World Teleopera-tors. In 2024 33rd IEEE International Conference on Robot and Human Interactive Communication (ROMAN) . 1914–1921. [2] Remi Cadene, Simon Alibert, Alexander Soare, Quentin Gallouedec, Adil Zoui-tine, Steven Palma, Pepijn Kooijmans, Michel Aractingi, Mustafa Shukor, Dana Aubakirova, Martino Russi, Francesco Capuano, Caroline Pascal, Jade Choghari, Jess Moss, and Thomas Wolf. 2024. LeRobot: State-of-the-art Machine Learning for Real-World Robotics in Pytorch. https://github.com/huggingface/lerobot. [3] Xuxin Cheng, Jialong Li, Shiqi Yang, Xiaolong Wang, and Ge Yang. 2024. Open-TeleVision: Teleoperation with Immersive Active Visual Feedback. arXiv preprint arXiv:2407.01512 (2024). [4] Shivin Dass, Wensi Ai, Yuqian Jiang, Samik Singh, Jiaheng Hu, Ruohan Zhang, Peter Stone, Ben Abbatematteo, and Roberto Martín-Martín. 2024. TeleMoMa:
+
+Low-Cost Teleoperation Extension for Mobile Manipulators 
+
+Table 1: Overall task success rate and completion time across all participants and experiments. Control setup Pack part into a box Place a bottle into a locker Throw garbage into a garbage bin Success rate Time Success rate Time Success rate Time 
+
+Keyboard setup 65.5% 124 s 43.6% 232 s 75.3% 80 s 
+
+Meta Quest 3 + pedals 74.8% 108 s 47.2% 210 s 88.1% 64 s 
+
+Smartphone VR + pedals 74.4% 110 s 46.6% 211 s 89.6% 67 s Mental Demand Physical Demand Temporal Demand Performance Effort Frustration Level 
+
+> 0
+> 100
+> 200
+> 300
+> 400
+> NASA-TLX Weighted Score
+
+NASA-TLX Results for Control Setups 
+
+> Control Setup
+> Keyboard setup
+> Meta Quest 3 + pedals
+> Smartphone VR + pedals
+
+Figure 6: Taskload levels for Keyboard setup, Meta Quest 3 + pedals, and Smartphone VR + pedals. 
+
+A Modular and Versatile Teleoperation System for Mobile Manipulation. arXiv preprint arXiv:2403.07869 (2024). [5] Artem Erkhov, A. Bazhenov, Sergei Satsevich, Danil Belov, F. Khabibullin, S. Egorov, M. Gromakov, Miguel Altamirano, and D. Tsetserukou. 2025. ViewVR: Visual Feedback Modes to Achieve Quality of VR-based Telemanipulation. arXiv preprint arXiv.2501.07299 (01 2025). [6] Zipeng Fu, Tony Z. Zhao, and Chelsea Finn. 2024. Mobile ALOHA: Learning Bi-manual Mobile Manipulation with Low-Cost Whole-Body Teleoperation. arXiv preprint arXiv:2401.02117 (2024). [7] Bryan R. Galarza, Paulina Ayala, Santiago Manzano, and Marcelo V. Garcia. 2023. Virtual Reality Teleoperation System for Mobile Robot Manipulation. Robotics 
+
+12, 6 (2023), 163. [8] Michael A. Goodrich, Jacob W. Crandall, and Emilia Barakova. 2013. Teleopera-tion and Beyond for Assistive Humanoid Robots. Reviews of Human Factors and Ergonomics 9, 1 (2013), 175–226. [9] Google. 2014. Google Cardboard. [Online]. Available: https://arvr.google.com/ cardboard/. [10] Daniel Honerkamp, Harsh Mahesheka, Jan Ole von Hartz, Tim Welschehold, and Abhinav Valada. 2024. Whole-Body Teleoperation for Mobile Manipulation at Zero Added Cost. arXiv preprint arXiv:2409.15095 (2024). [11] Akhil Padmanabha, Qin Wang, Daphne Han, Jashkumar Diyora, Kriti Kacker, Hamza Khalid, Liang-Jung Chen, Carmel Majidi, and Zackory Erickson. 2023. HAT: Head-Worn Assistive Teleoperation of Mobile Manipulators. arXiv preprint arXiv:2209.13097 (2023). [12] Kosei Tanada, Yuka Iwanaga, Masayoshi Tsuchinaga, Yuji Nakamura, Takemitsu Mori, Remi Sakai, and Takashi Yamamoto. 2025. Sketch-MoMa: Teleoperation for Mobile Manipulator via Interpretation of Hand-Drawn Sketches. arXiv preprint arXiv:2412.19153 (2025). [13] Gaotian Wang and Zhuoyi Lu. 2025. XLeRobot: A Practical Low-cost Household Dual-Arm Mobile Robot Design for General Manipulation. https://github.com/ Vector-Wangel/XLeRobot.
