@@ -1,0 +1,380 @@
+Title: HALO:Closing Sim-to-Real Gap for Heavy-loaded Humanoid Agile Motion Skills via Differentiable Simulation
+
+URL Source: https://arxiv.org/pdf/2603.15084v1
+
+Published Time: Tue, 17 Mar 2026 07:12:50 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# Closing Sim-to-Real Gap for Heavy-loaded Humanoid Agile Motion Skills via Differentiable Simulation 
+
+Xingyi Wang 1,2∗, Chenyun Zhang 2∗, Weiji Xie 2,3∗, Chao Yu 4, Wei Song 1, Chenjia Bai 2†, Shiqiang Zhu 1†
+
+> 1
+
+Zhejiang University 2Institute of Artificial Intelligence (TeleAI), China Telecom 
+
+> 3
+
+Shanghai Jiao Tong University 4Lumos Robotics 
+
+*Equal contribution †Corresponding author 
+
+Abstract — Humanoid robots deployed in real-world scenarios often need to carry unknown payloads, which introduce signif-icant mismatch and degrade the effectiveness of simulation-to-reality reinforcement learning methods. To address this chal-lenge, we propose a two-stage gradient-based system identifica-tion framework built on the differentiable simulator MuJoCo XLA. The first stage calibrates the nominal robot model using real-world data to reduce intrinsic sim-to-real discrepancies, while the second stage further identifies the mass distribution of the unknown payload. By explicitly reducing structured model bias prior to policy training, our approach enables zero-shot transfer of reinforcement learning policies to hardware under heavy-load conditions. Extensive simulation and real-world experiments demonstrate more precise parameter identification, improved motion tracking accuracy, and substantially enhanced agility and robustness compared to existing baselines. Project Page: HALO-Humanoid 
+
+I. INTRODUCTION Humanoid robots are increasingly expected to move be-yond controlled laboratory settings and perform complex physical tasks in unstructured environments, such as indus-trial facilities and disaster-response sites. In these scenarios, robots are typically required to manipulate tools, carry equip-ment, or integrate additional functional modules to accom-plish task-specific objectives. Such loads induce substantial shifts in the robot’s system dynamics by altering its total mass, Center of Mass (CoM), and inertia distribution [15]. Although recent advances in deep reinforcement learning (RL) have achieved impressive agility [7], [16], [33], [36], policies trained with nominal dynamics typically degrade when exposed to large, structured payload variations. We interpret heavy-load carrying as a structured sim-to-real gap problem. Unlike small stochastic noise, payload changes introduce systematic and large-scale dynamic mis-match between the simulation and the physical robot. A widely adopted strategy to mitigate the sim-to-real gap is Domain Randomization (DR) [23], [31], which improves robustness by exposing policies to diverse, randomized dy-namics during training. However, by treating payload vari-ations as disturbances to hedge against, DR often yields conservative behaviors and cannot fully exploit the robot’s physical capabilities. Another line of work adopts data-driven approaches that leverage real-world interaction data to reduce model mis-match. Within this category, System Identification (SysID) 
+
+Fig. 1: Performance of HALO in heavy-loaded scenarios. (a) The payload settings used by HALO. (b, c) Compared to DR, HALO significantly improves the accuracy of straight-line bidirectional walking. (d) Data collection under payload conditions with a single-foot constraint. (e) HALO enables challenging humanoid locomotion skills. plays a central role, which directly estimates physical pa-rameters—such as mass, CoM location, and inertia—using real interaction data. However, traditional SysID faces sev-eral practical limitations for floating-based systems like humanoid robots. They often rely on specialized sensing equipment, such as joint torque sensors [11] or external motion capture systems [28], [29], which limits applicability. Moreover, many procedures require isolating subsystems or partially disassembling the robot [1], [13], [30], making them impractical for complex platforms. To overcome these limitations, we propose HALO 
+
+(HeAvy-LO aded humanoid motion control), a unified frame-work that seamlessly integrates differentiable simulation based SysID into the reinforcement learning control pipeline for heavy-loaded humanoids. HALO formulates parameter 
+
+> arXiv:2603.15084v1 [cs.RO] 16 Mar 2026
+
+Fig. 2: Overview of HALO. (a) Data Collection: Trajectories are collected under both loaded and unloaded conditions using exploration policy trained with wide DR, followed by real-world deployment with a fixed foot constraint. (b) Data Processing: Full-body trajectories reconstruction from joint-state measurements via forward kinematics and foot-height alignment. (c) Two-stage Payload-related Parameter Identification: Stage 1 optimize the full set of model parameters to yield a calibrated base model using trajectories without payload. Based on the calibrated model, stage 2 optimize only the payload-related parameters, using trajectories collected under loaded conditions. (d) Heavy-loaded Motion Skills: The accurate identified model parameters enabling zero-shot sim-to-real transfer of the learned skills to the physical heavy-loaded humanoid. identification as a trajectory-level optimization problem in-side a differentiable physics simulator MuJoCo XLA, lever-aging the analytical gradients over multiple simulation steps to enable efficient gradient-based optimization of physical parameters directly from real-world interaction data. To make such identification practical on floating-base humanoids without relying on external sensing systems, we introduce a lightweight data collection procedure in which one foot is mechanically constrained during trajectory acquisition. This constraint removes the ambiguity in global base drift and enables reliable reconstruction of full-body motion from onboard joint encoders. We also identify a central challenge in payload identifi-cation: the entanglement between nominal model mismatch and load-induced model change. Without separating these effects, optimization may incorrectly attribute base-model errors to payload parameters. To address this, HALO adopts a two-stage identification strategy that first calibrates the base model and then estimates payload-related parameters under loaded conditions. This structured decomposition sig-nificantly improves identification stability and accuracy. With the identified dynamics, we can train locomotion policies in simulation and deploy them zero-shot to hardware. In simulation, our approach demonstrates clear advantages over existing methods: against traditional SysID approaches such as CMA-ES, HALO yields more accurate estimates of physical parameters, especially under extreme load condi-tions. Compared to baseline strategies, our policies achieve lower motion-tracking errors. Real-world experiments further validate these results, showing that policies retain high precision and agility under heavy payloads across a range of challenging tasks. These experiments confirm that by reducing structured model bias before policy learning, our framework effectively narrows the sim-to-real gap while pre-serving agility and robustness. Specifically, under a heavy-loaded condition, HALO improves performance by 45 .45% 
+
+to 73 .33% in the gait precision task and by 72 .97% in the in-place 90 ◦ yaw jumping task, respectively. Furthermore, HALO achieves 100% success rate in challenging motion tracking tasks. In summary, our contributions are summarized as follows:  
+
+> •
+
+A Differentiable Two-Stage System Identification Framework: We propose a trajectory-level gradient-based identification pipeline that decouples base-model calibration from payload parameter estimation, enabling stable and accurate parameter recovery.  
+
+> •
+
+Sensor-Minimal Data Collection: By introducing a fixed-foot constraint, we collect trajectory data by re-constructing full-body states using only joint encoders, removing the dependency on torque sensing or motion capture systems.  
+
+> •
+
+Agile and Robust Dynamic Performance under Heavy Loads: By reducing structured model bias prior to policy training, our approach enables zero-shot transfer of reinforcement learning policies to hardware. Extensive simulation and real-world experiments show more accurate parameter identification, improved mo-tion tracking, and superior agility. II. RELATED WORK 
+
+A. Domain Randomization and Adaptation Strategy 
+
+To bridge the sim-to-real gap without explicit model iden-tification, researchers primarily focus on building policies that are either inherently robust to variations or capable of online compensation. 
+
+a) Domain Randomization (DR): DR remains the de facto standard for building robust policies by exposing the agent to a broad distribution of visual and physical variations during training [17], [21], [23], [31]. Recent advancements have evolved to adaptive schemes, such as curriculum-based or adversarial DR [20], [24], which dynamically adjust parameter distributions. However, DR often requires heuristic tuning of randomization ranges. For heavy-payload tasks, ex-cessive randomization typically leads to overly conservative behaviors, sacrificing the agility required to handle massive inertial shifts. 
+
+b) Adaptive Policy Learning: Alternative approaches attempt to mitigate sim-to-real gap through real-time policy adjustment [14], [19], [25] or data-driven domain transfer [2]. Some even incorporate lifelong learning mechanisms during deployment [27], [32]. However, the effectiveness of these methods is frequently bottlenecked by the requirement for high-quality supervisory signals, and they typically fail to provide the seamless zero-shot transition necessary for immediate field operation. 
+
+c) Data-driven Dynamics Learning: Another class of method involves integrating learned residual model to bridge the gap between idealized simulation and real-world com-plexity [4], [9]. Instead of identifying physical parameters, these methods deploy neural “patches” to generate corrective efforts or actions for unmodeled dynamics. While these “patch” models perform well in the specific scenarios they were trained for, they often fail to generalize to diverse tasks. 
+
+B. Physical Parameter Alignment via System Identification 
+
+Rather than learning a robust or adaptive policy that covers a wide range of dynamics, system identification aims to minimize the sim-to-real gap by identifying the true physical parameters. 
+
+a) Traditional and Sampling-based Methods: Tradi-tional system identification relies on specialized hardware or offline calibration to estimate the physical parameters [6], [12]. These approaches are often limited by noise sensitiv-ity and the difficulty of measurement in real-world. More recently, sampling-based evolutionary algorithms have been employed to explore high-dimensional parameter spaces [1], [28]. While these methods handle non-differentiable dynam-ics well, they typically suffer from low sample efficiency due to their reliance on derivative-free optimization, particularly in complex robotic systems. 
+
+b) Differentiable Simulation Methods: Differentiable simulation [5], [35] has emerged as a paradigm-shifting tool for parameter alignment by providing analytical gradients of system dynamics with respect to physical properties. Unlike derivative-free engines, differentiable simulators en-able end-to-end gradient-based optimization, allowing for structured, sample-efficient updates in high-dimensional pa-rameter spaces. This approach has demonstrated remarkable success in mitigating sim-to-real discrepancies across diverse robotic platforms, ranging from fixed-base manipulators [3], [26] to floating-base systems such as quadcopters [22] and quadruped robots [10]. While recent breakthroughs have successfully optimized complex actuator parameters for a humanoid system [13], scaling this framework to heavy-payload humanoids—where massive inertial shifts and non-linear dynamics dominate—remains an open, high-stakes challenge that requires a more robust identification strategy. III. METHODS We consider a robot with known nominal model param-eters that must execute locomotion skills while carrying an unknown payload with its upper limbs. Our goal is to first identify the effective model parameters under the payload and subsequently execute motion skills based on the identified dynamics. Our method consists of three steps. (i) Data Collection :We execute an exploration policy to control the robot under both unloaded and loaded conditions to collect state–action trajectory data. (ii) Gradient-Based Identification : We esti-mate the effective model parameters via a two-stage gradient-based optimization procedure that minimizes the trajectory matching error under loaded dynamics. (iii) Heavy-Load Skill Acquisition : Using the identified parameters, we train reinforcement learning policies for agile locomotion tasks, including balancing, dancing, and payload-carrying. Fig. (2) provides an overview of the proposed method. 
+
+A. Data Collection 
+
+Accurate global state trajectories are typically difficult to obtain for a floating-base humanoid robot without external measurement systems such as motion capture (MoCap). To address this, we constrain one foot of the robot using 2 vises, enabling full-body trajectories to be reconstructed from joint-state measurements via forward kinematics. The same kinematic constraint is applied in the simulation to maintain consistency. We heuristically design a robot trajectory with the fixed foot and train an exploration policy to imitate it, following the procedure described in Sec. (III-C). Data is then collected on the physical robot using this policy, recording joint positions, and the corresponding control inputs. Here, the control input refers to the target joint positions commanded by the RL policy and tracked via a low-level PD controller. The policy is trained with nominal Fig. 3: Inconsistent left-right foot heights caused by sensor noise. (a) In the original trajectory, the right foot position calculated via forward kinematics remains suspended in the air. (b) In the optimized trajectory, the right foot maintains physically consistent ground contact. model parameters and a wide range of domain randomization to ensure stability under varying payload conditions. Ad-ditionally, due to sensor noise, directly recover body state from joint measurements may introduce accumulated drift, leading to inconsistent left–right foot heights, as illustrated in Figure (3). To correct this, at each timestep we solve a constrained quadratic program over the root and lower-body joint increments, minimally adjusting the configuration to eliminate foot-height discrepancies. Because small changes in mass or CoM position can quickly cause the simulated trajectory to drift, only a small amount of data is needed to identify the main differences between the model and the real robot. 
+
+B. Gradient-Based Identification 1) Problem Formulation: Let θ ∈ Rd denote a set of physical parameters, including link mass, CoM position, inertia, and joint damping coefficients. The real-world system evolves according to unknown dynamics: 
+
+sri+1 = Φ real (sri , a ri ; θr ), (1) where si, ai, and θr denote the system state, control input at timestep i, and the groundtruth parameters of the real system, respectively. In simulation, we approximate the dynamics with a dif-ferentiable model: 
+
+ssi+1 = Φ sim (ssi , a ri ; θ), (2) where the control sequence is fixed to the recorded real-world actions ari , and the initial state is synchronized: ss 
+
+> 0
+
+= sr
+
+> 0
+
+.
+
+Given a collected real-world trajectory τ r =
+
+{sr
+
+> 0
+
+, a r
+
+> 0
+
+, . . . , s rN }, our goal is to estimate parameters θ
+
+such that the simulated trajectory τ s(θ) = {ss
+
+> 0
+
+, . . . , s sN }
+
+matches the real trajectory. We formulate system identification as a trajectory-matching optimization: 
+
+min  
+
+> θ
+
+Ltotal (θ) = Ltrack (θ) + R(θ), (3) where the tracking loss Ltrack (θ) measures trajectory discrep-ancy between the simulated trajectories and the real-world reference trajectories in Cartesian space, and R(θ) denotes regularization terms that enforce physical plausibility and prevent singular solutions. The resulting optimization problem is solved via gradient-based methods by leveraging the differentiability of Φsim .The parameters are updated iteratively using Gradient De-scent (GD): 
+
+θk+1 = θk − η∇θ Ltotal (θk), (4) where k denotes the optimization iteration index, η is the learning rate. 
+
+2) Tracking Loss: For a complete real motion trajectory, we uniformly sample a batch of B trajectory fragments. At each sampled starting point, we reset the robot’s state in the simulation environment and execute a rollout of N control steps to calculate loss. The tracking loss consists of two components: (1) the position loss for all bodies B in the robot, and (2) an additional loss for the upper-body subset 
+
+U ⊂ B weighted by αu. This additional term emphasizes accurate tracking of the body links most influenced by the payload. The tracking loss function is formulated as: 
+
+Ltrack (θ) = Lall 
+
+> track
+
+(θ) + αuLupper  
+
+> track
+
+(θ) (5) 
+
+Lall 
+
+> track
+
+(θ) = 1
+
+B
+
+> B
+
+X
+
+> b=1
+> N
+
+X
+
+> t=1
+
+X
+
+> j∈B
+
+xsb,t,j (θ) − xrb,t,j  
+
+> 22
+
+(6) 
+
+Lupper  
+
+> track
+
+(θ) = 1
+
+B
+
+> B
+
+X
+
+> b=1
+> N
+
+X
+
+> t=1
+
+X
+
+> j∈U
+
+xsb,t,j (θ) − xrb,t,j  
+
+> 22
+
+(7) where:  
+
+> •
+
+B denotes the set of all robot bodies,  
+
+> •
+
+U ⊂ B denotes the subset of upper-body links (e.g., torso and hands),  
+
+> •
+
+xsb,t,j (θ), xrb,t,j ∈ R3 denote the simulated and real Cartesian positions of body j at timestep t in batch 
+
+b, which are components of the corresponding system states. 
+
+3) Regularization Terms: To prevent the identified pa-rameters from deviating substantially from their nominal values, we introduce regularization terms that penalize large changes. Let Ilink and Ijoint denote the set of links and joints whose parameters are identified, respectively. The total regularization is then defined as a weighted sum of four components: 
+
+Rtotal = λcom Rcom + λmass Rmass + λdamp Rdamp + λfric Rfric .
+
+(8) Each term is defined as follows: Rcom = X                
+
+> i∈I link
+> ∥pi−pbase
+> i∥22
+> Rmass =X
+> i∈I link
+> (mi−mbase
+> i)2
+> Rdamp =X
+> k∈I joint
+> ϕ(αd,k ; 0 .8,1.2)
+> Rfric =X
+> k∈I joint
+> ϕ(αf,k ; 0 .8,1.2)
+
+Here, pi denotes the CoM position of the i-th link relative to its parent link, and mi is the corresponding link mass. Their nominal values are given by pbase  
+
+> i
+
+and mbase  
+
+> i
+
+. The vari-ables αd,k and αf,k represent the joint damping coefficient and static friction of the k-th joint, respectively. Accordingly, Rcom and Rmass penalize deviations of link CoM positions and masses from their nominal values, while 
+
+Rdamp and Rfric softly constrain the joint damping and friction to remain within a reasonable interval using the box-constraint function: 
+
+ϕ(α; l, u ) = max(0 , l − α)2 + max(0 , α − u)2, (9) which only penalizes values outside the interval [l, u ].
+
+4) Two-Stage System Identification: Directly optimizing model parameters from nominal values using trajectories col-lected under loaded conditions can lead to biased estimates. In practice, humanoid robots exhibit Sim-to-Real discrep-ancies due to wear, calibration drift, and minor structural variations, which exist even in the absence of payloads. Without compensating for this nominal model mismatch, the optimization process may incorrectly attribute base-model errors to payload-related parameters. We therefore adopt a two-stage identification procedure that separates base-model calibration from payload estima-tion. 1) Stage 1: Base Model Calibration. Using trajectories collected without payload, we optimize the full set of model parameters starting from their nominal values, yielding a calibrated base model that reduces the inherent Sim-to-Real gap. 2) Stage 2: Payload Parameter Identification. With the calibrated model serving as initialization, we optimize only the payload-related parameters, specifically the mass and its CoM positions of the links attached by the payload, i.e., torso and hands, using trajectories collected under loaded conditions. In practice, restricting the second stage to mass and CoM parameters is sufficient to significantly reduce the Sim-to-Real gap in heavy-load scenarios, while avoiding the complexity of optimizing the inertia tensor. 
+
+C. Skill Acquisition Under Heavy-Load 
+
+The identified parameters can be directly utilized for general simulation training. We adopt a motion imitation method based on mjlab [34] to train RL policies for agile motion skills. A set of reference robot motion trajectories is pre-collected and used as imitation targets. In simulation, MLP-based policies are optimized using PPO to maximize a tracking reward that encourages alignment of joint states and body poses with the reference trajectories. After training, policies can be directly deployed on the real robot. Owing to the accurately identified model parameters, only minimal domain randomization is required during training, enabling zero-shot sim-to-real transfer of the learned skills to the physical robot.                           
+
+> TABLE I: Domain Randomization Settings.
+> Term Nominal Range Wide Range
+> Base CoM offset (m) U(−0.03 ,0.03) U(−0.08 ,0.08)
+> Torso mass offset (kg) U(−0.5,0.5) U(2 .0,8.0)
+> Hands mass offset (kg) U(−0.5,0.5) U(1 .0,4.0)
+> Hands CoM offset (m) U(−0.02 ,0.02) U(−0.05 ,0.05)
+> Encoder bias (rad) U(−0.01 ,0.01) U(−0.01 ,0.01)
+> Foot friction U(0 .3,1.2) U(0 .3,1.2)
+
+IV. EXPERIMENT Our experiments aim to address the following key ques-tions:  
+
+> •
+
+Q1: Can HALO outperform CMA-ES based methods for heavy-loaded humanoid SysID?  
+
+> •
+
+Q2: Does HALO bring better performance compared to other methods for motion tracking tasks under heavy payloads?  
+
+> •
+
+Q3: Does the two-stage method lead to higher real-world SysID accuracy?  
+
+> •
+
+Q4: Can the parameters identified by HALO improve the robustness of sim-to-real transfer for heavy-loaded motion tracking tasks? 
+
+A. Experiment overview 
+
+The advantages of HALO are validated through both sim-ulations (Secs. (IV-B), (IV-C)) and real-world experiments (Secs. (IV-D), (IV-E)). 
+
+Experiment Settings. We use Unitree G1 to test perfor-mance of HALO, which stands approximately 132 cm tall and has a nominal mass of 35 kg.  
+
+> •
+
+Simulation Payload Setting . For simulation, we design three different perturbation settings to manually perturb the physical parameters, simulating the sim2real gap introduced by payloads, as shown in Table (II).  
+
+> •
+
+Real-World Payload Setting . We introduce payload in real-world by manually attaching 6 kg diving counter-weights to the torso link, and 2 kg counterweights to each wrist link (hand), as shown in Figure (1)(a). 
+
+B. HALO vs. CMA-ES: Performance under Extreme Payload Perturbations 
+
+To answer Q1 , we collect data in simulation using the perturbed values, while setting the nominal values as the optimization start. The regularization terms were not enabled in simulation experiment. HALO utilizes learning rates of 
+
+0.03 for mass and 0.0002 for CoM position. CMA-ES is con-figured with a population size of 10. Both methods undergo TABLE II: Convergence comparison between CMA-ES and HALO. Results are reported as mean ± standard deviation. Groundtruth values (e.g., +6 .000 , +2 .4000 ) denote the incremental offsets added to the absolute nominal values. Bold values indicate performance closer to the ground truth. While CMA-ES converges under light payloads, it exhibits sensitivity to random seeds under heavy payloads.                                                                                                                                     
+
+> Method Torso Mass(kg) Left Hand Mass(kg) Right Hand Mass (kg) Torso CoM pos x (m) Torso CoM pos y (m) Torso CoM pos z (m)
+> Absolute Nominal Values
+> 7.8180 0.2546 0.2546 0.0020 0.0003 0.1845
+> Perturbation Setting 1
+> Groundtruth +6 .0000 +2 .4000 +2 .0000 +0 .0100 +0 .0200 +0 .0500
+> CMA-ES +6 .0366 ±0.0128 +2 .4009 ±0.0012 +1 .9970 ±0.0012 +0.0099 ±0.0000 +0 .0199 ±0.0001 +0 .0505 ±0.0004
+> HALO +5.9989 ±0.0000 +2.4005 ±0.0000 +1.9973 ±0.0000 +0 .0098 ±0.0000 +0.0199 ±0.0000 +0.0505 ±0.0000
+> Perturbation Setting 2
+> Groundtruth +9 .0000 +3 .2000 +2 .8000 +0 .0200 +0 .0400 +0 .0700
+> CMA-ES +8.9988 ±0.0321 +3 .2055 ±0.0093 +2 .7935 ±0.0184 +0.0200 ±0.0000 +0.0400 ±0.0000 +0 .0667 ±0.0002
+> HALO +9 .0918 ±0.0000 +3.1981 ±0.0000 +2.7982 ±0.0000 +0 .0199 ±0.0000 +0 .0492 ±0.0000 +0.0668 ±0.0000
+> Perturbation Setting 3
+> Groundtruth +12 .0000 +3 .5000 +3 .0000 +0 .0200 +0 .0400 +0 .0700
+> CMA-ES +12 .4289 ±0.9244 +4 .7885 ±2.7441 +3 .6660 ±1.3323 −0.0616 ±0.1824 −0.0248 ±0.1449 +1 .2141 ±2.5582
+> HALO +11 .9871 ±0.0000 +3.5014 ±0.0000 +3.0016 ±0.0000 +0.0200 ±0.0000 +0.0400 ±0.0000 +0.0701 ±0.0000
+
+2,000 iterations, reaching complete convergence. For CMA-ES, we take experiments using five different random seeds, meaning different initial exploration paths. The perturbation settings and results are illustrated at Table (II). Experimental results demonstrate that under light payload perturbations, both HALO and CMA-ES methods achieve satisfactory convergence performance with comparable ac-curacy(e.g., Perturbation Setting 1,2). However, under ex-tremely heavy-loaded conditions (e.g., Perturbation Setting 3), CMA-ES using certain seeds converge to local optima with physically unreasonable values, whereas our gradient-based method robustly converges to the vicinity of the reference parameters. These findings validate the superior optimization stability of our HALO for humanoid SysID under payload conditions. 
+
+C. Impact of Accurate Payload Identification 
+
+To answer Q2 , we evaluate the proposed framework under payload dynamics, specifically employing the configuration defined as Perturbation Setting 1 in Table (II). We con-ducted motion tracking experiments in mjlab using sequences from AMASS [18], LAFAN1 [8] and HuB [36]. The evalu-ation suite comprises 20 distinct sequences categorized into two difficulty levels: (i) Steady-state tasks (e.g., walking with waving hands) and (ii) High-agility tasks (e.g., side kicking), with 10 motions per category. Adopting the benchmarking setting established in [28], we compare our method against two representative base-lines: 
+
+(1) Wide Range DR (WDR), as illustrated in Table (I), (col. 2). WDR uses the nominal model. (2) Calibrated Mass (CM). CM use the calibrated mass to simulating manually weighing the load, but the CoM positions are still nominal values. The DR range applied to CM and HALO is specified in Table (I), (col. 1). Finally, all resulting policies are validated on the ground-truth perturbed model to benchmark their tracking precision. Following the evaluation framework established in [7], performance is quantified by three key metrics: Global Mean Per-Joint Position Error (Eg-mpjpe , mm) for global alignment, Mean Per-Joint Position Error (Empjpe , mm) for local precision, Velocity Error (Evel , m/s) for global root velocities error. As summarized in Table (III), HALO consistently out-performs both baselines across all metrics. This superiority stems from its precise identification of payload mass and CoM offsets. In contrast, WDR relies on a broad random-ization range which leads to overly conservative tracking, while CM fails to account for the dynamic variations induced by CoM displacement. By explicitly identifying the physical parameters of these rigid bodies, HALO maintains superior tracking precision compared to existing baselines. 
+
+TABLE III: Experimental results of motion tracking performance across various tasks. 
+
+Method Eg-mpjpe Empjpe Evel 
+
+Steady-state tasks 
+
+WDR 94 .91 ± 3.21 70 .54 ± 2.13 0.157 ± 0.008 
+
+CM 85 .87 ± 2.54 56 .33 ± 2.27 0.130 ± 0.006 
+
+HALO 52 .47 ± 2.11 44 .87 ± 1.82 0.098 ± 0.008 
+
+High-agility tasks 
+
+WDR 132 .89 ± 2.89 81 .54 ± 2.43 0.136 ± 0.016 
+
+CM 92 .82 ± 3.21 67 .06 ± 3.21 0.125 ± 0.011 
+
+HALO 78 .83 ± 2.55 59 .54 ± 2.07 0.106 ± 0.009 
+
+D. Effectiveness of the Two-Stage Strategy 
+
+In this section, we compare two-stage method with one-stage baseline. The one-stage method directly identifies masses and CoM positions of loaded torso link and hand links, using only the loaded trajectories collected from the real-world. We collect three trajectories with payload and three trajectories without payload, and take the average of the final converged values as identification results. Reference masses are reported as the sum of the nominal masses and the masses of additional counterweights for loaded links. We conduct an initial assessment by evaluating how close the identified masses are to reference masses, because the groundtruth values of CoM positions cannot be obtained in realworld. Fig. 4: Comparison of convergence performance between two-stage and one-stage methods. The proposed Two-Stage method HALO (orange) demonstrates superior accuracy, converging significantly closer to the estimated reference values (red dashed lines) compared to the One-Stage baseline (blue). 
+
+Fig. 5: Experiment settings and results of scenario 1. 
+
+The metrics we defined are shown in the image, HALO outperforms the baselines across all metrics. The comparison of convergence performance between two-stage method (showing only the second stage) and one-stage method is illustrated in Fig. (4). The final results are summarized in Table (IV). Compared to the one-stage method, the two-stage method demonstrates superior conver-gence accuracy, yielding mass estimates that are significantly closer to the reference values. This improvement suggests that our coarse-to-fine strategy effectively decouples global modeling errors from local payload variations. Furthermore, we will prove the effectiveness of the identified parameters by real-world downstream tasks as shown in Sec. (IV-E).                         
+
+> TABLE IV: Summary of identified parameters.
+> Method Torso Mass (kg) L-Hand Mass (kg) R-Hand Mass (kg)
+> Reference 13.82 2.25 2.25 One-Stage 12 .93 ±0.32 3.22 ±0.23 3.16 ±0.44
+> HALO 13 .83 ±0.43 2.13 ±0.07 2.71 ±0.29
+
+E. Real-World Validation Under Heavy Payload Conditions 
+
+Based on the optimized robot model identified via the HALO framework, we evaluate the effectiveness of our approach across different real-world tasks. Consistent with Sec. (IV-C), we compare against two baseline methods, WDR and CM, on two scenarios:  
+
+> •
+
+Scenario 1: Quantitative Analysis of Fundamental Locomotion.  
+
+> •
+
+Scenario 2: Evaluation of High-Agility Motion Tasks. 
+
+In Scenario 1, to evaluate sim-to-real consistency under heavy payload conditions, we benchmark our method on two locomotion tasks: bidirectional walking (forward-and-backward) and in-place 90° yaw jumping. To formally quan-tify the sim-to-real gap, we introduce three evaluation met-rics: Maximum Forward Position Error (Ef pos , m), defined as the absolute discrepancy in forward displacement during the walking task; End-point Residual Error (Eepos , m), representing the positional discrepancy at the final stopping state of the walking task; and Angular Tracking Error (Eang ,deg) for assessing orientation deviation during jumping ma-neuvers. Notably, the WDR baseline failed to initiate the takeoff phase during the jumping task, primarily due to the inability to manage the heavy payload dynamics; its angular deviation was thus recorded as a task failure. The experimental results are visualized in Fig. (5), with the corresponding numerical analysis summarized in Table (V). Compared to the baseline methods (WDR and CM), HALO significantly mitigates sim-to-real positional drift. Specifi-cally, our approach reduces Ef pos by 73.33% and 45.45%, and decreases Eepos by 70.79% and 42.22%, respectively. Furthermore, in the jumping task, HALO diminishes the angular tracking error Eang by 72.97% compared to the CM baseline. These empirical results validate the efficacy of the HALO framework in enhancing the robustness and deployment fidelity of heavy-loaded humanoid systems in real-world environments. While all methods achieve comparable performance in simulation, WDR fails to generate sufficient vertical impulse in the real-world. CM partially completes the maneuver but exhibits significant orientation deviation. In contrast, HALO achieves the lowest angular error, demonstrating that accurate identification of inertial and actuation parameters is critical for transferring explosive whole-body maneuvers.                             
+
+> TABLE V: Performance of Walking Forward and Backward.
+> Method Ef pos Eepos Eang
+> WDR 0.45 ±0.13 0.89 ±0.15 N/A
+> CM 0.22 ±0.09 0.45 ±0.13 41 .8±3.6
+> HALO 0.12 ±0.03 0.26 ±0.07 11 .3±2.1
+
+In Scenario 2, to assess the performance on high-agility tasks, we benchmark our method on three challenging ma-neuvers: swallow balancing, side kicking, and roundhouse kicking [36]. These tasks are characterized by complex whole-body coordination and substantial dynamic challenges to the robot’s equilibrium. Success is quantified by the deviation from the nominal trajectory; specifically, a trial is deemed successful if the robot executes the maneuver without significant divergence from the reference motion. Detailed experimental behaviors are provided in the supple-mentary videos. Our results (Table (VI)) indicate that the proposed method consistently outperforms baselines in terms of reliability. TABLE VI: Comparison of success rates for performing challenging maneuvers between HALO and baselines. 
+
+Method Swallow Balancing Side Kicking Roundhouse Kicking 
+
+WDR 0/10 0/10 0/10 
+
+CM 5/10 7/10 5/10 
+
+HALO 10 /10 10 /10 10 /10 
+
+V. CONCLUSIONS In this paper, we present HALO, a framework with two-stage system identification based on differentiable simulation to address the significant sim-to-real gap for heavy-loaded humanoid robots. By leveraging analytical gradients from MuJoCo XLA, our approach achieves accurate and efficient estimation of robot physical parameters and payload mass distribution with only joint encoders, eliminating the need for expensive torque sensors or motion capture systems. The proposed two-stage optimization strategy achieves improved SysID accuracy, and enables robust sim-to-real transfer for heavy-loaded humanoid motion skills. REFERENCES [1] Filip Bjelonic, Fabian Tischhauser, and Marco Hutter. Towards bridging the gap: Systematic sim-to-real transfer for diverse legged robots. arXiv preprint arXiv:2509.06342 , 2025. [2] Avinandan Bose, Simon Shaolei Du, and Maryam Fazel. Offline multi-task transfer rl with representational penalization. arXiv preprint arXiv:2402.12570 , 2024. [3] Peter Yichen Chen, Chao Liu, Pingchuan Ma, John Eastman, Daniela Rus, Dylan Randle, Yuri Ivanov, and Wojciech Matusik. Learning object properties using robot proprioception via differentiable robot-object interaction. In 2025 IEEE International Conference on Robotics and Automation (ICRA) , pages 5997–6004. IEEE, 2025. [4] Nolan Fey, Gabriel B Margolis, Martin Peticco, and Pulkit Agrawal. Bridging the sim-to-real gap for athletic loco-manipulation. arXiv preprint arXiv:2502.10894 , 2025. [5] C Daniel Freeman, Erik Frey, Anton Raichuk, Sertan Girgin, Igor Mordatch, and Olivier Bachem. Brax–a differentiable physics engine for large scale rigid body simulation. arXiv preprint arXiv:2106.13281 ,2021. [6] Jinrui Han, Dewei Wang, Chenyun Zhang, Xinzhe Liu, Ping Luo, Chenjia Bai, and Xuelong Li. Husky: Humanoid skateboard-ing system via physics-aware whole-body control. arXiv preprint arXiv:2602.03205 , 2026. [7] Jinrui Han, Weiji Xie, Jiakun Zheng, Jiyuan Shi, Weinan Zhang, Ting Xiao, and Chenjia Bai. Kungfubot2: Learning versatile motion skills for humanoid whole-body control. arXiv preprint arXiv:2509.16638 ,2025. [8] F´ elix G Harvey, Mike Yurick, Derek Nowrouzezahrai, and Christopher Pal. Robust motion in-betweening. ACM Transactions on Graphics (TOG) , 39(4):60–1, 2020. [9] Tairan He, Jiawei Gao, Wenli Xiao, Yuanhang Zhang, Zi Wang, Ji-ashun Wang, Zhengyi Luo, Guanqi He, Nikhil Sobanbab, Chaoyi Pan, et al. Asap: Aligning simulation and real-world physics for learning agile humanoid whole-body skills. arXiv preprint arXiv:2502.01143 ,2025. [10] Eric Heiden, David Millard, Erwin Coumans, Yizhou Sheng, and Gaurav S Sukhatme. Neuralsim: Augmenting differentiable simulators with neural networks. In 2021 IEEE International Conference on Robotics and Automation (ICRA) , pages 9474–9481. IEEE, 2021. [11] Jemin Hwangbo, Joonho Lee, Alexey Dosovitskiy, Dario Bellicoso, Vassilios Tsounis, Vladlen Koltun, and Marco Hutter. Learning agile and dynamic motor skills for legged robots. Science robotics ,4(26):eaau5872, 2019. [12] Jipeng Kong, Xinzhe Liu, Yuhang Lin, Jinrui Han, S¨ oren Schwertfeger, Chenjia Bai, and Xuelong Li. Learning soccer skills for humanoid robots: A progressive perception-action framework, 2026. [13] Vyacheslav Kovalev, Ekaterina Chaikovskaia, Egor Davydenko, and Roman Gorbachev. Achieving precise and reliable locomotion with differentiable simulation-based system identification. In 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , pages 4767–4772. IEEE, 2025. [14] Ashish Kumar, Zhongyu Li, Jun Zeng, Deepak Pathak, Koushil Sreenath, and Jitendra Malik. Adapting rapid motor adaptation for bipedal robots. In 2022 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , pages 1161–1168. IEEE, 2022. [15] Junyoung Lee, Pyung Hun Chang, Byeonggi Yu, and Maolin Jin. An adaptive pid control for robot manipulators under substantial payload variations. IEEE Access , 8:162261–162270, 2020. [16] Qiayuan Liao, Takara E Truong, Xiaoyu Huang, Yuman Gao, Guy Tevet, Koushil Sreenath, and C Karen Liu. Beyondmimic: From motion tracking to versatile humanoid control via guided diffusion. 
+
+arXiv preprint arXiv:2508.08241 , 2025. [17] Antonio Loquercio, Elia Kaufmann, Ren´ e Ranftl, Alexey Dosovitskiy, Vladlen Koltun, and Davide Scaramuzza. Deep drone racing: From simulation to reality with domain randomization. IEEE Transactions on Robotics , 36(1):1–14, 2019. [18] Naureen Mahmood, Nima Ghorbani, Nikolaus F Troje, Gerard Pons-Moll, and Michael J Black. Amass: Archive of motion capture as surface shapes. In Proceedings of the IEEE/CVF international conference on computer vision , pages 5442–5451, 2019. [19] Gabriel B Margolis, Xiang Fu, Yandong Ji, and Pulkit Agrawal. Learning to see physical properties with active sensing motor policies. 
+
+arXiv preprint arXiv:2311.01405 , 2023. [20] Bhairav Mehta, Manfred Diaz, Florian Golemo, Christopher J Pal, and Liam Paull. Active domain randomization. In Conference on Robot Learning , pages 1162–1176. PMLR, 2020. [21] Melissa Mozian, Juan Camilo Gamboa Higuera, David Meger, and Gregory Dudek. Learning domain randomization distributions for training robust locomotion policies. In 2020 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , pages 6112– 6117. IEEE, 2020. [22] Jiahe Pan, Jiaxu Xing, Rudolf Reiter, Yifan Zhai, Elie Aljalbout, and Davide Scaramuzza. Learning on the fly: Rapid policy adaptation via differentiable simulation. IEEE Robotics and Automation Letters ,2026. [23] Xue Bin Peng, Marcin Andrychowicz, Wojciech Zaremba, and Pieter Abbeel. Sim-to-real transfer of robotic control with dynamics ran-domization. In 2018 IEEE international conference on robotics and automation (ICRA) , pages 3803–3810. IEEE, 2018. [24] Lerrel Pinto, James Davidson, Rahul Sukthankar, and Abhinav Gupta. Robust adversarial reinforcement learning. In International conference on machine learning , pages 2817–2826. PMLR, 2017. [25] Haozhi Qi, Ashish Kumar, Roberto Calandra, Yi Ma, and Jitendra Malik. In-hand object rotation via rapid motor adaptation. In 
+
+Conference on Robot Learning , pages 1722–1732. PMLR, 2023. [26] Lu Shi, Yuxuan Xu, Shiyu Wang, Jinhao Huang, Wenhao Zhao, Yufei Jia, Zike Yan, Weibin Gu, and Guyue Zhou. An real-sim-real (rsr) loop framework for generalizable robotic policy transfer with differentiable simulation. arXiv preprint arXiv:2503.10118 , 2025. [27] Laura Smith, J Chase Kew, Xue Bin Peng, Sehoon Ha, Jie Tan, and Sergey Levine. Legged robots that keep on learning: Fine-tuning locomotion policies in the real world. In 2022 international conference on robotics and automation (ICRA) , pages 1593–1599. IEEE, 2022. [28] Nikhil Sobanbabu, Guanqi He, Tairan He, Yuxiang Yang, and Guanya Shi. Sampling-based system identification with active exploration for legged robot sim2real learning. arXiv preprint arXiv:2505.14266 ,2025. [29] Nitish Sontakke, Hosik Chae, Sangjoon Lee, Tianle Huang, Dennis W Hong, and Sehoon Hal. Residual physics learning and system identifi-cation for sim-to-real transfer of policies on buoyancy assisted legged robots. In 2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , pages 392–399. IEEE, 2023. [30] Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke. Sim-to-real: Learning agile locomotion for quadruped robots. arXiv preprint arXiv:1804.10332 , 2018. [31] Josh Tobin, Rachel Fong, Alex Ray, Jonas Schneider, Wojciech Zaremba, and Pieter Abbeel. Domain randomization for transferring deep neural networks from simulation to the real world. In 2017 IEEE/RSJ international conference on intelligent robots and systems (IROS) , pages 23–30. IEEE, 2017. [32] Peilin Wu, Weiji Xie, Jiahang Cao, Hang Lai, and Weinan Zhang. Loopsr: Looping sim-and-real for lifelong policy adaptation of legged robots. In 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , pages 5649–5656. IEEE, 2025. [33] Weiji Xie, Jinrui Han, Jiakun Zheng, Huanyu Li, Xinzhe Liu, Jiyuan Shi, Weinan Zhang, Chenjia Bai, and Xuelong Li. Kungfubot: Physics-based humanoid whole-body control for learning highly-dynamic skills. arXiv preprint arXiv:2506.12851 , 2025. [34] Kevin Zakka, Qiayuan Liao, Brent Yi, Louis Le Lay, Koushil Sreenath, and Pieter Abbeel. mjlab: A lightweight framework for gpu-accelerated robot learning, 2026. [35] Kevin Zakka, Baruch Tabanpour, Qiayuan Liao, Mustafa Haiderbhai, Samuel Holt, Jing Yuan Luo, Arthur Allshire, Erik Frey, Koushil Sreenath, Lueder A Kahrs, et al. Mujoco playground. arXiv preprint arXiv:2502.08844 , 2025. [36] Tong Zhang, Boyuan Zheng, Ruiqian Nai, Yingdong Hu, Yen-Jen Wang, Geng Chen, Fanqi Lin, Jiongye Li, Chuye Hong, Koushil Sreenath, et al. Hub: Learning extreme humanoid balance. arXiv preprint arXiv:2505.07294 , 2025.
