@@ -1,0 +1,784 @@
+Title: Ground Reaction Inertial Poser: Physics-based Human Motion Capture from Sparse IMUs and Insole Pressure Sensors
+
+URL Source: https://arxiv.org/pdf/2603.16233v1
+
+Published Time: Wed, 18 Mar 2026 00:57:48 GMT
+
+Number of Pages: 17
+
+Markdown Content:
+# Ground Reaction Inertial Poser: Physics-based Human Motion Capture from Sparse IMUs and Insole Pressure Sensors 
+
+## Ryosuke Hori 1,2,3 Jyun-Ting Song 1 Zhengyi Luo 1 Jinkun Cao 1
+
+## Soyong Shin 1 Hideo Saito 2,3 Kris Kitani 11Carnegie Mellon University 2Keio University 3Keio AI Research Center 
+
+https://ryosukehori.github.io/grip-project/ (a) Sensor Configuration (b) Physics -based Motion Reconstruction (c) Multi -modal Dataset 
+
+> Estimated Poses and Joint Torques
+> [Apple Watch]
+> [OpenGo]
+
+Walk: subj006_take003_seq001_001.npz, frame 401 
+
+Soccer: subj001_take019_seq001_000.npz, frame 248 
+
+Stair: subj006_take023_seq003_000.npz, frame 296 
+
+Soccer Stair              
+
+> [Apple Watch]
+> Smart Watches
+> (IMU)
+> Smart Insoles
+> (IMU + Pressure) PRISM dataset
+> •被験者 6名（男 4, 女2）
+> •145 シーケンス
+> •1.3M フレーム
+> •3.6 h (100 fps)
+> OpenGo
+> Aria Glass
+> Apple Watch
+> Xsens MTw
+> Apple Watch
+> IMUs
+> Insoles
+> Motion
+> Env.
+> ・9 DoF ×6
+> ・6 DoF ×2
+> ・Pressure
+> ・CoP
+> ・SMPL Mesh
+> ・Mocap Marker
+> ・Point Clouds
+> ・Object Models
+
+Figure 1. Overview of the proposed Ground Reaction Inertial Poser (GRIP). (a) GRIP observes motion using four IMUs and foot pressure data from smartwatches and smart insoles. (b) Full-body motion is reconstructed by driving a humanoid with joint torques in a physics simulator. (c) The PRISM dataset offers multimodal measurements, including IMUs, foot pressure, motion data, and environmental data. 
+
+## Abstract 
+
+We propose Ground Reaction Inertial Poser (GRIP), a method that reconstructs physically plausible human mo-tion using four wearable devices. Unlike conventional IMU-only approaches, GRIP combines IMU signals with foot pressure data to capture both body dynamics and ground in-teractions. Furthermore, rather than relying solely on kine-matic estimation, GRIP uses a digital twin of a person, in the form of a synthetic humanoid in a physics simulator, to reconstruct realistic and physically plausible motion. At its core, GRIP consists of two modules: KinematicsNet, which estimates body poses and velocities from sensor data, and DynamicsNet, which controls the humanoid in the simula-tor using the residual between the KinematicsNet prediction and the simulated humanoid state. To enable robust train-ing and fair evaluation, we introduce a large-scale dataset, Pressure and Inertial Sensing for Human Motion and Inter-action (PRISM), that captures diverse human motions with synchronized IMUs and insole pressure sensors. Experi-mental results show that GRIP outperforms existing IMU-only and IMU–pressure fusion methods across all evalu-ated datasets, achieving higher global pose accuracy and improved physical consistency. 
+
+## 1. Introduction 
+
+Accurately capturing human motion in practical settings is crucial for many applications in robotics, biomechan-ics, and virtual reality. Reducing the number of sensors is particularly important for improving usability in every-day environments. In this work, we propose Ground Reac-tion Inertial Poser (GRIP) , a novel motion capture method that reconstructs physically consistent full-body motion us-ing only four wearable devices attached to the wrists and feet (Fig. 1-a). GRIP integrates kinematic cues from four IMUs with dynamic cues from foot pressure, and leverages physics simulation–based humanoid control through deep reinforcement learning, achieving accurate and physically plausible full-body motion estimation despite the minimal sensor configuration (Fig. 1-b). 1
+
+> arXiv:2603.16233v1 [cs.CV] 17 Mar 2026
+
+Conventional optical motion capture (MoCap) systems provide high accuracy, but require dedicated environments with multiple cameras, making them unsuitable for every-day or long-term use. Monocular RGB–based approaches have also been widely studied in recent years. However, third-person monocular methods [3, 6, 10, 49, 54] are con-strained by the camera’s field of view, while egocentric methods [16, 19, 22, 23, 53, 58] suffer from the difficulty of estimating the camera motion and the full-body pose due to self-occlusions. As an alternative to these vision-based approaches, wearable IMU-based methods, in which sen-sors are directly attached to the human body, have also been explored. Commercial wearable MoCap systems offer ac-curate motion estimation, but systems such as Xsens require up to 17 IMUs embedded in a spandex body suit, making them less suitable for daily use. Recent studies address this limitation by estimating full-body pose using only a few IMUs [21, 27, 40, 59]. However, unlike methods that leverage VR-oriented head-mounted devices (HMDs) or hand trackers for pose estima-tion [1, 4, 7–9, 11, 24–26, 30, 55, 72], IMU-only systems cannot directly measure absolute position. As a result, ac-cumulated estimation errors lead to temporal drift and phys-ically implausible artifacts, such as foot sliding, penetra-tion, or floating. Although post-hoc physical optimization techniques [57, 60, 62, 63] can mitigate these issues, they still depend on IMU-based estimation of body–environment contacts, making it difficult to accurately capture fine-grained physical interactions. To better model such inter-actions, recent studies have incorporated insole-type pres-sure sensors equipped with IMUs [13, 56, 65], providing additional dynamic cues that reflect weight shifts through ground reaction forces, as well as reliable foot-contact cues that help suppress drift. Nevertheless, these approaches rely solely on foot sensors, limiting their ability to reconstruct upper-body motion and still suffer from drift in complex or dynamic motions. To address these limitations, GRIP is designed to achieve high accuracy and physical plausibility with minimal IMUs and foot pressure sensors. It consists of two neural net-work modules. The first, KinematicsNet, incrementally es-timates the kinematic state of motion, including joint posi-tions, angles, and velocities, from IMU and foot pressure data. The second, DynamicsNet, controls a digital twin humanoid model within a physics simulator by using the sensor data, the estimated kinematic state, humanoid state, and environmental information as observations to reproduce physically consistent human motion. By using the simu-lator, DynamicsNet naturally satisfies physical constraints such as gravity, friction, and ground reaction forces. This allows it to suppress non-physical artifacts, as well as unnat-ural foot-ground constraints seen in the physical optimiza-tion methods. Validating such a physics-integrated framework requires real-world data that capture both human motion and its physical interactions with the environment. To this end, we built a new public dataset, Pressure and Inertial Sensing for Human Motion and Interaction ( PRISM ), which integrates multi-modal data including IMU and insole pressure mea-surements, optical motion capture, and environmental mod-els (Fig. 1-c). PRISM covers diverse human motions, span-ning daily activities, sports, and human–object interactions, offering a comprehensive dataset for modeling physically consistent human motion and interaction. In summary, our contributions are as follows: (1) We propose GRIP, a framework that achieves accurate full-body motion estimation using only four IMUs and insole pressure sensors. (2) We introduce a two-stage architecture, Kine-maticsNet and DynamicsNet, that integrates IMU and pres-sure data to reconstruct physically consistent human mo-tion. (3) We construct and publicly release a new multi-modal dataset, PRISM, which includes diverse actions and sensor modalities. 
+
+## 2. Related Works 
+
+2.1. Pose Estimation Using IMUs 
+
+Full-body pose estimation using a small number of body-mounted IMUs has been widely studied. Early approaches demonstrated that accurate motion estimation is achiev-able even with sparse IMUs, through either optimization-based reconstruction [52] or deep learning [21]. Subse-quent studies have improved global localization accuracy and physical consistency by leveraging additional cues such as ground contact [59], physical constraints [60], terrain es-timation [27], non-inertial effects [62], and contact reason-ing for interactions with objects [63]. Other works enhance estimation by integrating auxiliary sensing modalities, in-cluding UWB-based ranging [2, 31], barometric altitude in-formation [69], and egocentric vision [14, 15, 29, 61, 64]. Recent research has further explored lightweight configura-tions using everyday devices [18, 40, 57, 74], as well as gen-erative models that synthesize motions for body parts with-out IMU attachments [51]. However, reducing the num-ber of sensors inherently makes it more difficult to estimate complex body motion and model body–environment inter-actions. These limitations suggest the need for additional complementary signals beyond IMUs. 
+
+2.2. Pose Estimation Using Pressure Sensors 
+
+Pressure sensors provide valuable information about human motion dynamics and human–environment interactions, and their integration has been shown to improve the physi-cal plausibility of pose estimation [5, 34, 43, 50]. How-ever, these approaches rely on fixed pressure mats, limiting their applicability to constrained environments. In paral-2lel, portable insole-type pressure sensors have also been ex-plored, enabling analyses of stability [45], improvements in vision-based pose estimation [68], and reductions in foot-skating artifacts [41]. Moreover, several methods combine insole-mounted IMUs and pressure data to estimate root-relative poses [13, 56] or to reconstruct both full-body pos-ture and global trajectories using dual-modal inputs [65]. These IMU–pressure fusion approaches highlight the use-fulness of foot–ground contact information; however, con-figurations restricted to the feet inherently struggle to cap-ture full-body motion, and IMU measurements in local sen-sor coordinates make global trajectory estimation challeng-ing. In addition, the existing methods lack mechanisms to enforce physical plausibility in reconstructed poses. These limitations motivate our design of GRIP, which integrates sparse IMUs, insole pressure sensing, and physics simula-tion to achieve accurate and physically consistent full-body motion reconstruction with a minimal sensor configuration. 
+
+2.3. Physics-based Humanoid Control 
+
+Physics-based humanoid control has gained increasing at-tention in recent years. Prior work has demonstrated the ability to generate diverse motions from robust control poli-cies and to generalize across varying environments [37, 39, 48]. In the context of image-based pose estimation, sev-eral methods incorporate physical plausibility through re-inforcement learning or physics-guided control to improve motion realism [20, 35, 36, 46, 47, 66, 67, 71]. Additional advances have utilized knowledge distillation [38] or posi-tional signals from VR devices to enable real-time or adap-tive physically consistent motion estimation [30]. These ap-proaches typically rely on absolute positional or postural information obtained from cameras or HMDs. In contrast, IMU-only settings lack such global references, and inte-grating IMU-derived velocities inevitably introduces drift, which directly affects the trajectories supplied to physics-based controllers. These limitations highlight the need for physics-based control frameworks that can operate without absolute positional inputs and instead utilize relative motion cues available from wearable sensors. 
+
+## 3. Method 
+
+Our goal is to reproduce diverse real-world human motions on a torque-driven humanoid model in a physics simulator using a minimal sensor setup. As shown in Fig. 2, GRIP takes four IMU signals, two on the wrists and two embed-ded in the insoles, along with the foot pressure data. The architecture follows an observer–controller structure: Kine-maticsNet estimates motion states from sensor data, and DynamicsNet uses these estimates to control the humanoid model. We introduce an intermediate representation, State Difference, which captures the discrepancy between the es-timated motion state and the simulated humanoid state, al-lowing DynamicsNet to utilize the kinematic observations. The following sections describe the input data (Sec. 3.1), KinematicsNet (Sec. 3.2), State Difference (Sec. 3.3), Dy-namicsNet (Sec. 3.4), and the PRISM dataset (Sec. 3.5). 
+
+3.1. Input Data 
+
+The GRIP framework uses acceleration and orientation measurements from four IMUs. All IMU accelerations and orientations are transformed into the global coordi-nate frame. For a sequence of length T , the acceleration and orientation at frame t are represented as At ∈ R4×3
+
+and Rt ∈ R4×3×3. The insole sensors contain 16 pres-sure cells per foot and provide raw pressure values, vertical ground reaction forces (GRF), and the center of pressure (CoP). To ensure compatibility across different insole de-vices, we define a simplified input representation. Specif-ically, the vertical GRF is represented as Igrf ∈ R2×1, the CoP positions (2D coordinates centered at the midfoot) as 
+
+Icop ∈ R2×2, and the binary contact labels for the fore-foot and rearfoot regions as Icnt ∈ R2×2. The contact la-bels are obtained by dividing the foot sole into front and rear regions and assigning a contact label when the summed pressure in each region exceeds a threshold. These features are concatenated to form the simplified input representation 
+
+It = [ Igrf , Icop , Icnt ] ∈ R2×5. Finally, all sensor observa-tions at frame t are summarized as Osen  
+
+> t
+
+= {Rt, At, It}.
+
+3.2. KinematicsNet 
+
+KinematicsNet progressively estimates kinematic informa-tion from the input sensor data. The network produces four outputs: leaf-joint positions (LP), full-joint positions (FP), full-body joint angles (FA), and leaf-joint velocities (LV). First, taking the root joint (pelvis) as the coordinate ori-gin, the network predicts the leaf-joint positions (LP) of the wrists, feet, and head. These predictions, together with the sensor data, are then used to reconstruct full-body joint po-sitions (FP). While this progressive estimation follows prior works [59, 60, 62, 63], our method differs in that we operate directly on globally oriented IMU measurements. Because no IMU is attached to the root joint, the root’s global rota-tion cannot be separated from these measurements. As a re-sult, the network outputs are represented in a root-centered frame but still retain the global rotation of the body. Next, using the sensor data and the estimated joint positions, the network predicts the full-body joint angles (FA) and the global leaf-joint velocities (LV). The resulting full-joint po-sitions, joint angles, and leaf-joint velocities are used to compute the State Difference (Sec. 3.3), and are also stored in a History Buffer H to provide reset references when the humanoid falls in the physics simulator (Sec. 3.4). The network employs a unidirectional LSTM for each stage (LP, FP, FA, LV), estimating outputs frame by frame while modeling temporal dependencies. At each timestep, 3LP FP 
+
+PN 
+
+> Physics Simulation
+> (Isaac Gym)
+
+LV !! 
+
+> "#$%
+> PRISM Dataset
+> (Section 3.5)
+> KinematicsNet
+> (Section 3.2)
+> DynamicsNet
+> (Section 3.4)
+> State Difference
+> (Section 3.3)
+
+DR  
+
+> Leaf Joint
+> Position
+> Full Joint
+> Position
+> Leaf Joint
+> Velocity
+> "!
+> $&'
+> #!
+> (#"%
+> Motion difference
+> of leaf joints
+> Discriminator
+> Reward
+> "!
+> )& Imitation
+> Reward
+
+IR 
+
+PPO          
+
+> $!
+> ∗
+> !!
+> "#$% ={%!
+> &,%!
+> ',%!
+> (,'!
+> "#$% }
+> !!
+> %)"" ={%!
+> *,)!}
+> ℛ
+> &!
+> "#$%
+
+FA                           
+
+> History
+> Buffer
+> #!
+> #+,
+> ℋ=&!-.:!,$!-.:!,!!-.:!
+> #!#0
+> 1)+
+> #!
+> (#+ ={+!,,!,-!}
+> &!$!
+> Full Joint
+> Angle
+> Position difference
+> of full joints
+> Input Data
+> (Section 3.1)
+> IMU (Wrists, Feet)
+> Orient. *!∈ℝ+×-×-
+> Accel. -!∈ℝ+×-
+> Insole (Feet)
+> vGRF ../0 ∈ℝ1×2
+> CoP .345 ∈ℝ1×1
+> Contact .367 ∈ℝ1×1
+
+# subj006_take003, frame 1899 
+
+> /89:
+
+Figure 2. Overview of the GRIP framework. Input Data (Sec. 3.1) consists of IMU and insole measurements. KinematicsNet (Sec. 3.2) estimates kinematic states, and the State Difference (Sec. 3.3) compares them with the simulated humanoid. DynamicsNet (Sec. 3.4) drives the humanoid through physics simulation-based control. The PRISM dataset (Sec. 3.5) provides diverse multi-modal data. 
+
+the output is defined as leaf-joint position pleaf  
+
+> t
+
+∈ R5×3,full-joint position pt ∈ R24 ×3, full-body joint angle θt ∈
+
+R24 ×6, and leaf-joint velocity vleaf  
+
+> t
+
+∈ R5×3. The 24 joints correspond to the SMPL model [32], and the five leaf joints correspond to the wrists, feet, and head. The joint angles are represented using the continuous 6D rotation represen-tation [73] for stable learning. KinematicsNet is trained using mean squared error (MSE) losses applied to each of its submodules. The total loss is defined as: LKin =
+
+∥pleaf − ˆpleaf ∥2 + ∥p − ˆp∥2 + ∥θ − ˆθ∥2 + ∥vleaf − ˆvleaf ∥2,
+
+where the hat notation indicates ground-truth values. 
+
+3.3. State Difference 
+
+In IMU-based motion estimation, integrating estimated ve-locities to obtain global trajectories causes drift accumula-tion, which would directly propagate to humanoid tracking. To avoid this, our framework does not use integrated global positions; instead, it represents translational motion using the estimated global velocities of leaf joints and expresses posture using root-relative joint positions. To unify these cues and capture the discrepancy between the estimated and simulated humanoid states, we introduce an intermediate representation called State Difference. The State Difference comprises (1) motion differences at the leaf joints and (2) position differences for all joints, both transformed into the humanoid’s heading-aligned coordinate frame. The first component, Dleaf  
+
+> t
+
+=
+
+{dθt , dvt , dωt , θleaf  
+
+> t
+
+}, consists of the following terms: the ro-tational differences dθt ∈ R4×6, angular velocity differ-ences dωt ∈ R4×3, and orientations θleaf  
+
+> t
+
+∈ R4×6 computed at the four leaf joints corresponding to the IMUs (wrists and feet); and the linear velocity differences dvt ∈ R6×3
+
+computed at six key joints (wrists, feet, head, and pelvis) based on the outputs of KinematicsNet. The second com-ponent, Dfull  
+
+> t
+
+= {dpt , pt}, captures the position differences of all joints, expressed in the root-aligned coordinate frame. Specifically, the position difference dpt ∈ R24 ×3 are derived from the full-body joint positions pt ∈ R24 ×3 estimated by KinematicsNet and the corresponding simulated humanoid joint positions. Finally, Dleaf  
+
+> t
+
+and Dfull  
+
+> t
+
+are concatenated to form the State Difference vector Dt = [ Dleaf  
+
+> t
+
+, Dfull  
+
+> t
+
+].
+
+3.4. DynamicsNet 
+
+DynamicsNet controls the humanoid model within the physics simulator based on several observations. The over-all framework is formulated as a Markov Decision Process defined by the tuple M = ⟨S , A, T , R, γ ⟩, where S, A, T ,
+
+R, and γ denote the state space, action space, transition dy-namics, reward function, and discount factor, respectively. At each timestep t, the policy π(at|st) selects an action 
+
+at ∈ A given the current state st ∈ S , and the simulator updates the next state st+1 according to T . The policy is trained to maximize the expected discounted reward using the proximal policy optimization (PPO) algorithm [44]. 
+
+Observations. The observation vector at each timestep is defined as Ot = {Osen  
+
+> t
+
+, Okin  
+
+> t
+
+, Oself  
+
+> t
+
+, Oenv  
+
+> t
+
+}. The sensor ob-servation Osen  
+
+> t
+
+= {Rt, At, It} consists of the same inputs used in KinematicsNet. These sensor-level features allow the policy to directly reference the original sensory inputs in addition to the estimated kinematic states. The kinematic observation Okin  
+
+> t
+
+corresponds to the State Difference Dt in-troduced in the previous section, representing the discrepan-4cies between the estimated motion and simulated humanoid states. The self observation Oself  
+
+> t
+
+= {psim  
+
+> t
+
+, θsim  
+
+> t
+
+, ˙psim  
+
+> t
+
+, ˙θsim  
+
+> t
+
+}
+
+includes the positions and angles of all joints, along with their temporal derivatives (velocities and angular veloci-ties). Finally, the environmental observation Oenv  
+
+> t
+
+repre-sents the height map of the environment, sampled as a 
+
+25 × 25 grid centered around the humanoid within a square area of 1.5m × 1.5m. This map provides spatial context, enabling the policy to adapt to non-flat environments. 
+
+Policy and Reward. The policy network (PN) is imple-mented as a multilayer perceptron (MLP) that maps the ob-servation vector Ot to target joint angles θ∗ 
+
+> t
+
+, which serve as the action at. These target angles are converted into joint torques τt using proportional-derivative (PD) control: 
+
+τt = kp(θ∗ 
+
+> t
+
+− θt) − kd ˙θt, where kp and kd denote propor-tional and derivative gains, respectively. The reward func-tion follows the Perpetual Humanoid Control (PHC) frame-work [37] and consists of three components: an Adversar-ial Motion Prior (AMP) [42], an imitation reward, and an energy penalty [12]. The discriminator reward (DR) from AMP encourages realistic motion by training a discrimina-tor to distinguish generated motions from real human move-ments. The imitation reward (IR) measures consistency be-tween the simulated and reference motion obtained from the training dataset using differences in joint positions, ro-tations, and velocities. The energy penalty regularizes ex-cessive joint torques, promoting natural and stable motion. Further details are provided in the supplementary material. 
+
+Fall Recovery Mechanism. In our framework, the hu-manoid is controlled under strong physical constraints with-out introducing any auxiliary forces such as residual forces. As a result, during complex or abrupt motion transitions, the humanoid may occasionally lose balance and fall, lead-ing to unstable simulation behavior. To address this issue, we introduce a fall recovery mechanism based on a history buffer to ensure stable inference during deployment. The mechanism maintains a history buffer H =
+
+{pt−N :t, θt−N :t, vt−N :t} containing the past N frames of outputs from KinematicsNet. At each timestep t, a fall is detected when the root joint height proot  
+
+> z,t
+
+falls below the threshold τz and the discriminator probability ρt from the AMP module is lower than τρ. Once a fall is detected, we compute the kinematic root displacement ∆pkin, root   
+
+> t−N:t
+
+by integrating the root velocities estimated by KinematicsNet and stored in the buffer. The simulated root position is then reinitialized as psim, root  
+
+> t
+
+= psim, root  
+
+> t−N
+
++ ∆ pkin, root   
+
+> t−N:t
+
+. At the same time, the joint angles θt estimated by the Full-joint Angle (FA) module of KinematicsNet are used to re-set the humanoid states, after which the physical simula-tion is resumed. In addition, during the falling phase, the corresponding segment of motion output is replaced by the buffered KinematicsNet predictions pt−N :t, θt−N :t, and 
+
+vt−N :t to maintain kinematic continuity and prevent cor-rupted physical transitions. This allows the humanoid to continue its motion smoothly and consistently even after a fall, without requiring external correction forces. 
+
+3.5. PRISM Dataset 
+
+To enable robust training and fair evaluation of GRIP, we require data captured under diverse conditions with multi-ple IMUs, insole pressure sensors, and high-fidelity motion labels. However, existing pressure-based human motion datasets [17, 41, 45, 65, 68] are limited in sensor modali-ties, motion diversity, or pose annotation accuracy, making them insufficient for training and evaluating physically con-sistent pose estimation from sparse sensors. To address these limitations, we constructed a new mul-timodal dataset, Pressure and Inertial Sensing for Human Motion and Interaction (PRISM), that covers a broad set of motions, such as daily activities (e.g., walking, jogging), slow movements (e.g., stretching, squats), fast sports ac-tions (e.g., golf, baseball, soccer), and interaction behav-iors with objects (e.g., stepping onto or sitting on objects). IMUs, insole sensors, and optical MoCap were recorded at 100 Hz. IMU-equipped watches and insoles were attached to the wrists and feet, while additional IMUs were placed on the knees, pelvis, and head. SMPL pose labels were obtained by fitting the mesh model to the MoCap mark-ers with an existing method [33]. PRISM consists of 1,275 ten-second sequences collected from six subjects (four male and two female), totaling about 3.5 hours of synchronized multimodal motion data. Details on sensor specifications, calibration, synchronization, and comparisons with existing datasets are provided in the supplementary material. 
+
+## 4. Experiments 
+
+4.1. Implementation Details 
+
+Networks and Training. Our framework is trained in two stages: supervised learning of KinematicsNet and rein-forcement learning of DynamicsNet within a physics simu-latior. KinematicsNet is first trained by optimizing its four submodules independently, followed by joint fine-tuning of the entire network. For training DynamicsNet, the weights of KinematicsNet are frozen, and the policy is optimized using PPO with the physics simulator. The fall recovery mechanism is used only during inference and not during training. Details of the network architectures, hyperparam-eters, rewards, simulation settings, and computational envi-ronment are provided in the supplementary material. 
+
+Datasets. We use three datasets with distinct motion characteristics: PRISM , UnderPressure [41], and PSU-TMM100 [45]. PRISM contains diverse real-world mo-tions, including daily activities, sports actions, and hu-man–object interactions, captured with real IMUs and in-5Table 1. Quantitative comparison of our method with baseline methods across the three datasets. Lower values indicate better performance for all metrics. Bold numbers denote the best performance for each metric, and underlined numbers denote the second best. 
+
+Dataset Method MPJPE [mm] ( ↓)PEL-MPJPE [mm] ( ↓)PA-MPJPE [mm] ( ↓)MPJRE [deg] ( ↓)Acc [m/s 2] ( ↓)FS [m/s] ( ↓)FP [mm] ( ↓)vGRF [N] ( ↓)PRISM PIP 248.59 85.48 33.35 17.08 6.68 0.20 10.71 246.85 
+
+GlobalPose 198.30 43.50 31.29 12.01 7.72 0.22 9.72 299.22 MobilePoser 267.45 72.76 55.69 17.99 6.20 0.19 9.97 248.54 FoRM 199.60 87.34 63.75 20.23 9.67 0.36 15.64 -SolePoser - - 82.75 - 9.68 - - -
+
+GRIP (Ours) 182.44 63.85 46.47 13.89 7.30 0.21 5.77 258.40 Under Pressure PIP 523.65 29.89 21.08 8.35 12.59 0.32 1.43 265.62 GlobalPose 301.12 21.49 17.41 7.40 16.65 0.32 3.31 287.12 MobilePoser 626.62 44.28 33.74 11.73 12.62 0.35 1.27 244.78 
+
+FoRM 553.19 59.29 32.60 18.50 17.34 0.57 21.52 -SolePoser - - 34.52 - 24.27 - - -
+
+GRIP (Ours) 218.09 37.27 27.16 7.64 13.22 0.31 0.00 278.27 PSU-TMM100 PIP 182.14 87.56 61.62 21.12 1.62 0.09 5.84 367.87 GlobalPose 175.96 63.05 50.28 18.71 2.09 0.14 2.95 340.11 MobilePoser 210.66 112.35 85.46 28.10 2.37 0.10 5.28 358.19 FoRM 126.60 98.02 82.45 25.19 1.60 0.13 4.51 -SolePoser - - 97.11 - 1.36 - - -
+
+GRIP (Ours) 118.60 70.32 55.72 16.72 4.31 0.11 0.73 316.06 
+
+Table 2. Comparison of input modalities, output representations, and physical modeling across baseline methods.                                       
+
+> Method Input Data Output Data Physics IMUs Press. Joints Mesh Transl. Optim. Sim. PIP [60] 6✓✓✓✓
+> GlobalPose [63] 6✓✓✓✓
+> MobilePoser [57] 3✓✓✓✓
+> FoRM [65] 2✓✓✓✓
+> SolePoser [56] 2✓✓
+> GRIP (Ours) 4✓✓✓✓✓
+
+sole pressure sensors. UnderPressure primarily consists of locomotion-centric actions such as walking, jogging, and skipping; although some sequences include interactions such as stair climbing or stepping onto objects, these were excluded in our experiments because object models are not provided. PSU-TMM100 focuses on Tai Chi movements, which involve slow, highly controlled motions with rich bal-ance shifts. Since PRISM includes only six subjects, we randomly split all sequences into an 8:2 ratio for training and testing. For UnderPressure and PSU-TMM100, which each contain ten subjects, eight were used for training and two for testing. Although both datasets provide real insole measurements, they do not contain IMU recordings; there-fore, following prior work [59], we synthesized IMU sig-nals by computing finite differences of the vertex orienta-tions at IMU attachment locations on the SMPL mesh. All datasets were evaluated in 500-frame (5-second) segments. 
+
+Metrics. We evaluate both the proposed and baseline methods in terms of kinematic accuracy and physical plausibility. For kinematic accuracy, we compute Mean Per Joint Position Error ( MPJPE ); Pelvis-Aligned MPJPE (PEL-MPJPE ), which removes global translation; and Procrustes-Aligned MPJPE ( PA-MPJPE ), which further removes global scale and rotation. We also evaluate joint rotation accuracy using Mean Per Joint Rotation Error (MPJRE ), and temporal smoothness using Acceleration Er-ror ( Acc ). For physical plausibility, we measure Foot Slid-ing ( FS ) during contact and Foot Penetration Depth ( FP )below the ground or object surface. To assess dynamic con-sistency, we compute the Vertical Ground Reaction Force Error ( vGRF ), applied to baselines with physical optimiza-tion and to our method. Metric units are reported in Table 1. 
+
+4.2. Comparison 
+
+We compare our method with baseline methods that esti-mate full-body motion using IMUs and insole pressure sen-sors. Table 2 summarizes the input modalities, output repre-sentations, and whether each method incorporates physical modeling. Quantitative results are presented in Table 1, and qualitative results are shown in Figs. 3, 4 and 5. For global pose accuracy (MPJPE), our method achieves the best performance across all datasets, PRISM (diverse motions), UnderPressure (large displacements), and PSU-TMM100 (slow motions with weight shifts). The foot-sliding metric (FS) shows that physics-based approaches, including post-hoc optimization methods (PIP, GlobalPose, 6GT PIP GlobalPose MobilePoser FoRM GRIP (Ours) All (View1) All (View2) 
+
+PRISM 
+
+Under 
+
+Pressure 
+
+PSU -
+
+TMM100 
+
+# GRID Stair: subj003_take025_seq002_000, frame 460 
+
+# UnderPressure : subj005_take003_seq000_007, frame 193 
+
+# PSU -TMM100: subj009_take010_seq000_019, frame 416 Figure 3. Qualitative comparison of pose estimation results across the three datasets. Our method accurately reconstructs foot placement on objects (PRISM), exhibits less position drift (UnderPressure), and captures slow weight-shifting motions (PSU-TMM100). ubj009_take011_seq000_008        
+
+> !"" #="
+> GT
+> GRIP
+> Global
+> Pose
+> PIP
+> Mobile
+> Poser
+> #=!"" #="
+> Contact
+> Contact No Contact
+
+Figure 4. Comparison of foot contact timing. Right-foot con-tact labels during low-speed motions in PSU-TMM100, computed from the estimated GRF of the physics-based methods. 
+
+MobilePoser) and our simulation-based method, suppress foot sliding more effectively than the purely kinematic FoRM. However, optimization-based methods may over-apply contact constraints when estimation errors occur, temporarily locking the foot to the ground and resulting in trajectory errors (Fig. 4). In contrast, our method sim-ulates natural foot–ground interactions, enabling physically plausible and accurate trajectories (Fig. 5). For pose met-rics without global translation (PEL-MPJPE, PA-MPJPE, MPJRE), GlobalPose achieves the highest accuracy due to using six IMUs and a correction mechanism based on a pelvis-mounted IMU that learns gravity–pose relationships. PIP and our four-IMU method achieve comparable accu-racy, as the use of pressure information effectively captures body dynamics and compensates for the absence of pelvis and head IMUs. SolePoser and FoRM, which rely only on insole-mounted IMUs and pressure signals, are inherently UnderPressure , subj005_take010_seq000_015 
+
+Figure 5. Qualitative comparison of estimated poses and root tra-jectories for a walking sequence from the UnderPressure dataset. Colors correspond to the same methods shown in Fig. 3. 
+
+limited in reconstructing accurate full-body motion. For the foot penetration metric (FP), our method achieves the lowest values across all datasets. In flat-ground datasets such as UnderPressure and PSU-TMM100, the three physics-optimization methods exhibit penetra-tion only when contact detection fails, and our method also shows only minor penetration in limited situations, such as during state replacement during a fall. All four physics-based methods fundamentally prevent penetration through physical constraints. In contrast, the purely kine-matic method FoRM is more prone to penetration caused by root-position estimation errors, particularly in highly dy-namic sequences such as PRISM and UnderPressure. In the 7PRISM dataset, which contains objects, our method accu-rately handles foot–object interactions through a physics-based object model and achieves higher accuracy than Mo-bilePoser and PIP, which assume flat-ground contact, and GlobalPose, which optimizes height and support states but may still suffer from imperfect contact detection. However, in our method, errors may still occur in cases such as stum-bling or stepping off elevated surfaces, where the estimated foot position temporarily falls below the object surface. For vGRF error, PIP and MobilePoser achieve the highest accuracy in PRISM and UnderPressure, while our method performs best in PSU-TMM100. The three optimization-based methods adopt floating-base models and stabilize physics-based control by applying residual forces. In contrast, our method employs a humanoid model without floating bases or residual forces, which can lead to foot-pressure patterns that differ from those of real hu-mans during balance loss or recovery in high-momentum motions. However, in slower motions such as those in PSU-TMM100, the other methods tend to miss fine-scale foot contact events and consequently produce larger ground-reaction and position errors. Our method maintains higher accuracy in these cases by combining natural foot–ground interaction through physics simulation with pressure-driven dynamic reasoning. Further details and extended results can be found in the Supplementary Material. 
+
+4.3. Evaluation 
+
+Sensor Configuration Analysis. This experiment exam-ines how different sensor configurations affect estimation accuracy and motion stability using the PRISM dataset. We evaluated ten conditions: five IMU configurations (2–6 IMUs), each tested with and without insole pressure sen-sors. IMUs were incrementally attached to both feet, both wrists (left only for the 3-IMU setup), the pelvis, and the head. MPJPE and PA-MPJPE were used for kinematic ac-curacy, and the Success Rate measured the proportion of sequences completed without falling. The quantitative re-sults in Table 3 show that accuracy improves with more IMUs and further increases when foot pressure information is added. These findings indicate that increasing the num-ber of IMUs enhances motion estimation accuracy, while foot pressure serves as a complementary modality that con-sistently improves both pose estimation and stability. 
+
+Ablation Study on Observation Design. This experi-ment examines how the kinematic information estimated by KinematicsNet, used within the State Difference, af-fects the control performance of DynamicsNet using the PRISM dataset. Sensor observations Osen  
+
+> t
+
+, self observations 
+
+Oself  
+
+> t
+
+, and environment observations Oenv  
+
+> t
+
+are used across all settings, while the kinematic observation Okin  
+
+> t
+
+is grad-ually expanded. Specifically, we evaluate four configura-tions: (1) D(O, A ) using orientation and acceleration dif-
+
+> Table 3. Comparison across different sensor configurations.
+
+#IMU Press. MPJPE [mm] ( ↓)PA-MPJPE [mm] ( ↓)Succ. Rate [%] ( ↑)2 262.01 84.47 90.35 3 209.27 57.30 88.98 4 194.48 49.97 88.58 5 186.95 45.68 86.61 6 160.76 41.44 87.01 2 ✓ 247.12 82.36 93.90 3 ✓ 199.60 56.80 91.14 4 ✓ 182.44 46.47 94.49 
+
+5 ✓ 164.25 42.82 90.94 6 ✓ 143.06 39.13 92.32 ferences from IMUs; (2) D(O, A, V ) additionally incor-porating differences in estimated leaf-joint velocities; (3) 
+
+D(O, A, V, J glo ) further including joint position differences from globally reconstructed joints via integrated root veloc-ities; and (4) D(O, A, V, J rel ) using root-relative joint posi-tion differences. We use MPJPE, PA-MPJPE, and Success Rate as evaluation metrics. Quantitative results are shown in Table 4, indicating that adding velocity and root-relative joint position differences improves both kinematic accuracy and stability. 
+
+> Table 4. Ablation study on observation configuration.
+
+Configuration MPJPE [mm] ( ↓)PA-MPJPE [mm] ( ↓)Succ. Rate [%] ( ↑)
+
+D(O, A ) 290.71 51.83 90.89 
+
+D(O, A, V ) 206.50 48.97 91.25 
+
+D(O, A, V, J glo ) 187.86 48.87 93.31 
+
+D(O, A, V, J rel ) 182.44 46.47 94.49 
+
+## 5. Conclusion 
+
+We presented GRIP, a physics-based human motion capture framework that integrates four wearable IMUs, insole foot pressure sensors, and physics simulation, and introduced PRISM, a new multimodal dataset capturing diverse human motions and physical interactions. GRIP lever-ages pressure-based dynamic cues and simulation-based physical constraints to achieve accurate global trajectory estimation and physically plausible pose estimation with a minimal sensor setup. Future directions include designing controllers that can better estimate stable motions under un-stable or high-momentum conditions, integrating additional sensing modalities such as cameras or localization sensors to further reduce drift, and extending GRIP to multi-person scenarios and dynamic object interactions for broader applicability in robotics, VR/AR, and biomechanics. 8References 
+
+[1] Sadegh Aliakbarian, Pashmina Cameron, Federica Bogo, Andrew Fitzgibbon, and Thomas J. Cashman. FLAG: Flow-based 3D avatar generation from sparse observations. In 
+
+IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) ,pages 13243–13252, 2022. 2 [2] Rayan Armani, Changlin Qian, Jiaxi Jiang, and Christian Holz. Ultra Inertial Poser (UIP): Scalable motion capture and tracking from sparse inertial sensors and ultra-wideband ranging. In ACM SIGGRAPH Conf. Papers (SIGGRAPH) ,2024. 2 [3] Zhe Cao, Gines Hidalgo, Tomas Simon, Shih-En Wei, and Yaser Sheikh. OpenPose: Realtime multi-person 2d pose es-timation using part affinity fields. IEEE Trans. Pattern Anal. Mach. Intell. (TPAMI) , 43(1):172–186, 2021. 2 [4] Angela Castillo, Maria Escobar, Guillaume Jeannerete, Al-bert Pumarola, Pablo Arbel´ aez, Ali Thabet, and Artsiom Sanakoyeu. BoDiffusion: Diffusing sparse observations for full-body human motion synthesis. In IEEE/CVF Int. Conf. Comput. Vis. (ICCV) , 2023. 2 [5] Wenqiang Chen, Yexin Hu, Wei Song, Yingcheng Liu, An-tonio Torralba, and Wojciech Matusik. CAvatar: Real-time human activity mesh reconstruction via tactile carpets. 
+
+Proc. ACM Interact. Mob. Wearable Ubiquitous Technol. (IMWUT) , 7(4), 2024. 2 [6] Yucheng Chen, Yingli Tian, and Mingyi He. Monocular hu-man pose estimation: A survey of deep learning-based meth-ods. Comput. Vis. Image Underst. , 192:102897, 2020. 2 [7] Peng Dai, Yang Zhang, Tao Liu, Zhen Fan, Tianyuan Du, Zhuo Su, Xiaozheng Zheng, and Zeming Li. HMD-Poser: On-device real-time human motion tracking from scalable sparse observations. In IEEE/CVF Conf. Comput. Vis. Pat-tern Recognit. (CVPR) , 2024. 2 [8] Andrea Dittadi, Sebastian Dziadzio, Darren Cosker, Ben Lundell, Thomas J. Cashman, and Jamie Shotton. Full-body motion from a single head-mounted device: Generat-ing SMPL poses from partial observations. In IEEE/CVF Int. Conf. Comput. Vis. (ICCV) , pages 11687–11697, 2021. [9] Yuming Du, Robin Kips, Albert Pumarola, Sebastian Starke, Ali Thabet, and Artsiom Sanakoyeu. Avatars Grow Legs: Generating smooth human motion from sparse tracking in-puts with diffusion model. In IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2023. 2 [10] Hao-Shu Fang, Shuqin Xie, Yu-Wing Tai, and Cewu Lu. RMPE: Regional multi-person pose estimation. In IEEE Int. Conf. Comput. Vis. (ICCV) , pages 2353–2362, 2017. 2 [11] Han Feng, Wenchao Ma, Quankai Gao, Xianwei Zheng, Nan Xue, and Huijuan Xu. SAGE: Stratified avatar generation from sparse observations. In IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2024. 2 [12] Zipeng Fu, Xuxin Cheng, and Deepak Pathak. Deep Whole-Body Control: Learning a unified policy for manipulation and locomotion. In Conf. Robot Learn. (CoRL) , pages 138– 149, 2022. 5 [13] Yang Gao et al. PressInPose: Integrating pressure and inertial sensors for full-body pose estimation in activities. 
+
+Proc. ACM Interact. Mob. Wearable Ubiquitous Technol. (IMWUT) , 8(4), 2024. 2, 3 [14] Vladimir Guzov, Aymen Mir, Torsten Sattler, and Gerard Pons-Moll. Human POSEitioning System (HPS): 3D human pose estimation and self-localization in large scenes from body-mounted sensors. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) . IEEE, 2021. 2 [15] Vladimir Guzov, Julian Chibane, Riccardo Marin, Yannan He, Yunus Saracoglu, Torsten Sattler, and Gerard Pons-Moll. Interaction Replica: Tracking human–object interaction and scene changes from human motion. In Proc. Int. Conf. 3D Vision (3DV) , 2024. 2 [16] Vladimir Guzov, Yifeng Jiang, Fangzhou Hong, Gerard Pons-Moll, Richard Newcombe, C. Karen Liu, Yuting Ye, and Lingni Ma. HMD 2: Environment-aware motion genera-tion from a single egocentric head-mounted device. In Proc. Int. Conf. 3D Vision (3DV) , 2025. 2 [17] Xingjian Han, Ben Senderling, Stanley To, Deepak Kumar, Emily Whiting, and Jun Saito. GroundLink: A dataset uni-fying human body movement and ground reaction dynamics. In ACM SIGGRAPH Asia Conf. Papers (SA) , 2023. 5 [18] Ryosuke Hori, Hiroyuki Deguchi, Tsubasa Maruyama, Mit-sunori Tada, and Hideo Saito. Gait Inertial Poser (GIP): Gait-aware human motion capture using shoe-embedded IMUs. 
+
+IEEE Access , 13:183262–183282, 2025. 2 [19] Tao Hu, Kripasindhu Sarkar, Lingjie Liu, Matthias Zwicker, and Christian Theobalt. EgoRenderer: Rendering human avatars from egocentric camera images. In Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV) , pages 14528–14538, 2021. 2[20] Buzhen Huang, Liang Pan, Yuan Yang, Jingyi Ju, and Yan-gang Wang. Neural MoCon: Neural motion control for phys-ically plausible human motion capture. In 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 6407–6416, Los Alamitos, CA, USA, 2022. IEEE Computer Society. 3 [21] Yinghao Huang, Manuel Kaufmann, Emre Aksan, Michael J. Black, Otmar Hilliges, and Gerard Pons-Moll. Deep Inertial Poser (DIP): Learning to reconstruct human pose from sparse inertial measurements in real time. ACM Trans. Graph. (TOG) , 37(6), 2018. 2 [22] Dae-Hyeok Hwang, Kazuki Aso, Ye Yuan, Kris Kitani, and Hideki Koike. MonoEye: Multimodal human motion capture system using a single ultra-wide fisheye camera. In Proc. ACM Symp. User Interface Softw. Technol. (UIST) , pages 98–111, 2020. 2 [23] Hao Jiang and Vamsi Krishna Ithapu. Egocentric pose es-timation from human vision span. In Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV) , pages 11006–11014, 2021. 2 [24] Jiaxi Jiang, Paul Streli, Huajian Qiu, Andreas Fender, Larissa Laich, Patrick Snape, and Christian Holz. AvatarPoser: Ar-ticulated full-body pose tracking from sparse motion sens-ing. In Eur. Conf. Comput. Vis. (ECCV) , 2022. 2 [25] Jiaxi Jiang, Paul Streli, Xuejing Luo, Christoph Gebhardt, and Christian Holz. MANIKIN: Biomechanically accurate neural inverse kinematics for human motion estimation. In 
+
+Eur. Conf. Comput. Vis. (ECCV) , 2024. 
+
+9[26] Jiaxi Jiang, Paul Streli, Manuel Meier, and Christian Holz. EgoPoser: Robust real-time egocentric pose estimation from sparse and intermittent observations everywhere. In Eur. Conf. Comput. Vis. (ECCV) , 2024. 2 [27] Yifeng Jiang, Yuting Ye, Deepak Gopinath, Jungdam Won, Alexander W. Winkler, and C. Karen Liu. Transformer In-ertial Poser (TIP): Real-time human motion reconstruction from sparse IMUs with simultaneous terrain generation. In 
+
+ACM SIGGRAPH Asia Conf. Papers (SA) , 2022. 2, 5 [28] Daniel Laidig and Thomas Seel. VQF: Highly accurate IMU orientation estimation with bias estimation and magnetic dis-turbance rejection. Inf. Fusion , 91:187–204, 2023. 2 [29] Jiye Lee and Hanbyul Joo. Mocap Everyone Everywhere: Lightweight motion capture with smartwatches and a head-mounted camera. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2024. 2 [30] Sunmin Lee, Sebastian Starke, Yuting Ye, Jungdam Won, and Alexander Winkler. QuestEnvSim: Environment-aware simulated motion tracking from sparse sensors. In ACM SIG-GRAPH Conf. Proc. (SIGGRAPH) , 2023. 2, 3 [31] Huakun Liu, Hiroki Ota, Xin Wei, Yutaro Hirao, Mon-ica Perusqu´ ıa-Hern´ andez, Hideaki Uchiyama, and Kiyoshi Kiyokawa. UMotion: Uncertainty-driven human motion estimation from inertial and ultra-wideband units. In 
+
+IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) ,pages 7085–7094, 2025. 2 [32] Matthew Loper, Naureen Mahmood, Javier Romero, Ger-ard Pons-Moll, and Michael J. Black. SMPL: A skinned multi-person linear model. ACM Trans. Graph. (TOG) , 34 (6), 2015. 4 [33] Matthew M. Loper, Naureen Mahmood, and Michael J. Black. MoSh: Motion and shape capture from sparse mark-ers. ACM SIGGRAPH Asia Conf. Papers (SA) , 33(6):220:1– 220:13, 2014. 5, 1 [34] Yiyue Luo, Yunzhu Li, Michael Foshey, Wan Shou, Pratyusha Sharma, Tom´ as Palacios, Antonio Torralba, and Wojciech Matusik. Intelligent Carpet: Inferring 3D human pose from tactile signals. In IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , pages 11250–11260, 2021. 2 [35] Zhengyi Luo, Ryo Hachiuma, Ye Yuan, and Kris Kitani. Dynamics-regulated kinematic policy for egocentric pose es-timation. In Advances in Neural Information Processing Sys-tems (NeurIPS) , 2021. 3 [36] Zhengyi Luo, Shun Iwase, Ye Yuan, and Kris Kitani. Em-bodied scene-aware human pose estimation. In Advances in Neural Information Processing Systems (NeurIPS) , 2022. 3 [37] Zhengyi Luo, Jinkun Cao, Alexander Winkler, Kris Kitani, and Weipeng Xu. Perpetual humanoid control for real-time simulated avatars. In 2023 IEEE/CVF International Confer-ence on Computer Vision (ICCV) , pages 10861–10870, 2023. 3, 5 [38] Zhengyi Luo, Jinkun Cao, Rawal Khirodkar, Alexander Win-kler, Jing Huang, Kris Kitani, and Weipeng Xu. Real-time simulated avatar from head-mounted sensors. In 2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 571–581, Los Alamitos, CA, USA, 2024. IEEE Computer Society. 3 [39] Zhengyi Luo, Jinkun Cao, Josh Merel, Alexander Winkler, Jing Huang, Kris M. Kitani, and Weipeng Xu. Univer-sal humanoid motion representations for physics-based con-trol. In International Conference on Learning Representa-tions (ICLR) , 2024. 3 [40] Vimal Mollyn, Riku Arakawa, Mayank Goel, Chris Harri-son, and Karan Ahuja. IMUPoser: Full-body pose estima-tion using IMUs in phones, watches, and earbuds. In ACM Conf. Hum. Factors Comput. Syst. (CHI) , 2023. 2 [41] Lucas Mourot, Ludovic Hoyet, Franc ¸ois Le Clerc, and Pierre Hellier. UnderPressure: Deep learning for foot contact detec-tion, ground reaction force estimation and footskate cleanup. 
+
+Comput. Graph. Forum , 41(8):195–206, 2022. 3, 5, 4 [42] Xue Bin Peng, Ze Ma, Pieter Abbeel, Sergey Levine, and Angjoo Kanazawa. AMP: Adversarial motion priors for styl-ized physics-based character control. ACM Trans. Graph. (TOG) , 40(4), 2021. 5 [43] Shenghao Ren, Yi Lu, Jiayi Huang, Jiayi Zhao, He Zhang, Tao Yu, Qiu Shen, and Xun Cao. MotionPRO: Exploring the role of pressure in human mocap and beyond. In IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , pages 27760– 27770, 2025. 2 [44] John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Rad-ford, and Oleg Klimov. PPO: Proximal policy optimization algorithms. arXiv preprint arXiv:1707.06347 , 2017. 4 [45] Jesse Scott, Bharadwaj Ravichandran, Christopher Funk, Robert T. Collins, and Yanxi Liu. From Image to Stability: Learning dynamics from human pose. In Eur. Conf. Comput. Vis. (ECCV) , pages 536–554, 2020. 3, 5, 4 [46] Soshi Shimada, Vladislav Golyanik, Weipeng Xu, and Chris-tian Theobalt. PhysCap: physically plausible monocular 3d motion capture in real time. ACM Trans. Graph. (TOG) , 39 (6), 2020. 3 [47] Soshi Shimada, Vladislav Golyanik, Weipeng Xu, Patrick P´ erez, and Christian Theobalt. Neural monocular 3d human motion capture with physical awareness. ACM Trans. Graph. (TOG) , 40(4), 2021. 3 [48] Chen Tessler, Yunrong Guo, Ofir Nabati, Gal Chechik, and Xue Bin Peng. MaskedMimic: Unified physics-based char-acter control through masked motion inpainting. ACM Trans. Graph. (TOG) , 2024. 3 [49] Yating Tian, Hongwen Zhang, Yebin Liu, and Limin Wang. Recovering 3D human mesh from monocular images: A sur-vey. IEEE Trans. Pattern Anal. Mach. Intell. (TPAMI) , pages 1–20, 2023. 2 [50] Shashank Tripathi, Lea M¨ uller, Chun-Hao P. Huang, Omid Taheri, Michael J. Black, and Dimitrios Tzionas. 3D human pose estimation via intuitive physics. In IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , pages 4713–4725, 2023. 2 [51] Tom Van Wouwe, Seunghwan Lee, Antoine Falisse, Scott Delp, and C. Karen Liu. DiffusionPoser: Real-time human motion reconstruction from arbitrary sparse sensors using autoregressive diffusion. In IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , pages 2513–2523, 2024. 2 [52] T. von Marcard, B. Rosenhahn, M. J. Black, and G. Pons-Moll. Sparse Inertial Poser (SIP): Automatic 3D human pose 
+
+10 estimation from sparse IMUs. Comput. Graph. Forum , 36 (2):349–360, 2017. 2 [53] Jian Wang, Lingjie Liu, Weipeng Xu, Kripasindhu Sarkar, and Christian Theobalt. Estimating egocentric 3D human pose in global space. In Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV) , pages 11500–11509, 2021. 2 [54] Jinbao Wang, Shujie Tan, Xiantong Zhen, Shuo Xu, Feng Zheng, Zhenyu He, and Ling Shao. Deep 3D human pose estimation: A review. Comput. Vis. Image Underst. , 210: 103225, 2021. 2 [55] Alexander Winkler, Jungdam Won, and Yuting Ye. Quest-Sim: Human motion tracking from sparse sensors with sim-ulated avatars. In ACM SIGGRAPH Asia Conf. Papers (SA) ,2022. 2 [56] Erwin Wu, Rawal Khirodkar, Hideki Koike, and Kris Kitani. SolePoser: Full-body pose estimation using a single pair of insole sensors. In ACM Symp. User Interface Softw. Technol. (UIST) , 2024. 2, 3, 6 [57] Vasco Xu, Chenfeng Gao, Henry Hoffmann, and Karan Ahuja. MobilePoser: Real-time full-body pose estimation and 3D human translation from IMUs in mobile consumer devices. In ACM Symp. User Interface Softw. Technol. (UIST) , 2024. 2, 6, 1 [58] Brent Yi, Vickie Ye, Maya Zheng, Yunqi Li, Lea M¨ uller, Georgios Pavlakos, Yi Ma, Jitendra Malik, and Angjoo Kanazawa. Estimating body and hand motion in an ego-sensed world. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , pages 7072–7084, 2025. 2 [59] Xinyu Yi, Yuxiao Zhou, and Feng Xu. TransPose: Real-time 3D human translation and pose estimation with six inertial sensors. ACM Trans. Graph. (TOG) , 40(4), 2021. 2, 3, 6 [60] Xinyu Yi, Yuxiao Zhou, Marc Habermann, Soshi Shimada, Vladislav Golyanik, Christian Theobalt, and Feng Xu. Phys-ical Inertial Poser (PIP): Physics-aware real-time human mo-tion tracking from sparse inertial sensors. In IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2022. 2, 3, 6, 1, 5 [61] Xinyu Yi, Yuxiao Zhou, Marc Habermann, Vladislav Golyanik, Shaohua Pan, Christian Theobalt, and Feng Xu. EgoLocate: Real-time motion capture, localization, and mapping with sparse body-mounted sensors. ACM Trans. Graph. (TOG) , 42(4), 2023. 2 [62] Xinyu Yi, Yuxiao Zhou, and Feng Xu. Physical non-inertial poser (PNP): Modeling non-inertial effects in sparse-inertial human motion capture. In ACM SIGGRAPH Conf. Papers (SIGGRAPH) , 2024. 2, 3, 5 [63] Xinyu Yi, Shaohua Pan, and Feng Xu. Improving global motion estimation in sparse IMU-based motion capture with physics. ACM Trans. Graph. (TOG) , 44(4):1–16, 2025. 2, 3, 6, 1, 5 [64] Handi Yin, Bonan Liu, Manuel Kaufmann, Jinhao He, Sammy Christen, Jie Song, and Pan Hui. EgoHDM: A real-time egocentric-inertial human motion capture, localization, and dense mapping system. ACM Trans. Graph. (TOG) , 43 (6), 2024. 2 [65] Qijun Ying, Zehua Cao, Ziyu Wu, Wenwu Deng, Yuchen Zhong, Yukun Diao, and Xiaohui Cai. FoRM: Foot-driven reconstruction of human motion using dual-modal plantar pressure and inertial sensing. Proc. ACM Interact. Mob. Wearable Ubiquitous Technol. (IMWUT) , 9(3), 2025. 2, 3, 5, 6, 1, 4 [66] Y. Yuan and K. Kitani. 3D ego-pose estimation via imitation learning. In Proc. Eur. Conf. Comput. Vis. (ECCV) , pages 763 – 778, 2018. 3 [67] Y. Yuan and K. Kitani. Ego-pose estimation and forecasting as real-time PD control. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , pages 10081–10091, 2019. 3 [68] He Zhang, Shenghao Ren, Haolei Yuan, Jianhui Zhao, Fan Li, Shuangpeng Sun, Zhenghao Liang, Tao Yu, Qiu Shen, and Xun Cao. MMVP: A multimodal mocap dataset with vision and pressure sensors. In IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , pages 21842–21852, 2024. 3, 5, 4 [69] Libo Zhang, Xinyu Yi, and Feng Xu. BaroPoser: Real-time human motion tracking from IMUs and barometers in every-day devices. In ACM Symp. User Interface Softw. Technol. (UIST) , 2025. 2 [70] Yu Zhang, Songpengcheng Xia, Lei Chu, Jiarui Yang, Qi Wu, and Ling Pei. Dynamic Inertial Poser (DynaIP): Part-based motion dynamics learning for enhanced human pose estimation with sparse inertial sensors. In IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , pages 1889–1899, 2024. 5 [71] Youliang Zhang et al. A plug-and-play physical motion restoration approach for in-the-wild high-difficulty motions. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , pages 13281–13292, 2025. 3 [72] Xiaozheng Zheng, Zhuo Su, Chao Wen, Zhou Xue, and Xi-aojie Jin. Realistic full-body tracking from sparse observa-tions via joint-level modeling. In IEEE/CVF Int. Conf. Com-put. Vis. (ICCV) , 2023. 2 [73] Yi Zhou, Connelly Barnes, Jingwan Lu, Jimei Yang, and Hao Li. On the continuity of rotation representations in neural networks. In IEEE/CVF Conf. Comput. Vis. Pattern Recog-nit. (CVPR) , pages 5738–5746, 2019. 4 [74] Chengxu Zuo, Yiming Wang, Lishuang Zhan, Shihui Guo, Xinyu Yi, Feng Xu, and Yipeng Qin. Loose Inertial Poser (LIP): Motion capture with IMU-attached loose-wear jacket. In IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) ,pages 2209–2219, 2024. 2 
+
+11 Ground Reaction Inertial Poser: Physics-based Human Motion Capture from Sparse IMUs and Insole Pressure Sensors 
+
+# Supplementary Material 
+
+## 6. Supplementary Video 
+
+The supplementary video presents an overview of the GRIP method introduced in Sec. 3 of the main paper, including its input data and the intermediate outputs of its component networks, a visualization of the proposed PRISM dataset, a detailed qualitative comparison with baseline methods cor-responding to Sec. 4.2, and representative failure cases of the proposed approach. We first visualize the sparse wearable sensor data used as inputs to KinematicsNet and DynamicsNet, namely the IMU measurements from the four attachment sites on the wrists and feet, together with the plantar pressure informa-tion obtained from the insole sensors. We then show the intermediate estimates produced by KinematicsNet, includ-ing leaf-joint positions, full-body joint positions and joint angles, and leaf-joint velocities. This is followed by a vi-sualization of the physically plausible whole-body motion reconstructed by DynamicsNet within the Isaac Gym simu-lation environment. We also demonstrate the fall-recovery mechanism, which uses a HistoryBuffer that stores past KinematicsNet outputs to temporarily switch to kinematic predictions after a fall is detected, enabling the simulation to resume safely. In addition, the video illustrates the sensor configuration used during the construction of the PRISM dataset and visualizes the calibrated, synchronized, and in-tegrated multimodal sensor data and motion annotations. In the subsequent comparison with baseline meth-ods (PIP [60], GlobalPose [63], MobilePoser [57], and FoRM [65]), the video highlights differences in accuracy of global pose estimation, interactions with objects, and the naturalness of foot–ground contact. Finally, we present fail-ure cases of our method, including stumbling or missteps during object interaction and instability in challenging mo-tions, which reflect current limitations of the approach. 
+
+## 7. PRISM Dataset Details 
+
+7.1. Data Acquisition 
+
+In constructing the PRISM dataset, it is necessary to inte-grate the various sensor measurements obtained from mul-tiple wearable devices and an optical MoCap system into a unified global coordinate frame and to synchronize all recordings under a consistent temporal reference. This sec-tion describes the sensing devices and data acquisition pro-tocol used during collection, the coordinate-frame calibra-tion procedures for each device, and the temporal synchro-nization process. 
+
+Sensors and Capture Protocol. Data were collected us-ing an optical motion-capture system (OptiTrack), IMU-equipped smartwatches (Apple Watch), IMU-equipped insole-type pressure sensors (Moticon OpenGo), a head-mounted multimodal sensing device (Meta Aria Glass), and IMU devices (Xsens MTw). OptiTrack provides high-precision 3D marker trajectories, and the captured marker data were fitted with Mosh++ [33] to reconstruct SMPL meshes and high-fidelity body motion. OpenGo includes a 6DoF IMU (accelerometer and gyroscope) and sixteen pressure sensors on each foot, enabling the measurement of vertical forces, pressure distribution, and center of pressure (CoP). The Apple Watch includes a 9DoF IMU (accelerom-eter, gyroscope, and magnetometer). Aria Glass includes two 9DoF IMUs and simultaneously records forward-facing video and two additional SLAM camera views. Using these videos and IMU data, the Project Aria Machine Percep-tion Service (MPS) was used to obtain environmental point clouds and device trajectories. Furthermore, Xsens MTw units (9DoF IMUs) were attached to the knees and pelvis. At the beginning of each recording, the subject main-tained a T-pose for approximately three seconds while wear-ing all sensors. This static posture is used to determine the relative orientations of each IMU with respect to the SMPL body model. Starting each capture with the same protocol also reduces ambiguity in the initial pose during real-world operation. After the T-pose, the subject returned to an up-right stance and performed three consecutive vertical jumps. The characteristic acceleration peaks observed during the jump motions are later used as robust temporal landmarks for precise synchronization across all sensor streams. The subject then performed the instructed motion sequence. 
+
+IMU Calibration. IMU data were collected from eight body locations using four types of wearable devices: Apple Watch, OpenGo, Aria Glass, and Xsens MTw. Because each device defines its measurements in its own coordinate sys-tem, all IMU observations must be transformed into a uni-fied global coordinate frame. We use the coordinate system of the SMPL motion reconstructed from the optical MoCap data using Mosh++ as the global coordinate frame, adopt-ing a z-up convention. At the beginning of each recording session, the subject holds a T-pose facing the positive y-axis of the global frame. This protocol enables consistent initial-ization of all IMU orientations and establishes the reference posture used for the subsequent calibration steps. The fol-lowing sections describe how raw IMU orientations and ac-celerations are aligned with the global coordinate frame and 1Figure 6. Calibration setup for initial orientation. Left: Apple Watch. Right: Xsens MTw sensors. 
+
+further mapped to the corresponding SMPL joint frames. We first describe the calibration procedure for the Ap-ple Watch and Xsens IMUs, following the notation used in previous works [27, 29]. The relationship between the joint-frame orientation and the raw IMU measurements is expressed as follows: 
+
+Rjg = Rrg Rsr Rjs, ag = Rrg Rsr as, (1) where r denotes the raw IMU reference frame, and g de-notes the global coordinate frame. To obtain the joint ro-tations and accelerations in the global coordinate system at each IMU attachment site, the IMU orientation must be converted into the corresponding joint orientation Rjg , and the raw accelerations defined in the sensor frame must like-wise be transformed into the global frame ag , where Rsr
+
+denotes the raw IMU orientation expressed in the reference sensor frame. Thus, we first estimate the orientation of this reference frame relative to the global frame. Follow-ing prior work [27, 29], before being attached to the user, each IMU sensor is placed on the floor in a specified ori-entation aligned with the global frame and kept still for 3 seconds (Fig. 6). By averaging the static IMU signal, we obtain a stable estimate of its orientation at that moment, where Rsr = Rgr holds. The inverse (Rgr )−1 is then applied to compute Rrg . In the next step, we compute the joint orien-tation Rjg by combining the IMU-to-global rotation with the joint-to-sensor rotation as Rsg Rjs. To determine the joint-to-sensor transform Rjs, the subject takes a T-pose while facing the global y-axis. The relationship is given by 
+
+RjT 
+
+> sT
+
+= ( RsT 
+
+> r
+
+)−1Rgr RjT 
+
+> g
+
+(2) where the subscript T indicates values obtained during the T-pose calibration. Assuming the IMU remains rigidly at-tached to the body during capture, the relative transform 
+
+Rjs is constant, allowing us to treat RjT 
+
+> sT
+
+= Rjs. Because the joint rotation in the T-pose, RjT 
+
+> g
+
+, is determined from the SMPL model, the T-pose raw IMU measurements RsT
+
+> r
+
+provide a reliable estimate of Rjs.Next, we describe the calibration procedure for the OpenGo device. Unlike the other IMU devices, the sen-sor embedded in OpenGo is a 6DoF IMU without a magne-OpenGo Calibration 
+
+Step 1 : Sensor to Joint ( C/→C0, (/→(0) 
+
+> Right -
+> Handed Left -
+> Handed
+
+DF EF
+
+FF
+
+DG
+
+EG FG
+
+CH: measured angular velocity, (H: measured accelera<on 
+
+&IJK =
+
+C0_MNKC = &0
+
+> /
+
+(C/ ∗ −1, 1, −1 )
+
+C0_O+PQC = &0
+
+> /
+
+C/
+
+(0_O+PQC = &0
+
+> /
+
+(/
+
+Step 2 : Join 
+
+(0_MNKC = &0
+
+> /
+
+((/ ∗ 1, −1, 1 )
+
+(- =
+
+B: SMPL Coord. Sys. $: Sensor Coord. Sys. 
+
+&0 
+
+> /
+
+= &>(634 )&1(634 )
+
+> XZ
+> Y
+> X
+> Z
+
+6: M 
+
+Coo 
+
+&= 
+
+> 0
+
+=   
+
+> Left -Handed →Right -Handed
+
+&- 
+
+> 0
+
+=
+
+Figure 7. Sensor and global coordinate frames for the OpenGo devices, illustrating the handedness difference between sensors. 
+
+tometer, and therefore cannot utilize magnetic-field infor-mation for orientation estimation. Following prior work [2], we use the Versatile Quaternion-based Filter (VQF) [28] to estimate the sensor orientation based on the gravity vector. Let the raw sensor coordinate frame be s and the SMPL foot-joint coordinate frame be j. Because the left and right OpenGo sensors follow different handedness conventions (Fig. 7), axis-sign corrections are applied to unify their co-ordinate systems. The measured angular velocity ωs and acceleration as are mapped into the joint frame using the fixed sensor-to-joint rotation Rsj as 
+
+ωj, Right = Rsj ωs,
+
+ωj, Left = Rsj (ωs ⊙ [−1, 1, −1]) ,
+
+aj, Right = Rsj as,
+
+aj, Left = Rsj (as ⊙ [1 , −1, 1]) ,
+
+(3) where ⊙ denotes the element-wise product. VQF provides the foot orientation in its gravity-aligned frame, denoted as 
+
+Rj
+
+> vqf
+
+. To express this orientation in the global coordinate frame, we align it with the SMPL foot-joint orientation in the T-pose. Let RjT 
+
+> g
+
+be the global SMPL foot-joint rotation in the T-pose, and let RjT 
+
+> vqf
+
+be the VQF-estimated sensor orientation at the same moment. The global joint-frame ori-entation is obtained by directly aligning the VQF-estimated sensor orientation with the calibrated joint orientation in the T-pose: 
+
+Rjg = RjT
+
+> g
+
+
+
+RjT
+
+> vqf
+
+−1
+
+Rj
+
+> vqf
+
+. (4) The global acceleration is obtained by rotating the raw sen-sor acceleration using the joint’s global orientation: 
+
+ag = Rjg aj . (5) Finally, we describe the calibration procedure for the Aria Glass. Aria Glass is equipped with two IMUs (1000 Hz and 800 Hz), and in our dataset we use the 1000 Hz unit, which is downsampled to 100 Hz to match the other sensors. The Aria system defines several coordinate frames, includ-ing the IMU frame i, the device frame d, the SLAM world frame w estimated by MPS, and the Central Pupil Frame (CPF) c, which is used to approximate the effective IMU 210 
+
+# Synchronization (8 IMUs)       
+
+> Mocap
+> IMU
+> L_Foot R_Foot L_Wrist R_Wrist
+> Head Pelvis L_Knee R_Knee
+> Mocap
+> IMU
+
+Figure 8. Vertical acceleration signals from MoCap data (top row) and from IMU sensors (bottom row) at the same set of body-mounted locations. The characteristic jump-induced peaks provide reliable cues for temporal synchronization across sensor streams. 95 
+
+# ead Trajectory) 
+
+Mocap Head Trajectory 
+
+Aria Head Trajectory 
+
+0!
+
+> "#$%
+
+, 1, 2Procrustes 
+
+> Analysis
+
+Aligned Trajectory 
+
+Figure 9. Alignment of the Aria Glass SLAM trajectory to the MoCap-based head trajectory using Procrustes analysis. 
+
+attachment location. The global MoCap coordinate system is denoted as g. MPS provides the device orientation as 
+
+Rdw in the SLAM coordinate system, and factory calibra-tion further provides the fixed extrinsic rotations Rid (IMU to device) and Rci (IMU to CPF). The transformation from the SLAM frame to the global MoCap frame, Rwg , is esti-mated by leveraging the high accuracy of the SLAM trajec-tory produced by MPS. Specifically, as illustrated in Fig. 9, we align the Aria Glass trajectory to the MoCap trajectory of the SMPL-based CPF (central pupil) position across the entire sequence using Procrustes analysis, which yields the rotation Rwg , translation t, and scale s. Using these trans-formations, the CPF orientation and IMU accelerations can be expressed in the global coordinate system as 
+
+Rcg = Rwg Rdw Rid Rci ,
+
+ag = Rwg Rdw Rid ai, (6) where ai denotes the raw acceleration measured in the IMU frame. These quantities are used as the head IMU’s global orientation and global acceleration in the dataset. 
+
+Time Synchronization. All sensors used in this study (OptiTrack, Apple Watch, OpenGo, Aria Glass, and Xsens MTw) record data at 100 Hz. Since the measurements on each device are started manually, their recording start times are not aligned. Therefore, a synchronization procedure is required to align all sensor streams to a common tempo-ral reference. In our dataset, we use the vertical acceler-ation peaks generated during the three vertical jumps per-formed immediately after the T-pose as temporal landmarks for synchronization. As described in the previous section, all IMUs are transformed into a unified global coordinate 3Table 5. Comparison of human motion datasets utilizing insole-type foot pressure sensors. 
+
+Dataset Year Foot IMUs Other IMUs Env. Models Motion Diversity MoCap Method PSU-TMM100 [45] 2020 No No No Low (Tai Chi) Optical UnderPressure [41] 2022 Yes (2) No No Medium (Locomotion) Inertial MMVP [68] 2024 No No No Medium (Exercise) RGBD HAMPI [65] 2025 Yes (4) No No High (Diverse Action) Inertial + RGB 
+
+PRISM (Ours) 2025 Yes (2) Yes (6) Yes High (Diverse Action) Optical system through calibration. This allows the vertical acceler-ation components derived from each IMU’s measurements to be compared directly. Meanwhile, the SMPL mesh ob-tained from MoCap provides only positional information; therefore, the corresponding reference acceleration is com-puted by applying finite differences to the time-series vertex positions at each IMU attachment site, converting positions to velocities and subsequently to accelerations. For synchronization, the vertical acceleration waveform of each IMU is slid over the reference SMPL-derived ver-tical acceleration waveform using a sliding-window ap-proach, and similarity (cross-correlation) is evaluated at each offset. The temporal offset that achieves the highest similarity is taken as the time shift for that IMU stream, aligning all sensors to a common time axis. Fig. 8 shows an example of the vertical acceleration signals computed from MoCap-based SMPL at the eight IMU attachment locations (wrists, feet, knees, waist, and head), alongside those from the corresponding IMU sensors, illustrating how the char-acteristic peaks from the three jumps serve as reliable syn-chronization cues. 
+
+7.2. Dataset Composition. 
+
+The PRISM dataset consists of 1,275 sequences divided into 1,021 for training and 254 for testing, each 10 seconds long (1,000 frames). Data were collected from six subjects (four male and two female), totaling approximately 12,750 sec-onds ( ≈ 3.5 hours) of motion. Each sequence includes syn-chronized multimodal signals, such as MoCap-based refer-ence poses, IMU and insole pressure data, environmental point clouds, camera trajectories, and object models for in-teraction. The dataset covers a wide range of motion categories. First, Basic Locomotion includes walking along predefined paths and random trajectories (Walking Square / Walk-ing Random), as well as jogging along predefined or ran-dom paths (Jogging Square / Jogging Random). Next, Slow Movements consist of stretching, two-foot and one-foot balancing, squatting, and lunge walking. Furthermore, Fast Sports Actions include whole-body athletic movements such as sidestepping, forward jumping, golf, baseball, ten-nis, soccer, and direction-switching movements. Finally, In-teraction Behaviors involve movements that include physi-cal interaction with objects, such as stepping onto boxes or stairs (Stepping Boxes / Stepping Stair), sitting on boxes (Sitting Boxes), and object carrying. 
+
+7.3. Comparison with Existing Datasets. 
+
+In recent years, several foot-sensing motion datasets lever-aging insole-type pressure sensors have been released, con-tributing significantly to the understanding of human mo-tion. However, existing datasets exhibit inherent trade-offs across aspects such as IMU availability, environmental in-formation, motion diversity, and annotation accuracy. As a result, none of them is sufficient for comprehensively mod-eling physically consistent full-body motion together with interactions involving the environment and objects. PSU-TMM100 [45] is a dataset that combines insole-type pressure sensors with optical motion capture, con-sisting of Tai Chi movements. While it provides plantar pressure distributions, it does not include any IMU mea-surements. UnderPressure [41] contains long recordings of basic locomotion such as walking, jogging, and skip-ping, and is characterized by the inclusion of both plan-tar pressure sensors and foot IMUs. It also includes a limited set of environment-interaction behaviors, such as stair ascent/descent and stepping onto objects, but nei-ther environment geometry nor object models are provided. MMVP [68] records RGB-D video of body movements to-gether with plantar pressure measurements, and features several fast exercise motions, but does not provide IMU data. HAMPI [65], the most recent foot-sensing dataset, in-cludes plantar pressure, foot IMUs, and SMPL motions gen-erated by combining inertial motion capture with monocu-lar video-based pose estimation. Although it covers a wide variety of actions, the IMUs are restricted to the feet, mak-ing the dataset unsuitable for studies that require wrist or full-body IMUs. Moreover, some motion-capture errors re-main in the form of unnatural body tilts or elbow twisting, making the annotations not fully reliable for physics-based approaches such as GRIP. Taken together, existing datasets do not simultaneously provide (i) detailed foot-sensing measurements, (ii) full-body inertial information, (iii) environment interaction data, (iv) a broad range of motions, and (v) accurate full-body mesh annotations within a single framework. PRISM ad-4dresses these gaps by combining SMPL motion recon-structed from optical MoCap with eight IMUs placed at common attachment sites (knees, pelvis, wrists, and head) in addition to the feet, along with insole-type pressure sen-sors. PRISM also includes environmental point clouds and object models, and covers a wide variety of motions rang-ing from basic locomotion to slow movements, fast sports activities, and interactions with objects. Through this com-bination, PRISM serves as a unified dataset suitable for in-tegrated analysis of full-body motion and foot–ground inter-action dynamics in everyday scenarios, supporting research that requires physically consistent motion estimation. 
+
+## 8. Implementation Details 
+
+Reward Design in DynamicsNet. The reward function follows the Perpetual Humanoid Control (PHC) frame-work [37], and consists of three components: an Adversar-ial Motion Prior (AMP) [42], an imitation reward, and an energy penalty [12]. The total reward is formulated as: 
+
+rt = 0 .5ramp  
+
+> t
+
++ 0 .5rimit  
+
+> t
+
++ renergy  
+
+> t
+
+, (7) where rt denotes the total reward at timestep t. The AMP reward ramp  
+
+> t
+
+encourages realistic and natural motions by training a discriminator to distinguish generated motions from real human motion. The imitation reward measures the consistency between the simulated and reference mo-tion states. It is computed based on the differences in joint positions, rotations, linear velocities, and angular velocities: 
+
+rimit  
+
+> t
+
+= wpe−100 ∥ ˆpt−pt∥ + wθ e−100 ∥ ˆθt⊖θt∥
+
++ wv e−10 ∥ˆvt−vt∥ + wω e−0.1∥ ˆωt−ωt∥, (8) where wp, wθ , wv , and wω are weighting coefficients for each term, and ⊖ denotes the rotation difference between the reference and simulated orientations. The hatted quan-tities (e.g., ˆpt, ˆθt) represent reference motion values, while the unaccented ones correspond to simulated states. In addition, the energy penalty renergy  
+
+> t
+
+is computed as the negative mechanical power of the humanoid, obtained from the element-wise product of joint torques τt and joint angu-lar velocities ωt. Specifically, the penalty is defined as 
+
+renergy  
+
+> t
+
+= −α |τt ⊙ ωt|, (9) where α is a power coefficient (default 0.0005). This term encourages energy-efficient control while excluding the first three frames to avoid initialization artifacts. 
+
+Networks and Training. The proposed framework con-sists of two stages: KinematicsNet, which estimates kine-matic states, and DynamicsNet, which generates physically consistent motion within a physics simulator. Training is performed in two stages: first, KinematicsNet is trained independently, and then DynamicsNet is trained within a physics simulation environment. During the training of Dy-namicsNet, the parameters of KinematicsNet are frozen and used as a motion-state estimator. KinematicsNet comprises four submodules: LP (leaf-joint position), FP (full-joint position), LV (leaf-joint ve-locity), and FA (full-joint angle). Each submodule is first trained independently to ensure stable estimation, and then all modules are jointly trained in an integrated manner. Fol-lowing previous works [60, 62, 63, 70], we initialize the hidden states of each submodule RNN using the ground-truth data of the first frame, to avoid ambiguity caused by uncertain initial poses. This initialization is applied only to the first frame of each sequence. Training was conducted for 2000 epochs using the Adam optimizer (learning rate 
+
+1 × 10 −5, batch size 256). Following TIP [27], IMU sig-nals were processed with a low-pass filter to remove high-frequency noise. All training was performed on data sam-pled at 100 Hz. DynamicsNet is a policy network trained within aphysics simulation environment to control a torque-driven humanoid model. The policy network is implemented as a multilayer perceptron (MLP) consisting of six layers with sizes [2048, 1536, 1024, 1024, 512, 512] and SiLU ac-tivations. The network outputs target joint angles, which are converted into joint torques through PD control. In the early training stage, an early termination condition is ap-plied: an episode is terminated when any joint position er-ror exceeds a threshold of τe = 0 .25 m, which accelerates convergence and stabilizes the learning of basic motion pat-terns. We train DynamicsNet for 500 epochs across 10 iter-ations under this early-termination regime using 4096 par-allel environments, a policy minibatch size of 32,768, and an AMP minibatch size of 8192. Afterward, the early ter-mination constraint is removed to enable training over long motion sequences, and an additional 500 epochs across 20 iterations are performed under the full-length setting. In addition, to enable fall-recovery mechanism during infer-ence and allow the simulation to continue even after the humanoid falls, we introduce a fall-detection condition in which the humanoid is considered fallen when the root joint height drops below 0.30 m and the AMP discriminator prob-ability ρt falls below 0.7. 
+
+Computational Environment. Experiments were con-ducted on Ubuntu 20.04.6 LTS. The system is equipped with an AMD EPYC 7543 processor configuration pro-viding 64 cores (128 threads), 251 GB RAM, and eight NVIDIA RTX A6000 GPUs with 48 GB VRAM each. All neural networks were implemented in PyTorch and opti-mized using the Adam optimizer. Physics simulations and reinforcement learning were performed using Isaac Gym in a CUDA 11.8–enabled environment with NVIDIA driver version 570.133.07. 5PRISM    
+
+> Under
+> Pressure
+> PSU -
+> TMM100
+> GT GRIP (Ours) SolePoser GT GRIP (Ours) SolePoser
+> PRISM
+> PRISM
+> PSU -
+> TMM100 Figure 10. Comparison between SolePoser and our method using the same 17 joint locations extracted from the SMPL model.
+
+## 9. Additional Experimental Results 
+
+Qualitative Comparison with SolePoser. In this section, we present a qualitative comparison between SolePoser [56] and our proposed method, GRIP, which could not be in-cluded in the main paper due to space limitations. Sole-Poser estimates root-relative full-body pose using only the foot-mounted IMUs and foot pressure data obtained from insole sensors. Fig. 10 shows results on the PRISM, Under-Pressure, and PSU-TMM100 datasets. SolePoser produces reasonable estimates for relatively simple poses and periodic locomotion such as walking and jogging. However, due to the limitation of using only foot sensors, its accuracy degrades significantly for motions in-volving substantial upper-body movement or complex pos-tural changes, and several failure cases can be observed. In contrast, GRIP incorporates wrist-mounted IMUs in addi-tion to foot IMUs and plantar-pressure sensing, allowing it to capture a broader range of whole-body inertial informa-tion. As a result, our method reconstructs full-body poses more accurately even in non-periodic and complex motions where SolePoser struggles. These observations indicate that GRIP can estimate whole-body dynamics that cannot be re-covered from foot-only sensing, by combining IMUs at the extremities (hands and feet) with foot pressure information. 6

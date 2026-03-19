@@ -6,97 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-18
-- 运行时间：2026-03-18 19:57:46 UTC
+- 最新运行日期：2026-03-19
+- 运行时间：2026-03-19 20:37:50 UTC
 - 运行状态：成功
-- 本次总论文数：25
-- 精读区：14
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日精选 25 篇前沿论文，深度聚焦人形机器人灵巧手操作与全身协同控制的突破性进展。
-重点推荐 HumDex 与 REFINE-DP，展示了通过强化学习优化扩散策略，实现人形机器人高精度灵巧操作的新范式。
-建议关注视觉语言动作模型（VLA）在主动感知中的应用，这是提升机器人自主交互能力的关键趋势。
-- 详情：[/202603/18/README](/202603/18/README)
+今日深度解析 17 篇前沿论文，聚焦人形机器人全身协同控制与扩散策略微调的重大突破。
+重点关注 REFINE-DP 带来的强化学习微调新范式，以及 RoboForge 实现的物理优化文本驱动全身运动。
+建议优先研读两篇满分论文，掌握人形机器人从敏捷运动到复杂操作的最新技术路径。
+- 详情：[/202603/19/README](/202603/19/README)
 
 ### 精读区论文标签
-1. [HumDex: Humanoid Dexterous Manipulation Made Easy](/202603/18/2603.12260v2-humdex-humanoid-dexterous-manipulation-made-easy)  
+1. [REFINE-DP: Diffusion Policy Fine-tuning for Humanoid Loco-manipulation via Reinforcement Learning](/202603/19/2603.13707v2-refine-dp-diffusion-policy-fine-tuning-for-humanoid-loco-manipulation-via-reinforcement-learning)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：人形机器人全身灵巧操作与遥操作
-2. [REFINE-DP: Diffusion Policy Fine-tuning for Humanoid Loco-manipulation via Reinforcement Learning](/202603/18/2603.13707v1-refine-dp-diffusion-policy-fine-tuning-for-humanoid-loco-manipulation-via-reinforcement-learning)  
+   evidence：人形机器人移动操作的扩散策略微调
+2. [RoboForge: Physically Optimized Text-guided Whole-Body Locomotion for Humanoids](/202603/19/2603.17927v1-roboforge-physically-optimized-text-guided-whole-body-locomotion-for-humanoids)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：通过扩散策略微调实现人形机器人移动操作的分层框架
-3. [Load-Aware Locomotion Control for Humanoid Robots in Industrial Transportation Tasks](/202603/18/2603.14308v1-load-aware-locomotion-control-for-humanoid-robots-in-industrial-transportation-tasks)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：工业人形机器人的移动操作与全身控制
-4. [OmniClone: Engineering a Robust, All-Rounder Whole-Body Humanoid Teleoperation System](/202603/18/2603.14327v1-omniclone-engineering-a-robust-all-rounder-whole-body-humanoid-teleoperation-system)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：全身人形机器人遥操作系统
-5. [CyboRacket: A Perception-to-Action Framework for Humanoid Racket Sports](/202603/18/2603.14605v1-cyboracket-a-perception-to-action-framework-for-humanoid-racket-sports)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：集成的类人机器人感知、轨迹预测与全身控制
-6. [Enforcing Task-Specified Compliance Bounds for Humanoids via Anisotropic Lipschitz-Constrained Policies](/202603/18/2603.16180v1-enforcing-task-specified-compliance-bounds-for-humanoids-via-anisotropic-lipschitz-constrained-policies)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：人形机器人双足运动的合规性约束
-7. [ECHO: Edge-Cloud Humanoid Orchestration for Language-to-Motion Control](/202603/18/2603.16188v1-echo-edge-cloud-humanoid-orchestration-for-language-to-motion-control)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：人形机器人语言驱动全身控制的边云框架
-8. [ADAPT: Adaptive Dual-projection Architecture for Perceptive Traversal](/202603/18/2603.16328v1-adapt-adaptive-dual-projection-architecture-for-perceptive-traversal)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：人形机器人敏捷运动中的自适应感知与环境映射
-9. [FastDSAC: Unlocking the Potential of Maximum Entropy RL in High-Dimensional Humanoid Control](/202603/18/2603.12612v1-fastdsac-unlocking-the-potential-of-maximum-entropy-rl-in-high-dimensional-humanoid-control)  
-   标签：评分：9.0/10、query:hr-rob
-   evidence：使用最大熵强化学习的高维类人机器人控制
-10. [Learning Athletic Humanoid Tennis Skills from Imperfect Human Motion Data](/202603/18/2603.12686v1-learning-athletic-humanoid-tennis-skills-from-imperfect-human-motion-data)  
-   标签：评分：9.0/10、query:hr-rob
-   evidence：学习人形机器人的运动技能与运动控制
-11. [PhysMoDPO: Physically-Plausible Humanoid Motion with Preference Optimization](/202603/18/2603.13228v1-physmodpo-physically-plausible-humanoid-motion-with-preference-optimization)  
-   标签：评分：9.0/10、query:hr-rob
-   evidence：将全身控制器 (WBC) 集成到人形机器人运动训练流水线中
-12. [PhysMoDPO: Physically-Plausible Humanoid Motion with Preference Optimization](/202603/18/2603.13228v2-physmodpo-physically-plausible-humanoid-motion-with-preference-optimization)  
-   标签：评分：9.0/10、query:hr-rob
-   evidence：将全身控制集成到训练中以实现符合物理规律的类人运动
-13. [Exploring the dynamic properties and motion reproducibility of a small upper-body humanoid robot with 13-DOF pneumatic actuation for data-driven control](/202603/18/2603.14787v1-exploring-the-dynamic-properties-and-motion-reproducibility-of-a-small-upper-body-humanoid-robot-with-13-dof-pneumatic-actuation-for-data-driven-control)  
-   标签：评分：9.0/10、query:hr-rob
-   evidence：开发了一款具有13自由度气动驱动的上肢人形机器人
-14. [HALO:Closing Sim-to-Real Gap for Heavy-loaded Humanoid Agile Motion Skills via Differentiable Simulation](/202603/18/2603.15084v1-haloclosing-sim-to-real-gap-for-heavy-loaded-humanoid-agile-motion-skills-via-differentiable-simulation)  
-   标签：评分：9.0/10、query:hr-rob
-   evidence：缩小重载人形机器人敏捷运动技能的仿真与现实差距
+   evidence：人形机器人全身运动与运动规划
+3. [Coupling Tensor Trains with Graph of Convex Sets: Effective Compression, Exploration, and Planning in the C-Space](/202603/19/2603.11658v1-coupling-tensor-trains-with-graph-of-convex-sets-effective-compression-exploration-and-planning-in-the-c-space)  
+   标签：评分：8.0/10、query:hr-rob
+   evidence：通用机器人任务高维配置空间中的运动规划
+4. [ST-VLA: Enabling 4D-Aware Spatiotemporal Understanding for General Robot Manipulation](/202603/19/2603.13788v1-st-vla-enabling-4d-aware-spatiotemporal-understanding-for-general-robot-manipulation)  
+   标签：评分：8.0/10、query:hr-rob
+   evidence：机器人操作的 4D 感知时空理解
+5. [SmoothVLA: Aligning Vision-Language-Action Models with Physical Constraints via Intrinsic Smoothness Optimization](/202603/19/2603.13925v1-smoothvla-aligning-vision-language-action-models-with-physical-constraints-via-intrinsic-smoothness-optimization)  
+   标签：评分：8.0/10、query:hr-rob
+   evidence：使VLA模型符合物理约束和运动平滑性，用于机器人操作
+6. [Ground Reaction Inertial Poser: Physics-based Human Motion Capture from Sparse IMUs and Insole Pressure Sensors](/202603/19/2603.16233v1-ground-reaction-inertial-poser-physics-based-human-motion-capture-from-sparse-imus-and-insole-pressure-sensors)  
+   标签：评分：8.0/10、query:hr-rob
+   evidence：使用合成人形机器人进行基于物理的人体动作重建
 
 ### 速读区论文标签
-1. [SaPaVe: Towards Active Perception and Manipulation in Vision-Language-Action Models for Robotics](/202603/18/2603.12193v1-sapave-towards-active-perception-and-manipulation-in-vision-language-action-models-for-robotics)  
+1. [Learning Whole-Body Control for a Salamander Robot](/202603/19/2603.16683v1-learning-whole-body-control-for-a-salamander-robot)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：VLA模型中的主动感知与操作
-2. [Panoramic Multimodal Semantic Occupancy Prediction for Quadruped Robots](/202603/18/2603.13108v1-panoramic-multimodal-semantic-occupancy-prediction-for-quadruped-robots)  
+   evidence：关节型机器人的全身控制学习
+2. [REAL: Robust Extreme Agility via Spatio-Temporal Policy Learning and Physics-Guided Filtering](/202603/19/2603.17653v1-real-robust-extreme-agility-via-spatio-temporal-policy-learning-and-physics-guided-filtering)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：足式机器人的多模态语义占据预测
-3. [VIP-Loco: A Visually Guided Infinite Horizon Planning Framework for Legged Locomotion](/202603/18/2603.14345v1-vip-loco-a-visually-guided-infinite-horizon-planning-framework-for-legged-locomotion)  
+   evidence：感知受损情况下的鲁棒足式机器人敏捷性与地形评估
+3. [DexViTac: Collecting Human Visuo-Tactile-Kinematic Demonstrations for Contact-Rich Dexterous Manipulation](/202603/19/2603.17851v1-dexvitac-collecting-human-visuo-tactile-kinematic-demonstrations-for-contact-rich-dexterous-manipulation)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：足式机器人运动的视觉引导规划
-4. [Coupled Particle Filters for Robust Affordance Estimation](/202603/18/2603.15223v1-coupled-particle-filters-for-robust-affordance-estimation)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：复杂环境下机器人操作的鲁棒示能性估计
-5. [TiPToP: A Modular Open-Vocabulary Planning System for Robotic Manipulation](/202603/18/2603.09971v1-tiptop-a-modular-open-vocabulary-planning-system-for-robotic-manipulation)  
+   evidence：采集高接触灵巧操作的演示数据
+4. [DiT4DiT: Jointly Modeling Video Dynamics and Actions for Generalizable Robot Control](/202603/19/2603.10448v1-dit4dit-jointly-modeling-video-dynamics-and-actions-for-generalizable-robot-control)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：多步机器人操作的模块化规划系统
-6. [FAR-Dex: Few-shot Data Augmentation and Adaptive Residual Policy Refinement for Dexterous Manipulation](/202603/18/2603.10451v1-far-dex-few-shot-data-augmentation-and-adaptive-residual-policy-refinement-for-dexterous-manipulation)  
+   evidence：视频动力学与动作的联合建模，用于通用机器人控制
+5. [Push, Press, Slide: Mode-Aware Planar Contact Manipulation via Reduced-Order Models](/202603/19/2603.12399v1-push-press-slide-mode-aware-planar-contact-manipulation-via-reduced-order-models)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：灵巧操作中的臂手协同控制
-7. [DepthCache: Depth-Guided Training-Free Visual Token Merging for Vision-Language-Action Model Inference](/202603/18/2603.10469v1-depthcache-depth-guided-training-free-visual-token-merging-for-vision-language-action-model-inference)  
+   evidence：双臂接触操作与协调策略框架
+6. [RoboStereo: Dual-Tower 4D Embodied World Models for Unified Policy Optimization](/202603/19/2603.12639v1-robostereo-dual-tower-4d-embodied-world-models-for-unified-policy-optimization)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于机器人控制的深度引导视觉令牌合并
-8. [An Event-Driven E-Skin System with Dynamic Binary Scanning and real time SNN Classification](/202603/18/2603.10537v1-an-event-driven-e-skin-system-with-dynamic-binary-scanning-and-real-time-snn-classification)  
+   evidence：用于统一策略优化的具身世界模型
+7. [AnchorVLA4D: an Anchor-Based Spatial-Temporal Vision-Language-Action Model for Robotic Manipulation](/202603/19/2603.12730v1-anchorvla4d-an-anchor-based-spatial-temporal-vision-language-action-model-for-robotic-manipulation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于触觉感知的事件驱动电子皮肤
-9. [Cutting the Cord: System Architecture for Low-Cost, GPU-Accelerated Bimanual Mobile Manipulation](/202603/18/2603.09051v1-cutting-the-cord-system-architecture-for-low-cost-gpu-accelerated-bimanual-mobile-manipulation)  
+   evidence：机器人操作的空间感知与记忆
+8. [RoboStream: Weaving Spatio-Temporal Reasoning with Memory in Vision-Language Models for Robotics](/202603/19/2603.12939v1-robostream-weaving-spatio-temporal-reasoning-with-memory-in-vision-language-models-for-robotics)  
+   标签：评分：7.0/10、query:hr-rob
+   evidence：机器人操作的时空推理与记忆
+9. [Learning Bimanual Cloth Manipulation with Vision-based Tactile Sensing via Single Robotic Arm](/202603/19/2603.10609v1-learning-bimanual-cloth-manipulation-with-vision-based-tactile-sensing-via-single-robotic-arm)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：自主SLAM导航与基于视觉的操作
-10. [Stein Variational Ergodic Surface Coverage with SE(3) Constraints](/202603/18/2603.09458v2-stein-variational-ergodic-surface-coverage-with-se3-constraints)  
+   evidence：用于织物操作的视觉触觉感知与感知框架
+10. [RC-NF: Robot-Conditioned Normalizing Flow for Real-Time Anomaly Detection in Robotic Manipulation](/202603/19/2603.11106v1-rc-nf-robot-conditioned-normalizing-flow-for-real-time-anomaly-detection-in-robotic-manipulation)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：针对点云目标的表面操作与轨迹优化
-11. [Beyond Short-Horizon: VQ-Memory for Robust Long-Horizon Manipulation in Non-Markovian Simulation Benchmarks](/202603/18/2603.09513v1-beyond-short-horizon-vq-memory-for-robust-long-horizon-manipulation-in-non-markovian-simulation-benchmarks)  
+   evidence：机器人操作中的实时异常检测
+11. [RoboClaw: An Agentic Framework for Scalable Long-Horizon Robotic Tasks](/202603/19/2603.11558v2-roboclaw-an-agentic-framework-for-scalable-long-horizon-robotic-tasks)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：关节化基准中的长程操作
+   evidence：用于长程机器人操作任务的代理框架
 
 
 <div class="dpr-home-promo-card">
