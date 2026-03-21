@@ -6,73 +6,58 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-20
-- 运行时间：2026-03-20 19:28:31 UTC
+- 最新运行日期：2026-03-21
+- 运行时间：2026-03-21 19:13:29 UTC
 - 运行状态：成功
-- 本次总论文数：17
-- 精读区：6
+- 本次总论文数：12
+- 精读区：1
 - 速读区：11
 
 ### 今日简报（AI）
-今日深度复盘 17 篇机器人前沿论文，人形机器人全身运动控制迎来物理优化与感知学习的双重突破。
-重点推荐 RoboForge 的文本驱动运动生成与 PRIOR 的步态先验感知，实现了人形机器人更自然、精准的复杂环境适应。
-建议普通读者关注视觉触觉融合及大模型驱动的任务规划，这是迈向通用具身智能的关键路径。
-- 详情：[/202603/20/README](/202603/20/README)
+今日聚焦机器人动力学先验，深度解析了 ABDN 等 12 篇涵盖空间推理与实时操作的前沿成果。
+重点推荐将物理约束融入学习框架的 ABDN，以及利用事件相机攻克低光导航、提升 VLM 空间规划能力的新方案。
+建议优先研
+- 详情：[/202603/21/README](/202603/21/README)
 
 ### 精读区论文标签
-1. [RoboForge: Physically Optimized Text-guided Whole-Body Locomotion for Humanoids](/202603/20/2603.17927v2-roboforge-physically-optimized-text-guided-whole-body-locomotion-for-humanoids)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：物理优化的文本引导人形机器人全身运动
-2. [PRIOR: Perceptive Learning for Humanoid Locomotion with Reference Gait Priors](/202603/20/2603.18979v1-prior-perceptive-learning-for-humanoid-locomotion-with-reference-gait-priors)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：基于参考步态先验和地形几何推理的感知类人机器人运动
-3. [Perceive What Matters: Relevance-Driven Scheduling for Multimodal Streaming Perception](/202603/20/2603.13176v1-perceive-what-matters-relevance-driven-scheduling-for-multimodal-streaming-perception)  
+1. [Articulated-Body Dynamics Network: Dynamics-Grounded Prior for Robot Learning](/202603/21/2603.19078v1-articulated-body-dynamics-network-dynamics-grounded-prior-for-robot-learning)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：用于人机协作的多模态流式感知
-4. [One-Policy-Fits-All: Geometry-Aware Action Latents for Cross-Embodiment Manipulation](/202603/20/2603.14522v1-one-policy-fits-all-geometry-aware-action-latents-for-cross-embodiment-manipulation)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：跨具身操作以及针对不同机器人的共享潜动作空间
-5. [Ultrafast Sampling-based Kinodynamic Planning via Differential Flatness](/202603/20/2603.16059v1-ultrafast-sampling-based-kinodynamic-planning-via-differential-flatness)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：高自由度机器人与操作手的动力学约束路径规划
-6. [Empathetic Motion Generation for Humanoid Educational Robots via Reasoning-Guided Vision--Language--Motion Diffusion Architecture](/202603/20/2603.18771v1-empathetic-motion-generation-for-humanoid-educational-robots-via-reasoning-guided-vision--language--motion-diffusion-architecture)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：人形教育机器人的运动生成
+   evidence：关节体动力学作为机器人学习的结构先验
 
 ### 速读区论文标签
-1. [ADMM-Based Distributed MPC with Control Barrier Functions for Safe Multi-Robot Quadrupedal Locomotion](/202603/20/2603.19170v1-admm-based-distributed-mpc-with-control-barrier-functions-for-safe-multi-robot-quadrupedal-locomotion)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：用于多四足机器人安全运动的分布式 MPC
-2. [OmniVTA: Visuo-Tactile World Modeling for Contact-Rich Robotic Manipulation](/202603/20/2603.19201v1-omnivta-visuo-tactile-world-modeling-for-contact-rich-robotic-manipulation)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：用于接触密集型机器人操作的视触觉世界建模
-3. [SVLL: Staged Vision-Language Learning for Physically Grounded Embodied Task Planning](/202603/20/2603.11563v1-svll-staged-vision-language-learning-for-physically-grounded-embodied-task-planning)  
+1. [Evaluating VLMs' Spatial Reasoning Over Robot Motion: A Step Towards Robot Planning with Motion Preferences](/202603/21/2603.13100v1-evaluating-vlms-spatial-reasoning-over-robot-motion-a-step-towards-robot-planning-with-motion-preferences)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：物理落地的具身任务规划与空间定位
-4. [Beyond Dense Futures: World Models as Structured Planners for Robotic Manipulation](/202603/20/2603.12553v1-beyond-dense-futures-world-models-as-structured-planners-for-robotic-manipulation)  
+   evidence：基于偏好的机器人运动规划空间推理
+2. [eNavi: Event-based Imitation Policies for Low-Light Indoor Mobile Robot Navigation](/202603/21/2603.14397v1-enavi-event-based-imitation-policies-for-low-light-indoor-mobile-robot-navigation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于机器人操作和可靠控制的结构化规划器
-5. [ImagiNav: Scalable Embodied Navigation via Generative Visual Prediction and Inverse Dynamics](/202603/20/2603.13833v1-imaginav-scalable-embodied-navigation-via-generative-visual-prediction-and-inverse-dynamics)  
+   evidence：基于事件相机的机器人导航感知
+3. [R3DP: Real-Time 3D-Aware Policy for Embodied Manipulation](/202603/21/2603.14498v1-r3dp-real-time-3d-aware-policy-for-embodied-manipulation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：通过生成式视觉预测实现具身导航
-6. [TransDex: Pre-training Visuo-Tactile Policy with Point Cloud Reconstruction for Dexterous Manipulation of Transparent Objects](/202603/20/2603.13869v1-transdex-pre-training-visuo-tactile-policy-with-point-cloud-reconstruction-for-dexterous-manipulation-of-transparent-objects)  
+   evidence：用于具身操作的实时3D感知策略，利用3D视觉模型
+4. [Tactile Modality Fusion for Vision-Language-Action Models](/202603/21/2603.14604v1-tactile-modality-fusion-for-vision-language-action-models)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于灵巧操作和感知的视触觉融合
-7. [WestWorld: A Knowledge-Encoded Scalable Trajectory World Model for Diverse Robotic Systems](/202603/20/2603.14392v1-westworld-a-knowledge-encoded-scalable-trajectory-world-model-for-diverse-robotic-systems)  
+   evidence：机器人感知与操作中的触觉模态融合
+5. [RealVLG-R1: A Large-Scale Real-World Visual-Language Grounding Benchmark for Robotic Perception and Manipulation](/202603/21/2603.14880v1-realvlg-r1-a-large-scale-real-world-visual-language-grounding-benchmark-for-robotic-perception-and-manipulation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：适用于多样化机器人系统和动力学的可扩展轨迹世界模型
-8. [OCRA: Object-Centric Learning with 3D and Tactile Priors for Human-to-Robot Action Transfer](/202603/20/2603.14401v1-ocra-object-centric-learning-with-3d-and-tactile-priors-for-human-to-robot-action-transfer)  
+   evidence：机器人感知与操作中的视觉语言对齐
+6. [ReMAP-DP: Reprojected Multi-view Aligned PointMaps for Diffusion Policy](/202603/21/2603.14977v1-remap-dp-reprojected-multi-view-aligned-pointmaps-for-diffusion-policy)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：结合3D和触觉先验的以物体为中心的操作学习
-9. [Ada3Drift: Adaptive Training-Time Drifting for One-Step 3D Visuomotor Robotic Manipulation](/202603/20/2603.11984v1-ada3drift-adaptive-training-time-drifting-for-one-step-3d-visuomotor-robotic-manipulation)  
+   evidence：机器人策略的3D空间感知与多视图感知
+7. [COAD: Constant-Time Planning for Continuous Goal Manipulation with Compressed Library and Online Adaptation](/202603/21/2603.12488v1-coad-constant-time-planning-for-continuous-goal-manipulation-with-compressed-library-and-online-adaptation)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：单步3D视觉运动机器人操作与实时控制
-10. [Push, Press, Slide: Mode-Aware Planar Contact Manipulation via Reduced-Order Models](/202603/20/2603.12399v2-push-press-slide-mode-aware-planar-contact-manipulation-via-reduced-order-models)  
+   evidence：机器人操作的常数时间规划
+8. [Autonomous Integration and Improvement of Robotic Assembly using Skill Graph Representations](/202603/21/2603.12649v1-autonomous-integration-and-improvement-of-robotic-assembly-using-skill-graph-representations)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：机械臂平面操作的模态感知框架
-11. [One-Step Flow Policy: Self-Distillation for Fast Visuomotor Policies](/202603/20/2603.12480v1-one-step-flow-policy-self-distillation-for-fast-visuomotor-policies)  
+   evidence：用于集成机器人能力与规划的技能图谱表示
+9. [Language-Grounded Decoupled Action Representation for Robotic Manipulation](/202603/21/2603.12967v1-language-grounded-decoupled-action-representation-for-robotic-manipulation)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：用于高精度机器人操作的快速视觉运动策略
+   evidence：机器人操作与控制的解耦动作表示
+10. [Spatially Grounded Long-Horizon Task Planning in the Wild](/202603/21/2603.13433v1-spatially-grounded-long-horizon-task-planning-in-the-wild)  
+   标签：评分：6.0/10、query:hr-rob
+   evidence：机器人操作的空间接地长程动作规划
+11. [KoopmanFlow: Spectrally Decoupled Generative Control Policy via Koopman Structural Bias](/202603/21/2603.13781v1-koopmanflow-spectrally-decoupled-generative-control-policy-via-koopman-structural-bias)  
+   标签：评分：6.0/10、query:hr-rob
+   evidence：用于稳定全局运动和局部修正的生成式控制策略
 
 
 <div class="dpr-home-promo-card">
