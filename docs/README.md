@@ -6,70 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-22
-- 运行时间：2026-03-22 19:37:36 UTC
+- 最新运行日期：2026-03-23
+- 运行时间：2026-03-23 19:58:03 UTC
 - 运行状态：成功
-- 本次总论文数：16
-- 精读区：5
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日精选 16 篇论文，深度探索轻量化具身智能与实时人体三维重建的前沿突破。
-重点推荐基于 SSM 的 AnoleVLA 移动操控模型，以及大幅提速全身网格恢复的 Fast SAM 3D 技术。
-建议关注 VLA 模型在移动端的轻量化部署，以及显式世界模型对零样本开放场景操控的赋能。
-- 详情：[/202603/22/README](/202603/22/README)
+今日聚焦人形机器人技术巅峰，深度解析 AGILE 全身协同学习框架与柔顺控制新突破。
+重点关注人形机器人如何通过 Lipschitz 约束实现任务特定的柔顺性，以及多视图对齐点图在扩散策略中的应用。
+推荐优先研读满分论文 AGILE，掌握人形机器人从移动到操作一体化学习的最新工作流。
+- 详情：[/202603/23/README](/202603/23/README)
 
 ### 精读区论文标签
-1. [AnoleVLA: Lightweight Vision-Language-Action Model with Deep State Space Models for Mobile Manipulation](/202603/22/2603.15046v1-anolevla-lightweight-vision-language-action-model-with-deep-state-space-models-for-mobile-manipulation)  
+1. [AGILE: A Comprehensive Workflow for Humanoid Loco-Manipulation Learning](/202603/23/2603.20147v1-agile-a-comprehensive-workflow-for-humanoid-loco-manipulation-learning)  
+   标签：评分：10.0/10、query:hr-rob
+   evidence：人形机器人移动-操作学习工作流
+2. [Task-Specified Compliance Bounds for Humanoids via Lipschitz-Constrained Policies](/202603/23/2603.16180v2-task-specified-compliance-bounds-for-humanoids-via-lipschitz-constrained-policies)  
+   标签：评分：9.0/10、query:hr-rob
+   evidence：针对类人双足行走和柔顺控制的Lipschitz约束策略
+3. [Morphology-Consistent Humanoid Interaction through Robot-Centric Video Synthesis](/202603/23/2603.19709v1-morphology-consistent-humanoid-interaction-through-robot-centric-video-synthesis)  
+   标签：评分：9.0/10、query:hr-rob
+   evidence：通过以机器人为中心的视频合成实现类人机器人交互
+4. [MG-Grasp: Metric-Scale Geometric 6-DoF Grasping Framework with Sparse RGB Observations](/202603/23/2603.16270v1-mg-grasp-metric-scale-geometric-6-dof-grasping-framework-with-sparse-rgb-observations)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：用于移动操作的轻量级视觉-语言-动作模型
-2. [Fast SAM 3D Body: Accelerating SAM 3D Body for Real-Time Full-Body Human Mesh Recovery](/202603/22/2603.15603v1-fast-sam-3d-body-accelerating-sam-3d-body-for-real-time-full-body-human-mesh-recovery)  
+   evidence：基于稀疏RGB观测和点云重建的6自由度抓取
+5. [DexGrasp-Zero: A Morphology-Aligned Policy for Zero-Shot Cross-Embodiment Dexterous Grasping](/202603/23/2603.16806v1-dexgrasp-zero-a-morphology-aligned-policy-for-zero-shot-cross-embodiment-dexterous-grasping)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：与人形机器人控制兼容的实时人体网格恢复
-3. [Proprioceptive-only State Estimation for Legged Robots with Set-Coverage Measurements of Learned Dynamics](/202603/22/2603.18308v1-proprioceptive-only-state-estimation-for-legged-robots-with-set-coverage-measurements-of-learned-dynamics)  
+   evidence：跨具身灵巧抓取与形态对齐策略
+6. [ContractionPPO: Certified Reinforcement Learning via Differentiable Contraction Layers](/202603/23/2603.19632v1-contractionppo-certified-reinforcement-learning-via-differentiable-contraction-layers)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：足式机器人的纯本体感受状态估计
-4. [GSMem: 3D Gaussian Splatting as Persistent Spatial Memory for Zero-Shot Embodied Exploration and Reasoning](/202603/22/2603.19137v1-gsmem-3d-gaussian-splatting-as-persistent-spatial-memory-for-zero-shot-embodied-exploration-and-reasoning)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：用于持久空间记忆和探索的3D高斯泼溅技术
-5. [Bridging Semantic and Kinematic Conditions with Diffusion-based Discrete Motion Tokenizer](/202603/22/2603.19227v1-bridging-semantic-and-kinematic-conditions-with-diffusion-based-discrete-motion-tokenizer)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：感知、规划与运动控制三阶段框架
+   evidence：足式机器人认证鲁棒规划与控制
 
 ### 速读区论文标签
-1. [Building Explicit World Model for Zero-Shot Open-World Object Manipulation](/202603/22/2603.13825v1-building-explicit-world-model-for-zero-shot-open-world-object-manipulation)  
+1. [ReMAP-DP: Reprojected Multi-view Aligned PointMaps for Diffusion Policy](/202603/23/2603.14977v2-remap-dp-reprojected-multi-view-aligned-pointmaps-for-diffusion-policy)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于操作的开放集感知与数字孪生重建
-2. [Pixel-level Scene Understanding in One Token: Visual States Need What-is-Where Composition](/202603/22/2603.13904v1-pixel-level-scene-understanding-in-one-token-visual-states-need-what-is-where-composition)  
+   evidence：高精度机器人任务的3D空间感知
+2. [Riemannian Motion Generation: A Unified Framework for Human Motion Representation and Generation via Riemannian Flow Matching](/202603/23/2603.15016v1-riemannian-motion-generation-a-unified-framework-for-human-motion-representation-and-generation-via-riemannian-flow-matching)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：动态环境下机器人的视觉状态表示
-3. [ToMPC: Task-oriented Model Predictive Control via ADMM for Safe Robotic Manipulation](/202603/22/2603.13944v1-tompc-task-oriented-model-predictive-control-via-admm-for-safe-robotic-manipulation)  
+   evidence：用于结构化类人运动生成的黎曼运动生成
+3. [NavThinker: Action-Conditioned World Models for Coupled Prediction and Planning in Social Navigation](/202603/23/2603.15359v2-navthinker-action-conditioned-world-models-for-coupled-prediction-and-planning-in-social-navigation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：面向任务的MPC用于无碰撞运动和机器人与环境交互
-4. [Data-Driven Physics Embedded Dynamics with Predictive Control and Reinforcement Learning for Quadrupeds](/202603/22/2603.14333v1-data-driven-physics-embedded-dynamics-with-predictive-control-and-reinforcement-learning-for-quadrupeds)  
+   evidence：社交导航中的环境感知与规划
+4. [End-to-End Dexterous Grasp Learning from Single-View Point Clouds via a Multi-Object Scene Dataset](/202603/23/2603.15410v1-end-to-end-dexterous-grasp-learning-from-single-view-point-clouds-via-a-multi-object-scene-dataset)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：足式机器人的先进运动规划与控制
-5. [VLA-Thinker: Boosting Vision-Language-Action Models through Thinking-with-Image Reasoning](/202603/22/2603.14523v1-vla-thinker-boosting-vision-language-action-models-through-thinking-with-image-reasoning)  
+   evidence：基于单视图点云的灵巧抓取
+5. [Towards Generalizable Robotic Manipulation in Dynamic Environments](/202603/23/2603.15620v1-towards-generalizable-robotic-manipulation-in-dynamic-environments)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于具身智能和感知推理动作的VLA框架
-6. [ForceVLA2: Unleashing Hybrid Force-Position Control with Force Awareness for Contact-Rich Manipulation](/202603/22/2603.15169v1-forcevla2-unleashing-hybrid-force-position-control-with-force-awareness-for-contact-rich-manipulation)  
+   evidence：动态环境中的机器人操作
+6. [Large Reward Models: Generalizable Online Robot Reward Generation with Vision-Language Models](/202603/23/2603.16065v1-large-reward-models-generalizable-online-robot-reward-generation-with-vision-language-models)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：针对接触密集型操作的力-位混合控制
-7. [Exploration-assisted Bottleneck Transition Toward Robust and Data-efficient Deformable Object Manipulation](/202603/22/2603.13756v1-exploration-assisted-bottleneck-transition-toward-robust-and-data-efficient-deformable-object-manipulation)  
+   evidence：基于VLM的机器人操作奖励生成
+7. [MoE-ACT: Scaling Multi-Task Bimanual Manipulation with Sparse Language-Conditioned Mixture-of-Experts Transformers](/202603/23/2603.15265v1-moe-act-scaling-multi-task-bimanual-manipulation-with-sparse-language-conditioned-mixture-of-experts-transformers)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：鲁棒且高效的可变形物体操作
-8. [LDHP: Library-Driven Hierarchical Planning for Non-prehensile Dexterous Manipulation](/202603/22/2603.13844v1-ldhp-library-driven-hierarchical-planning-for-non-prehensile-dexterous-manipulation)  
+   evidence：多任务双臂操作框架
+8. [NavThinker: Action-Conditioned World Models for Coupled Prediction and Planning in Social Navigation](/202603/23/2603.15359v1-navthinker-action-conditioned-world-models-for-coupled-prediction-and-planning-in-social-navigation)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：灵巧操作的分层规划
-9. [Context-Aware Adaptive Shared Control for Magnetically-Driven Bimanual Dexterous Micromanipulation](/202603/22/2603.14388v1-context-aware-adaptive-shared-control-for-magnetically-driven-bimanual-dexterous-micromanipulation)  
+   evidence：用于社交导航的动作条件世界模型
+9. [From Passive Observer to Active Critic: Reinforcement Learning Elicits Process Reasoning for Robotic Manipulation](/202603/23/2603.15600v1-from-passive-observer-to-active-critic-reinforcement-learning-elicits-process-reasoning-for-robotic-manipulation)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：多源协调控制实现双臂灵巧操作
-10. [MorFiC: Fixing Value Miscalibration for Zero-Shot Quadruped Transfer](/202603/22/2603.14554v1-morfic-fixing-value-miscalibration-for-zero-shot-quadruped-transfer)  
+   evidence：用于监控和评估机器人操作状态的视频多模态大模型
+10. [Perception-Aware Autonomous Exploration in Feature-Limited Environments](/202603/23/2603.15605v1-perception-aware-autonomous-exploration-in-feature-limited-environments)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：足式机器人的运动策略
-11. [GraspALL: Adaptive Structural Compensation from Illumination Variation for Robotic Garment Grasping in Any Low-Light Conditions](/202603/22/2603.14789v1-graspall-adaptive-structural-compensation-from-illumination-variation-for-robotic-garment-grasping-in-any-low-light-conditions)  
+   evidence：感知感知的自主探索
+11. [HSImul3R: Physics-in-the-Loop Reconstruction of Simulation-Ready Human-Scene Interactions](/202603/23/2603.15612v1-hsimul3r-physics-in-the-loop-reconstruction-of-simulation-ready-human-scene-interactions)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：变光照条件下的机器人感知与抓取
+   evidence：人机交互的物理在环重建
 
 
 <div class="dpr-home-promo-card">
