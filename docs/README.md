@@ -6,70 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-24
-- 运行时间：2026-03-24 20:21:28 UTC
+- 最新运行日期：2026-03-25
+- 运行时间：2026-03-25 19:40:40 UTC
 - 运行状态：成功
-- 本次总论文数：16
-- 精读区：5
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日深度解析 16 篇机器人前沿进展，核心聚焦类人机器人全身控制与动力学鲁棒性的双重突破。
-满分论文揭示了通过神经运动重定向与因子化动力学监督，可大幅简化类人机器人的复杂动作追踪并增强环境适应力。
-建议关注 Kinema4D 等 4D 世界建模技术，了解如何通过高保真仿真加速具身智能的技能进化。
-- 详情：[/202603/24/README](/202603/24/README)
+今日聚焦人形机器人交互与运动控制，重点解读通过视频合成实现形态一致性交互的满分论文。
+核心结论指出，机器人中心化的视频合成与动力学辅助监督能显著增强人形机器人的交互一致性与运动鲁棒性。
+建议优先研读关于形态一致性视频合成的精读首选，掌握具身智能与世界模型结合的前沿趋势。
+- 详情：[/202603/25/README](/202603/25/README)
 
 ### 精读区论文标签
-1. [Evaluating Factor-Wise Auxiliary Dynamics Supervision for Latent Structure and Robustness in Simulated Humanoid Locomotion](/202603/24/2603.21268v1-evaluating-factor-wise-auxiliary-dynamics-supervision-for-latent-structure-and-robustness-in-simulated-humanoid-locomotion)  
+1. [Morphology-Consistent Humanoid Interaction through Robot-Centric Video Synthesis](/202603/25/2603.19709v2-morphology-consistent-humanoid-interaction-through-robot-centric-video-synthesis)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：Unitree G1 人形机器人仿真行走
-2. [Make Tracking Easy: Neural Motion Retargeting for Humanoid Whole-body Control](/202603/24/2603.22201v1-make-tracking-easy-neural-motion-retargeting-for-humanoid-whole-body-control)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：用于人形机器人全身控制的神经运动重定向
-3. [Can a Robot Walk the Robotic Dog: Triple-Zero Collaborative Navigation for Heterogeneous Multi-Agent Systems](/202603/24/2603.21723v1-can-a-robot-walk-the-robotic-dog-triple-zero-collaborative-navigation-for-heterogeneous-multi-agent-systems)  
+   evidence：通过以机器人为中心的视频合成和运动重定向实现人形机器人交互
+2. [Evaluating Factor-Wise Auxiliary Dynamics Supervision for Latent Structure and Robustness in Simulated Humanoid Locomotion](/202603/25/2603.21268v2-evaluating-factor-wise-auxiliary-dynamics-supervision-for-latent-structure-and-robustness-in-simulated-humanoid-locomotion)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：人形机器人在异构多智能体系统中负责任务协调
-4. [Sim-to-Real of Humanoid Locomotion Policies via Joint Torque Space Perturbation Injection](/202603/24/2603.21853v1-sim-to-real-of-humanoid-locomotion-policies-via-joint-torque-space-perturbation-injection)  
+   evidence：Unitree G1人形机器人的仿真行走控制
+3. [Learning Safe-Stoppability Monitors for Humanoid Robots](/202603/25/2603.22703v1-learning-safe-stoppability-monitors-for-humanoid-robots)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：通过关节力矩空间扰动实现人形机器人运动策略的从仿真到现实迁移
-5. [UniDex: A Robot Foundation Suite for Universal Dexterous Hand Control from Egocentric Human Videos](/202603/24/2603.22264v1-unidex-a-robot-foundation-suite-for-universal-dexterous-hand-control-from-egocentric-human-videos)  
+   evidence：人形机器人的安全停止与平衡保持
+4. [A Multimodal Framework for Human-Multi-Agent Interaction](/202603/25/2603.23271v1-a-multimodal-framework-for-human-multi-agent-interaction)  
+   标签：评分：9.0/10、query:hr-rob
+   evidence：在两台人形机器人上实现了多模态感知与规划框架
+5. [SG-VLA: Learning Spatially-Grounded Vision-Language-Action Models for Mobile Manipulation](/202603/25/2603.22760v1-sg-vla-learning-spatially-grounded-vision-language-action-models-for-mobile-manipulation)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：用于复杂操作的通用灵巧手控制和机器人基础套件
+   evidence：移动操作中底盘运动、手臂关节和夹持器的协调控制
+6. [Gaze-Regularized Vision-Language-Action Models for Robotic Manipulation](/202603/25/2603.23202v1-gaze-regularized-vision-language-action-models-for-robotic-manipulation)  
+   标签：评分：8.0/10、query:hr-rob
+   evidence：用于引导机器人感知与操作的视线正则化VLA模型
 
 ### 速读区论文标签
-1. [KiRAS: Keyframe Guided Self-Imitation for Robust and Adaptive Skill Learning in Quadruped Robots](/202603/24/2603.15179v1-kiras-keyframe-guided-self-imitation-for-robust-and-adaptive-skill-learning-in-quadruped-robots)  
+1. [GigaWorld-Policy: An Efficient Action-Centered World--Action Model](/202603/25/2603.17240v1-gigaworld-policy-an-efficient-action-centered-world--action-model)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：复杂地形下机器人的自适应技能学习与运动规划
-2. [MG-Grasp: Metric-Scale Geometric 6-DoF Grasping Framework with Sparse RGB Observations](/202603/24/2603.16270v2-mg-grasp-metric-scale-geometric-6-dof-grasping-framework-with-sparse-rgb-observations)  
+   evidence：用于机器人策略学习和运动预测的高效以动作为中心的世界模型
+2. [KineVLA: Towards Kinematics-Aware Vision-Language-Action Models with Bi-Level Action Decomposition](/202603/25/2603.17524v1-kinevla-towards-kinematics-aware-vision-language-action-models-with-bi-level-action-decomposition)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：基于稀疏RGB的无深度6自由度抓取框架，用于机器人操作
-3. [Kinema4D: Kinematic 4D World Modeling for Spatiotemporal Embodied Simulation](/202603/24/2603.16669v1-kinema4d-kinematic-4d-world-modeling-for-spatiotemporal-embodied-simulation)  
+   evidence：感知运动学的VLA模型用于细粒度操作
+3. [AERR-Nav: Adaptive Exploration-Recovery-Reminiscing Strategy for Zero-Shot Object Navigation](/202603/25/2603.17712v1-aerr-nav-adaptive-exploration-recovery-reminiscing-strategy-for-zero-shot-object-navigation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于机器人与世界交互的动作条件4D生成式机器人模拟器
-4. [DexGrasp-Zero: A Morphology-Aligned Policy for Zero-Shot Cross-Embodiment Dexterous Grasping](/202603/24/2603.16806v2-dexgrasp-zero-a-morphology-aligned-policy-for-zero-shot-cross-embodiment-dexterous-grasping)  
+   evidence：未知环境中的零样本目标导航
+4. [EVA: Aligning Video World Models with Executable Robot Actions via Inverse Dynamics Rewards](/202603/25/2603.17808v1-eva-aligning-video-world-models-with-executable-robot-actions-via-inverse-dynamics-rewards)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：跨具身灵巧抓取的形态对齐策略
-5. [OmniVLN: Omnidirectional 3D Perception and Token-Efficient LLM Reasoning for Visual-Language Navigation across Air and Ground Platforms](/202603/24/2603.17351v1-omnivln-omnidirectional-3d-perception-and-token-efficient-llm-reasoning-for-visual-language-navigation-across-air-and-ground-platforms)  
+   evidence：通过逆动力学将视频世界模型与可执行机器人动作对齐
+5. [Generative Control as Optimization: Time Unconditional Flow Matching for Adaptive and Robust Robotic Control](/202603/25/2603.17834v1-generative-control-as-optimization-time-unconditional-flow-matching-for-adaptive-and-robust-robotic-control)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于导航的全向3D感知与环境建图
-6. [HeiSD: Hybrid Speculative Decoding for Embodied Vision-Language-Action Models with Kinematic Awareness](/202603/24/2603.17573v1-heisd-hybrid-speculative-decoding-for-embodied-vision-language-action-models-with-kinematic-awareness)  
+   evidence：通过生成式优化实现自适应且鲁棒的机器人控制
+6. [GMT: Goal-Conditioned Multimodal Transformer for 6-DOF Object Trajectory Synthesis in 3D Scenes](/202603/25/2603.17993v1-gmt-goal-conditioned-multimodal-transformer-for-6-dof-object-trajectory-synthesis-in-3d-scenes)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：机器人控制中 VLA 模型的加速技术
-7. [HapticVLA: Contact-Rich Manipulation via Vision-Language-Action Model without Inference-Time Tactile Sensing](/202603/24/2603.15257v1-hapticvla-contact-rich-manipulation-via-vision-language-action-model-without-inference-time-tactile-sensing)  
+   evidence：3D场景中的6自由度物体轨迹合成
+7. [Gaze-Aware Task Progression Detection Framework for Human-Robot Interaction Using RGB Cameras](/202603/25/2603.15951v1-gaze-aware-task-progression-detection-framework-for-human-robot-interaction-using-rgb-cameras)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：机器人任务中的触觉感知操作
-8. [Zero-Shot Generalization from Motion Demonstrations to New Tasks](/202603/24/2603.15445v1-zero-shot-generalization-from-motion-demonstrations-to-new-tasks)  
+   evidence：通过RGB摄像头进行人机交互环境感知
+8. [Large Reward Models: Generalizable Online Robot Reward Generation with Vision-Language Models](/202603/25/2603.16065v2-large-reward-models-generalizable-online-robot-reward-generation-with-vision-language-models)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：用于反应式控制的运动策略与动力系统
-9. [Geometry-Aligned LLM Fine-Tuning for Sequential Narrow-Opening Planning](/202603/24/2603.16028v1-geometry-aligned-llm-fine-tuning-for-sequential-narrow-opening-planning)  
+   evidence：用于机器人奖励生成的视觉语言模型
+9. [When Should a Robot Think? Resource-Aware Reasoning via Reinforcement Learning for Embodied Robotic Decision-Making](/202603/25/2603.16673v1-when-should-a-robot-think-resource-aware-reasoning-via-reinforcement-learning-for-embodied-robotic-decision-making)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：用于复杂刚体任务的几何对齐运动规划
-10. [Encoding Predictability and Legibility for Style-Conditioned Diffusion Policy](/202603/24/2603.16368v1-encoding-predictability-and-legibility-for-style-conditioned-diffusion-policy)  
+   evidence：机器人决策中的资源感知推理
+10. [vAccSOL: Efficient and Transparent AI Vision Offloading for Mobile Robots](/202603/25/2603.16685v1-vaccsol-efficient-and-transparent-ai-vision-offloading-for-mobile-robots)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：机器人运动规划中的轨迹生成
-11. [CABTO: Context-Aware Behavior Tree Grounding for Robot Manipulation](/202603/24/2603.16809v1-cabto-context-aware-behavior-tree-grounding-for-robot-manipulation)  
+   evidence：移动机器人感知的AI视觉卸载
+11. [GigaWorld-Policy: An Efficient Action-Centered World--Action Model](/202603/25/2603.17240v2-gigaworld-policy-an-efficient-action-centered-world--action-model)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：用于自动化机器人操作的行为树落地
+   evidence：以动作为中心的世界动作模型用于机器人策略
 
 
 <div class="dpr-home-promo-card">
