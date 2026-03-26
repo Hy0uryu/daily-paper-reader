@@ -6,73 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-25
-- 运行时间：2026-03-25 19:40:40 UTC
+- 最新运行日期：2026-03-26
+- 运行时间：2026-03-26 20:02:53 UTC
 - 运行状态：成功
 - 本次总论文数：17
 - 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日聚焦人形机器人交互与运动控制，重点解读通过视频合成实现形态一致性交互的满分论文。
-核心结论指出，机器人中心化的视频合成与动力学辅助监督能显著增强人形机器人的交互一致性与运动鲁棒性。
-建议优先研读关于形态一致性视频合成的精读首选，掌握具身智能与世界模型结合的前沿趋势。
-- 详情：[/202603/25/README](/202603/25/README)
+今日深入探讨人形机器人全身控制与多目标偏好学习，精选 SafeFlow 与 PCHC 等 17 篇前沿成果。
+重点展示了通过物理引导流与强化学习实现实时文本驱动及个性化动作调节的技术突破。
+建议关注人形机器人如何利用生成模型与多目标优化，在复杂环境中实现更安全、灵活的类人运动。
+- 详情：[/202603/26/README](/202603/26/README)
 
 ### 精读区论文标签
-1. [Morphology-Consistent Humanoid Interaction through Robot-Centric Video Synthesis](/202603/25/2603.19709v2-morphology-consistent-humanoid-interaction-through-robot-centric-video-synthesis)  
+1. [SafeFlow: Real-Time Text-Driven Humanoid Whole-Body Control via Physics-Guided Rectified Flow and Selective Safety Gating](/202603/26/2603.23983v1-safeflow-real-time-text-driven-humanoid-whole-body-control-via-physics-guided-rectified-flow-and-selective-safety-gating)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：通过以机器人为中心的视频合成和运动重定向实现人形机器人交互
-2. [Evaluating Factor-Wise Auxiliary Dynamics Supervision for Latent Structure and Robustness in Simulated Humanoid Locomotion](/202603/25/2603.21268v2-evaluating-factor-wise-auxiliary-dynamics-supervision-for-latent-structure-and-robustness-in-simulated-humanoid-locomotion)  
+   evidence：基于物理引导运动生成的文本驱动类人机器人全身控制框架
+2. [PCHC: Enabling Preference Conditioned Humanoid Control via Multi-Objective Reinforcement Learning](/202603/26/2603.24047v1-pchc-enabling-preference-conditioned-humanoid-control-via-multi-objective-reinforcement-learning)  
+   标签：评分：10.0/10、query:hr-rob
+   evidence：基于多目标强化学习的人形机器人偏好调节控制
+3. [Sim-to-Real of Humanoid Locomotion Policies via Joint Torque Space Perturbation Injection](/202603/26/2603.21853v2-sim-to-real-of-humanoid-locomotion-policies-via-joint-torque-space-perturbation-injection)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：Unitree G1人形机器人的仿真行走控制
-3. [Learning Safe-Stoppability Monitors for Humanoid Robots](/202603/25/2603.22703v1-learning-safe-stoppability-monitors-for-humanoid-robots)  
+   evidence：通过转矩空间扰动实现人形机器人运动策略的从仿真到现实迁移
+4. [MIRROR: Visual Motion Imitation via Real-time Retargeting and Teleoperation with Parallel Differential Inverse Kinematics](/202603/26/2603.23995v1-mirror-visual-motion-imitation-via-real-time-retargeting-and-teleoperation-with-parallel-differential-inverse-kinematics)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：人形机器人的安全停止与平衡保持
-4. [A Multimodal Framework for Human-Multi-Agent Interaction](/202603/25/2603.23271v1-a-multimodal-framework-for-human-multi-agent-interaction)  
-   标签：评分：9.0/10、query:hr-rob
-   evidence：在两台人形机器人上实现了多模态感知与规划框架
-5. [SG-VLA: Learning Spatially-Grounded Vision-Language-Action Models for Mobile Manipulation](/202603/25/2603.22760v1-sg-vla-learning-spatially-grounded-vision-language-action-models-for-mobile-manipulation)  
+   evidence：用于运动模仿的实时人形机器人遥操作和微分逆运动学
+5. [BiPreManip: Learning Affordance-Based Bimanual Preparatory Manipulation through Anticipatory Collaboration](/202603/26/2603.21679v1-bipremanip-learning-affordance-based-bimanual-preparatory-manipulation-through-anticipatory-collaboration)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：移动操作中底盘运动、手臂关节和夹持器的协调控制
-6. [Gaze-Regularized Vision-Language-Action Models for Robotic Manipulation](/202603/25/2603.23202v1-gaze-regularized-vision-language-action-models-for-robotic-manipulation)  
+   evidence：协调的双臂准备性操作策略
+6. [Knowledge-Guided Manipulation Using Multi-Task Reinforcement Learning](/202603/26/2603.24083v1-knowledge-guided-manipulation-using-multi-task-reinforcement-learning)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：用于引导机器人感知与操作的视线正则化VLA模型
+   evidence：统一感知、知识与策略的机器人操作
 
 ### 速读区论文标签
-1. [GigaWorld-Policy: An Efficient Action-Centered World--Action Model](/202603/25/2603.17240v1-gigaworld-policy-an-efficient-action-centered-world--action-model)  
+1. [Interpreting Context-Aware Human Preferences for Multi-Objective Robot Navigation](/202603/26/2603.17510v1-interpreting-context-aware-human-preferences-for-multi-objective-robot-navigation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于机器人策略学习和运动预测的高效以动作为中心的世界模型
-2. [KineVLA: Towards Kinematics-Aware Vision-Language-Action Models with Bi-Level Action Decomposition](/202603/25/2603.17524v1-kinevla-towards-kinematics-aware-vision-language-action-models-with-bi-level-action-decomposition)  
+   evidence：用于机器人导航策略的上下文感知环境感知
+2. [VolumeDP: Modeling Volumetric Representation for Manipulation Policy Learning](/202603/26/2603.17720v1-volumedp-modeling-volumetric-representation-for-manipulation-policy-learning)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：感知运动学的VLA模型用于细粒度操作
-3. [AERR-Nav: Adaptive Exploration-Recovery-Reminiscing Strategy for Zero-Shot Object Navigation](/202603/25/2603.17712v1-aerr-nav-adaptive-exploration-recovery-reminiscing-strategy-for-zero-shot-object-navigation)  
-   标签：评分：7.0/10、query:hr-rob
-   evidence：未知环境中的零样本目标导航
-4. [EVA: Aligning Video World Models with Executable Robot Actions via Inverse Dynamics Rewards](/202603/25/2603.17808v1-eva-aligning-video-world-models-with-executable-robot-actions-via-inverse-dynamics-rewards)  
+   evidence：用于操作空间推理的体积表示
+3. [EVA: Aligning Video World Models with Executable Robot Actions via Inverse Dynamics Rewards](/202603/26/2603.17808v2-eva-aligning-video-world-models-with-executable-robot-actions-via-inverse-dynamics-rewards)  
    标签：评分：7.0/10、query:hr-rob
    evidence：通过逆动力学将视频世界模型与可执行机器人动作对齐
-5. [Generative Control as Optimization: Time Unconditional Flow Matching for Adaptive and Robust Robotic Control](/202603/25/2603.17834v1-generative-control-as-optimization-time-unconditional-flow-matching-for-adaptive-and-robust-robotic-control)  
+4. [ProbeFlow: Training-Free Adaptive Flow Matching for Vision-Language-Action Models](/202603/26/2603.17850v1-probeflow-training-free-adaptive-flow-matching-for-vision-language-action-models)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：通过生成式优化实现自适应且鲁棒的机器人控制
-6. [GMT: Goal-Conditioned Multimodal Transformer for 6-DOF Object Trajectory Synthesis in 3D Scenes](/202603/25/2603.17993v1-gmt-goal-conditioned-multimodal-transformer-for-6-dof-object-trajectory-synthesis-in-3d-scenes)  
+   evidence：用于响应式物理控制的自适应流匹配
+5. [GoalVLM: VLM-driven Object Goal Navigation for Multi-Agent System](/202603/26/2603.18210v1-goalvlm-vlm-driven-object-goal-navigation-for-multi-agent-system)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：3D场景中的6自由度物体轨迹合成
-7. [Gaze-Aware Task Progression Detection Framework for Human-Robot Interaction Using RGB Cameras](/202603/25/2603.15951v1-gaze-aware-task-progression-detection-framework-for-human-robot-interaction-using-rgb-cameras)  
+   evidence：VLM驱动的目标导航与BEV语义地图构建
+6. [Rapid Adaptation of Particle Dynamics for Generalized Deformable Object Mobile Manipulation](/202603/26/2603.18246v1-rapid-adaptation-of-particle-dynamics-for-generalized-deformable-object-mobile-manipulation)  
+   标签：评分：7.0/10、query:hr-rob
+   evidence：柔性物体的移动操作
+7. [ReSteer: Quantifying and Refining the Steerability of Multitask Robot Policies](/202603/26/2603.17300v1-resteer-quantifying-and-refining-the-steerability-of-multitask-robot-policies)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：通过RGB摄像头进行人机交互环境感知
-8. [Large Reward Models: Generalizable Online Robot Reward Generation with Vision-Language Models](/202603/25/2603.16065v2-large-reward-models-generalizable-online-robot-reward-generation-with-vision-language-models)  
+   evidence：多任务机器人策略的可操控性与任务执行
+8. [AgentVLN: Towards Agentic Vision-and-Language Navigation](/202603/26/2603.17670v1-agentvln-towards-agentic-vision-and-language-navigation)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：用于机器人奖励生成的视觉语言模型
-9. [When Should a Robot Think? Resource-Aware Reasoning via Reinforcement Learning for Embodied Robotic Decision-Making](/202603/25/2603.16673v1-when-should-a-robot-think-resource-aware-reasoning-via-reinforcement-learning-for-embodied-robotic-decision-making)  
+   evidence：具有空间感知能力的代理视觉语言导航
+9. [Specification-Aware Distribution Shaping for Robotics Foundation Models](/202603/26/2603.17969v1-specification-aware-distribution-shaping-for-robotics-foundation-models)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：机器人决策中的资源感知推理
-10. [vAccSOL: Efficient and Transparent AI Vision Offloading for Mobile Robots](/202603/25/2603.16685v1-vaccsol-efficient-and-transparent-ai-vision-offloading-for-mobile-robots)  
+   evidence：在机器人基础模型上强制执行时空约束
+10. [ManiDreams: An Open-Source Library for Robust Object Manipulation via Uncertainty-aware Task-specific Intuitive Physics](/202603/26/2603.18336v2-manidreams-an-open-source-library-for-robust-object-manipulation-via-uncertainty-aware-task-specific-intuitive-physics)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：移动机器人感知的AI视觉卸载
-11. [GigaWorld-Policy: An Efficient Action-Centered World--Action Model](/202603/25/2603.17240v2-gigaworld-policy-an-efficient-action-centered-world--action-model)  
+   evidence：基于直觉物理模型的感知不确定性的操作规划
+11. [Robotic Agentic Platform for Intelligent Electric Vehicle Disassembly](/202603/26/2603.18520v1-robotic-agentic-platform-for-intelligent-electric-vehicle-disassembly)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：以动作为中心的世界动作模型用于机器人策略
+   evidence：现实场景中的感知驱动操作
 
 
 <div class="dpr-home-promo-card">
