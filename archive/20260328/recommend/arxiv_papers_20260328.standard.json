@@ -1,0 +1,709 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-28T19:32:02.741899+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 7,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 47,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2603.22560v1",
+      "title": "Allometric Scaling Laws for Bipedal Robots",
+      "abstract": "Scaling the design of robots up or down remains a fundamental challenge. While biological systems follow well-established isometric and allometric scaling laws relating mass, stride frequency, velocity, and torque, it is unclear how these relationships translate to robotic systems. In this paper, we generate similar allometric scaling laws for bipedal robots across three orders of magnitude in leg length. First, we conduct a review of legged robots from the literature and extract empirical relationships between leg length (L), body length, mass, and speed. These data show that robot mass scales more closely to L^2, in contrast to the L^3 scaling predicted by isometric scaling. We then perform controlled simulation studies in Drake using three variants of real quasi-passive, hip-actuated walkers with different foot geometries and control strategies. We evaluate the performance of each design scaled with leg length, L. Across all robots, walking velocity follows the expected L^(1/2) trend from dynamic similarity. Minimum required torque scales more closely with m*L than the isometric model of m*L^2. Foot geometry scaled proportionally with L^1. These results provide new insight into how robot designs allometrically scale to different sizes, and how that scaling is different from isometric or biological scaling laws.",
+      "authors": [
+        "Naomi Oke",
+        "Aja Carter",
+        "Ben Gu",
+        "Steven Man",
+        "Cordelia Pride",
+        "Sarah Bergbreiter",
+        "Aaron M. Johnson"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-23T20:43:03+00:00",
+      "link": "https://arxiv.org/pdf/2603.22560v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "allometric scaling laws for bipedal and legged robots",
+      "llm_evidence_cn": "双足及腿部机器人的异速生长定标律",
+      "llm_evidence": "双足及腿部机器人的异速生长定标律",
+      "canonical_evidence": "双足及腿部机器人的异速生长定标律",
+      "llm_tldr_en": "Establishes scaling laws for bipedal robots to guide design across different sizes and masses.",
+      "llm_tldr_cn": "建立了双足机器人的定标律，为不同尺寸和质量的机器人设计提供指导。",
+      "llm_tldr": "建立了双足机器人的定标律，为不同尺寸和质量的机器人设计提供指导。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "humanoid robot research and development",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.22280v1",
+      "title": "DualCoT-VLA: Visual-Linguistic Chain of Thought via Parallel Reasoning for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models map visual observations and language instructions directly to robotic actions. While effective for simple tasks, standard VLA models often struggle with complex, multi-step tasks requiring logical planning, as well as precise manipulations demanding fine-grained spatial perception. Recent efforts have incorporated Chain-of-Thought (CoT) reasoning to endow VLA models with a ``thinking before acting'' capability. However, current CoT-based VLA models face two critical limitations: 1) an inability to simultaneously capture low-level visual details and high-level logical planning due to their reliance on isolated, single-modal CoT; 2) high inference latency with compounding errors caused by step-by-step autoregressive decoding. To address these limitations, we propose DualCoT-VLA, a visual-linguistic CoT method for VLA models with a parallel reasoning mechanism. To achieve comprehensive multi-modal reasoning, our method integrates a visual CoT for low-level spatial understanding and a linguistic CoT for high-level task planning. Furthermore, to overcome the latency bottleneck, we introduce a parallel CoT mechanism that incorporates two sets of learnable query tokens, shifting autoregressive reasoning to single-step forward reasoning. Extensive experiments demonstrate that our DualCoT-VLA achieves state-of-the-art performance on the LIBERO and RoboCasa GR1 benchmarks, as well as in real-world platforms.",
+      "authors": [
+        "Zhide Zhong",
+        "Junfeng Li",
+        "Junjie He",
+        "Haodong Yan",
+        "Xin Gong",
+        "Guanyi Zhao",
+        "Yingjie Cai",
+        "Jiantao Gao",
+        "Xu Yan",
+        "Bingbing Liu",
+        "Yingcong Chen",
+        "Liuqing Yang",
+        "Haoang Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-23T17:59:25+00:00",
+      "link": "https://arxiv.org/pdf/2603.22280v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "VLA models for complex multi-step tasks and precise manipulation",
+      "llm_evidence_cn": "用于复杂多步任务和精确操作的VLA模型",
+      "llm_evidence": "用于复杂多步任务和精确操作的VLA模型",
+      "canonical_evidence": "用于复杂多步任务和精确操作的VLA模型",
+      "llm_tldr_en": "Introduces DualCoT-VLA to improve logical planning and spatial perception in robotic manipulation tasks.",
+      "llm_tldr_cn": "引入DualCoT-VLA，提升机器人操作任务中的逻辑规划和空间感知能力。",
+      "llm_tldr": "引入DualCoT-VLA，提升机器人操作任务中的逻辑规划和空间感知能力。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "coordinated locomotion and manipulation strategies for humanoid robots",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.25399v1",
+      "title": "LaMP: Learning Vision-Language-Action Policies with 3D Scene Flow as Latent Motion Prior",
+      "abstract": "We introduce \\textbf{LaMP}, a dual-expert Vision-Language-Action framework that embeds dense 3D scene flow as a latent motion prior for robotic manipulation. Existing VLA models regress actions directly from 2D semantic visual features, forcing them to learn complex 3D physical interactions implicitly. This implicit learning strategy degrades under unfamiliar spatial dynamics. LaMP addresses this limitation by aligning a flow-matching \\emph{Motion Expert} with a policy-predicting \\emph{Action Expert} through gated cross-attention. Specifically, the Motion Expert generates a one-step partially denoised 3D scene flow, and its hidden states condition the Action Expert without full multi-step reconstruction. We evaluate LaMP on the LIBERO, LIBERO-Plus, and SimplerEnv-WidowX simulation benchmarks as well as real-world experiments. LaMP consistently outperforms evaluated VLA baselines across LIBERO, LIBERO-Plus, and SimplerEnv-WidowX benchmarks, achieving the highest reported average success rates under the same training budgets. On LIBERO-Plus OOD perturbations, LaMP shows improved robustness with an average 9.7% gain over the strongest prior baseline. Our project page is available at https://summerwxk.github.io/lamp-project-page/.",
+      "authors": [
+        "Xinkai Wang",
+        "Chenyi Wang",
+        "Yifu Xu",
+        "Mingzhe Ye",
+        "Fu-Cheng Zhang",
+        "Jialin Tian",
+        "Xinyu Zhan",
+        "Lifeng Zhu",
+        "Cewu Lu",
+        "Lixin Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-26T12:47:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.25399v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Vision-Language-Action framework with 3D scene flow for robotic manipulation",
+      "llm_evidence_cn": "结合3D场景流的视觉-语言-动作框架用于机器人操作",
+      "llm_evidence": "结合3D场景流的视觉-语言-动作框架用于机器人操作",
+      "canonical_evidence": "结合3D场景流的视觉-语言-动作框架用于机器人操作",
+      "llm_tldr_en": "Embeds 3D scene flow as a motion prior in VLA models to improve spatial dynamics in robotic manipulation.",
+      "llm_tldr_cn": "在VLA模型中嵌入3D场景流作为运动先验，提升了机器人操作对空间动力学的理解。",
+      "llm_tldr": "在VLA模型中嵌入3D场景流作为运动先验，提升了机器人操作对空间动力学的理解。",
+      "llm_tags": [
+        "query:hr-rob:composite"
+      ],
+      "matched_query_tag": "query:hr-rob:composite",
+      "matched_query_text": "Papers central to 人形机器人运动规划、感知与全身操作相关论文检索, especially work that connects or combines: humanoid robot research and development; environmental perception and sensing for robots; integrated locomotion and manipulation for humanoids; whole-body control frameworks for humanoid robots; state of the art in humanoid robot motion planning and control; advancements in humanoid robot perception and environmental mapping; coordinated locomotion and manipulation strategies for humanoid robots; whole body motion planning for complex humanoid tasks.",
+      "matched_requirement_id": "req-composite-hr-rob",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.23227v1",
+      "title": "Efficient Hybrid SE(3)-Equivariant Visuomotor Flow Policy via Spherical Harmonics for Robot Manipulation",
+      "abstract": "While existing equivariant methods enhance data efficiency, they suffer from high computational intensity, reliance on single-modality inputs, and instability when combined with fast-sampling methods. In this work, we propose E3Flow, a novel framework that addresses the critical limitations of equivariant diffusion policies. E3Flow overcomes these challenges, successfully unifying efficient rectified flow with stable, multi-modal equivariant learning for the first time. Our framework is built upon spherical harmonic representations to ensure rigorous SO(3) equivariance. We introduce a novel invariant Feature Enhancement Module (FEM) that dynamically fuses hybrid visual modalities (point clouds and images), injecting rich visual cues into the spherical harmonic features. We evaluate E3Flow on 8 manipulation tasks from the MimicGen and further conduct 4 real-world experiments to validate its effectiveness in physical environments. Simulation results show that E3Flow achieves a 3.12% improvement in average success rate over the state-of-the-art Spherical Diffusion Policy (SDP) while simultaneously delivering a 7x inference speedup. E3Flow thus demonstrates a new and highly effective trade-off between performance, efficiency, and data efficiency for robotic policy learning. Code: https://github.com/zql-kk/E3Flow.",
+      "authors": [
+        "Qinglun Zhang",
+        "Shen Cheng",
+        "Tian Dan",
+        "Haoqiang Fan",
+        "Guanghui Liu",
+        "Shuaicheng Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-24T14:00:36+00:00",
+      "link": "https://arxiv.org/pdf/2603.23227v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "equivariant visuomotor flow policy for stable robot manipulation",
+      "llm_evidence_cn": "用于稳定机器人操作的等变视觉运动流策略",
+      "llm_evidence": "用于稳定机器人操作的等变视觉运动流策略",
+      "canonical_evidence": "用于稳定机器人操作的等变视觉运动流策略",
+      "llm_tldr_en": "Proposes E3Flow, a framework for efficient and stable multi-modal equivariant learning in robot manipulation.",
+      "llm_tldr_cn": "提出E3Flow框架，在机器人操作中实现高效稳定的多模态等变学习。",
+      "llm_tldr": "提出E3Flow框架，在机器人操作中实现高效稳定的多模态等变学习。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "coordinated locomotion and manipulation strategies for humanoid robots",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.23481v1",
+      "title": "VTAM: Video-Tactile-Action Models for Complex Physical Interaction Beyond VLAs",
+      "abstract": "Video-Action Models (VAMs) have emerged as a promising framework for embodied intelligence, learning implicit world dynamics from raw video streams to produce temporally consistent action predictions. Although such models demonstrate strong performance on long-horizon tasks through visual reasoning, they remain limited in contact-rich scenarios where critical interaction states are only partially observable from vision alone. In particular, fine-grained force modulation and contact transitions are not reliably encoded in visual tokens, leading to unstable or imprecise behaviors. To bridge this gap, we introduce the Video-Tactile Action Model (VTAM), a multimodal world modeling framework that incorporates tactile perception as a complementary grounding signal. VTAM augments a pretrained video transformer with tactile streams via a lightweight modality transfer finetuning, enabling efficient cross-modal representation learning without tactile-language paired data or independent tactile pretraining. To stabilize multimodal fusion, we introduce a tactile regularization loss that enforces balanced cross-modal attention, preventing visual latent dominance in the action model. VTAM demonstrates superior performance in contact-rich manipulation, maintaining a robust success rate of 90 percent on average. In challenging scenarios such as potato chip pick-and-place requiring high-fidelity force awareness, VTAM outperforms the pi 0.5 baseline by 80 percent. Our findings demonstrate that integrating tactile feedback is essential for correcting visual estimation errors in world action models, providing a scalable approach to physically grounded embodied foundation models.",
+      "authors": [
+        "Haoran Yuan",
+        "Weigang Yi",
+        "Zhenyu Zhang",
+        "Wendi Chen",
+        "Yuchen Mo",
+        "Jiashi Yin",
+        "Xinzhuo Li",
+        "Xiangyu Zeng",
+        "Chuan Wen",
+        "Cewu Lu",
+        "Katherine Driggs-Campbell",
+        "Ismini Lourentzou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-03-24T17:45:06+00:00",
+      "link": "https://arxiv.org/pdf/2603.23481v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "video-tactile-action models for complex physical interaction",
+      "llm_evidence_cn": "用于复杂物理交互的视频-触觉-动作模型",
+      "llm_evidence": "用于复杂物理交互的视频-触觉-动作模型",
+      "canonical_evidence": "用于复杂物理交互的视频-触觉-动作模型",
+      "llm_tldr_en": "Integrates tactile perception into world models to improve robot performance in contact-rich tasks.",
+      "llm_tldr_cn": "将触觉感知引入世界模型，提升机器人在高频接触任务中的操作精度与稳定性。",
+      "llm_tldr": "将触觉感知引入世界模型，提升机器人在高频接触任务中的操作精度与稳定性。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.25406v1",
+      "title": "MMaDA-VLA: Large Diffusion Vision-Language-Action Model with Unified Multi-Modal Instruction and Generation",
+      "abstract": "Vision-Language-Action (VLA) models aim to control robots for manipulation from visual observations and natural-language instructions. However, existing hierarchical and autoregressive paradigms often introduce architectural overhead, suffer from temporal inconsistency and long-horizon error accumulation, and lack a mechanism to capture environment dynamics without extra modules. To this end, we present MMaDA-VLA, a fully native pre-trained large diffusion VLA model that unifies multi-modal understanding and generation in a single framework. Our key idea is a native discrete diffusion formulation that embeds language, images, and continuous robot controls into one discrete token space and trains a single backbone with masked token denoising to jointly generate a future goal observation and an action chunk in parallel. Iterative denoising enables global, order-free refinement, improving long-horizon consistency while grounding actions in predicted future visual outcomes without auxiliary world models. Experiments across simulation benchmarks and real-world tasks show state-of-the-art performance, achieving 98.0% average success on LIBERO and 4.78 average length on CALVIN.",
+      "authors": [
+        "Yang Liu",
+        "Pengxiang Ding",
+        "Tengyue Jiang",
+        "Xudong Wang",
+        "Wenxuan Song",
+        "Minghui Lin",
+        "Han Zhao",
+        "Hongyin Zhang",
+        "Zifeng Zhuang",
+        "Wei Zhao",
+        "Siteng Huang",
+        "Jinkui Shi",
+        "Donglin Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-26T12:55:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.25406v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Large Diffusion VLA model for unified multi-modal understanding and action generation",
+      "llm_evidence_cn": "用于统一多模态理解与动作生成的扩散VLA模型",
+      "llm_evidence": "用于统一多模态理解与动作生成的扩散VLA模型",
+      "canonical_evidence": "用于统一多模态理解与动作生成的扩散VLA模型",
+      "llm_tldr_en": "A native diffusion Vision-Language-Action model that unifies perception and control for robotic manipulation.",
+      "llm_tldr_cn": "一种原生的扩散视觉-语言-动作模型，统一了机器人操作中的感知与控制生成。",
+      "llm_tldr": "一种原生的扩散视觉-语言-动作模型，统一了机器人操作中的感知与控制生成。",
+      "llm_tags": [
+        "query:hr-rob:composite"
+      ],
+      "matched_query_tag": "query:hr-rob:composite",
+      "matched_query_text": "Papers central to 人形机器人运动规划、感知与全身操作相关论文检索, especially work that connects or combines: humanoid robot research and development; environmental perception and sensing for robots; integrated locomotion and manipulation for humanoids; whole-body control frameworks for humanoid robots; state of the art in humanoid robot motion planning and control; advancements in humanoid robot perception and environmental mapping; coordinated locomotion and manipulation strategies for humanoid robots; whole body motion planning for complex humanoid tasks.",
+      "matched_requirement_id": "req-composite-hr-rob",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.25298v1",
+      "title": "Connectivity-Aware Representations for Constrained Motion Planning via Multi-Scale Contrastive Learning",
+      "abstract": "The objective of constrained motion planning is to connect start and goal configurations while satisfying task-specific constraints. Motion planning becomes inefficient or infeasible when the configurations lie in disconnected regions, known as essentially mutually disconnected (EMD) components. Constraints further restrict feasible space to a lower-dimensional submanifold, while redundancy introduces additional complexity because a single end-effector pose admits infinitely many inverse kinematic solutions that may form discrete self-motion manifolds. This paper addresses these challenges by learning a connectivity-aware representation for selecting start and goal configurations prior to planning. Joint configurations are embedded into a latent space through multi-scale manifold learning across neighborhood ranges from local to global, and clustering generates pseudo-labels that supervise a contrastive learning framework. The proposed framework provides a connectivity-aware measure that biases the selection of start and goal configurations in connected regions, avoiding EMDs and yielding higher success rates with reduced planning time. Experiments on various manipulation tasks showed that our method achieves 1.9 times higher success rates and reduces the planning time by a factor of 0.43 compared to baselines.",
+      "authors": [
+        "Suhyun Jeon",
+        "Yumin Lim",
+        "Woo-Jeong Baek",
+        "Hyeonseo Kim",
+        "Suhan Park",
+        "Jaeheung Park"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-26T10:44:21+00:00",
+      "link": "https://arxiv.org/pdf/2603.25298v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "constrained motion planning and inverse kinematic solutions",
+      "llm_evidence_cn": "受限运动规划与逆运动学解法",
+      "llm_evidence": "受限运动规划与逆运动学解法",
+      "canonical_evidence": "受限运动规划与逆运动学解法",
+      "llm_tldr_en": "Learns connectivity-aware representations to solve complex constrained motion planning and redundancy challenges.",
+      "llm_tldr_cn": "学习连通性感知表示，以解决复杂的受限运动规划和冗余自由度挑战。",
+      "llm_tldr": "学习连通性感知表示，以解决复杂的受限运动规划和冗余自由度挑战。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "whole body motion planning for complex humanoid tasks",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.19602v1",
+      "title": "CeRLP: A Cross-embodiment Robot Local Planning Framework for Visual Navigation",
+      "abstract": "Visual navigation for cross-embodiment robots is challenging due to variations in robot and camera configurations, which can lead to the failure of navigation tasks. Previous approaches typically rely on collecting massive datasets across different robots, which is highly data-intensive, or fine-tuning models, which is time-consuming. Furthermore, both methods often lack explicit consideration of robot geometry. In this paper, we propose a Cross-embodiment Robot Local Planning (CeRLP) framework for general visual navigation, which abstracts visual information into a unified geometric formulation and applies to heterogeneous robots with varying physical dimensions, camera parameters, and camera types. CeRLP introduces a depth estimation scale correction method that utilizes offline pre-calibration to resolve the scale ambiguity of monocular depth estimation, thereby recovering precise metric depth images. Furthermore, CeRLP designs a visual-to-scan abstraction module that projects varying visual inputs into height-adaptive laser scans, making the policy robust to heterogeneous robots. Experiments in simulation environments demonstrate that CeRLP outperforms comparative methods, validating its robust obstacle avoidance capabilities as a local planner. Additionally, extensive real-world experiments verify the effectiveness of CeRLP in tasks such as point-to-point navigation and vision-language navigation, demonstrating its generalization across varying robot and camera configurations.",
+      "authors": [
+        "Haoyu Xi",
+        "Mingao Tan",
+        "Xinming Zhang",
+        "Siwei Cheng",
+        "Shanze Wang",
+        "Yin Gu",
+        "Xiaoyu Shen",
+        "Wei Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-20T03:17:18+00:00",
+      "link": "https://arxiv.org/pdf/2603.19602v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "cross-embodiment robot local planning for visual navigation",
+      "llm_evidence_cn": "跨具身机器人的视觉导航局部规划",
+      "llm_evidence": "跨具身机器人的视觉导航局部规划",
+      "canonical_evidence": "跨具身机器人的视觉导航局部规划",
+      "llm_tldr_en": "A cross-embodiment framework for visual navigation that abstracts geometric information for heterogeneous robots.",
+      "llm_tldr_cn": "一种跨具身视觉导航框架，通过抽象几何信息适配不同构型的机器人。",
+      "llm_tldr": "一种跨具身视觉导航框架，通过抽象几何信息适配不同构型的机器人。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "advancements in humanoid robot perception and environmental mapping",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.20150v2",
+      "title": "HortiMulti: A Multi-Sensor Dataset for Localisation and Mapping in Horticultural Polytunnels",
+      "abstract": "Agricultural robotics is gaining increasing relevance in both research and real-world deployment. As these systems are expected to operate autonomously in more complex tasks, the availability of representative real-world datasets becomes essential. While domains such as urban and forestry robotics benefit from large and established benchmarks, horticultural environments remain comparatively under-explored despite the economic significance of this sector. To address this gap, we present HortiMulti, a multimodal, cross-season dataset collected in commercial strawberry and raspberry polytunnels across an entire growing season, capturing substantial appearance variation, dynamic foliage, specular reflections from plastic covers, severe perceptual aliasing, and GNSS-unreliable conditions, all of which directly degrade existing localisation and perception algorithms. The sensor suite includes two 3D LiDARs, four RGB cameras, an IMU, GNSS, and wheel odometry. Ground truth trajectories are derived from a combination of Total Station surveying, AprilTag fiducial markers, and LiDAR-inertial odometry, spanning dense, sparse, and marker-free coverage to support evaluation under both controlled and realistic conditions. We release time-synchronised raw measurements, calibration files, reference trajectories, and baseline benchmarks for visual, LiDAR, and multi-sensor SLAM, with results confirming that current state-of-the-art methods remain inadequate for reliable polytunnel deployment, establishing HortiMulti as a one-stop resource for developing and testing robotic perception systems in horticulture environments.",
+      "authors": [
+        "Shuoyuan Xu",
+        "Zhipeng Zhong",
+        "Tiago Barros",
+        "Matthew Coombes",
+        "Cristiano Premebida",
+        "Hao Wu",
+        "Cunjia Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-20T17:26:19+00:00",
+      "link": "https://arxiv.org/pdf/2603.20150v2",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-sensor dataset for localization and mapping",
+      "llm_evidence_cn": "用于定位和建图的多传感器数据集",
+      "llm_evidence": "用于定位和建图的多传感器数据集",
+      "canonical_evidence": "用于定位和建图的多传感器数据集",
+      "llm_tldr_en": "Presents a multi-sensor dataset for robot localization and mapping in complex agricultural environments.",
+      "llm_tldr_cn": "提供了一个用于复杂农业环境下的机器人定位与建图的多传感器数据集。",
+      "llm_tldr": "提供了一个用于复杂农业环境下的机器人定位与建图的多传感器数据集。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.19616v1",
+      "title": "UniPR: Unified Object-level Real-to-Sim Perception and Reconstruction from a Single Stereo Pair",
+      "abstract": "Perceiving and reconstructing objects from images are critical for real-to-sim transfer tasks, which are widely used in the robotics community. Existing methods rely on multiple submodules such as detection, segmentation, shape reconstruction, and pose estimation to complete the pipeline. However, such modular pipelines suffer from inefficiency and cumulative error, as each stage operates on only partial or locally refined information while discarding global context. To address these limitations, we propose UniPR, the first end-to-end object-level real-to-sim perception and reconstruction framework. Operating directly on a single stereo image pair, UniPR leverages geometric constraints to resolve the scale ambiguity. We introduce Pose-Aware Shape Representation to eliminate the need for per-category canonical definitions and to bridge the gap between reconstruction and pose estimation tasks. Furthermore, we construct a large-vocabulary stereo dataset, LVS6D, comprising over 6,300 objects, to facilitate large-scale research in this area. Extensive experiments demonstrate that UniPR reconstructs all objects in a scene in parallel within a single forward pass, achieving significant efficiency gains and preserves true physical proportions across diverse object types, highlighting its potential for practical robotic applications.",
+      "authors": [
+        "Chuanrui Zhang",
+        "Yingshuang Zou",
+        "ZhengXian Wu",
+        "Yonggen Ling",
+        "Yuxiao Yang",
+        "Ziwei Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-20T03:47:48+00:00",
+      "link": "https://arxiv.org/pdf/2603.19616v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "object-level perception and reconstruction for real-to-sim robotics tasks",
+      "llm_evidence_cn": "用于虚实迁移机器人任务的物体级感知与重建",
+      "llm_evidence": "用于虚实迁移机器人任务的物体级感知与重建",
+      "canonical_evidence": "用于虚实迁移机器人任务的物体级感知与重建",
+      "llm_tldr_en": "An end-to-end framework for object perception and 3D reconstruction from stereo images for robotics.",
+      "llm_tldr_cn": "一种用于机器人立体图像物体感知和三维重建的端到端框架。",
+      "llm_tldr": "一种用于机器人立体图像物体感知和三维重建的端到端框架。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "advancements in humanoid robot perception and environmental mapping",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.20182v1",
+      "title": "IndoorR2X: Indoor Robot-to-Everything Coordination with LLM-Driven Planning",
+      "abstract": "Although robot-to-robot (R2R) communication improves indoor scene understanding beyond what a single robot can achieve, R2R alone cannot overcome partial observability without substantial exploration overhead or scaling team size. In contrast, many indoor environments already include low-cost Internet of Things (IoT) sensors (e.g., cameras) that provide persistent, building-wide context beyond onboard perception. We therefore introduce IndoorR2X, the first benchmark and simulation framework for Large Language Model (LLM)-driven multi-robot task planning with Robot-to-Everything (R2X) perception and communication in indoor environments. IndoorR2X integrates observations from mobile robots and static IoT devices to construct a global semantic state that supports scalable scene understanding, reduces redundant exploration, and enables high-level coordination through LLM-based planning. IndoorR2X provides configurable simulation environments, sensor layouts, robot teams, and task suites to systematically evaluate high-level semantic coordination strategies. Extensive experiments across diverse settings demonstrate that IoT-augmented world modeling improves multi-robot efficiency and reliability, and we highlight key insights and failure modes for advancing LLM-based collaboration between robot teams and indoor IoT sensors.",
+      "authors": [
+        "Fan Yang",
+        "Soumya Teotia",
+        "Shaunak A. Mehta",
+        "Prajit KrisshnaKumar",
+        "Quanting Xie",
+        "Jun Liu",
+        "Yueqi Song",
+        "Li Wenkai",
+        "Atsunori Moteki",
+        "Kanji Uchino",
+        "Yonatan Bisk"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "published": "2026-03-20T17:57:26+00:00",
+      "link": "https://arxiv.org/pdf/2603.20182v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "robot-to-everything coordination and indoor scene understanding",
+      "llm_evidence_cn": "机器人与万物协同及室内场景理解",
+      "llm_evidence": "机器人与万物协同及室内场景理解",
+      "canonical_evidence": "机器人与万物协同及室内场景理解",
+      "llm_tldr_en": "Introduces a benchmark for LLM-driven multi-robot planning using integrated IoT and onboard perception.",
+      "llm_tldr_cn": "引入了一个利用物联网和车载感知集成的LLM驱动多机器人规划基准框架。",
+      "llm_tldr": "引入了一个利用物联网和车载感知集成的LLM驱动多机器人规划基准框架。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.19660v1",
+      "title": "Semantic Audio-Visual Navigation in Continuous Environments",
+      "abstract": "Audio-visual navigation enables embodied agents to navigate toward sound-emitting targets by leveraging both auditory and visual cues. However, most existing approaches rely on precomputed room impulse responses (RIRs) for binaural audio rendering, restricting agents to discrete grid positions and leading to spatially discontinuous observations. To establish a more realistic setting, we introduce Semantic Audio-Visual Navigation in Continuous Environments (SAVN-CE), where agents can move freely in 3D spaces and perceive temporally and spatially coherent audio-visual streams. In this setting, targets may intermittently become silent or stop emitting sound entirely, causing agents to lose goal information. To tackle this challenge, we propose MAGNet, a multimodal transformer-based model that jointly encodes spatial and semantic goal representations and integrates historical context with self-motion cues to enable memory-augmented goal reasoning. Comprehensive experiments demonstrate that MAGNet significantly outperforms state-of-the-art methods, achieving up to a 12.1\\% absolute improvement in success rate. These results also highlight its robustness to short-duration sounds and long-distance navigation scenarios. The code is available at https://github.com/yichenzeng24/SAVN-CE.",
+      "authors": [
+        "Yichen Zeng",
+        "Hebaixu Wang",
+        "Meng Liu",
+        "Yu Zhou",
+        "Chen Gao",
+        "Kehan Chen",
+        "Gongping Huang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-20T05:49:50+00:00",
+      "link": "https://arxiv.org/pdf/2603.19660v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multimodal audio-visual navigation in continuous 3D environments",
+      "llm_evidence_cn": "连续3D环境中的多模态视听导航",
+      "llm_evidence": "连续3D环境中的多模态视听导航",
+      "canonical_evidence": "连续3D环境中的多模态视听导航",
+      "llm_tldr_en": "Introduces MAGNet for continuous audio-visual navigation using multimodal cues in realistic 3D spaces.",
+      "llm_tldr_cn": "引入MAGNet，利用多模态线索在真实3D空间中实现连续视听导航。",
+      "llm_tldr": "引入MAGNet，利用多模态线索在真实3D空间中实现连续视听导航。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.20607v1",
+      "title": "Towards Practical World Model-based Reinforcement Learning for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models show strong generalization for robotic control, but finetuning them with reinforcement learning (RL) is constrained by the high cost and safety risks of real-world interaction. Training VLA models in interactive world models avoids these issues but introduces several challenges, including pixel-level world modeling, multi-view consistency, and compounding errors under sparse rewards. Building on recent advances across large multimodal models and model-based RL, we propose VLA-MBPO, a practical framework to tackle these problems in VLA finetuning. Our approach has three key design choices: (i) adapting unified multimodal models (UMMs) for data-efficient world modeling; (ii) an interleaved view decoding mechanism to enforce multi-view consistency; and (iii) chunk-level branched rollout to mitigate error compounding. Theoretical analysis and experiments across simulation and real-world tasks demonstrate that VLA-MBPO significantly improves policy performance and sample efficiency, underscoring its robustness and scalability for real-world robotic deployment.",
+      "authors": [
+        "Zhilong Zhang",
+        "Haoxiang Ren",
+        "Yihao Sun",
+        "Yifei Sheng",
+        "Haonan Wang",
+        "Haoxin Lin",
+        "Zhichao Wu",
+        "Pierre-Luc Bacon",
+        "Yang Yu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-03-21T02:44:39+00:00",
+      "link": "https://arxiv.org/pdf/2603.20607v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "world model-based RL for vision-language-action robotic control",
+      "llm_evidence_cn": "基于世界模型的强化学习用于视觉-语言-动作机器人控制",
+      "llm_evidence": "基于世界模型的强化学习用于视觉-语言-动作机器人控制",
+      "canonical_evidence": "基于世界模型的强化学习用于视觉-语言-动作机器人控制",
+      "llm_tldr_en": "VLA-MBPO enables efficient VLA model finetuning using multimodal world models for safer robotic interaction.",
+      "llm_tldr_cn": "VLA-MBPO利用多模态世界模型实现高效的VLA模型微调，提升机器人交互安全性。",
+      "llm_tldr": "VLA-MBPO利用多模态世界模型实现高效的VLA模型微调，提升机器人交互安全性。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.20164v1",
+      "title": "The Robot's Inner Critic: Self-Refinement of Social Behaviors through VLM-based Replanning",
+      "abstract": "Conventional robot social behavior generation has been limited in flexibility and autonomy, relying on predefined motions or human feedback. This study proposes CRISP (Critique-and-Replan for Interactive Social Presence), an autonomous framework where a robot critiques and replans its own actions by leveraging a Vision-Language Model (VLM) as a `human-like social critic.' CRISP integrates (1) extraction of movable joints and constraints by analyzing the robot's description file (e.g., MJCF), (2) generation of step-by-step behavior plans based on situational context, (3) generation of low-level joint control code by referencing visual information (joint range-of-motion visualizations), (4) VLM-based evaluation of social appropriateness and naturalness, including pinpointing erroneous steps, and (5) iterative refinement of behaviors through reward-based search. This approach is not tied to a specific robot API; it can generate subtly different, human-like motions on various platforms using only the robot's structure file. In a user study involving five different robot types and 20 scenarios, including mobile manipulators and humanoids, our proposed method achieved significantly higher preference and situational appropriateness ratings compared to previous methods. This research presents a general framework that minimizes human intervention while expanding the robot's autonomous interaction capabilities and cross-platform applicability.   Detailed result videos and supplementary information regarding this work are available at: https://limjiyu99.github.io/inner-critic/",
+      "authors": [
+        "Jiyu Lim",
+        "Youngwoo Yoon",
+        "Kwanghyun Park"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-20T17:40:21+00:00",
+      "link": "https://arxiv.org/pdf/2603.20164v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "VLM-based replanning and low-level joint control for social behaviors",
+      "llm_evidence_cn": "基于VLM的社交行为重规划与底层关节控制",
+      "llm_evidence": "基于VLM的社交行为重规划与底层关节控制",
+      "canonical_evidence": "基于VLM的社交行为重规划与底层关节控制",
+      "llm_tldr_en": "CRISP enables robots to self-refine social behaviors through VLM-based critique and joint-level replanning.",
+      "llm_tldr_cn": "CRISP使机器人能够通过基于VLM的评价和关节级重规划自主优化社交行为。",
+      "llm_tldr": "CRISP使机器人能够通过基于VLM的评价和关节级重规划自主优化社交行为。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "whole body motion planning for complex humanoid tasks",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.20679v1",
+      "title": "Enhancing Vision-Based Policies with Omni-View and Cross-Modality Knowledge Distillation for Mobile Robots",
+      "abstract": "Vision-based policies are widely applied in robotics for tasks such as manipulation and locomotion. On lightweight mobile robots, however, they face a trilemma of limited scene transferability, restricted onboard computation resources, and sensor hardware cost. To address these issues, we propose a knowledge distillation approach that transfers knowledge from an information-rich, appearance invariant omniview depth policy to a lightweight monocular policy. The key idea is to train the student not only to mimic the expert actions but also to align with the latent embeddings of the omni view depth teacher. Experiments demonstrate that omni-view and depth inputs improve the scene transfer and navigation performance, and that the proposed distillation method enhances the performance of a singleview monocular policy, compared with policies solely imitating actions. Real world experiments further validate the effectiveness and practicality of our approach. Code will be released publicly.",
+      "authors": [
+        "Kai Li",
+        "Shiyu Zhao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-21T06:38:30+00:00",
+      "link": "https://arxiv.org/pdf/2603.20679v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "vision-based policies for mobile robot navigation and perception",
+      "llm_evidence_cn": "用于移动机器人导航与感知的视觉策略",
+      "llm_evidence": "用于移动机器人导航与感知的视觉策略",
+      "canonical_evidence": "用于移动机器人导航与感知的视觉策略",
+      "llm_tldr_en": "Enhances monocular vision policies for mobile robots using knowledge distillation from omni-view depth experts.",
+      "llm_tldr_cn": "通过全景深度专家知识蒸馏，增强了移动机器人的单目视觉策略。",
+      "llm_tldr": "通过全景深度专家知识蒸馏，增强了移动机器人的单目视觉策略。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.20992v1",
+      "title": "Geometrically Plausible Object Pose Refinement using Differentiable Simulation",
+      "abstract": "State-of-the-art object pose estimation methods are prone to generating geometrically infeasible pose hypotheses. This problem is prevalent in dexterous manipulation, where estimated poses often intersect with the robotic hand or are not lying on a support surface. We propose a multi-modal pose refinement approach that combines differentiable physics simulation, differentiable rendering and visuo-tactile sensing to optimize object poses for both spatial accuracy and physical consistency. Simulated experiments show that our approach reduces the intersection volume error between the object and robotic hand by 73\\% when the initial estimate is accurate and by over 87\\% under high initial uncertainty, significantly outperforming standard ICP-based baselines. Furthermore, the improvement in geometric plausibility is accompanied by a concurrent reduction in translation and orientation errors. Achieving pose estimation that is grounded in physical reality while remaining faithful to multi-modal sensor inputs is a critical step toward robust in-hand manipulation.",
+      "authors": [
+        "Anil Zeybek",
+        "Rhys Newbury",
+        "Snehal Dikhale",
+        "Nawid Jamali",
+        "Soshi Iba",
+        "Akansel Cosgun"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-22T00:24:14+00:00",
+      "link": "https://arxiv.org/pdf/2603.20992v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "visuo-tactile sensing and differentiable simulation for pose refinement",
+      "llm_evidence_cn": "视触觉感知与可微仿真用于位姿优化",
+      "llm_evidence": "视触觉感知与可微仿真用于位姿优化",
+      "canonical_evidence": "视触觉感知与可微仿真用于位姿优化",
+      "llm_tldr_en": "Refines object poses using differentiable simulation and visuo-tactile sensing for dexterous manipulation.",
+      "llm_tldr_cn": "结合可微物理仿真与视触觉感知，优化灵巧操作中物体的位姿估计精度与物理一致性。",
+      "llm_tldr": "结合可微物理仿真与视触觉感知，优化灵巧操作中物体的位姿估计精度与物理一致性。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.21142v1",
+      "title": "Dynamic Control Barrier Function Regulation with Vision-Language Models for Safe, Adaptive, and Realtime Visual Navigation",
+      "abstract": "Robots operating in dynamic, unstructured environments must balance safety and efficiency under potentially limited sensing. While control barrier functions (CBFs) provide principled collision avoidance via safety filtering, their behavior is often governed by fixed parameters that can be overly conservative in benign scenes or overly permissive near hazards. We present AlphaAdj, a vision-to-control navigation framework that uses egocentric RGB input to adapt the conservativeness of a CBF safety filter in real time. A vision-language model(VLM) produces a bounded scalar risk estimate from the current camera view, which we map to dynamically update a CBF parameter that modulates how strongly safety constraints are enforced. To address asynchronous inference and non-trivial VLM latency in practice, we combine a geometric, speed-aware dynamic cap and a staleness-gated fusion policy with lightweight implementation choices that reduce end-to-end inference overhead. We evaluate AlphaAdj across multiple static and dynamic obstacle scenarios in a variety of environments, comparing against fixed-parameter and uncapped ablations. Results show that AlphaAdj maintains collision-free navigation while improving efficiency (in terms of path length and time to goal) by up to 18.5% relative to fixed settings and improving robustness and success rate relative to an uncapped baseline.",
+      "authors": [
+        "Jeffrey Chen",
+        "Rohan Chandra"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-22T09:35:18+00:00",
+      "link": "https://arxiv.org/pdf/2603.21142v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "vision-to-control navigation using egocentric RGB input for safety filtering",
+      "llm_evidence_cn": "使用第一视角RGB输入进行安全过滤的视觉控制导航",
+      "llm_evidence": "使用第一视角RGB输入进行安全过滤的视觉控制导航",
+      "canonical_evidence": "使用第一视角RGB输入进行安全过滤的视觉控制导航",
+      "llm_tldr_en": "Adapts safety filter parameters in real-time using vision-language models for safer robot navigation.",
+      "llm_tldr_cn": "利用视觉语言模型实时调整安全过滤参数，实现更安全的机器人导航。",
+      "llm_tldr": "利用视觉语言模型实时调整安全过滤参数，实现更安全的机器人导航。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
