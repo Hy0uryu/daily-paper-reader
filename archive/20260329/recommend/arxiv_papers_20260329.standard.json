@@ -1,0 +1,535 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-29T19:23:53.665553+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 44,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2603.22263v1",
+      "title": "DexDrummer: In-Hand, Contact-Rich, and Long-Horizon Dexterous Robot Drumming",
+      "abstract": "Performing in-hand, contact-rich, and long-horizon dexterous manipulation remains an unsolved challenge in robotics. Prior hand dexterity works have considered each of these three challenges in isolation, yet do not combine these skills into a single, complex task. To further test the capabilities of dexterity, we propose drumming as a testbed for dexterous manipulation. Drumming naturally integrates all three challenges: it involves in-hand control for stabilizing and adjusting the drumstick with the fingers, contact-rich interaction through repeated striking of the drum surface, and long-horizon coordination when switching between drums and sustaining rhythmic play. We present DexDrummer, a hierarchical object-centric bimanual drumming policy trained in simulation with sim-to-real transfer. The framework reduces the exploration difficulty of pure reinforcement learning by combining trajectory planning with residual RL corrections for fast transitions between drums. A dexterous manipulation policy handles contact-rich dynamics, guided by rewards that explicitly model both finger-stick and stick-drum interactions. In simulation, we show our policy can play two styles of music: multi-drum, bimanual songs and challenging, technical exercises that require increased dexterity. Across simulated bimanual tasks, our dexterous, reactive policy outperforms a fixed grasp policy by 1.87x across easy songs and 1.22x across hard songs F1 scores. In real-world tasks, we show song performance across a multi-drum setup. DexDrummer is able to play our training song and its extended version with an F1 score of 1.0.",
+      "authors": [
+        "Hung-Chieh Fang",
+        "Amber Xie",
+        "Jennifer Grannen",
+        "Kenneth Llontop",
+        "Dorsa Sadigh"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-23T17:49:06+00:00",
+      "link": "https://arxiv.org/pdf/2603.22263v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "contact-rich and long-horizon dexterous robot manipulation",
+      "llm_evidence_cn": "高接触、长程灵巧机器人操作",
+      "llm_evidence": "高接触、长程灵巧机器人操作",
+      "canonical_evidence": "高接触、长程灵巧机器人操作",
+      "llm_tldr_en": "Presents a hierarchical policy for complex bimanual drumming as a testbed for dexterous manipulation.",
+      "llm_tldr_cn": "提出了一种用于复杂双手机器人击鼓的层级策略，作为灵巧操作的测试平台。",
+      "llm_tldr": "提出了一种用于复杂双手机器人击鼓的层级策略，作为灵巧操作的测试平台。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "coordinated locomotion and manipulation strategies for humanoid robots",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.25259v1",
+      "title": "A Minimum-Energy Control Approach for Redundant Mobile Manipulators in Physical Human-Robot Interaction Applications",
+      "abstract": "Research on mobile manipulation systems that physically interact with humans has expanded rapidly in recent years, opening the way to tasks which could not be performed using fixed-base manipulators. Within this context, developing suitable control methodologies is essential since mobile manipulators introduce additional degrees of freedom, making the design of control approaches more challenging and more prone to performance optimization. This paper proposes a control approach for a mobile manipulator, composed of a mobile base equipped with a robotic arm mounted on the top, with the objective of minimizing the overall kinetic energy stored in the whole-body mobile manipulator in physical human-robot interaction applications. The approach is experimentally tested with reference to a peg-in-hole task, and the results demonstrate that the proposed approach reduces the overall kinetic energy stored in the whole-body robotic system and improves the system performance compared with the benchmark method.",
+      "authors": [
+        "Davide Tebaldi",
+        "Niccolò Paradisi",
+        "Fabio Pini",
+        "Luigi Biagiotti"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-03-26T10:01:34+00:00",
+      "link": "https://arxiv.org/pdf/2603.25259v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Whole-body control for redundant mobile manipulators in human interaction",
+      "llm_evidence_cn": "冗余移动操作臂在人机交互中的全身控制",
+      "llm_evidence": "冗余移动操作臂在人机交互中的全身控制",
+      "canonical_evidence": "冗余移动操作臂在人机交互中的全身控制",
+      "llm_tldr_en": "Proposes a minimum-energy control approach for whole-body coordination of mobile manipulators.",
+      "llm_tldr_cn": "提出了一种用于移动操作臂全身协调的最小能量控制方法。",
+      "llm_tldr": "提出了一种用于移动操作臂全身协调的最小能量控制方法。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "whole-body control frameworks for humanoid robots",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.20530v1",
+      "title": "Memory Over Maps: 3D Object Localization Without Reconstruction",
+      "abstract": "Target localization is a prerequisite for embodied tasks such as navigation and manipulation. Conventional approaches rely on constructing explicit 3D scene representations to enable target localization, such as point clouds, voxel grids, or scene graphs. While effective, these pipelines incur substantial mapping time, storage overhead, and scalability limitations. Recent advances in vision-language models suggest that rich semantic reasoning can be performed directly on 2D observations, raising a fundamental question: is a complete 3D scene reconstruction necessary for object localization? In this work, we revisit object localization and propose a map-free pipeline that stores only posed RGB-D keyframes as a lightweight visual memory--without constructing any global 3D representation of the scene. At query time, our method retrieves candidate views, re-ranks them with a vision-language model, and constructs a sparse, on-demand 3D estimate of the queried target through depth backprojection and multi-view fusion. Compared to reconstruction-based pipelines, this design drastically reduces preprocessing cost, enabling scene indexing that is over two orders of magnitude faster to build while using substantially less storage. We further validate the localized targets on downstream object-goal navigation tasks. Despite requiring no task-specific training, our approach achieves strong performance across multiple benchmarks, demonstrating that direct reasoning over image-based scene memory can effectively replace dense 3D reconstruction for object-centric robot navigation. Project page: https://ruizhou-cn.github.io/memory-over-maps/",
+      "authors": [
+        "Rui Zhou",
+        "Xander Yap",
+        "Jianwen Cao",
+        "Allison Lau",
+        "Boyang Sun",
+        "Marc Pollefeys"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-03-20T21:57:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.20530v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D object localization and environmental perception without explicit reconstruction",
+      "llm_evidence_cn": "无需显式重建的3D目标定位与环境感知",
+      "llm_evidence": "无需显式重建的3D目标定位与环境感知",
+      "canonical_evidence": "无需显式重建的3D目标定位与环境感知",
+      "llm_tldr_en": "A map-free pipeline for 3D object localization using lightweight visual memory instead of full reconstruction.",
+      "llm_tldr_cn": "一种利用轻量级视觉记忆而非完整重建进行3D目标定位的无地图流水线。",
+      "llm_tldr": "一种利用轻量级视觉记忆而非完整重建进行3D目标定位的无地图流水线。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "advancements in humanoid robot perception and environmental mapping",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.20658v1",
+      "title": "Speedup Patch: Learning a Plug-and-Play Policy to Accelerate Embodied Manipulation",
+      "abstract": "While current embodied policies exhibit remarkable manipulation skills, their execution remains unsatisfactorily slow as they inherit the tardy pacing of human demonstrations. Existing acceleration methods typically require policy retraining or costly online interactions, limiting their scalability for large-scale foundation models. In this paper, we propose Speedup Patch (SuP), a lightweight, policy-agnostic framework that enables plug-and-play acceleration using solely offline data. SuP introduces an external scheduler that adaptively downsamples action chunks provided by embodied policies to eliminate redundancies. Specifically, we formalize the optimization of our scheduler as a Constrained Markov Decision Process (CMDP) aimed at maximizing efficiency without compromising task performance. Since direct success evaluation is infeasible in offline settings, SuP introduces World Model based state deviation as a surrogate metric to enforce safety constraints. By leveraging a learned world model as a virtual evaluator to predict counterfactual trajectories, the scheduler can be optimized via offline reinforcement learning. Empirical results on simulation benchmarks (Libero, Bigym) and real-world tasks validate that SuP achieves an overall 1.8x execution speedup for diverse policies while maintaining their original success rates.",
+      "authors": [
+        "Zhichao Wu",
+        "Junyin Ye",
+        "Zhilong Zhang",
+        "Yihao Sun",
+        "Haoxin Lin",
+        "Jiaheng Luo",
+        "Haoxiang Ren",
+        "Lei Yuan",
+        "Yang Yu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-21T05:29:04+00:00",
+      "link": "https://arxiv.org/pdf/2603.20658v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "accelerating embodied manipulation policies for robots",
+      "llm_evidence_cn": "加速机器人的具身操作策略",
+      "llm_evidence": "加速机器人的具身操作策略",
+      "canonical_evidence": "加速机器人的具身操作策略",
+      "llm_tldr_en": "Proposes Speedup Patch to accelerate embodied manipulation policies by adaptively downsampling action chunks.",
+      "llm_tldr_cn": "提出Speedup Patch框架，通过自适应下采样动作块来加速具身操作策略的执行效率。",
+      "llm_tldr": "提出Speedup Patch框架，通过自适应下采样动作块来加速具身操作策略的执行效率。",
+      "llm_tags": [
+        "query:hr-rob:composite"
+      ],
+      "matched_query_tag": "query:hr-rob:composite",
+      "matched_query_text": "Papers central to 人形机器人运动规划、感知与全身操作相关论文检索, especially work that connects or combines: humanoid robot research and development; environmental perception and sensing for robots; integrated locomotion and manipulation for humanoids; whole-body control frameworks for humanoid robots; state of the art in humanoid robot motion planning and control; advancements in humanoid robot perception and environmental mapping; coordinated locomotion and manipulation strategies for humanoid robots; whole body motion planning for complex humanoid tasks.",
+      "matched_requirement_id": "req-composite-hr-rob",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.21195v1",
+      "title": "GAPG: Geometry Aware Push-Grasping Synergy for Goal-Oriented Manipulation in Clutter",
+      "abstract": "Grasping target objects is a fundamental skill for robotic manipulation, but in cluttered environments with stacked or occluded objects, a single-step grasp is often insufficient. To address this, previous work has introduced pushing as an auxiliary action to create graspable space. However, these methods often struggle with both stability and efficiency because they neglect the scene's geometric information, which is essential for evaluating grasp robustness and ensuring that pushing actions are safe and effective. To this end, we propose a geometry-aware push-grasp synergy framework that leverages point cloud data to integrate grasp and push evaluation. Specifically, the grasp evaluation module analyzes the geometric relationship between the gripper's point cloud and the points enclosed within its closing region to determine grasp feasibility and stability. Guided by this, the push evaluation module predicts how pushing actions influence future graspable space, enabling the robot to select actions that reliably transform non-graspable states into graspable ones. By jointly reasoning about geometry in both grasping and pushing, our framework achieves safer, more efficient, and more reliable manipulation in cluttered settings. Our method is extensively tested in simulation and real-world environments in various scenarios. Experimental results demonstrate that our model generalizes well to real-world scenes and unseen objects.",
+      "authors": [
+        "Lijingze Xiao",
+        "Jinhong Du",
+        "Yang Cong",
+        "Supeng Diao",
+        "Yu Ren"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-22T12:30:44+00:00",
+      "link": "https://arxiv.org/pdf/2603.21195v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "geometry-aware push-grasping using point cloud data",
+      "llm_evidence_cn": "利用点云数据的几何感知推挤抓取",
+      "llm_evidence": "利用点云数据的几何感知推挤抓取",
+      "canonical_evidence": "利用点云数据的几何感知推挤抓取",
+      "llm_tldr_en": "A framework using point cloud data to coordinate pushing and grasping for robotic manipulation in clutter.",
+      "llm_tldr_cn": "一种利用点云数据协调推挤与抓取动作的框架，用于杂乱环境下的机器人操作。",
+      "llm_tldr": "一种利用点云数据协调推挤与抓取动作的框架，用于杂乱环境下的机器人操作。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.20659v1",
+      "title": "StageCraft: Execution Aware Mitigation of Distractor and Obstruction Failures in VLA Models",
+      "abstract": "Large scale pre-training on text and image data along with diverse robot demonstrations has helped Vision Language Action models (VLAs) to generalize to novel tasks, objects and scenes. However, these models are still susceptible to failure in the presence of execution-time impediments such as distractors and physical obstructions in the robot's workspace. Existing policy improvement methods finetune base VLAs to improve generalization, yet they still struggle in unseen distractor settings. To address this problem, we investigate whether internet-scale pretraining of large vision-language models (VLMs) can be leveraged to reason about these impediments and mitigate policy failures. To this end, we propose StageCraft, a training-free approach to improve pretrained VLA policy performance by manipulating the environment's initial state using VLM-based in-context reasoning. StageCraft takes policy rollout videos and success labels as input and leverages VLM's reasoning ability to infer which objects in the initial state need to be manipulated to avoid anticipated execution failures. StageCraft is an extensible plug-and-play module that does not introduce additional constraints on the underlying policy, and only requires a few policy rollouts to work. We evaluate performance of state-of-the-art VLA models with StageCraft and show an absolute 40% performance improvement across three real world task domains involving diverse distractors and obstructions. Our simulation experiments in RLBench empirically show that StageCraft tailors its extent of intervention based on the strength of the underlying policy and improves its performance with more in-context samples. Videos of StageCraft in effect can be found at https://stagecraft-decorator.github.io/stagecraft/ .",
+      "authors": [
+        "Kartikay Milind Pangaonkar",
+        "Prabin Rath",
+        "Omkar Patil",
+        "Nakul Gopalan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-21T05:30:15+00:00",
+      "link": "https://arxiv.org/pdf/2603.20659v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "mitigation of distractor and obstruction failures in robotic perception",
+      "llm_evidence_cn": "减轻机器人感知中的干扰物和障碍物故障",
+      "llm_evidence": "减轻机器人感知中的干扰物和障碍物故障",
+      "canonical_evidence": "减轻机器人感知中的干扰物和障碍物故障",
+      "llm_tldr_en": "Proposes StageCraft to help VLA models reason about and mitigate physical obstructions in workspaces.",
+      "llm_tldr_cn": "提出StageCraft，帮助VLA模型推理并减轻工作空间中的物理障碍。",
+      "llm_tldr": "提出StageCraft，帮助VLA模型推理并减轻工作空间中的物理障碍。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.21421v1",
+      "title": "HyReach: Vision-Guided Hybrid Manipulator Reaching in Unseen Cluttered Environments",
+      "abstract": "As robotic systems increasingly operate in unstructured, cluttered, and previously unseen environments, there is a growing need for manipulators that combine compliance, adaptability, and precise control. This work presents a real-time hybrid rigid-soft continuum manipulator system designed for robust open-world object reaching in such challenging environments. The system integrates vision-based perception and 3D scene reconstruction with shape-aware motion planning to generate safe trajectories. A learning-based controller drives the hybrid arm to arbitrary target poses, leveraging the flexibility of the soft segment while maintaining the precision of the rigid segment. The system operates without environment-specific retraining, enabling direct generalization to new scenes. Extensive real-world experiments demonstrate consistent reaching performance with errors below 2 cm across diverse cluttered setups, highlighting the potential of hybrid manipulators for adaptive and reliable operation in unstructured environments.",
+      "authors": [
+        "Shivani Kamtikar",
+        "Kendall Koe",
+        "Justin Wasserman",
+        "Samhita Marri",
+        "Benjamin Walt",
+        "Naveen Kumar Uppalapati",
+        "Girish Krishnan",
+        "Girish Chowdhary"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-22T22:14:33+00:00",
+      "link": "https://arxiv.org/pdf/2603.21421v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "vision-guided perception and motion planning in clutter",
+      "llm_evidence_cn": "杂乱环境下的视觉引导感知与运动规划",
+      "llm_evidence": "杂乱环境下的视觉引导感知与运动规划",
+      "canonical_evidence": "杂乱环境下的视觉引导感知与运动规划",
+      "llm_tldr_en": "Integrates vision-based perception with motion planning for hybrid manipulators in unseen environments.",
+      "llm_tldr_cn": "将基于视觉的感知与运动规划相结合，实现混合机械臂在未知环境中的操作。",
+      "llm_tldr": "将基于视觉的感知与运动规划相结合，实现混合机械臂在未知环境中的操作。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.20668v1",
+      "title": "ROI-Driven Foveated Attention for Unified Egocentric Representations in Vision-Language-Action Systems",
+      "abstract": "The development of embodied AI systems is increasingly constrained by the availability and structure of physical interaction data. Despite recent advances in vision-language-action (VLA) models, current pipelines suffer from high data collection cost, limited cross-embodiment alignment, and poor transfer from internet-scale visual data to robot control.   We propose a region-of-interest (ROI) driven engineering workflow that introduces an egocentric, geometry-grounded data representation. By projecting end-effector poses via forward kinematics (FK) into a single external camera, we derive movement-aligned hand-centric ROIs without requiring wrist-mounted cameras or multi-view systems. Unlike directly downsampling the full frame, ROI is cropped from the original image before resizing, preserving high local information density for contact-critical regions while retaining global context.   We present a reproducible pipeline covering calibration, synchronization, ROI generation, deterministic boundary handling, and metadata governance. The resulting representation is embodiment-aligned and viewpoint-normalized, enabling data reuse across heterogeneous robots. We argue that egocentric ROI serves as a practical data abstraction for scalable collection and cross-embodiment learning, bridging internet-scale perception and robot-specific control.",
+      "authors": [
+        "Xinhai Sun",
+        "Xiang Shi",
+        "Menglin Zou",
+        "Wenlong Huang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-21T05:59:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.20668v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "ROI-driven egocentric representations for robot control",
+      "llm_evidence_cn": "用于机器人控制的ROI驱动第一视角表示",
+      "llm_evidence": "用于机器人控制的ROI驱动第一视角表示",
+      "canonical_evidence": "用于机器人控制的ROI驱动第一视角表示",
+      "llm_tldr_en": "Proposes a foveated attention mechanism to improve egocentric visual representations for VLA systems.",
+      "llm_tldr_cn": "提出了一种中心凹注意力机制，以改进VLA系统的第一视角视觉表示。",
+      "llm_tldr": "提出了一种中心凹注意力机制，以改进VLA系统的第一视角视觉表示。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.22003v1",
+      "title": "VP-VLA: Visual Prompting as an Interface for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models typically map visual observations and linguistic instructions directly to robotic control signals. This \"black-box\" mapping forces a single forward pass to simultaneously handle instruction interpretation, spatial grounding, and low-level control, often leading to poor spatial precision and limited robustness in out-of-distribution scenarios. To address these limitations, we propose VP-VLA, a dual-system framework that decouples high-level reasoning and low-level execution via a structured visual prompting interface. Specifically, a \"System 2 Planner\" decomposes complex instructions into sub-tasks and identifies relevant target objects and goal locations. These spatial anchors are then overlaid directly onto visual observations as structured visual prompts, such as crosshairs and bounding boxes. Guided by these prompts and enhanced by a novel auxiliary visual grounding objective during training, a \"System 1 Controller\" reliably generates precise low-level execution motions. Experiments on the Robocasa-GR1-Tabletop benchmark and SimplerEnv simulation demonstrate that VP-VLA improves success rates by 5% and 8.3%, surpassing competitive baselines including QwenOFT and GR00T-N1.6.",
+      "authors": [
+        "Zixuan Wang",
+        "Yuxin Chen",
+        "Yuqi Liu",
+        "Jinhui Ye",
+        "Pengguang Chen",
+        "Changsheng Lu",
+        "Shu Liu",
+        "Jiaya Jia"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-23T14:08:58+00:00",
+      "link": "https://arxiv.org/pdf/2603.22003v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Vision-Language-Action models for robotic control and spatial grounding",
+      "llm_evidence_cn": "用于机器人控制和空间定位的视觉-语言-动作模型",
+      "llm_evidence": "用于机器人控制和空间定位的视觉-语言-动作模型",
+      "canonical_evidence": "用于机器人控制和空间定位的视觉-语言-动作模型",
+      "llm_tldr_en": "VP-VLA decouples reasoning and execution via visual prompting to improve spatial precision in robotic tasks.",
+      "llm_tldr_cn": "VP-VLA通过视觉提示将推理与执行解耦，提高了机器人任务中的空间精度。",
+      "llm_tldr": "VP-VLA通过视觉提示将推理与执行解耦，提高了机器人任务中的空间精度。",
+      "llm_tags": [
+        "query:hr-rob:composite"
+      ],
+      "matched_query_tag": "query:hr-rob:composite",
+      "matched_query_text": "Papers central to 人形机器人运动规划、感知与全身操作相关论文检索, especially work that connects or combines: humanoid robot research and development; environmental perception and sensing for robots; integrated locomotion and manipulation for humanoids; whole-body control frameworks for humanoid robots; state of the art in humanoid robot motion planning and control; advancements in humanoid robot perception and environmental mapping; coordinated locomotion and manipulation strategies for humanoid robots; whole body motion planning for complex humanoid tasks.",
+      "matched_requirement_id": "req-composite-hr-rob",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.21143v1",
+      "title": "Affordance-Guided Enveloping Grasp Demonstration Toward Non-destructive Disassembly of Pinch-Infeasible Mating Parts",
+      "abstract": "Robotic disassembly of complex mating components often renders pinch grasping infeasible, necessitating multi-fingered enveloping grasps. However, visual occlusions and geometric constraints complicate teaching appropriate grasp motions when relying solely on 2D camera feeds. To address this, we propose an affordance-guided teleoperation method that pre-generates enveloping grasp candidates via physics simulation. These Affordance Templates (ATs) are visualized with a color gradient reflecting grasp quality to augment operator perception. Simulations demonstrate the method's generality across various components. Real-robot experiments validate that AT-based visual augmentation enables operators to effectively select and teach enveloping grasp strategies for real-world disassembly, even under severe visual and geometric constraints.",
+      "authors": [
+        "Masaki Tsutsumi",
+        "Takuya Kiyokawa",
+        "Gen Sako",
+        "Kensuke Harada"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-22T09:36:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.21143v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "augment operator perception via affordance templates",
+      "llm_evidence_cn": "通过示能表示模板增强操作员感知",
+      "llm_evidence": "通过示能表示模板增强操作员感知",
+      "canonical_evidence": "通过示能表示模板增强操作员感知",
+      "llm_tldr_en": "Proposes affordance-guided teleoperation for multi-fingered enveloping grasps in complex disassembly tasks.",
+      "llm_tldr_cn": "提出了一种示能引导的远程操作方法，用于复杂拆卸任务中的多指包络抓取。",
+      "llm_tldr": "提出了一种示能引导的远程操作方法，用于复杂拆卸任务中的多指包络抓取。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.22435v1",
+      "title": "CaP-X: A Framework for Benchmarking and Improving Coding Agents for Robot Manipulation",
+      "abstract": "\"Code-as-Policy\" considers how executable code can complement data-intensive Vision-Language-Action (VLA) methods, yet their effectiveness as autonomous controllers for embodied manipulation remains underexplored. We present CaP-X, an open-access framework for systematically studying Code-as-Policy agents in robot manipulation. At its core is CaP-Gym, an interactive environment in which agents control robots by synthesizing and executing programs that compose perception and control primitives. Building on this foundation, CaP-Bench evaluates frontier language and vision-language models across varying levels of abstraction, interaction, and perceptual grounding. Across 12 models, CaP-Bench reveals a consistent trend: performance improves with human-crafted abstractions but degrades as these priors are removed, exposing a dependence on designer scaffolding. At the same time, we observe that this gap can be mitigated through scaling agentic test-time computation--through multi-turn interaction, structured execution feedback, visual differencing, automatic skill synthesis, and ensembled reasoning--substantially improves robustness even when agents operate over low-level primitives. These findings allow us to derive CaP-Agent0, a training-free framework that recovers human-level reliability on several manipulation tasks in simulation and on real embodiments. We further introduce CaP-RL, showing reinforcement learning with verifiable rewards improves success rates and transfers from sim2real with minimal gap. Together, CaP-X provides a principled, open-access platform for advancing embodied coding agents.",
+      "authors": [
+        "Max Fu",
+        "Justin Yu",
+        "Karim El-Refai",
+        "Ethan Kou",
+        "Haoru Xue",
+        "Huang Huang",
+        "Wenli Xiao",
+        "Guanzhi Wang",
+        "Fei-Fei Li",
+        "Guanya Shi",
+        "Jiajun Wu",
+        "Shankar Sastry",
+        "Yuke Zhu",
+        "Ken Goldberg",
+        "Linxi \"Jim\" Fan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-23T18:08:10+00:00",
+      "link": "https://arxiv.org/pdf/2603.22435v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "framework for benchmarking robot manipulation with perception and control primitives",
+      "llm_evidence_cn": "包含感知与控制原语的机器人操作基准测试框架",
+      "llm_evidence": "包含感知与控制原语的机器人操作基准测试框架",
+      "canonical_evidence": "包含感知与控制原语的机器人操作基准测试框架",
+      "llm_tldr_en": "CaP-X benchmarks Code-as-Policy agents for robot manipulation using perception and control primitives.",
+      "llm_tldr_cn": "CaP-X 是一个通过感知和控制原语研究机器人操作代码策略代理的基准框架。",
+      "llm_tldr": "CaP-X 是一个通过感知和控制原语研究机器人操作代码策略代理的基准框架。",
+      "llm_tags": [
+        "query:hr-rob:composite"
+      ],
+      "matched_query_tag": "query:hr-rob:composite",
+      "matched_query_text": "Papers central to 人形机器人运动规划、感知与全身操作相关论文检索, especially work that connects or combines: humanoid robot research and development; environmental perception and sensing for robots; integrated locomotion and manipulation for humanoids; whole-body control frameworks for humanoid robots; state of the art in humanoid robot motion planning and control; advancements in humanoid robot perception and environmental mapping; coordinated locomotion and manipulation strategies for humanoid robots; whole body motion planning for complex humanoid tasks.",
+      "matched_requirement_id": "req-composite-hr-rob",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.21341v1",
+      "title": "RoboAlign: Learning Test-Time Reasoning for Language-Action Alignment in Vision-Language-Action Models",
+      "abstract": "Improving embodied reasoning in multimodal-large-language models (MLLMs) is essential for building vision-language-action models (VLAs) on top of them to readily translate multimodal understanding into low-level actions. Accordingly, recent work has explored enhancing embodied reasoning in MLLMs through supervision of vision-question-answering type. However, these approaches have been reported to result in unstable VLA performance, often yielding only marginal or even negative gains. In this paper, we propose a more systematic MLLM training framework RoboAlign that reliably improves VLA performance. Our key idea is to sample action tokens via zero-shot natural language reasoning and refines this reasoning using reinforcement learning (RL) to improve action accuracy. As a result, RoboAlign bridges the modality gap between language and low-level actions in MLLMs, and facilitate knowledge transfer from MLLM to VLA. To validate the effectiveness of RoboAlign, we train VLAs by adding a diffusion-based action head on top of an MLLM backbone and evaluate them on major robotics benchmarks. Remarkably, by performing RL-based alignment after SFT using less than 1\\% of the data, RoboAlign achieves performance improvements of 17.5\\%, 18.9\\%, and 106.6\\% over SFT baselines on LIBERO, CALVIN, and real-world environments, respectively.",
+      "authors": [
+        "Dongyoung Kim",
+        "Sumin Park",
+        "Woomin Song",
+        "Seungku Kim",
+        "Taeyoung Kim",
+        "Huiwon Jang",
+        "Jinwoo Shin",
+        "Jaehyung Kim",
+        "Younggyo Seo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-22T17:57:55+00:00",
+      "link": "https://arxiv.org/pdf/2603.21341v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "language-action alignment for vision-language-action models",
+      "llm_evidence_cn": "视觉-语言-动作模型的语言动作对齐",
+      "llm_evidence": "视觉-语言-动作模型的语言动作对齐",
+      "canonical_evidence": "视觉-语言-动作模型的语言动作对齐",
+      "llm_tldr_en": "Improves VLA performance by refining embodied reasoning through zero-shot natural language reasoning.",
+      "llm_tldr_cn": "通过零样本自然语言推理改进具身推理，从而提升VLA模型的动作执行性能。",
+      "llm_tldr": "通过零样本自然语言推理改进具身推理，从而提升VLA模型的动作执行性能。",
+      "llm_tags": [
+        "query:hr-rob:composite"
+      ],
+      "matched_query_tag": "query:hr-rob:composite",
+      "matched_query_text": "Papers central to 人形机器人运动规划、感知与全身操作相关论文检索, especially work that connects or combines: humanoid robot research and development; environmental perception and sensing for robots; integrated locomotion and manipulation for humanoids; whole-body control frameworks for humanoid robots; state of the art in humanoid robot motion planning and control; advancements in humanoid robot perception and environmental mapping; coordinated locomotion and manipulation strategies for humanoid robots; whole body motion planning for complex humanoid tasks.",
+      "matched_requirement_id": "req-composite-hr-rob",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.22650v1",
+      "title": "MAGICIAN: Efficient Long-Term Planning with Imagined Gaussians for Active Mapping",
+      "abstract": "Active mapping aims to determine how an agent should move to efficiently reconstruct an unknown environment. Most existing approaches rely on greedy next-best-view prediction, resulting in inefficient exploration and incomplete scene reconstruction. To address this limitation, we introduce MAGICIAN, a novel long-term planning framework that maximizes accumulated surface coverage gain through Imagined Gaussians, a scene representation derived from a pre-trained occupancy network with strong structural priors. This representation enables efficient computation of coverage gain for any novel viewpoint via fast volumetric rendering, allowing its integration into a tree-search algorithm for long-horizon planning. We update Imagined Gaussians and refine the planned trajectory in a closed-loop manner. Our method achieves state-of-the-art performance across indoor and outdoor benchmarks with varying action spaces, demonstrating the critical advantage of long-term planning in active mapping.",
+      "authors": [
+        "Shiyao Li",
+        "Antoine Guédon",
+        "Shizhe Chen",
+        "Vincent Lepetit"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-23T23:53:18+00:00",
+      "link": "https://arxiv.org/pdf/2603.22650v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Active mapping and long-term planning for environment reconstruction",
+      "llm_evidence_cn": "用于环境重建的主动建图与长期规划",
+      "llm_evidence": "用于环境重建的主动建图与长期规划",
+      "canonical_evidence": "用于环境重建的主动建图与长期规划",
+      "llm_tldr_en": "MAGICIAN uses Imagined Gaussians for long-term planning to improve active mapping and scene reconstruction.",
+      "llm_tldr_cn": "MAGICIAN利用想象高斯进行长期规划，以改进主动建图和场景重建。",
+      "llm_tldr": "MAGICIAN利用想象高斯进行长期规划，以改进主动建图和场景重建。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "advancements in humanoid robot perception and environmental mapping",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
