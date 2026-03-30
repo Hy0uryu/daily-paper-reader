@@ -6,61 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-29
-- 运行时间：2026-03-29 19:25:34 UTC
+- 最新运行日期：2026-03-30
+- 运行时间：2026-03-30 20:24:19 UTC
 - 运行状态：成功
-- 本次总论文数：13
-- 精读区：2
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日聚焦机器人灵巧操作与人机协作，深度解析从高频击鼓到移动机械臂控制的 13 篇前沿成果。
-重点关注 DexDrummer 实现的长时程复杂击鼓技艺，以及物理交互中冗余机械臂的最小能量控制方案。
-建议深入了解非结构化环境下的视觉引导抓取与 3D 定位技术，探索复杂场景下的作业新思路。
-- 详情：[/202603/29/README](/202603/29/README)
+今日精选 17 篇论文，深度攻克人形机器人高性能跑步控制与腿足协作推车等复杂动力学难题。
+核心突破在于利用动态重定向引导强化学习提升跑步表现，以及通过局部动作模仿实现精准的物体操纵。
+推荐关注强化学习与人类语言反馈的结合，探索更具交互性与适应性的机器人技能进化路径。
+- 详情：[/202603/30/README](/202603/30/README)
 
 ### 精读区论文标签
-1. [DexDrummer: In-Hand, Contact-Rich, and Long-Horizon Dexterous Robot Drumming](/202603/29/2603.22263v1-dexdrummer-in-hand-contact-rich-and-long-horizon-dexterous-robot-drumming)  
+1. [Chasing Autonomy: Dynamic Retargeting and Control Guided RL for Performant and Controllable Humanoid Running](/202603/30/2603.25902v1-chasing-autonomy-dynamic-retargeting-and-control-guided-rl-for-performant-and-controllable-humanoid-running)  
+   标签：评分：9.0/10、query:hr-rob
+   evidence：用于动态类人跑步的强化学习控制器
+2. [Partial Motion Imitation for Learning Cart Pushing with Legged Manipulators](/202603/30/2603.26659v1-partial-motion-imitation-for-learning-cart-pushing-with-legged-manipulators)  
+   标签：评分：9.0/10、query:hr-rob
+   evidence：通过部分运动模仿学习足式机械臂的移动操作
+3. [Ruka-v2: Tendon Driven Open-Source Dexterous Hand with Wrist and Abduction for Robot Learning](/202603/30/2603.26660v1-ruka-v2-tendon-driven-open-source-dexterous-hand-with-wrist-and-abduction-for-robot-learning)  
+   标签：评分：9.0/10、query:hr-rob
+   evidence：开源腱驱动人形机器人手部研发
+4. [Can a Robot Walk the Robotic Dog: Triple-Zero Collaborative Navigation for Heterogeneous Multi-Agent Systems](/202603/30/2603.21723v2-can-a-robot-walk-the-robotic-dog-triple-zero-collaborative-navigation-for-heterogeneous-multi-agent-systems)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：高接触、长程灵巧机器人操作
-2. [A Minimum-Energy Control Approach for Redundant Mobile Manipulators in Physical Human-Robot Interaction Applications](/202603/29/2603.25259v1-a-minimum-energy-control-approach-for-redundant-mobile-manipulators-in-physical-human-robot-interaction-applications)  
+   evidence：人形机器人在多机器人系统中负责任务协调
+5. [ThermoAct:Thermal-Aware Vision-Language-Action Models for Robotic Perception and Decision-Making](/202603/30/2603.25044v1-thermoactthermal-aware-vision-language-action-models-for-robotic-perception-and-decision-making)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：冗余移动操作臂在人机交互中的全身控制
+   evidence：用于机器人感知的热感知视觉-语言-动作模型
+6. [DiffusionAnything: End-to-End In-context Diffusion Learning for Unified Navigation and Pre-Grasp Motion](/202603/30/2603.26322v1-diffusionanything-end-to-end-in-context-diffusion-learning-for-unified-navigation-and-pre-grasp-motion)  
+   标签：评分：8.0/10、query:hr-rob
+   evidence：统一的导航与预抓取运动规划
 
 ### 速读区论文标签
-1. [Memory Over Maps: 3D Object Localization Without Reconstruction](/202603/29/2603.20530v1-memory-over-maps-3d-object-localization-without-reconstruction)  
+1. [Adapt as You Say: Online Interactive Bimanual Skill Adaptation via Human Language Feedback](/202603/30/2603.26466v1-adapt-as-you-say-online-interactive-bimanual-skill-adaptation-via-human-language-feedback)  
+   标签：评分：8.0/10、query:hr-rob
+   evidence：协调双臂技能自适应与运动调制
+2. [DyGeoVLN: Infusing Dynamic Geometry Foundation Model into Vision-Language Navigation](/202603/30/2603.21269v1-dygeovln-infusing-dynamic-geometry-foundation-model-into-vision-language-navigation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：无需显式重建的3D目标定位与环境感知
-2. [GAPG: Geometry Aware Push-Grasping Synergy for Goal-Oriented Manipulation in Clutter](/202603/29/2603.21195v1-gapg-geometry-aware-push-grasping-synergy-for-goal-oriented-manipulation-in-clutter)  
+   evidence：用于视觉语言导航的动态几何感知
+3. [Image-Conditioned Adaptive Parameter Tuning for Visual Odometry Frontends](/202603/30/2603.21785v1-image-conditioned-adaptive-parameter-tuning-for-visual-odometry-frontends)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：利用点云数据的几何感知推挤抓取
-3. [HyReach: Vision-Guided Hybrid Manipulator Reaching in Unseen Cluttered Environments](/202603/29/2603.21421v1-hyreach-vision-guided-hybrid-manipulator-reaching-in-unseen-cluttered-environments)  
+   evidence：机器人视觉里程计的自适应参数调整
+4. [MEVIUS2: Practical Open-Source Quadruped Robot with Sheet Metal Welding and Multimodal Perception](/202603/30/2603.22031v1-mevius2-practical-open-source-quadruped-robot-with-sheet-metal-welding-and-multimodal-perception)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：杂乱环境下的视觉引导感知与运动规划
-4. [VP-VLA: Visual Prompting as an Interface for Vision-Language-Action Models](/202603/29/2603.22003v1-vp-vla-visual-prompting-as-an-interface-for-vision-language-action-models)  
+   evidence：具有多模态感知能力的四足机器人，可应对复杂地形
+5. [CATNAV: Cached Vision-Language Traversability for Efficient Zero-Shot Robot Navigation](/202603/30/2603.22800v1-catnav-cached-vision-language-traversability-for-efficient-zero-shot-robot-navigation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于机器人控制和空间定位的视觉-语言-动作模型
-5. [CaP-X: A Framework for Benchmarking and Improving Coding Agents for Robot Manipulation](/202603/29/2603.22435v1-cap-x-a-framework-for-benchmarking-and-improving-coding-agents-for-robot-manipulation)  
+   evidence：机器人的环境感知与可通行性分析
+6. [VLA-IAP: Training-Free Visual Token Pruning via Interaction Alignment for Vision-Language-Action Models](/202603/30/2603.22991v1-vla-iap-training-free-visual-token-pruning-via-interaction-alignment-for-vision-language-action-models)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：包含感知与控制原语的机器人操作基准测试框架
-6. [MAGICIAN: Efficient Long-Term Planning with Imagined Gaussians for Active Mapping](/202603/29/2603.22650v1-magician-efficient-long-term-planning-with-imagined-gaussians-for-active-mapping)  
+   evidence：机器人操作中视觉语言动作模型的视觉令牌剪枝
+7. [Active Robotic Perception for Disease Detection and Mapping in Apple Trees](/202603/30/2603.23112v1-active-robotic-perception-for-disease-detection-and-mapping-in-apple-trees)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于环境重建的主动建图与长期规划
-7. [Speedup Patch: Learning a Plug-and-Play Policy to Accelerate Embodied Manipulation](/202603/29/2603.20658v1-speedup-patch-learning-a-plug-and-play-policy-to-accelerate-embodied-manipulation)  
+   evidence：主动机器人感知与语义 3D 映射
+8. [PiCo: Active Manifold Canonicalization for Robust Robotic Visual Anomaly Detection](/202603/30/2603.23122v1-pico-active-manifold-canonicalization-for-robust-robotic-visual-anomaly-detection)  
+   标签：评分：7.0/10、query:hr-rob
+   evidence：用于鲁棒机器人视觉异常检测的主动规范化
+9. [LSAI: A Large Small AI Model Codesign Framework for Agentic Robot Scenarios](/202603/30/2603.21726v1-lsai-a-large-small-ai-model-codesign-framework-for-agentic-robot-scenarios)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：加速机器人的具身操作策略
-8. [StageCraft: Execution Aware Mitigation of Distractor and Obstruction Failures in VLA Models](/202603/29/2603.20659v1-stagecraft-execution-aware-mitigation-of-distractor-and-obstruction-failures-in-vla-models)  
+   evidence：智能机器人的高效环境感知与探索
+10. [Learning Multi-Agent Local Collision-Avoidance for Collaborative Carrying tasks with Coupled Quadrupedal Robots](/202603/30/2603.23278v1-learning-multi-agent-local-collision-avoidance-for-collaborative-carrying-tasks-with-coupled-quadrupedal-robots)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：减轻机器人感知中的干扰物和障碍物故障
-9. [ROI-Driven Foveated Attention for Unified Egocentric Representations in Vision-Language-Action Systems](/202603/29/2603.20668v1-roi-driven-foveated-attention-for-unified-egocentric-representations-in-vision-language-action-systems)  
+   evidence：耦合四足机器人的协调运动与避障
+11. [ABot-PhysWorld: Interactive World Foundation Model for Robotic Manipulation with Physics Alignment](/202603/30/2603.23376v1-abot-physworld-interactive-world-foundation-model-for-robotic-manipulation-with-physics-alignment)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：用于机器人控制的ROI驱动第一视角表示
-10. [Affordance-Guided Enveloping Grasp Demonstration Toward Non-destructive Disassembly of Pinch-Infeasible Mating Parts](/202603/29/2603.21143v1-affordance-guided-enveloping-grasp-demonstration-toward-non-destructive-disassembly-of-pinch-infeasible-mating-parts)  
-   标签：评分：6.0/10、query:hr-rob
-   evidence：通过示能表示模板增强操作员感知
-11. [RoboAlign: Learning Test-Time Reasoning for Language-Action Alignment in Vision-Language-Action Models](/202603/29/2603.21341v1-roboalign-learning-test-time-reasoning-for-language-action-alignment-in-vision-language-action-models)  
-   标签：评分：6.0/10、query:hr-rob
-   evidence：视觉-语言-动作模型的语言动作对齐
+   evidence：机器人操作的世界基础模型
 
 
 <div class="dpr-home-promo-card">
