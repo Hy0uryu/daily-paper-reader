@@ -6,73 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-31
-- 运行时间：2026-03-31 20:09:17 UTC
+- 最新运行日期：2026-04-01
+- 运行时间：2026-04-01 19:56:02 UTC
 - 运行状态：成功
 - 本次总论文数：17
 - 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日聚焦具身智能前沿，深度解析了包括满分开源灵巧手与人形机器人控制在内的 17 篇论文。
-重点推荐 Ruka-v2 腱驱动灵巧手及 Heracles 通用控制框架，两者在硬件开源与精准操控上实现了满分突破。
-建议普通读者从开源硬件 Ruka-v2 入手，了解机器人如何通过模仿学习实现如人手般的复杂操作。
-- 详情：[/202603/31/README](/202603/31/README)
+今日精选 17 篇论文聚焦类人机器人进化，重点攻克通用控制与多模态感知难题。
+满分论文 Heracles 与 CReF 分别在生成式合成控制与跨模态融合定位上取得突破，定义了类人运动新高度。
+建议关注生成式技术如何赋能复杂肢体协调，并留意长程操作与事件驱动视觉的最新演进。
+- 详情：[/202604/01/README](/202604/01/README)
 
 ### 精读区论文标签
-1. [Ruka-v2: Tendon Driven Open-Source Dexterous Hand with Wrist and Abduction for Robot Learning](/202603/31/2603.26660v2-ruka-v2-tendon-driven-open-source-dexterous-hand-with-wrist-and-abduction-for-robot-learning)  
+1. [Heracles: Bridging Precise Tracking and Generative Synthesis for General Humanoid Control](/202604/01/2603.27756v2-heracles-bridging-precise-tracking-and-generative-synthesis-for-general-humanoid-control)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：开源腱驱动人形机器人手部研发
-2. [Heracles: Bridging Precise Tracking and Generative Synthesis for General Humanoid Control](/202603/31/2603.27756v1-heracles-bridging-precise-tracking-and-generative-synthesis-for-general-humanoid-control)  
+   evidence：用于通用人形机器人控制的状态条件扩散中间件
+2. [CReF: Cross-modal and Recurrent Fusion for Depth-conditioned Humanoid Locomotion](/202604/01/2603.29452v1-cref-cross-modal-and-recurrent-fusion-for-depth-conditioned-humanoid-locomotion)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：用于通用人形机器人控制和运动跟踪的状态条件扩散中间件
-3. [Cost-Matching Model Predictive Control for Efficient Reinforcement Learning in Humanoid Locomotion](/202603/31/2603.28243v1-cost-matching-model-predictive-control-for-efficient-reinforcement-learning-in-humanoid-locomotion)  
+   evidence：复杂地形下基于深度信息的人形机器人行走
+3. [Stable Walking for Bipedal Locomotion under Foot-Slip via Virtual Nonholonomic Constraints](/202604/01/2603.29050v1-stable-walking-for-bipedal-locomotion-under-foot-slip-via-virtual-nonholonomic-constraints)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：基于MPC的人形机器人运动强化学习与质心动力学
-4. [Active Stereo-Camera Outperforms Multi-Sensor Setup in ACT Imitation Learning for Humanoid Manipulation](/202603/31/2603.28422v1-active-stereo-camera-outperforms-multi-sensor-setup-in-act-imitation-learning-for-humanoid-manipulation)  
+   evidence：不确定地形下双足运动的稳定步行控制
+4. [MaskAdapt: Learning Flexible Motion Adaptation via Mask-Invariant Prior for Physics-Based Characters](/202604/01/2603.29272v1-maskadapt-learning-flexible-motion-adaptation-via-mask-invariant-prior-for-physics-based-characters)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：在Unitree G1人形机器人上基准测试了用于操作任务的传感器组合
-5. [ThermoAct:Thermal-Aware Vision-Language-Action Models for Robotic Perception and Decision-Making](/202603/31/2603.25044v2-thermoactthermal-aware-vision-language-action-models-for-robotic-perception-and-decision-making)  
+   evidence：基于物理的人形机器人控制中的灵活运动自适应
+5. [Kernel-SDF: An Open-Source Library for Real-Time Signed Distance Function Estimation using Kernel Regression](/202604/01/2603.29227v1-kernel-sdf-an-open-source-library-for-real-time-signed-distance-function-estimation-using-kernel-regression)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：用于机器人感知的热感知视觉-语言-动作模型
-6. [ContraMap: Contrastive Uncertainty Mapping for Robot Environment Representation](/202603/31/2603.27632v1-contramap-contrastive-uncertainty-mapping-for-robot-environment-representation)  
+   evidence：使用有符号距离函数进行实时环境表示与建图
+6. [M2H-MX: Multi-Task Dense Visual Perception for Real-Time Monocular Spatial Understanding](/202604/01/2603.29236v1-m2h-mx-multi-task-dense-visual-perception-for-real-time-monocular-spatial-understanding)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：用于机器人环境表示的对比连续建图
+   evidence：实时单目空间理解与建图
 
 ### 速读区论文标签
-1. [Pandora: Articulated 3D Scene Graphs from Egocentric Vision](/202603/31/2603.28732v1-pandora-articulated-3d-scene-graphs-from-egocentric-vision)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：用于机器人环境探索的关节式3D场景图与建图
-2. [SOMA: Strategic Orchestration and Memory-Augmented System for Vision-Language-Action Model Robustness via In-Context Adaptation](/202603/31/2603.24060v1-soma-strategic-orchestration-and-memory-augmented-system-for-vision-language-action-model-robustness-via-in-context-adaptation)  
+1. [Bio-Inspired Event-Based Visual Servoing for Ground Robots](/202604/01/2603.23672v1-bio-inspired-event-based-visual-servoing-for-ground-robots)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：VLA 模型的鲁棒性与控制器的上下文自适应
-3. [SOMA: Strategic Orchestration and Memory-Augmented System for Vision-Language-Action Model Robustness via In-Context Adaptation](/202603/31/2603.24060v2-soma-strategic-orchestration-and-memory-augmented-system-for-vision-language-action-model-robustness-via-in-context-adaptation)  
+   evidence：基于事件的机器人感知视觉伺服
+2. [Chameleon: Episodic Memory for Long-Horizon Robotic Manipulation](/202604/01/2603.24576v1-chameleon-episodic-memory-for-long-horizon-robotic-manipulation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：VLA 模型针对感知噪声和环境变化的鲁棒性
-4. [3D-Mix for VLA: A Plug-and-Play Module for Integrating VGGT-based 3D Information into Vision-Language-Action Models](/202603/31/2603.24393v1-3d-mix-for-vla-a-plug-and-play-module-for-integrating-vggt-based-3d-information-into-vision-language-action-models)  
+   evidence：用于长程机器人操作感知的片段记忆
+3. [IntentReact: Guiding Reactive Object-Centric Navigation via Topological Intent](/202604/01/2603.25382v1-intentreact-guiding-reactive-object-centric-navigation-via-topological-intent)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：将3D信息集成到VLA模型中以进行机器人操作
-5. [FODMP: Fast One-Step Diffusion of Movement Primitives Generation for Time-Dependent Robot Actions](/202603/31/2603.24806v1-fodmp-fast-one-step-diffusion-of-movement-primitives-generation-for-time-dependent-robot-actions)  
+   evidence：以对象为中心的导航与局部感知驱动控制
+4. [Modernising Reinforcement Learning-Based Navigation for Embodied Semantic Scene Graph Generation](/202604/01/2603.25415v1-modernising-reinforcement-learning-based-navigation-for-embodied-semantic-scene-graph-generation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：机器人动作运动原语的快速生成
-6. [Characterization of Constraints in Flexible Unknown Environments](/202603/31/2603.24813v1-characterization-of-constraints-in-flexible-unknown-environments)  
+   evidence：具身语义场景图生成与探索
+5. [Emergent Neural Automaton Policies: Learning Symbolic Structure from Visuomotor Trajectories](/202604/01/2603.25903v1-emergent-neural-automaton-policies-learning-symbolic-structure-from-visuomotor-trajectories)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：未知环境下的在线操作路径规划
-7. [Integrating Deep RL and Bayesian Inference for ObjectNav in Mobile Robotics](/202603/31/2603.25366v1-integrating-deep-rl-and-bayesian-inference-for-objectnav-in-mobile-robotics)  
+   evidence：用于长程机器人任务规划的双层神经符号策略
+6. [Generalizable task-oriented object grasping through LLM-guided ontology and similarity-based planning](/202604/01/2603.26412v1-generalizable-task-oriented-object-grasping-through-llm-guided-ontology-and-similarity-based-planning)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：集成贝叶斯推理与强化学习的混合物体搜索框架
-8. [PAWS: Perception of Articulation in the Wild at Scale from Egocentric Videos](/202603/31/2603.25539v1-paws-perception-of-articulation-in-the-wild-at-scale-from-egocentric-videos)  
-   标签：评分：7.0/10、query:hr-rob
-   evidence：用于3D场景理解的关节物体感知
-9. [VLGOR: Visual-Language Knowledge Guided Offline Reinforcement Learning for Generalizable Agents](/202603/31/2603.22892v1-vlgor-visual-language-knowledge-guided-offline-reinforcement-learning-for-generalizable-agents)  
+   evidence：面向任务的物体抓取与操作规划
+7. [Trajectory Generation for Underactuated Soft Robot Manipulators using Discrete Elastic Rod Dynamics](/202604/01/2603.22604v1-trajectory-generation-for-underactuated-soft-robot-manipulators-using-discrete-elastic-rod-dynamics)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：整合视觉和语言知识以理解环境动力学
-10. [Agile-VLA: Few-Shot Industrial Pose Rectification via Implicit Affordance Anchoring](/202603/31/2603.22899v1-agile-vla-few-shot-industrial-pose-rectification-via-implicit-affordance-anchoring)  
+   evidence：软体机器人操作器的轨迹生成
+8. [C-STEP: Continuous Space-Time Empowerment for Physics-informed Safe Reinforcement Learning of Mobile Agents](/202604/01/2603.24241v1-c-step-continuous-space-time-empowerment-for-physics-informed-safe-reinforcement-learning-of-mobile-agents)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：边缘平台上的动态操作高频控制
-11. [ABot-PhysWorld: Interactive World Foundation Model for Robotic Manipulation with Physics Alignment](/202603/31/2603.23376v2-abot-physworld-interactive-world-foundation-model-for-robotic-manipulation-with-physics-alignment)  
+   evidence：物理启发的机器人导航安全强化学习
+9. [System Design for Maintaining Internal State Consistency in Long-Horizon Robotic Tabletop Games](/202604/01/2603.25405v1-system-design-for-maintaining-internal-state-consistency-in-long-horizon-robotic-tabletop-games)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：具有物理对齐功能的机器人操作世界基础模型
+   evidence：感知、执行与推理的集成架构
+10. [LILAC: Language-Conditioned Object-Centric Optical Flow for Open-Loop Trajectory Generation](/202604/01/2603.25481v1-lilac-language-conditioned-object-centric-optical-flow-for-open-loop-trajectory-generation)  
+   标签：评分：6.0/10、query:hr-rob
+   evidence：基于流轨迹生成的语言条件机器人操作
+11. [Towards Generalizable Robotic Data Flywheel: High-Dimensional Factorization and Composition](/202604/01/2603.25583v1-towards-generalizable-robotic-data-flywheel-high-dimensional-factorization-and-composition)  
+   标签：评分：6.0/10、query:hr-rob
+   evidence：跨环境与动作的可泛化机器人数据分解
 
 
 <div class="dpr-home-promo-card">
