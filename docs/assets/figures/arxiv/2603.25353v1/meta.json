@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.25353v1/fig-001.webp",
+      "caption": "Fig. 9: Qualitative results of the real-world environment",
+      "page": 11,
+      "index": 1,
+      "width": 1056,
+      "height": 473
+    }
+  ]
+}
