@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.25259v1/fig-001.webp",
+      "caption": "Fig. 1: (a) Considered mobile manipulator and (b) an example of Human/Mobile Manipulator cooperative task.",
+      "page": 1,
+      "index": 1,
+      "width": 512,
+      "height": 430
+    },
+    {
+      "url": "assets/figures/arxiv/2603.25259v1/fig-002.webp",
+      "caption": "Fig. 6: End-effector velocity during the execution of the task by the user most frequently associated with the median values in Fig. 5.",
+      "page": 6,
+      "index": 2,
+      "width": 491,
+      "height": 472
+    },
+    {
+      "url": "assets/figures/arxiv/2603.25259v1/fig-003.webp",
+      "caption": "Fig. 7: Total kinetic energy stored in the whole-body system during the execution of the task by the user most frequently associated with the median values in Fig. 5.",
+      "page": 6,
+      "index": 3,
+      "width": 491,
+      "height": 475
+    },
+    {
+      "url": "assets/figures/arxiv/2603.25259v1/fig-004.webp",
+      "caption": "Fig. 4: Experimental test scenario, consisting in performing a peg-in-hole task with respect to the holes encircled in red.",
+      "page": 4,
+      "index": 4,
+      "width": 350,
+      "height": 395
+    },
+    {
+      "url": "assets/figures/arxiv/2603.25259v1/fig-005.webp",
+      "caption": "Fig. 5: Results in terms of average energy Ē, average human force F̄h, average execution velocity v̄, final displacement xf and execution time Tf for the executions of each of the 27 users using the three control approaches.",
+      "page": 5,
+      "index": 5,
+      "width": 492,
+      "height": 918
+    }
+  ]
+}
