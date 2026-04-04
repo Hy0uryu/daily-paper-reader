@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.26314v1/fig-001.webp",
+      "caption": "Fig. 1. (a) Four robots navigate in a simulation environment cluttered with small irregular obstacles while always maintaining LoS-connectivity (100m × 50m). (b) The trajectories of four robots and snapshots of their connectivity graphs when exploring an initially unknown garage environment [3] (87m×69m). (c) Three robots exploring an outdoor forest environment adapted from [7] (86m× 95m).",
+      "page": 1,
+      "index": 1,
+      "width": 512,
+      "height": 390
+    },
+    {
+      "url": "assets/figures/arxiv/2603.26314v1/fig-002.webp",
+      "caption": "Fig. 5. Relative time and distance efficiency of compared methods with four robots navigating in a cluttered environment shown in Fig. 1(a). Dashed lines indicate the average performance. The indices of different runs are sorted in ascending order based on the total distance to the targets. (a) and (b): only one robot is assigned a random target; (c) and (d): all four robots have their targets.",
+      "page": 7,
+      "index": 2,
+      "width": 512,
+      "height": 300
+    },
+    {
+      "url": "assets/figures/arxiv/2603.26314v1/fig-003.webp",
+      "caption": "Fig. 6. Snapshots of connectivity graphs with the Fixed, Laplacian, and the proposed methods. The figure highlights the robots (green circles), selected connections (green edges), and redundant connections (blue edges). The Fixed method fails to adapt to a better topology to facilitate navigation efficiency; the Laplacian method tends to maintain redundant connections, and can lead to occasional livelock around obstacles; the proposed method adaptively optimizes the topology that facilitates navigation efficiency. The results are best appreciated with the video in supplementary materials.",
+      "page": 7,
+      "index": 3,
+      "width": 514,
+      "height": 313
+    },
+    {
+      "url": "assets/figures/arxiv/2603.26314v1/fig-004.webp",
+      "caption": "Fig. 9. Illustration of notations used in the proof of Cor. 1.",
+      "page": 10,
+      "index": 4,
+      "width": 462,
+      "height": 273
+    },
+    {
+      "url": "assets/figures/arxiv/2603.26314v1/fig-005.webp",
+      "caption": "Fig. 2. Framework of LoS-connectivity constrained multi-robot navigation method. Each robot independently constructs its visible region with the polygonal approximation, based on real-time LiDAR scans. After sharing with immediate neighbors, three types of connectivity constraints are formulated as the weight of the robots’ connectivity graph, which is then proceeded with topology optimization. Next, the masked graph Laplacian matrix is used to derive the connectivity velocity uc i , which is then fused with external navigational velocity un i through the role-based scaling module, following the design in [12]. Finally, each robot is driven independently by the fused velocity command to maintain LoS-connectivity between robots while navigating to its own target. The navigational velocity is obtained from a mapless path planner proposed in [18]. The framework can also be extended for multi-robot exploration by integrating a multi-robot mapper for frontier extraction and a navigation-target assigner, as exemplified in Fig. 1(b)(c).",
+      "page": 3,
+      "index": 5,
+      "width": 1052,
+      "height": 225
+    },
+    {
+      "url": "assets/figures/arxiv/2603.26314v1/fig-006.webp",
+      "caption": "Fig. 3. (a): A robot (denoted by +) with its visible region and polygonal approximation, whose boundaries are highlighted by purple and green dotted lines in (b) and (c), respectively. The radial angle-based interpolation adapts to the boundary geometry by placing denser points (green dots in (a)) along boundaries of high curvature and sparser points along flatter boundaries. (b) and (c) also show the gradient field of dhull (purple arrows) and d̃los (green arrows) respectively, in a zoomed-in area. A probe point (denoted by ▲) in (a) has the exact dlos = 1.08m and d̃los = 1.07m, while dhull = 12.50m showing significant metric error. Moreover, the gradient of dhull tends to trap a robot within a small radial sector.",
+      "page": 4,
+      "index": 6,
+      "width": 462,
+      "height": 273
+    },
+    {
+      "url": "assets/figures/arxiv/2603.26314v1/fig-007.webp",
+      "caption": "Fig. 8. Illustration of notations used in the proof of Prop. 3.",
+      "page": 9,
+      "index": 7,
+      "width": 462,
+      "height": 275
+    }
+  ]
+}
