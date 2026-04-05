@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.27181v1/fig-001.webp",
+      "caption": "Fig. 8. Comparison of expert trajectories in a 17m/s static obstacle scene",
+      "page": 6,
+      "index": 1,
+      "width": 512,
+      "height": 260
+    },
+    {
+      "url": "assets/figures/arxiv/2603.27181v1/fig-002.webp",
+      "caption": "Fig. 3. Overall student network architecture",
+      "page": 3,
+      "index": 2,
+      "width": 844,
+      "height": 268
+    },
+    {
+      "url": "assets/figures/arxiv/2603.27181v1/fig-003.webp",
+      "caption": "Fig. 6. Comparison of fusion models and single-modality baseline models in forest scenes, static spherical obstacle scenes, and mixed spherical obstacle scenes",
+      "page": 5,
+      "index": 3,
+      "width": 948,
+      "height": 222
+    },
+    {
+      "url": "assets/figures/arxiv/2603.27181v1/fig-004.webp",
+      "caption": "Fig. 7. Comparison of obstacle avoidance success rates of expert strategies in different scenes",
+      "page": 5,
+      "index": 4,
+      "width": 948,
+      "height": 219
+    }
+  ]
+}
