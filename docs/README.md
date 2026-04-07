@@ -6,100 +6,98 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-06
-- 运行时间：2026-04-06 20:00:18 UTC
+- 最新运行日期：2026-04-07
+- 运行时间：2026-04-07 20:19:12 UTC
 - 运行状态：成功
 - 本次总论文数：26
 - 精读区：15
 - 速读区：11
 
 ### 今日简报（AI）
-今日深度研读 26 篇机器人前沿论文，重点攻克人形机器人控制与复杂环境建模难题。
-满分论文 Heracles 成功打通了精确追踪与生成合成，为通用人形机器人控制提供了全新的闭环方案。
-建议重点关注人形机器人运动控制及 3D 场景图构建，这是实现具身智能的关键路径。
-- 详情：[/202604/06/README](/202604/06/README)
+今日深挖 26 篇顶尖论文，见证人形机器人在高效运动控制与精细操作感知上的跨越式进展。
+- 详情：[/202604/07/README](/202604/07/README)
 
 ### 精读区论文标签
-1. [Heracles: Bridging Precise Tracking and Generative Synthesis for General Humanoid Control](/202604/06/2603.27756v1-heracles-bridging-precise-tracking-and-generative-synthesis-for-general-humanoid-control)  
+1. [Cost-Matching Model Predictive Control for Efficient Reinforcement Learning in Humanoid Locomotion](/202604/07/2603.28243v1-cost-matching-model-predictive-control-for-efficient-reinforcement-learning-in-humanoid-locomotion)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：用于通用人形机器人控制的状态条件扩散中间件
-2. [Heracles: Bridging Precise Tracking and Generative Synthesis for General Humanoid Control](/202604/06/2603.27756v2-heracles-bridging-precise-tracking-and-generative-synthesis-for-general-humanoid-control)  
+   evidence：基于MPC的人形机器人步态强化学习
+2. [Active Stereo-Camera Outperforms Multi-Sensor Setup in ACT Imitation Learning for Humanoid Manipulation](/202604/07/2603.28422v1-active-stereo-camera-outperforms-multi-sensor-setup-in-act-imitation-learning-for-humanoid-manipulation)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：连接精确跟踪与生成式合成的通用人形机器人控制
-3. [Cost-Matching Model Predictive Control for Efficient Reinforcement Learning in Humanoid Locomotion](/202604/06/2603.28243v1-cost-matching-model-predictive-control-for-efficient-reinforcement-learning-in-humanoid-locomotion)  
+   evidence：在宇树G1人形机器人上进行操作任务的传感器组合基准测试
+3. [MaskAdapt: Learning Flexible Motion Adaptation via Mask-Invariant Prior for Physics-Based Characters](/202604/07/2603.29272v1-maskadapt-learning-flexible-motion-adaptation-via-mask-invariant-prior-for-physics-based-characters)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：基于MPC的人形机器人运动强化学习
-4. [Active Stereo-Camera Outperforms Multi-Sensor Setup in ACT Imitation Learning for Humanoid Manipulation](/202604/06/2603.28422v1-active-stereo-camera-outperforms-multi-sensor-setup-in-act-imitation-learning-for-humanoid-manipulation)  
+   evidence：基于物理的人形机器人控制的灵活运动自适应
+4. [CReF: Cross-modal and Recurrent Fusion for Depth-conditioned Humanoid Locomotion](/202604/07/2603.29452v1-cref-cross-modal-and-recurrent-fusion-for-depth-conditioned-humanoid-locomotion)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：类人机器人操作任务的传感器基准测试
-5. [CReF: Cross-modal and Recurrent Fusion for Depth-conditioned Humanoid Locomotion](/202604/06/2603.29452v1-cref-cross-modal-and-recurrent-fusion-for-depth-conditioned-humanoid-locomotion)  
+   evidence：复杂地形下深度调节的类人机器人运动框架
+5. [CReF: Cross-modal and Recurrent Fusion for Depth-conditioned Humanoid Locomotion](/202604/07/2603.29452v2-cref-cross-modal-and-recurrent-fusion-for-depth-conditioned-humanoid-locomotion)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：深度感知的类人机器人行走框架
-6. [CReF: Cross-modal and Recurrent Fusion for Depth-conditioned Humanoid Locomotion](/202604/06/2603.29452v2-cref-cross-modal-and-recurrent-fusion-for-depth-conditioned-humanoid-locomotion)  
+   evidence：复杂地形下基于深度信息的类人机器人行走
+6. [DreamControl-v2: Simpler and Scalable Autonomous Humanoid Skills via Trainable Guided Diffusion Priors](/202604/07/2604.00202v1-dreamcontrol-v2-simpler-and-scalable-autonomous-humanoid-skills-via-trainable-guided-diffusion-priors)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：深度信息调节的人形机器人运动与环境感知
-7. [DreamControl-v2: Simpler and Scalable Autonomous Humanoid Skills via Trainable Guided Diffusion Priors](/202604/06/2604.00202v1-dreamcontrol-v2-simpler-and-scalable-autonomous-humanoid-skills-via-trainable-guided-diffusion-priors)  
+   evidence：通过扩散先验实现人形机器人的自主运动与操作技能
+7. [BAT: Balancing Agility and Stability via Online Policy Switching for Long-Horizon Whole-Body Humanoid Control](/202604/07/2604.01064v1-bat-balancing-agility-and-stability-via-online-policy-switching-for-long-horizon-whole-body-humanoid-control)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：通过扩散先验实现人形机器人的自主移动操作技能
-8. [Learning Humanoid Navigation from Human Data](/202604/06/2604.00416v1-learning-humanoid-navigation-from-human-data)  
+   evidence：平衡敏捷性与稳定性的全身人形机器人控制框架
+8. [SMASH: Mastering Scalable Whole-Body Skills for Humanoid Ping-Pong with Egocentric Vision](/202604/07/2604.01158v1-smash-mastering-scalable-whole-body-skills-for-humanoid-ping-pong-with-egocentric-vision)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：基于人类数据的人形机器人在多样环境中的导航
-9. [BAT: Balancing Agility and Stability via Online Policy Switching for Long-Horizon Whole-Body Humanoid Control](/202604/06/2604.01064v1-bat-balancing-agility-and-stability-via-online-policy-switching-for-long-horizon-whole-body-humanoid-control)  
+   evidence：人形机器人乒乓球的全身协调与第一视角感知
+9. [MorphoGuard: A Morphology-Based Whole-Body Interactive Motion Controller](/202604/07/2604.01517v1-morphoguard-a-morphology-based-whole-body-interactive-motion-controller)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：针对长程任务的人形机器人全身控制框架
-10. [SMASH: Mastering Scalable Whole-Body Skills for Humanoid Ping-Pong with Egocentric Vision](/202604/06/2604.01158v1-smash-mastering-scalable-whole-body-skills-for-humanoid-ping-pong-with-egocentric-vision)  
+   evidence：基于形态的全身交互运动控制器
+10. [Dynamic Whole-Body Dancing with Humanoid Robots -- A Model-Based Control Approach](/202604/07/2604.03999v1-dynamic-whole-body-dancing-with-humanoid-robots----a-model-based-control-approach)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：人形机器人乒乓球的全身技能学习与第一视角感知
-11. [MorphoGuard: A Morphology-Based Whole-Body Interactive Motion Controller](/202604/06/2604.01517v1-morphoguard-a-morphology-based-whole-body-interactive-motion-controller)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：基于形态的高维机器人全身交互运动控制器
-12. [Stable Walking for Bipedal Locomotion under Foot-Slip via Virtual Nonholonomic Constraints](/202604/06/2603.29050v1-stable-walking-for-bipedal-locomotion-under-foot-slip-via-virtual-nonholonomic-constraints)  
+   evidence：人形机器人的动态全身舞蹈动作
+11. [MaskAdapt: Learning Flexible Motion Adaptation via Mask-Invariant Prior for Physics-Based Characters](/202604/07/2603.29272v2-maskadapt-learning-flexible-motion-adaptation-via-mask-invariant-prior-for-physics-based-characters)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：足部打滑情况下的双足步行稳定性控制
-13. [MaskAdapt: Learning Flexible Motion Adaptation via Mask-Invariant Prior for Physics-Based Characters](/202604/06/2603.29272v1-maskadapt-learning-flexible-motion-adaptation-via-mask-invariant-prior-for-physics-based-characters)  
+   evidence：基于掩码不变先验的物理人形机器人运动自适应控制
+12. [Advancing Multi-Robot Networks via MLLM-Driven Sensing, Communication, and Computation: A Comprehensive Survey](/202604/07/2604.00061v1-advancing-multi-robot-networks-via-mllm-driven-sensing-communication-and-computation-a-comprehensive-survey)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：基于物理的人形机器人控制中的灵活运动自适应
-14. [MaskAdapt: Learning Flexible Motion Adaptation via Mask-Invariant Prior for Physics-Based Characters](/202604/06/2603.29272v2-maskadapt-learning-flexible-motion-adaptation-via-mask-invariant-prior-for-physics-based-characters)  
+   evidence：多模态大语言模型驱动的人形机器人综述
+13. [Learning Humanoid Navigation from Human Data](/202604/07/2604.00416v1-learning-humanoid-navigation-from-human-data)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：基于物理的人形机器人控制中的灵活运动自适应
-15. [A Rapid Instrument Exchange System for Humanoid Robots in Minimally Invasive Surgery](/202604/06/2604.02707v1-a-rapid-instrument-exchange-system-for-humanoid-robots-in-minimally-invasive-surgery)  
+   evidence：结合视觉记忆与环境建图的人形机器人导航
+14. [Realistic Lip Motion Generation Based on 3D Dynamic Viseme and Coarticulation Modeling for Human-Robot Interaction](/202604/07/2604.01756v1-realistic-lip-motion-generation-based-on-3d-dynamic-viseme-and-coarticulation-modeling-for-human-robot-interaction)  
+   标签：评分：9.0/10、query:hr-rob
+   evidence：人形机器人的唇部运动生成
+15. [A Rapid Instrument Exchange System for Humanoid Robots in Minimally Invasive Surgery](/202604/07/2604.02707v1-a-rapid-instrument-exchange-system-for-humanoid-robots-in-minimally-invasive-surgery)  
    标签：评分：9.0/10、query:hr-rob
    evidence：用于微创手术的人形机器人技术
 
 ### 速读区论文标签
-1. [ContraMap: Contrastive Uncertainty Mapping for Robot Environment Representation](/202604/06/2603.27632v1-contramap-contrastive-uncertainty-mapping-for-robot-environment-representation)  
+1. [Pandora: Articulated 3D Scene Graphs from Egocentric Vision](/202604/07/2603.28732v1-pandora-articulated-3d-scene-graphs-from-egocentric-vision)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：机器人环境表示的不确定性建图
-2. [Spectral Decomposition of Inverse Dynamics for Fast Exploration in Model-Based Manipulation](/202604/06/2603.27796v1-spectral-decomposition-of-inverse-dynamics-for-fast-exploration-in-model-based-manipulation)  
+   evidence：用于机器人建图的关节式3D场景图
+2. [Stable Walking for Bipedal Locomotion under Foot-Slip via Virtual Nonholonomic Constraints](/202604/07/2603.29050v1-stable-walking-for-bipedal-locomotion-under-foot-slip-via-virtual-nonholonomic-constraints)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：用于操作轨迹规划的逆动力学
-3. [Pandora: Articulated 3D Scene Graphs from Egocentric Vision](/202604/06/2603.28732v1-pandora-articulated-3d-scene-graphs-from-egocentric-vision)  
+   evidence：足部打滑情况下的双足行走稳定性
+3. [M2H-MX: Multi-Task Dense Visual Perception for Real-Time Monocular Spatial Understanding](/202604/07/2603.29236v1-m2h-mx-multi-task-dense-visual-perception-for-real-time-monocular-spatial-understanding)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：基于第一视角视觉的机器人建图关节式3D场景图
-4. [HandX: Scaling Bimanual Motion and Interaction Generation](/202604/06/2603.28766v1-handx-scaling-bimanual-motion-and-interaction-generation)  
+   evidence：实时单目空间理解与建图
+4. [Scaling Whole-Body Human Musculoskeletal Behavior Emulation for Specificity and Diversity](/202604/07/2603.29332v1-scaling-whole-body-human-musculoskeletal-behavior-emulation-for-specificity-and-diversity)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：全身模型的双臂运动与交互生成
-5. [LOME: Learning Human-Object Manipulation with Action-Conditioned Egocentric World Model](/202604/06/2603.27449v1-lome-learning-human-object-manipulation-with-action-conditioned-egocentric-world-model)  
+   evidence：全身肌肉骨骼行为仿真与运动复现
+5. [Detection of Adversarial Attacks in Robotic Perception](/202604/07/2603.28594v1-detection-of-adversarial-attacks-in-robotic-perception)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：通过动作条件世界模型学习人机物体操作
-6. [S3KF: Spherical State-Space Kalman Filtering for Panoramic 3D Multi-Object Tracking](/202604/06/2603.27534v1-s3kf-spherical-state-space-kalman-filtering-for-panoramic-3d-multi-object-tracking)  
+   evidence：机器人感知与语义分割的鲁棒性
+6. [Detection of Adversarial Attacks in Robotic Perception](/202604/07/2603.28594v2-detection-of-adversarial-attacks-in-robotic-perception)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于广域机器人感知的全景3D多目标跟踪
-7. [SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion](/202604/06/2603.27573v1-spread-spatial-physical-reasoning-via-geometry-aware-diffusion)  
+   evidence：机器人感知中的对抗攻击检测
+7. [SOLE-R1: Video-Language Reasoning as the Sole Reward for On-Robot Reinforcement Learning](/202604/07/2603.28730v1-sole-r1-video-language-reasoning-as-the-sole-reward-for-on-robot-reinforcement-learning)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：具身智能的3D场景生成与物理建模
-8. [Which Reconstruction Model Should a Robot Use? Routing Image-to-3D Models for Cost-Aware Robotic Manipulation](/202604/06/2603.27797v1-which-reconstruction-model-should-a-robot-use-routing-image-to-3d-models-for-cost-aware-robotic-manipulation)  
+   evidence：视频语言推理作为机器人强化学习的奖励信号
+8. [Bootstrap Perception Under Hardware Depth Failure for Indoor Robot Navigation](/202604/07/2603.28890v1-bootstrap-perception-under-hardware-depth-failure-for-indoor-robot-navigation)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于机器人操作任务的3D重建
-9. [Structure-Preserving Learning of Nonholonomic Dynamics](/202604/06/2603.27580v1-structure-preserving-learning-of-nonholonomic-dynamics)  
+   evidence：传感器失效下的机器人导航自引导感知系统
+9. [osmAG-Nav: A Hierarchical Semantic Topometric Navigation Stack for Robust Lifelong Indoor Autonomy](/202604/07/2603.28271v1-osmag-nav-a-hierarchical-semantic-topometric-navigation-stack-for-robust-lifelong-indoor-autonomy)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：非完整动力学的结构保持学习以实现物理一致的运动
-10. [ProgressVLA: Progress-Guided Diffusion Policy for Vision-Language Robotic Manipulation](/202604/06/2603.27670v1-progressvla-progress-guided-diffusion-policy-for-vision-language-robotic-manipulation)  
+   evidence：分层语义拓扑度量导航与建图
+10. [Tele-Catch: Adaptive Teleoperation for Dexterous Dynamic 3D Object Catching](/202604/07/2603.28427v1-tele-catch-adaptive-teleoperation-for-dexterous-dynamic-3d-object-catching)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：用于视觉语言机器人操作的进度引导扩散策略
-11. [Probe-to-Grasp Manipulation Using Self-Sensing Pneumatic Variable-Stiffness Joints](/202604/06/2603.27808v1-probe-to-grasp-manipulation-using-self-sensing-pneumatic-variable-stiffness-joints)  
+   evidence：远程操作中灵巧动态物体抓取的共享自主权
+11. [Feel Robot Feels: Tactile Feedback Array Glove for Dexterous Manipulation](/202604/07/2603.28542v1-feel-robot-feels-tactile-feedback-array-glove-for-dexterous-manipulation)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：用于机器人操作的自感知关节
+   evidence：灵巧操作的触觉反馈
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.29332v1/fig-001.webp",
+      "caption": "Fig. 3 High-fidelity reproduction of diverse human motor skills. a-g, Filmstrips demonstrating the simulated full-body musculoskeletal agent (red, rendering muscle activations) tracking a highly diverse repertoire of reference kinematics (blue skeleton). The learned behaviors span cyclic locomotion, including walking (a) and running (b), as well as more agile and dynamically challenging skills such as dance (c), run jump (d), cartwheel (e), spin kick (f) and backflip (g). h, Quantitative evaluation of tracking accuracy across tasks. Box plots show converged mean errors for joint angles, root rotation, body position and root translation. i, Representative time-series comparison of major joint angles during running cycles, illustrating tight temporal and spatial alignment between the simulated closed-loop control (blue solid lines) and the reference kinematic trajectories (grey dashed lines). Shaded regions and error bars denote one standard deviation (n=10).",
+      "page": 6,
+      "index": 1,
+      "width": 906,
+      "height": 1172
+    },
+    {
+      "url": "assets/figures/arxiv/2603.29332v1/fig-002.webp",
+      "caption": "Fig. 4 Large-scale parallelism accelerates musculoskeletal simulation and learning. a, Throughput benchmark as a function of the number of parallel environments. Green and red curves show environment stepping speed on CPUs and a single GPU under random actions, respectively. Grey and blue curves show end-to-end training throughput for a conventional CPU baseline and our GPU implementation on 1, 2 and 4 GPUs. GPU measurements were obtained on NVIDIA GeForce RTX 5090 GPUs; CPU baselines were measured on the server described in Methods. Throughput increases approximately linearly before saturating. b,c, Best tracking performance during training for walking (b) and running (c), comparing value-guided flow exploration (orange) with PPO (blue dashed). All trainings were performed on a single 5090 GPU. Curves show the mean across three random seeds; vertical error bars denote one standard deviation. Our method converges faster and to lower final errors in both tasks, with the larger advantage observed in the more dynamically demanding running task.",
+      "page": 7,
+      "index": 2,
+      "width": 902,
+      "height": 337
+    },
+    {
+      "url": "assets/figures/arxiv/2603.29332v1/fig-003.webp",
+      "caption": "Fig. 1 Dynamics analysis during human motion. a, In real-world experimental settings, physical measurements are fundamentally restricted to external kinematics, reaction forces (GRF) and surface muscle activity (sEMG). The complex internal musculoskeletal dynamics driving the movement remain unobservable. b, Measured motion is retargeted to the musculoskeletal model by fitting graphical body surface (SMPL-X) to skeletal representations and solving inverse kinematics, yielding a reference trajectory in the model coordinates. c, Using retargeted kinematics as a reference trajectory, MS-Emulator enables biomechanically grounded motion reproduction and reveals plausible internal dynamical solutions under the musculoskeletal model and learning framework.",
+      "page": 3,
+      "index": 3,
+      "width": 900,
+      "height": 933
+    },
+    {
+      "url": "assets/figures/arxiv/2603.29332v1/fig-004.webp",
+      "caption": "Fig. 2 MS-Emulator enables efficient human musculoskeletal motion reproduction for internal dynamics analysis. a, A highly detailed, 700-muscle whole-body musculoskeletal model is embedded into GPU simulation to support massively parallel physics rollouts, producing the full system simulation data with neuro-actuated musculoskeletal dynamics. b, Kinematic information and muscle states are extracted from simulation data to construct the state s along with reference motion. A discriminator D(∆), trained to distinguish the tracking-error vector ∆ from a zero vector, provides an adaptive tracking reward r. c, Solid arrows denote action generation: an initial sampler π(0)(a|s) draws a base action from a Gaussian policy, which is then refined by the flow transition ψ(a|t, s,a(t)) into the final action a applied to the simulator. Dashed arrows denote learning: replayed transitions (s,a, r, s′) are used to optimize the state-value function Q(s,a) and the initial sampler by policy gradient, while the flow transition is guided by the learned Q-function. The resulting neuro-actuated musculoskeletal dynamics, including neural actuation, muscle force, contact force and temporal dynamics, are recorded for detailed analysis of human motion control.",
+      "page": 4,
+      "index": 4,
+      "width": 887,
+      "height": 694
+    },
+    {
+      "url": "assets/figures/arxiv/2603.29332v1/fig-005.webp",
+      "caption": "Fig. 5 Analysis of musculoskeletal dynamics during walking. a, Simulated muscle activity compared with measured EMG over a single gait cycle. Lines denote the mean and shaded regions denote one standard deviation. b, Simulated and reference joint kinematics over a single gait cycle. c, Simulated and measured ground reaction forces for the left and right feet over a single gait cycle, with the value normalized by body weight (BW). d, Principal component analysis of simulated full-body muscle-activity, joint-angle and ground-reaction-force time series from 50 trained policies, showing cumulative and per-component explained variance. In a-c, lines denote the mean and shaded regions denote one standard deviation. Text indicates the Pearson correlation coefficient between simulated and measured signals.",
+      "page": 9,
+      "index": 5,
+      "width": 908,
+      "height": 1000
+    }
+  ]
+}
