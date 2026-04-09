@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2604.00738v1/fig-001.webp",
+      "caption": "Fig. 1. Range of motion of the SoftHand Model-W in the ulnar (A) and radial (B) deviations, and in flexion (C) and extension (D). Corresponding degrees of freedom of the human wrist (E) are shown below (based on [12]).",
+      "page": 1,
+      "index": 1,
+      "width": 508,
+      "height": 320
+    },
+    {
+      "url": "assets/figures/arxiv/2604.00738v1/fig-002.webp",
+      "caption": "Fig. 10. Pose of the end-effector during the stacking test. Cubes are picked from the green area and stacked in the purple area. Without wrist actuation, an extreme compensatory movement is necessary for the arm to pitch the cube upward, resulting in a failed placement of cube 5.",
+      "page": 6,
+      "index": 2,
+      "width": 1052,
+      "height": 380
+    },
+    {
+      "url": "assets/figures/arxiv/2604.00738v1/fig-003.webp",
+      "caption": "Fig. 2. Overview of the SoftHand-W. A) Technical drawing showing the palmer side with finger, palm, and write dimensions in mm. B) CAD model of a finger (palmer side up), with flexor (red) and extensor (blue) tendons.",
+      "page": 3,
+      "index": 3,
+      "width": 508,
+      "height": 325
+    },
+    {
+      "url": "assets/figures/arxiv/2604.00738v1/fig-004.webp",
+      "caption": "Fig. 3. Wrist mechanism and tendon routing. A) Tendon routing through the palm and into the wrist (routing on the back of the hand is similar). B) CAD model of the 2-DoF wrist mechanism, showing the internal bearings and axles as well as palm and forearm connectors.",
+      "page": 3,
+      "index": 4,
+      "width": 508,
+      "height": 287
+    },
+    {
+      "url": "assets/figures/arxiv/2604.00738v1/fig-005.webp",
+      "caption": "Fig. 4. CAD model of the ‘forearm’ - an actuation box containing four Feetech STS3215 servos and tendon spools, which enable finger flexion, finger extension, radial/ulnar deviation, and flexion/extension of the wrist. Mounting for the UR5 arm is achieved via a tool flange adapter at the base.",
+      "page": 4,
+      "index": 5,
+      "width": 412,
+      "height": 368
+    },
+    {
+      "url": "assets/figures/arxiv/2604.00738v1/fig-006.webp",
+      "caption": "Fig. 8. The reachable workspace of the centre of the palm, when the base of the wrist is fixed.",
+      "page": 5,
+      "index": 6,
+      "width": 387,
+      "height": 350
+    },
+    {
+      "url": "assets/figures/arxiv/2604.00738v1/fig-007.webp",
+      "caption": "Fig. 7. Robot arm joint angles during the object rotation task, relative to initial positions. The configuration changes occur when the arm can not rotate the end-effector any farther, so must release the disc, untwist and grasp again. Wrist actuation results in a faster time to complete the task as only one configuration change is necessary (see also Fig. 6).",
+      "page": 5,
+      "index": 7,
+      "width": 1052,
+      "height": 308
+    },
+    {
+      "url": "assets/figures/arxiv/2604.00738v1/fig-008.webp",
+      "caption": "Fig. 9. Results from the object stacking task. Difference in absolute joint angles of the UR5 relative to the initial positions, between the fixed wrist and actuated wrist conditions. Positive values mean a joint moved more without wrist actuation. Negative values mean it moved more with wrist actuation. Note that large values in joint 6 (shown in yellow) are not important for this comparison, as it relates to rotation of the end effector and does not contribute to awkward arm configurations.",
+      "page": 5,
+      "index": 8,
+      "width": 529,
+      "height": 318
+    }
+  ]
+}
