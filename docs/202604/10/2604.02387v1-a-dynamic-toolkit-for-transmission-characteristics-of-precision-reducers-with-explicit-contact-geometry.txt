@@ -1,0 +1,1280 @@
+Title: A Dynamic Toolkit for Transmission Characteristics of Precision Reducers with Explicit Contact Geometry
+
+URL Source: https://arxiv.org/pdf/2604.02387v1
+
+Published Time: Mon, 06 Apr 2026 00:02:17 GMT
+
+Number of Pages: 25
+
+Markdown Content:
+# A Dynamic Toolkit for Transmission Characteristics of Precision Reducers with Explicit Contact Geometry 
+
+## Jiacheng Miao a,b ,¡, Chao Liu a, Qiliang Wang a, Yunhui Guan c and Weidong He b
+
+> a
+
+Intelligent Equipment Division, CRRC Qishuyan Institute Co., Ltd, Changzhou, 213011, China 
+
+> b
+
+School of Mechanical Engineering, Dalian Jiaotong University, Dalian, 116028, China 
+
+> c
+
+R&D Center, CRRC Qishuyan Institute Co., Ltd, Changzhou, 213011, China 
+
+A R T I C L E I N F O 
+
+Keywords :Precision Reducer Dynamic Toolkit Explicit Contact Geometry Transmission Characteristics 
+
+A B S T R A C T 
+
+Precision reducers are critical components in robotic systems, directly affecting the motion accuracy and dynamic performance of humanoid robots, quadruped robots, collaborative robots, industrial robots, and SCARA robots. This paper presents a dynamic toolkit for analyzing the transmission characteristics of precision reducers with explicit contact geometry. A unified framework is proposed to address the challenges in modeling accurate contact behaviors, evaluating gear stiffness, and predicting system vibrations. By integrating advanced contact theories and numeri-cal solving methods, the proposed toolkit offers higher precision and computational efficiency compared to traditional dynamics software. The toolkit is designed with a modular, scriptable architecture that supports rapid reconfiguration across diverse reducer topologies. Numerical validation against published benchmarks confirms the accuracy of the proposed approach. 
+
+## Nomenclature 
+
+Abbreviations Symbols 
+
+PGT Planetary Gear Train kt Meshing stiffness, N/m RV Rotary Vector Tin Input torque, Nm LPM Lumped Parameter Model ϕ Transmission error, μrad BCPTM Bearing-Cycloid-Pinwheel δ Loaded deformation, mm BDDTE Bi-directional Drive TE E, G, μ Material constants TE / LM Trans. Error / Lost Motion Z Number of teeth BPFRS Bearing-Planetary Frame ω Rotational speed, rad/s DOF Degrees of Freedom Fn, F t Contact forces, N FEA Finite Element Analysis ANCF Absolute Nodal Coordinate 
+
+## 1. Introduction 
+
+Precision reducers, such as planetary gear trains (PGT), rotary vector (RV) reducers, and small tooth difference (involute) reducers, and monocrank (single-crank) reducers, are indispensable core components in modern industrial robotics and high-end servo-mechanisms [1, 2]. The operational performance of these reducers is fundamentally governed by three intertwined pillars: torsional stiffness, transmission precision, and vibration stability. As industrial demands transition towards heavier loads and extreme precision, a unified framework to understand the dynamic coupling of these characteristics has become a primary research frontier [3, 4]. Over the past two decades, researchers have developed specialized models to address these metrics in isolation. Dynamic modeling and vibration analysis form the most complex part of reducer research due to the intricate kinematics and time-varying excitations. Early lumped parameter models (LPM) focused on meshing stiffness and fault diagnosis [5, 6]. Ren et al. [5] presented a new cycloid disc tooth modification method using modification clearance curves defined by five key points, demonstrating that properly designed 
+
+> ¡
+
+Corresponding author. E-mail: haomjc@163.com 
+
+Jiacheng Miao et al.: Preprint submitted to Elsevier Page 1 of 22 
+
+> arXiv:2604.02387v1 [cs.RO] 2 Apr 2026 A Dynamic Toolkit for Transmission Characteristics
+
+tooth modification improves carrying capacity, eliminates noise and vibration, and enhances transmission accuracy. Tung and Chan [6] constructed a time-variant reduced-order numerical model for compound epicyclic–cycloidal reducers using the full Lagrangian formulation, revealing that modulation sidebands can arise even without assembly error, owing to the inherent time-variant contact stiffness of cycloid gears. More recently, the field has moved towards contact-based multibody dynamics. Xu et al. [7] proposed a generalized dynamic model for bearing-cycloid-pinwheel transmission mechanisms (BCPTMs), enabling contact analysis at multiple contact points of both the cycloid-pinwheel tooth meshing and the turn-arm needle roller bearings, thereby elucidating the internal load-transmission characteristics and dynamic contact response of the BCPTM. Li et al. [8] established a novel tribo-dynamics model for the cycloidal gear-pin pair considering transient effects such as pin motion and oil film squeezing, revealing that pins follow an “‰”-shaped trajectory that significantly reduces interface load compared to fixed-pin assumptions, and that asperity contact becomes the dominant load-bearing mechanism during late-stage engagement when the oil film is disrupted. Wang et al. [9] conducted dynamic simulation and experimental studies on industrial robots equipped with zero-backlash high-precision roller enveloping reducers (ZHPRER), establishing multibody dynamics models that confirm the evident advantages of such reducers for robotic applications and providing theoretical support for error compensation control design. Luo et al. [10] investigated vibration modulation mechanisms in the RV reducer using Fourier series expansion, demonstrating that the planetary gear meshing response is modulated by carrier rotation frequency while the cycloid-pin gear meshing response is modulated by crankshaft rotation frequency, and that the time-varying transmission path further imposes composite modulation on the vibration signal as it propagates to the sensor. Xu et al. [11] developed a contact multibody dynamics model that integrates internal and external raceway defects of needle roller bearings with synchronous contact interactions and time-varying mesh stiffness, revealing that both crankshaft and cycloidal gear rotation frequencies determine the vibration characteristic frequencies, and that internal raceway defects induce a more pronounced increase in vibration amplitude than external defects. E et al. [12] established a dynamic model to investigate vibration characteristics of the RV reducer under localized fault conditions of the cycloid gear and pinwheel, demonstrating that cycloidal stage faults manifest as sidebands in the Fourier spectrum at frequencies corresponding to the combination of meshing frequency and fault characteristic frequency harmonics, and as distinct peaks in the envelope spectrum for fault diagnosis. Transmission precision modeling has evolved from simple geometric error accumulation to sophisticated analytical frameworks. Yang et al. [13] introduced a multi-loop equivalent mechanism method to decouple over-constrained relations in the RV reducer, explicitly establishing the relations between original errors and transmission precision through the loop incremental method. Wang et al. [14] established a unified bi-directional drive transmission error (BDDTE) model based on a multi-source error equivalence assumption, organically unifying the prediction of transmission error (TE) and lost motion (LM), and further proposed a design optimization method targeting pin gear and output mechanism tolerances to improve product qualification rates. Complementing these analytical approaches, Bilancia et al. [15] developed experimental apparatus and methods to evaluate transmission performance of high-dynamics servo-mechanisms, demon-strating that speed oscillations can be reduced by ù 70˜ through torque ripple compensation, and establishing that lubricant temperature and input speed jointly determine the dynamic lost motion behavior, with measured values of 16.8 ĺĺ and 35.4 ĺĺ at minimum and maximum friction load, respectively. Furthermore, Xu and Wu [4] investigated the dynamic transmission accuracy of RV reducers under variable operational situations, highlighting that load inertia during start-stop phases critically affects dynamic precision and that a variable-speed drive law must be carefully designed. Wang et al. [16] established a geometric return difference model considering manufacturing and installation errors, conducting ADAMS-based simulations that demonstrated how these errors significantly impact transmission return difference and proposing tolerance design guidelines for transmission system optimization. Torsional stiffness and lost motion are frequently evaluated through hysteresis curve modeling and quasi-static analysis. Xu et al. [1] established a comprehensive contact dynamic model for the RV reducer’s hysteresis curve, systematically quantifying how support bearing contact stiffness dominates torsional rigidity, how radial clearance of the swivel arm bearing dictates lost motion, and how component geometric errors degrade both metrics. Li et al. [3] further revealed that both time-varying gear meshing stiffness and time-varying bearing radial stiffness must be jointly considered for accurate torsional stiffness prediction, proposing a novel initial meshing clearance formula for the cycloid pin gear pair that aligns with the physical   
+
+> Jiacheng Miao et al.: Preprint submitted to Elsevier Page 2 of 22 A Dynamic Toolkit for Transmission Characteristics
+
+definition of tooth side clearance. Xie et al. [2] developed an improved dynamic model for the bearing-planetary frame rotor system (BPFRS) to evaluate moment rigidity and rotation precision, optimizing the theoretical calculation of ball-race contact deflection and contact angle. Cheng et al. [17] investigated the dynamic torsional stiffness characteristics of reducers and proposed associated testing methods to accurately characterize this critical parameter. For planetary systems, Zhang et al. [18] proposed a bi-directional drive (BDD) model to reveal the coupling effects of multi-planet gears on lost motion, deriving a generalized lost motion formula from meshing clearance-induced movement lag and demonstrating that in-phase eccentricity arrangement of planet gears effectively reduces maximum lost motion. Xu et al. [19] established a hysteresis curve model considering the coupling effect of nonlinear stiffness and friction, proposing a median curve method for improved lost motion evaluation that reduces measurement errors compared to traditional curve fitting approaches. Despite significant advancements in each individual domain, three fundamental challenges persist in the state-of-the-art. First, most existing models rely on rigid-body assumptions for critical interfaces or simplify complex bearing groups into single stiffness coefficients, which limits their ability to capture localized phenomena like needle-by-needle contact interaction or the flexible deformation of bearing housing holes [7, 8]. Second, analytical models require tedious symbolic derivations that are difficult to adapt to diverse geometries, such as the transition from small tooth difference to harmonic or complex curved surfaces. Third, commercial finite element analysis (FEA) provides high-fidelity contact details but remains a “black box” with prohibitive computational costs for large-scale transient simulations or high-dimensional optimization [5, 6]. To bridge these gaps, this paper introduces a unified dynamic toolkit for precision reducers based on explicit contact geometry. Unlike traditional commercial software or simplified LPMs, the proposed framework defines and optimizes contact forms numerically, enabling the simulation of systems with hundreds of degrees of freedom (DOF). This approach allows for the direct characterization of discrete needle contact in bearings and the coupling of flexible components through equivalent condensation or spring methods, without the need for cumbersome symbolic derivations. To maintain computational efficiency, we employ specialized numerical acceleration techniques, including multi-stage screening and probe-based contact solving, which avoid “brute force” computation while achieving results comparable to FEA precision. The framework is highly versatile, covering planetary, RV, small tooth difference (involute) reducers, and monocrank (single-crank) reducers, providing a robust foundation for holistic performance evaluation that encompasses torsional stiffness, transmission precision, and vibration characteristics within a single integrated environment. From the software engineering perspective, the toolkit is built on three design principles: (i) modular contact primitives —each contact type (circle–circle, circle–curve, curve–curve) is implemented as an independent, pluggable module with a unified interface, following a strategy pattern that decouples geometric representation from the solver core; (ii) scriptable assembly —reducer topologies are constructed through Python scripts that compose rigid bodies, flexible elements, joints, and contact pairs, enabling rapid reconfiguration without recompilation; and (iii) extensible acceleration —the multi-stage screening pipeline can be customized or extended for new gear geometries (e.g., harmonic drives or hypoid gears) by overriding only the pre-screening stage while reusing the downstream solver infrastructure. Through the above review, it is evident that precision reducer research has evolved from isolated analytical error modeling towards integrated high-fidelity dynamic simulation. To systematically illustrate the research landscape and the specific niche of the proposed toolkit, a comparison of the key literature (including all 19 primary references in our library) is presented in Table 1. The comparison reveals a persistent gap: while models like Xu et al. [7, 1] and Li et al. [8] have achieved high contact fidelity, they are often computationally constrained when scaling to hundreds of degrees of freedom or require significant manual derivation for each new geometry. Conversely, high-DOF commercial FEA solutions lack the transparency needed for rapid design optimization. The toolkit proposed in this paper bridges these extremes by utilizing explicit numerical probe-based contact geometry, enabling the simultaneous assessment of torsional stiffness (S), transmission precision (P), and vibration (V) within a single, high-efficiency framework. The remainder of this paper is organized as follows.   
+
+> Jiacheng Miao et al.: Preprint submitted to Elsevier Page 3 of 22
+
+A Dynamic Toolkit for Transmission Characteristics 
+
+Table 1 
+
+Comparison of different modeling frameworks for precision reducers. 
+
+Reference Model Type Contact Fidelity Scale (DOF) Key Factors Objectives Ren (2017) [5] LPM Simple (Stiffness) Low Modification, Noise Vibration Xu (2019) [7] Multi-body Explicit (Needle) Mid Clearance, Loading Contact Force Yang (2021) [13] Equivalent Kinematic Pair Low Over-constraint Precision (TE) Xie (2022) [2] Dynamic Ball-race Mid Preload, BPFRS Rigidity, Precision Bilancia (2022) [15] Experimental Measured N/A Temperature, Ripple Lost Motion Zhang (2022) [18] Kinematic Mesh Clearance Low Multi-planet Lost Motion Tung (2023) [6] Lagrangian Reduced-order Mid Time-variant stiff. Modulation Wang (2023) [9] Multi-body Numerical Mid Zero-backlash Robot Dynamics Xu (2024) [11] Multi-body Fault Contact Mid Raceway Spalling Fault Vibration Wang (2024) [14] MSE-BDDTE Error Equiv. Low Tolerance, MSE TE / LM Wang (2024) [16] ADAMS Standard Contact High Install Error Return Difference Li (2025) [3] Weber/FEM Combined Stiff. Mid Radial Clearance Torsional Stiff. Li (2025 Tribo) [8] Tribo-Dyn EHL Contact Mid Oil Film, Trajectory Friction / Wear Luo (2025) [10] Kinematic Trans. Path Low Meshing Force Modulation Xu (2025) [4] Dynamic Multi-source Mid Variable Speed Dynamic Precision Xu (2025 Hyst) [19] Hysteresis Median Curve Low Non-linear Frict. Lost Motion E (2025) [12] LPM-Fault Fault Excitation Low Localized Fault Diagnosis Xu (2026) [1] Contact Dyn. Explicit Mid Geometry Error Hysteresis Curve 
+
+Proposed Toolkit Unified NC Explicit Probe High (>100) Hole Def., Needle S, P, V Unified 
+
+## 2. Tooth Surface Equation and Gear Stiffness 
+
+The development of a high-fidelity dynamic toolkit requires a precise mathematical foundation for the interacting geometries. This section details the analytical-numerical hybrid modeling of tooth profiles and the position-dependent stiffness superposition method. 
+
+2.1. Mathematical Model of the Modified Cycloidal Profile 
+
+For RV and small tooth difference reducers, the cycloidal disc profile is the primary source of kinematic excitation. The theoretical short-width epicycloid is generated by the locus of a point attached to a circle rolling on a base circle. To account for industrial requirements, we incorporate three types of modifications: radial modification δRp , pin-radius modification δr, and equidistant modification δ. The coordinates of the modified profile .x, y / are defined as a function of the rolling angle ϕ:
+
+x.ϕ/ = * 
+
+.Rp * δRp / * rp + δr
+
+√√
+
+Sĺ
+
+ sin [.1 * iH /ϕ * δ]* aRp * δRp
+
+.Rp * δRp / * zp.rp + δr/
+
+√√
+
+Sĺ
+
+ sin. iH ϕ + δ/, (1) 
+
+y.ϕ/ = 
+
+.Rp * δRp / * rp + δr
+
+√√
+
+Sĺ
+
+ cos [.1 * iH /ϕ * δ]
+
+Jiacheng Miao et al.: Preprint submitted to Elsevier Page 4 of 22 A Dynamic Toolkit for Transmission Characteristics 
+
+* aRp * δRp
+
+.Rp * δRp / * zp.rp + δr/
+
+√√
+
+Sĺ
+
+ cos. iH ϕ + δ/, (2) where zp is the number of pins, a is the eccentricity, Rp is the nominal radius of the pin distribution circle, and iH = zp˙. zp * 1/ is the reduction ratio. The auxiliary term Sĺ is given by Sĺ = 1 + K21 * 2 K1 cos ϕ, with 
+
+K1 = a ⊙ zp˙. Rp * δRp /.Since these analytic expressions are computationally expensive to solve directly during dynamic integration, the toolkit utilizes an **equal-arc-length resampling algorithm**. By pre-sampling the curve at high density and solving for target arc-lengths si using Newton-Raphson iteration: 
+
+ϕ.k+1/ = ϕ.k/ * s.ϕ.k// * si
+
+dp˙dϕ (3) we obtain a discrete yet high-precision representation that supports rapid distance-based contact searching. 
+
+2.2. Position-Dependent Stiffness Superposition Model 
+
+Unlike conventional models that treat meshing stiffness as a constant or a simple sine wave, our toolkit employs a numerical superposition method. The instantaneous meshing stiffness kmesh .u/ at a contact parameter u is calculated by considering the tooth as a non-uniform cantilever beam: 
+
+1
+
+kmesh 
+
+= 1
+
+kbend .u/ + 1
+
+kshear .u/ + 1
+
+kf ound .u/ + 1
+
+kcont .u/ (4) 
+
+2.2.1. Bending and Shear Stiffness 
+
+Based on the Timoshenko beam theory, the bending deformation δB and shear deformation δS are solved by integrating along the tooth height from the root rf to the contact radius r.u/:
+
+δB = FE ∫
+
+> L
+> 0
+
+.L * x/2 cos 2 βI.x/ dx (5) 
+
+δS = 1.2FG ∫
+
+> L
+> 0
+
+cos 2 βA.x/ dx (6) where L is the distance from the root to the contact point, I.x/ and A.x/ are the instantaneous moment of inertia and cross-sectional area, respectively, and β is the load angle. The toolkit performs these integrations numerically for arbitrary profiles, ensuring accuracy even for heavily modified teeth. 
+
+2.2.2. Foundation and Hertzian Contact Stiffness 
+
+The foundation deformation δf ound (root fillet flexibility) is captured using the Ishikawa empirical formula: 
+
+δf ound = F cos 2 βBE 
+
+⌊
+
+5.306 
+
+( LHf
+
+)2
+
++ 2.1 * ν/ LHf
+
++ 1 .534 
+
+(
+
+1 + 0.4167 tan 2 β
+
+1 + ν
+
+)⌋
+
+(7) where Hf is the thickness of the tooth root. Finally, the localized contact stiffness kcont is derived from Hertzian line contact theory for the convex-concave interaction between the gear and pin/internal tooth: 
+
+δcont = 2pπE ¡
+
+⌊
+
+ln 
+
+( 2ρeq 
+
+b
+
+)
+
++ 0 .407 
+
+⌋
+
+(8) By mapping these components to the contact coordinates, the toolkit generates a continuous, physics-based stiffness curve that serves as the core excitation source for the dynamic solver.   
+
+> Jiacheng Miao et al.: Preprint submitted to Elsevier Page 5 of 22 A Dynamic Toolkit for Transmission Characteristics
+
+2.3. Contact Normal and Gap Calculation 
+
+The contact normal direction is determined from the curvature vector of the parametric profile. For a given tooth surface point p.u/, the curvature vector is computed as 
+
+κ = d2p
+
+du 2 *
+
+( d2p
+
+du 2 ⊙ t
+
+)
+
+t, (9) where t = dp˙du ˙dp˙du is the unit tangent vector. The curvature normal points toward the center of curvature; for an external gear it points toward the tooth body (filled side), and for an internal gear this direction must be reversed. The signed gap g between the two contacting bodies is defined as the signed distance from the contact point on one profile to the opposing profile surface: 
+
+g = pouter * pinner ⊙ sign (n ⊙ .pouter * pinner // , (10) where a negative value indicates geometric penetration. This signed convention ensures that the penalty force acts in the correct direction regardless of whether the contact is convex–convex or convex–concave. 
+
+2.4. Tip Probe Fallback Detection 
+
+When analytic contact solving fails—particularly in transition zones such as the tooth tip where the curvature changes rapidly—a geometric probe method is employed as a robust fallback. The procedure consists of three steps: 1. A ray is emitted from the tooth tip along the local normal direction, with a length equal to the tip probe length ↕probe ;2. The intersection of this ray with the piecewise-linear representation of the opposing profile is computed via segment–ray intersection tests; 3. The distance from the tip to the intersection point is taken as the gap estimate gprobe .This probe-based approach prevents “contact loss” in tip-loading conditions and provides a continuous gap signal even when the active contact point transitions between adjacent tooth flanks.   
+
+> Jiacheng Miao et al.: Preprint submitted to Elsevier Page 6 of 22
+
+A Dynamic Toolkit for Transmission Characteristics 
+
+kbend (Bending) kshear (Shear) kf ound (Foundation) 
+
+kcont (Hertz Contact) 
+
+Figure 1: Schematic of the series stiffness superposition model components. Jiacheng Miao et al.: Preprint submitted to Elsevier Page 7 of 22 A Dynamic Toolkit for Transmission Characteristics 
+
+## 3. Explicit Contact Theory and Numerical Acceleration 
+
+The distinguishing feature of the proposed toolkit is the explicit modeling of discrete interaction points, enabling the characterization of localized phenomena such as needle-by-needle bearing contact and individual tooth engagement under large deformations. 
+
+3.1. Discrete Contact Mechanics and Force Models 
+
+The toolkit supports three specialized contact primitives, each designed for a distinct geometric scenario as summarized in Table 2. For any contact pair, the normal force fn is calculated using a non-linear penalty formulation to approximate Hertzian stiffness: 
+
+fn = kmesh max.0 , *g/10˙9 + dc max.0 , *g/ (11) where g is the signed gap (negative for penetration) and dc is the contact damping. The exponent 10˙9 
+
+approximates the 3˙2 exponent of Hertzian contact theory in two dimensions. Damping is regularized to act only during the compression phase ( g < 0), preventing non-physical “sticky” forces during separation. Friction is incorporated via a regularized Coulomb model. The tangential force ft is defined as: 
+
+ft = * μf n ⊙ vt
+
+√√v2 
+
+> t
+
++ v2
+
+> reg
+
+(12) where vt is the relative tangential velocity and vreg is a smoothing threshold (typically 10 *3 m/s). 
+
+Circle-Circle contact data node. Each ObjectContactCircleCircle instance is associated with a 6-variable data node that stores the current contact state for use in the next time step: 
+
+3.2. Multi-Stage Numerical Acceleration Strategy 
+
+To solve systems with hundreds of DOFs efficiently, we implement a hierarchical screening strategy that reduces the contact detection complexity from O.n2/ to nearly O.n/, as outlined in Algorithm 1: 
+
+Algorithm 1 Multi-Stage Contact Screening Strategy  
+
+> 1:
+
+procedure SearchContact (P rof iles, q, t ) 
+
+> 2:
+
+θecc ← ExtractEccentricityAngle .q, t / 
+
+> 3:
+
+for each tooth Ë P rof iles do  
+
+> 4:
+
+if θtooth Ì [ θecc * ∆ θ, θ ecc + ∆ θ] then  
+
+> 5:
+
+continue ▷ Stage 1: Angular Filtering  
+
+> 6:
+
+end if  
+
+> 7:
+
+AABB tooth ← ComputeDynamicAABB .tooth, q/ 
+
+> 8:
+
+if dist .ppin , AABB tooth / > r pin then  
+
+> 9:
+
+continue ▷ Stage 2: AABB Box Filtering  
+
+> 10:
+
+end if  
+
+> 11:
+
+idx hot ← RetrieveWarmStart .tooth / 
+
+> 12:
+
+gap, n ← ProbeSolve .tooth, idx hot , p pin / ▷ Stage 3 & 4: Warm-start & Probe  
+
+> 13:
+
+if gap < 0 then  
+
+> 14:
+
+ApplyPenaltyForce( gap, n, gap ) 
+
+> 15:
+
+end if  
+
+> 16:
+
+end for  
+
+> 17:
+
+end procedure 
+
+1. Angular Pre-screening : The search space is restricted by the relative angular position θ of the tooth flank. Right flanks are evaluated only when θ is within the potentially active range (e.g., [*45 , 0] 
+
+relative to the eccentricity vector).   
+
+> Jiacheng Miao et al.: Preprint submitted to Elsevier Page 8 of 22
+
+A Dynamic Toolkit for Transmission Characteristics 
+
+Table 2 
+
+Classification of contact primitives in the dynamic toolkit. Primitive Geometry Force Model Typical Application Circle-Circle (CC) Two circles (centers + radii) Penalty (Eq. 11) Needle roller bearings, crank-p Circle-Curve (CCv) Circle vs. piecewise-linear curve Penalty with area correction Crank-pin vs. cycloid bore wa Curve-Curve (CvCv) Parametric involute vs. parametric involute Analytic + probe fallback FewTeeth gear meshing 
+
+Table 3 
+
+Circle–Circle contact data node structure. Index Quantity 0 Gap g
+
+1 Gap rate g
+
+2 Normal force fn
+
+3 Tangential force ft,x 
+
+4 Tangential force ft,y 
+
+5 Contact state (0 = open, 1 = closed) 
+
+2. AABB Filtering : Each curve is partitioned into segments enclosed in Axis-Aligned Bounding Boxes. A distance check quickly excludes segments far from the pin center pc: dist .pc, AABB / > r pin .3. Warm-start Active Sets : Utilizing temporal continuity, the solver caches indices of active pairs from the previous step. The search starts from these "hot" segments, achieving O.1/ convergence in most steps. 4. Block-Skip Optimization : Segments are grouped into blocks. If the distance to both block endpoints exceeds a threshold df ar , the entire block is bypassed during the fine-search phase. 
+
+3.3. Curve-MultiCircle Contact Model (ObjectContactCurveCircles) 
+
+The ObjectContactCurveCircles model handles the contact between a planar piecewise-linear curve and multiple circles simultaneously, which is the dominant interaction pattern in cycloidal-pin gear pairs and needle roller arrays. 
+
+Geometric representation. The curve is stored as a list of straight-line segments: segmentsData [i] = [ p.i/0x , p .i/0y , p .i/1x , p .i/1y ], i = 0 , ğ , N seg * 1 . (13) Each circle k provides its center p.k/ 
+
+> c
+
+via a body marker and carries a scalar radius rk stored in the 
+
+circlesRadii array. The contact search for a given circle proceeds as described in Algorithm 2. 
+
+Jiacheng Miao et al.: Preprint submitted to Elsevier Page 9 of 22 A Dynamic Toolkit for Transmission Characteristics        
+
+> Table 4
+> CurveCircles per-segment data node structure. Index offset Quantity 0Active circle index ( *1 if open) 1Gap g
+> 2Tangential velocity vt
+
+Algorithm 2 CurveCircles contact search.  
+
+> 1:
+
+for each circle k do  
+
+> 2:
+
+pc ← GetCenter .k/, r ← GetRadius .k/ 
+
+> 3:
+
+gbest ← +‰ , jbest ← *1  
+
+> 4:
+
+for each line segment j do  
+
+> 5:
+
+if AABB test fails then  
+
+> 6:
+
+continue  
+
+> 7:
+
+end if  
+
+> 8:
+
+pseg ← NearestPointOnSegment .pc, j / 
+
+> 9:
+
+d ← pc * pseg  
+
+> 10:
+
+if d * r < g best then  
+
+> 11:
+
+gbest ← d * r, jbest ← j 
+
+> 12:
+
+end if  
+
+> 13:
+
+end for  
+
+> 14:
+
+if gbest < 0 then  
+
+> 15:
+
+ApplyPenaltyForce( gbest , n, g ) 
+
+> 16:
+
+end if  
+
+> 17:
+
+end for Force model. The normal force follows the same penalty law as Eq. 11. An optional area-integral model (contactModel =1) provides a smoother force transition by integrating the penetration depth over the circular arc of intersection: 
+
+f area  
+
+> n
+
+= fn ⊙ 1
+
+g ∫
+
+> s1
+> s0
+
+[
+
+√√r2 * d2.s/ * d0] ds, (14) where s0, s 1 are the arc parameters at the two intersection points. The tangential friction uses Stribeck regularization: 
+
+ft = * μ f n sign .vt/ min (1, vt
+
+vreg 
+
+/. (15) Each line segment maintains a 3-variable data cache: The core parameters are documented in Table 5. 
+
+3.4. Analytic FewTeeth Contact Model (ObjectContactFewTeeth) 
+
+The ObjectContactFewTeeth model is purpose-built for the internal gear pairs used in small tooth-difference reducers. It directly evaluates parametric involute expressions without any curve discretization, yielding exact geometric precision. 
+
+Motivation for the probe-based approach. A natural strategy for gear contact detection is direct curve–curve intersection: discretize both tooth profiles into polylines and compute all pairwise segment intersections. However, this approach suffers from two critical drawbacks: (1) the computational cost scales as O.nseg ,out İnseg ,in / per tooth pair, which becomes prohibitive when multiple tooth pairs must be evaluated simultaneously; and (2) the intersection solver exhibits a high failure rate near singular points such as the   
+
+> Jiacheng Miao et al.: Preprint submitted to Elsevier Page 10 of 22
+
+A Dynamic Toolkit for Transmission Characteristics 
+
+Table 5 
+
+ObjectContactCurveCircles core parameters. Parameter Description 
+
+segmentsData Segment list, each entry [x0, y 0, x 1, y 1]
+
+circlesRadii Radius of each circle 
+
+contactStiffness Contact stiffness kc [N/m] 
+
+contactDamping Contact damping dc [N ⊙s/m] 
+
+contactModel 0 = linear penetration; 1 = area integral 
+
+dynamicFriction Dynamic friction coefficient μ
+
+frictionProportionalZone Regularization velocity vreg [m/s] 
+
+Table 6 
+
+FewTeethAnalyticProfile key parameters. Parameter Description 
+
+isInner 1 for internal gear, 0 for external 
+
+numberOfTeeth Tooth count z
+
+module Module m [m] 
+
+alpha Standard pressure angle α [rad] 
+
+haStar Addendum coefficient h¡
+
+> a
+
+cStar Tip clearance coefficient c¡
+
+x Modification coefficient 
+
+flankSign +1 = right flank, *1 = left flank 
+
+baseRotation Reference rotation angle offset 
+
+deltaY Y-direction shift 
+
+tooth tip, where the curvature gradient is steep and the parametric Jacobian becomes ill-conditioned. These failures manifest as “contact loss” events that destabilize the dynamic integration. The four-stage probe-based strategy described below was developed to overcome both limitations: angular pre-screening and AABB filtering reduce the candidate set, warm-starting exploits temporal continuity for O.1/ convergence, and the probe fallback provides a robust safety net for geometrically degenerate cases. 
+
+Profile representation. Each gear is described by the FewTeethAnalyticProfile structure, whose key fields are listed in Table 6. From these, the following derived quantities are computed: The base circle, root circle, and tip circle radii are: 
+
+rb = mz 
+
+2 cos α, rf = r * m(h¡ 
+
+> a
+
++ c¡ * x/, ra = r + m(h¡ 
+
+> a
+
++ x/, (16) 
+
+rmin = max. rf , r b/, rmax = ra, θbase = tan α * α, (17) where r = mz ˙2 is the pitch radius and θbase is the base-circle involute function. The parametric involute curve is evaluated as: 
+
+r.u/ = rmin + u .rmax * rmin /, αc.u/ = arccos rb
+
+r.u/ , (18) 
+
+θc.u/ = tan αc * αc, ϕc.u/ = 
+
+∣∣∣∣∣
+
+θbase + ϕpitch * θc, external gear 
+
+*θbase + ϕpitch + θc, internal gear (19) with u Ë [0 , 1] spanning from root ( u = 0 ) to tip ( u = 1 ). 
+
+Four-stage contact search. The contact detection proceeds through four successive stages: 
+
+Stage 1 – Angular pre-screening. Based on the flank sign, only a limited angular sector around the line of action can carry contact load: Right flank : θ Ë [* π 
+
+> 4
+
+, 0] . ncross ≤ 0, cos θ ≥ cos π 
+
+> 4
+
+/, (20) 
+
+Jiacheng Miao et al.: Preprint submitted to Elsevier Page 11 of 22 A Dynamic Toolkit for Transmission Characteristics              
+
+> Table 7
+> FewTeeth contact data node structure. Index Quantity 0Gap g
+> 1Gap rate g
+> 2Normal force fn
+> 3Outer tooth index 4Outer tooth parameter uout
+> 5Inner tooth index 6Inner tooth parameter uin
+
+Left flank : θ Ë [0 , + π 
+
+> 4
+
+] . ncross ≥ 0, cos θ ≥ cos π 
+
+> 4
+
+/. (21) This eliminates the majority of tooth flanks from geometric inspection. 
+
+Stage 2 – Warm-start active set. Exploiting temporal continuity, the indices of the tooth pair active at the previous time step are cached. The search begins from these cached indices, yielding O.1/ convergence in the majority of time steps. 
+
+Stage 3 – Analytic solving. For the candidate tooth pair, a fine sampling (e.g., 36 points per tooth flank) is evaluated and the pair with minimum inter-surface distance is selected as the contact point. 
+
+Stage 4 – Probe fallback. If the analytic stage fails (e.g., near the tooth tip where the parametric Jacobian is singular), a ray of length ↕probe is emitted from the tooth tip along the local normal; the intersection with the opposing flank’s piecewise representation gives the gap estimate. 
+
+Meshing stiffness. The instantaneous meshing stiffness at the contact point is assembled from tooth-body and Hertzian contributions: 
+
+kmesh .u/ = [ 1
+
+kstruct ,out .uout / + 1
+
+kstruct ,in .uin / + 1
+
+kHertz 
+
+]*1 , (22) where kstruct .u/ is obtained by interpolation from a pre-computed stiffness table and kHertz is evaluated from Hertzian line-contact theory. The contact force is then fn = kmesh max.0 , *g/10˙9 + dc max.0 , *g/.The data node for each FewTeeth contact object stores 7 variables: 
+
+3.5. Numerical Robustness 
+
+To ensure stable integration of the stiff differential-algebraic equations arising from contact problems, the toolkit applies three regularization techniques beyond the basic penalty formulation of Eq. 11. 
+
+Hertz-type exponent. Linear penalty fn = kc.* g/ produces a discontinuous force gradient at g = 0 ,triggering integrator oscillations. Replacing the exponent with 10˙9 (Fig. 1) yields a smooth transition through the contact boundary. 
+
+Damping regularization. The damping term in Eq. 11 is masked by max.0 , *g/ so that it produces resistance only during approach ( g < 0) and vanishes during separation, preventing non-physical adhesion forces. 
+
+Friction regularization. The Coulomb friction law ft = * μf n sign .vt/ is singular at vt = 0 . The velocity-regularized form of Eq. 12 replaces the sign function with a smooth tanh-like transition over the threshold 
+
+vreg , eliminating chattering in near-sticking contact zones.   
+
+> Jiacheng Miao et al.: Preprint submitted to Elsevier Page 12 of 22
+
+A Dynamic Toolkit for Transmission Characteristics Curve (cycloid) Pin circles 
+
+fn
+
+Figure 2: Schematic of Curve-Circles contact: cycloidal profile vs. pin array. 
+
+n
+
+Contact Internal gear External gear 
+
+Figure 3: Schematic of FewTeeth analytic tooth contact (internal-external gear pair). 
+
+0
+
+*45 
+
+Right flank contact zone 
+
++45 
+
+Left flank contact zone Internal gear External gear 
+
+e
+
+Figure 4: Angular pre-screening for FewTeeth contact search: only the shaded sectors can carry load on each flank. Jiacheng Miao et al.: Preprint submitted to Elsevier Page 13 of 22 A Dynamic Toolkit for Transmission Characteristics 
+
+## 4. Global Dynamics Equation Solving 
+
+4.1. Flexible Body Integration via ANCF 
+
+Structural flexibility is integrated using the **Absolute Nodal Coordinate Formulation (ANCF)**, specifically for shafts and bearing housing walls. The position vector r of any point in the flexible body is interpolated as: 
+
+r = S.ξ, η, ζ /e.t/ (23) where S is the matrix of cubic shape functions and e contains absolute nodal positions and gradients. This formulation is critical for capturing **"hole-wall" geometric deformation** (localized ovalization) under heavy radial loads, which drastically reduces global torsional rigidity. 
+
+4.2. System Assembly and Time Integration 
+
+The global equations of motion M.q/q + C.q, q/q + Kq = fcontact + fdrive .t/ are solved using the **Generalized-α method** with second-order accuracy and controllable numerical damping. The spectral radius is typically set to ρ‰ = 0 .8 for contact-dominant problems. 
+
+Component assembly workflow. The complete reducer model is assembled in a modular fashion, as illustrated in Fig. 5. Each physical component (eccentric shaft, cycloidal disc, pin housing, output flange) is instantiated as a rigid or ANCF-flexible body with its own coordinate markers. Contact pairs are then attached between markers: (i) Circle–Circle for needle roller bearings, (ii) Curve–Circles for cycloid–pin meshing, and (iii) FewTeeth analytic contacts for involute gear pairs. External constraints (revolute joints, fixed supports) and drive loads (torque functions) complete the model. This scripting-based assembly enables rapid reconfiguration—switching from an RV-type topology to a monocrank or small tooth-difference layout requires only changes to the contact pair definitions and marker positions, not modifications to the solver core. 
+
+4.3. Discontinuity Handling 
+
+Contact problems are intrinsically discontinuous: the contact force switches abruptly between zero and non-zero as surfaces make and break contact. Three mechanisms are implemented to maintain robust convergence: 
+
+Post-Newton-Step callback. After each Newton iteration, the solver executes a callback that compares the current contact state (open/closed) stored in the data node against the state at the start of the current time step. If a transition is detected, the flag PostNewtonFlags::UpdateJacobian is raised, forcing a Jacobian rebuild before the next iteration. The estimated discontinuity error is returned as 
+
+εdisc = f old  
+
+> n
+
+* f new  
+
+> n
+
+, (24) which is added to the Newton convergence tolerance during the iterative solve. 
+
+Adaptive time stepping. When the estimated discontinuity error exceeds a threshold (e.g., 10 *3 of the characteristic force), the integrator automatically reduces the time step by a factor of 2 until the Newton iteration converges without triggering state transitions. This prevents the solver from “overshooting” rapid impact events. 
+
+Jacobian re-factorization. Contact state changes alter the sparsity pattern of the system Jacobian 
+
+J = ↽fresid ˙↽q. The linear solver re-factorizes J only when the contact active set changes, balancing the cost of re-factorization against the accuracy of the Newton step.   
+
+> Jiacheng Miao et al.: Preprint submitted to Elsevier Page 14 of 22
+
+A Dynamic Toolkit for Transmission Characteristics Rigid / ANCF Bodies Coordinate Markers Contact Pair Attachment Joints & Constraints Drive Loads / Torques Generalized-α Solver 
+
+> CC: needle bearings CCv: cycloid–pin CvCv: involute mesh
+> Shaft, disc, pin housing, output flange
+
+Figure 5: Modular assembly workflow for the reducer dynamic model. Jiacheng Miao et al.: Preprint submitted to Elsevier Page 15 of 22 A Dynamic Toolkit for Transmission Characteristics 
+
+## 5. Numerical Solving and Results Analysis 
+
+5.1. Quasi-Static Torque Loading Sequence 
+
+To extract the hysteresis torque-angle characteristics, the dynamic model is driven through a five-stage piecewise-linear torque sequence applied at the output shaft while the input shaft is locked: 
+
+T .t/ = 
+
+∣∣∣∣∣∣∣∣∣∣∣∣∣∣∣∣∣∣
+
+Tr
+
+tseg 
+
+t, 0 ≤ t < t seg 
+
+Tr
+
+(1 * t*tseg  
+
+> tseg
+
+/, tseg ≤ t < 2tseg 
+
+* Tr 
+
+> tseg
+
+.t * 2 tseg /, 2tseg ≤ t < 3tseg 
+
+* Tr
+
+(1 * t*3 tseg  
+
+> tseg
+
+/, 3tseg ≤ t < 4tseg 
+
+Tr
+
+tseg 
+
+.t * 4 tseg /, 4tseg ≤ t ≤ 5tseg 
+
+(25) where Tr is the rated torque (e.g., 3200 N⊙m for the RV-40E class reducer) and tseg = 0 .5 s, giving a total simulation time of Ttot = 2 .5 s. The five loading stages are: 1. Forward loading (0 → +Tr): eliminates tooth flank clearance and produces elastic deformation; 2. Forward unloading (+Tr → 0): records the elastic rebound characteristic; 3. Reverse loading (0 → *Tr): crosses zero and engages the opposite tooth flank; 4. Reverse unloading (*Tr → 0); 5. Reloading (0 → +Tr): closes the hysteresis loop. A block-diagram representation of the torque sequence is shown in Fig. 6. 
+
+5.2. Hysteresis Curve Post-Processing 
+
+The raw simulation output—pairs of .T, θ out / sampled at every time step—must be processed to extract meaningful performance indicators. 
+
+Offset correction. Because the initial crank angle may contain a small systematic bias, the hysteresis curve is center-corrected using zero-crossing interpolation. The positive and negative zero-torque crossings are located, linearly interpolated to the exact zero, and their angular average is subtracted from all data points as a fixed offset. 
+
+Loading/unloading curve separation. Each data point is classified by the sign of dT ˙dt : positive derivative belongs to the loading branch, negative to the unloading branch. The reverse-loading branch is isolated by additionally checking that T < 0.
+
+Performance indicator extraction. Three metrics are extracted from each hysteresis loop: The median curve θmid .T / = 12 [θload .T / + θunload .T /] is used for the LM evaluation to minimize the influence of measurement noise. 
+
+5.3. Geometric Error Modeling 
+
+To evaluate the effect of manufacturing and assembly tolerances on the hysteresis characteristics, four classes of geometric errors are introduced into the stochastic model, each following a uniform distribution 
+
+U .*∆ , ∆/ .
+
+Eccentric radius error (δr): 
+
+rĺecc ,k = rnom ecc + δr,k , δr,k í U .*∆ r, +∆ r/. (26) This directly changes the fit between the crank pin and the needle roller bearing, affecting both radial clearance and effective contact stiffness.   
+
+> Jiacheng Miao et al.: Preprint submitted to Elsevier Page 16 of 22
+
+A Dynamic Toolkit for Transmission Characteristics 
+
+Table 8 
+
+Performance indicators extracted from the hysteresis curve. Indicator Definition Unit Torsional stiffness KT KT = ∆T
+
+∆θ 
+
+> 100˜ Tr
+> 66˜ Tr
+
+(linear fit) N⊙m/arcmin Lost Motion LM LM = θmid .+3˜ Tr / * θmid .*3˜ Tr / arcmin Backlash BL BL = θunload .0/ * θreverse .0/ arcmin 
+
+Table 9 
+
+Comparison of simulation error ranges with drawing tolerances. Error source Drawing tolerance Simulation range Conformity Eccentric radius ( δr ) Cylindricity IT4 ( ù ,4 μm) ,10 μm Conservative Eccentricity ( δe) IT3 ( ù ,3 μm) ,6 μm Conservative Phase angle ( δϕ) ≤ 3ĺ ,2 ĺ Compliant Bearing clearance ( δc) Fit tolerance 0 í 20 μm Full range 
+
+Eccentricity error (δe): 
+
+eĺ 
+
+> k
+
+= enom + δe,k , δe,k í U .*∆ e, +∆ e/. (27) This modifies the radial stroke of the cycloidal disc, primarily exciting transmission error harmonics at integer multiples of the input frequency. 
+
+Phase angle error (δϕ): 
+
+ϕĺ 
+
+> k
+
+= ϕnom  
+
+> k
+
++ δϕ,k , δϕ,k í U .*∆ ϕ, +∆ ϕ/, (28) where ϕnom  
+
+> k
+
+= π˙2 + 2 πk ˙Ncran (Ncran = 3 ). Phase errors break the synchronization among the three cranks, causing load-sharing imbalance and increasing lost motion. 
+
+Bearing radial clearance (δc): 
+
+cĺ = cnom + δc, (29) applied uniformly (not randomly) as a global offset to the needle roller bearing clearance. 
+
+5.4. Parameter Sensitivity Analysis 
+
+Batch simulations spanning the error parameter space were conducted at IT3–IT6 tolerance levels. The resulting hysteresis metrics are summarized in Table 10. The key findings from the sensitivity study are: 1. Bearing clearance dominates LM and BL . Increasing δc from 0 to 20 μm raises LM by 88˜ (from 
+
+0.410 to 0.771 arcmin) and BL by 330˜ (from 1.443 to 6.207 arcmin), while reducing torsional stiffness by only 2.9˜ . This makes bearing clearance the most critical manufacturing tolerance. 2. Phase angle error shows symmetric impact on LM and BL . Variations of ,120 ĺĺ increase LM by 
+
+13˜ and reduce BL by 14 .6˜ , indicating that tight phase control is essential for multi-crank reducers. 3. Eccentric radius error primarily affects stiffness . The 2.6˜ stiffness reduction across the δr range confirms that radial interference at the crank-pin bearing influences the elastic deformation path more than the geometric clearance. 4. Eccentricity error is benign . Variations of ,6 μm produce less than 0.5˜ change in all three metrics, suggesting that the system possesses inherent robustness to eccentricity errors and that IT3 tolerance requirements may be relaxed for cost reduction. 
+
+Jiacheng Miao et al.: Preprint submitted to Elsevier Page 17 of 22 A Dynamic Toolkit for Transmission Characteristics 
+
+Table 10 
+
+Sensitivity of hysteresis metrics to geometric errors. Kavg is the average of positive and negative stiffness; LM is lost motion; BL is backlash.                                                                          
+
+> Condition Kavg [N ⊙m/arcmin] LM [arcmin] BL [arcmin] Notes
+> Eccentric radius error (δr)
+> δr= *10 μm1261.61 0.4084 1.5390 Large clearance
+> δr= 0 μm1228.56 0.4102 1.4431 Nominal
+> Eccentricity error (δe)
+> δe= *6 μm1229.11 0.4106 1.4429
+> δe= 0 μm1228.71 0.4108 1.4431 Minimal effect
+> δe= +6 μm1228.85 0.4107 1.4429
+> Phase angle error (δϕ)
+> δϕ= *120 ĺĺ 1217.36 0.4636 1.2324 Symmetric effect
+> δϕ= 0 ĺĺ 1228.56 0.4102 1.4431 Baseline
+> δϕ= +120 ĺĺ 1217.36 0.4636 1.2324 Symmetric effect
+> Bearing clearance (δc)
+> δc= 0 μm1228.56 0.4102 1.4431 Baseline
+> δc= 10 μm1205.55 0.5563 3.8899 +36% LM, +170% BL
+> δc= 20 μm1193.19 0.7710 6.2065 +88% LM, +330% BL
+
+## 6. Experimental Validation 
+
+While dedicated test-bench measurements under controlled geometric errors are planned for a follow-up study, the simulation methodology is validated through two indirect lines of evidence. 
+
+Tolerance compliance assessment. The simulation error ranges were compared against the manufactur-ing drawing tolerances for the RV-40E crank shaft. The phase angle error range ( ,2 ĺ) is strictly within the drawing requirement ( ≤ 3ĺ), confirming that the simulation represents physically achievable manufacturing conditions. The conservative extension of δr and δe beyond their IT3/IT4 tolerance bands explores the boundary of what could occur in poorly controlled production, providing a worst-case envelope for product qualification. 
+
+Convergence with published benchmarks. The stiffness value KT ù 1228 N⊙m/arcmin obtained at nominal conditions falls within the typical range reported for RV-40E reducers in the literature ( 1100 –1400 
+
+N⊙m/arcmin), lending credibility to the contact stiffness and ANCF flexibility assumptions. The bearing-clearance sensitivity trend—strong LM and BL growth with negligible stiffness impact—is consistent with the physical mechanism of clearance-induced dead zones rather than material deformation. 
+
+## 7. Conclusion and Future Work 
+
+This paper has presented a unified dynamic toolkit based on explicit contact geometry for precision reducers. By transitioning from rigid-body simplifications to a probe-based numerical framework with ANCF integration, the toolkit achieves high-fidelity simulation of hundreds of DOFs while maintaining computational efficiency through multi-stage contact screening. The modular, scriptable architecture of the toolkit allows users to compose new reducer topologies—planetary, RV, small tooth difference, or monocrank—by reconfiguring contact primitives and assembly scripts, without modifying the underlying solver. The numerical experiments lead to four principal conclusions: 1. Bearing clearance is the dominant factor for lost motion and backlash. Across the range 
+
+δc Ë [0 , 20] μm, LM grows by 88˜ and BL by 330˜ , while torsional stiffness decreases by only 2.9˜ .This quantifies the critical role of bearing fit tolerance in high-precision servo applications. 2. Phase angle errors among multi-crank assemblies cause symmetric degradation of LM 
+
+and BL . A ,120 ĺĺ phase error increases LM by 13˜ and reduces BL by 14 .6˜ , underscoring the need for tight synchronization in three-crank RV reducers. 
+
+Jiacheng Miao et al.: Preprint submitted to Elsevier Page 18 of 22 A Dynamic Toolkit for Transmission Characteristics 
+
+3. Eccentric radius error primarily reduces torsional stiffness, not clearance-dependent metrics. A 10 μm decrease in δr produces a 2.6˜ stiffness reduction, indicating that the crank-pin bearing interface governs the elastic path rather than geometric clearance. 4. Eccentricity error has negligible effect on all three metrics (all variations < 0.5˜ ), demonstrating that the system tolerates eccentricity variations well within the tested range and that IT3 tolerances on this parameter may be relaxed for cost optimization. Future work will explore: 
+
+• Extending the framework to harmonic drive reducers by modeling the flexspline cup deformation using ANCF shell elements and capturing the thin-walled tooth engagement through the curve–curve contact primitive. 
+
+• Extending the framework to 3D curved surfaces such as hypoid gears and non-axisymmetric cycloidal profiles, where the current extruded-body assumption no longer holds and efficient surface–surface contact algorithms must be developed. 
+
+• Integrating measured surface topography into the contact logic for wear and scuffing prediction. 
+
+• Implementing GPU-based acceleration to handle the increased computational demand of surface-to-surface contact in non-extruded bodies; preliminary studies suggest that simplified surface primitives (e.g., conical patches) can achieve significant speedup before full GPU deployment. 
+
+• Validating the toolkit against dedicated test bench measurements for torsional stiffness and lost motion on RV-40E and RV-80E reducers. 
+
+## Acknowledgments 
+
+This work was supported by the Jiangsu Funding Program for Excellent Postdoctoral Talent (Grant No. 2025ZB195). The authors gratefully acknowledge the EXUDYN open-source project [20] for providing the flexible multibody dynamics simulation framework upon which parts of this work were developed. 
+
+## Data availability 
+
+Data will be made available on request. 
+
+## CRediT authorship contribution statement 
+
+Jiacheng Miao: Writing – original draft, Writing – review & editing, Software, Validation, Visualization, Data curation, Conceptualization. Chao Liu: Project administration, Supervision, Resources, Validation. 
+
+Qiliang Wang: Supervision, Project administration, Resources, Funding acquisition. Yunhui Guan: 
+
+Supervision, Writing – review & editing, Methodology. Weidong He: Supervision, Writing – review & editing, Methodology. 
+
+## References          
+
+> [1] L. Xu, T. Zhao, J. Geng, Y. Deng, Modeling of hysteresis curve and study of torsional rigidity and lost motion characteristics of the rv reducer, Mechanism and Machine Theory 219 (2026) 106335. doi:10.1016/j.mechmachtheory.2025.106335 .[2] Y. H. Xie, L. X. Xu, Y. Q. Deng, A dynamic approach for evaluating the moment rigidity and rotation precision of a bearing-planetary frame rotor system used in rv reducer, Mechanism and Machine Theory 173 (2022) 104851.
+> doi:10.1016/j.mechmachtheory.2022.11.001 .[3] W. Li, Y. Zhang, S. Gao, Analysis for time varying torsional stiffness of rv reducer, Mechanical Systems and Signal Processing 225 (2025) 112239. doi:10.1016/j.ymssp.2024.112239 .[4] L. Xu, Y. Wu, Investigation of the dynamic transmission accuracy of an industrial robot joint rv reducer under variable situations, Multibody System Dynamics 65 (2) (2025) 267–304. doi:10.1007/s11044-025-10056-2 .[5] Z.-Y. Ren, S.-M. Mao, W.-C. Guo, Z. Guo, Tooth modification and dynamic performance of the cycloidal drive, Mechanical Systems and Signal Processing 85 (2017) 857–866. doi:10.1016/j.ymssp.2016.09.029 .
+
+Jiacheng Miao et al.: Preprint submitted to Elsevier Page 19 of 22 A Dynamic Toolkit for Transmission Characteristics 
+
+[6] L.-C. Tung, Y. J. Chan, A time-variant dynamic model for compound epicyclic–cycloidal reducers, Mechanism and Machine Theory 179 (2023) 105095. doi:10.1016/j.mechmachtheory.2022.105095 .[7] L. X. Xu, B. K. Chen, C. Y. Li, Dynamic modelling and contact analysis of bearing-cycloid-pinwheel transmission mechanisms used in joint rotate vector reducers, Mechanism and Machine Theory 137 (2019) 432–458. doi:10.1016/ j.mechmachtheory.2019.03.035 .[8] R. Li, P. Zheng, G. Wang, G. Li, S. Chi, X. Meng, Tribo-dynamics modeling of cycloidal gear-pin pair considering transient effects, International Journal of Mechanical Sciences 305 (2025) 110809. doi:10.1016/j.ijmecsci.2025.110809 .[9] S. Wang, X. Deng, H. Feng, K. Ren, F. Li, Y. Liu, Dynamic simulation analysis and experimental study of an industrial robot with novel joint reducers, Multibody System Dynamics 57 (2) (2023) 107–131. doi:10.1007/s11044-022-09864-7 .[10] H. Luo, L. Xue, Y. Huang, C. Wang, et al., Modulation mechanism of vibration response of rv reducer considering the influence of meshing force and transmission path, Journal of Sound and Vibration 619 (2025) 119430. doi: 10.1016/j.jsv.2025.119430 .[11] L. Xu, C. Xia, L. Chang, Dynamic modeling and vibration analysis of an rv reducer with defective needle roller bearings, Engineering Failure Analysis 157 (2024) 107884. doi:10.1016/j.engfailanal.2023.107884 .[12] Y. E, Z. Liu, H. Chen, et al., Dynamic modeling and vibration analysis for fault diagnosis of rotate vector reducers, Mechanical Systems and Signal Processing 224 (2025) 111965. doi:10.1016/j.ymssp.2024.111965 .[13] Y. Yang, G. Zhou, L. Chang, G. Chen, A modelling approach for kinematic equivalent mechanism and rotational transmission error of rv reducer, Mechanism and Machine Theory 163 (2021) 104384. doi:10.1016/j.mechmachtheory. 2021.104384 .[14] X. Wang, L. Li, L. Hao, H. Wang, Positioning accuracy prediction of precision cycloid reducer based on a bddte model and use in design optimization, Precision Engineering 88 (2024) 27–43. doi:10.1016/j.precisioneng.2024.01.008 .[15] P. Bilancia, L. Monari, R. Raffaeli, M. Peruzzini, M. Pellicciari, Accurate transmission performance evaluation of servo-mechanisms for robots, Robotics and Computer-Integrated Manufacturing 78 (2022) 102400. doi:10.1016/j.rcim.2022. 102400 .[16] H. Wang, X. Zhang, K. Fang, Y. Kou, Z. Zhang, Return error simulation analysis and experimental study for rv reducer with adams, Journal of Advanced Mechanical Design, Systems, and Manufacturing 18 (2) (2024) JAMDSM0023. 
+
+doi:10.1299/jamdsm.2024jamdsm0023 .[17] H. Cheng, Z. Shi, Z. Yu, G. Zuo, Dynamic torsional stiffness of reducers and its testing method, Applied Sciences 13 (16) (2023) 9277. doi:10.3390/app13169277 .[18] C. Zhang, H. Dong, B. Dong, D. Wang, A bi-directional drive model for lost motion behavior of planetary gear train, Mechanism and Machine Theory 174 (2022) 104885. doi:10.1016/j.mechmachtheory.2022.104885 .[19] H. Xu, Z. Shi, S. Yang, X. Qiao, Y. Li, W. Yu, Hysteresis curve model of precision reducers in robots and its application in lost motion evaluation, Measurement: Sensors 38 (2025) 101848. doi:10.1016/j.measen.2025.101848 .[20] J. Gerstmayr, Exudyn – a c++ based python package for flexible multibody systems, Multibody System Dynamics 60 (2024) 533–561. doi:10.1007/s11044-023-09937-1 .
+
+## A. Complete Contact Model Reference 
+
+A.1. Circle-Circle Contact Geometry 
+
+For two circles with centers p0, p1 and scalar radii r0, r 1, the gap is evaluated in the xy -plane only: 
+
+d =
+
+√√.p1x * p0x/2 + . p1y * p0y /2. (30) When r1 > 0 the contact is convex–convex ( d*. r0 +r1/ is the gap); when r1 < 0 the contact is convex–concave and the gap becomes r1 * . d + r0/. The contact normal vector is 
+
+n =
+
+∣∣∣∣∣∣∣
+
+* p1 * p0
+
+d , r1 ≥ 0,
+
++ p1 * p0
+
+d , r1 < 0.
+
+(31) The tangential velocity at the contact point incorporates rotational contributions: 
+
+vc, 0 = v0 + ωz, 0 rc, 0, vc, 1 = v1 + ωz, 1 rc, 1, (32) 
+
+rc,i = pc * pi, vrel = vc, 1 * vc, 0, vt = vrel * (vrel ⊙ n/n. (33) The normal and tangential forces follow from Eq. 11 and Eq. 12. 
+
+Jiacheng Miao et al.: Preprint submitted to Elsevier Page 20 of 22 A Dynamic Toolkit for Transmission Characteristics 
+
+A.2. CurveCircles: Contact Search Details 
+
+The piecewise-linear curve is first partitioned into AABB bounding boxes for fast rejection. A segment 
+
+j is rejected without further inspection if 
+
+pcx Ì [ xmin  
+
+> j
+
+* r, x max  
+
+> j
+
++ r] â pcy Ì [ ymin  
+
+> j
+
+* r, y max  
+
+> j
+
++ r]. (34) For non-rejected segments the nearest point on the segment is computed analytically, yielding the gap 
+
+g = d * r where d = pc * pseg . The block-skip optimization groups every Nblock consecutive segments; if both endpoints of a block lie at distances exceeding dfar from the circle center, the entire block is bypassed in 
+
+O.1/ time. 
+
+A.3. FewTeeth: Full Contact Search Flowchart 
+
+The complete FewTeeth contact resolution pipeline is illustrated in Fig. 9. 
+
+## B. Algorithm Reference: Penalty Force Assembly and Screening 
+
+Algorithm 3 Penalty contact force computation and assembly. 
+
+Input: current state .q, q/, data node cache 
+
+Output: generalized force vector fcontact  
+
+> 1:
+
+for each contact object obj do  
+
+> 2:
+
+Read pose .pi, Ri, vi, ωi/ of both markers  
+
+> 3:
+
+Read Warm-start indices from data node  
+
+> 4:
+
+▷ Contact detection  
+
+> 5:
+
+for each candidate geometric pair do  
+
+> 6:
+
+Compute gap g, gap rate g, contact point pc 
+
+> 7:
+
+end for  
+
+> 8:
+
+▷ Force evaluation  
+
+> 9:
+
+if g < 0 then  
+
+> 10:
+
+fn ← kc .* g/10˙9 + dc max.0 , *g/ 
+
+> 11:
+
+Compute tangential velocity vt from Eq. 33  
+
+> 12:
+
+ft ← *μf n vt˙
+
+√√v2 
+
+> t
+
++ v2reg  
+
+> 13:
+
+fc ← fnn + ft 
+
+> 14:
+
+else  
+
+> 15:
+
+fc ← 0 
+
+> 16:
+
+end if  
+
+> 17:
+
+▷ Assembly  
+
+> 18:
+
+fcontact += JT 
+
+> 0
+
+fc, 0 + JT 
+
+> 1
+
+fc, 1 
+
+> 19:
+
+Update data node cache with new g, g, f n, v t 
+
+> 20:
+
+end for 
+
+Jiacheng Miao et al.: Preprint submitted to Elsevier Page 21 of 22 A Dynamic Toolkit for Transmission Characteristics 
+
+Algorithm 4 Multi-stage contact screening with warm-start and block-skip. 
+
+Input: tooth profile list P , generalized coordinates q, time t
+
+Output: active contact set  
+
+> 1:
+
+θecc ← ExtractEccentricityAngle .q, t / 
+
+> 2:
+
+ ← É 
+
+> 3:
+
+for each tooth T Ë P do  
+
+> 4:
+
+θT ← GetAngle .T, q/ 
+
+> 5:
+
+▷ Stage 1: angular pre-screening  
+
+> 6:
+
+if θT Ì [ θecc * ∆ θmax , θ ecc + ∆ θmax ] then  
+
+> 7:
+
+continue  
+
+> 8:
+
+end if  
+
+> 9:
+
+▷ Stage 2: AABB filtering  
+
+> 10:
+
+BT ← ComputeAABB .T, q/ 
+
+> 11:
+
+d ← MinDist .ppin , B T / 
+
+> 12:
+
+if d > r pin then  
+
+> 13:
+
+continue  
+
+> 14:
+
+end if  
+
+> 15:
+
+▷ Stage 3: block-skip  
+
+> 16:
+
+for each block B of Nblock segments in T do  
+
+> 17:
+
+d0 ← MinDist .ppin , B. seg[0]/  
+
+> 18:
+
+d1 ← MinDist .ppin , B. seg[ Nblock * 1]/  
+
+> 19:
+
+if d0 > d far and d1 > d far then  
+
+> 20:
+
+j += Nblock ▷ skip entire block  
+
+> 21:
+
+continue  
+
+> 22:
+
+end if  
+
+> 23:
+
+end for  
+
+> 24:
+
+▷ Stage 4: fine search starting from warm-start index  
+
+> 25:
+
+jwarm ← GetWarmStartIndex .T / 
+
+> 26:
+
+g, n ← ProbeSolve .T, j warm , p pin / 
+
+> 27:
+
+if g < 0 then  
+
+> 28:
+
+ ä= ˆ. T, j warm , g, n/‘  
+
+> 29:
+
+end if  
+
+> 30:
+
+end for 
+
+Jiacheng Miao et al.: Preprint submitted to Elsevier Page 22 of 22 A Dynamic Toolkit for Transmission Characteristics 
+
+t [s] 
+
+T [N ⊙m]        
+
+> 00.51.01.52.02.5
+> Stage 1 Stage 2
+> Stage 3 Stage 4
+> Stage 5
+> +Tr
+> *Tr
+> 0
+
+Figure 6: Five-stage quasi-static torque loading sequence for hysteresis curve extraction ( Tr = 3200 N⊙m, tseg = 0 .5 s). 
+
+(a) Eccentric radius error effect. (b) Bearing clearance effect (dominant factor). 
+
+(c) Eccentricity error effect (minimal). (d) Phase angle error effect (symmetric). 
+
+Figure 7: Hysteresis curves under varying geometric error conditions. Subplot (b) confirms that bearing clearance is the dominant driver of lost motion and backlash. Jiacheng Miao et al.: Preprint submitted to Elsevier Page 23 of 22 A Dynamic Toolkit for Transmission Characteristics 
+
+(a) Transmission error vs. crank angle. (b) Effect of bearing clearance on transmission error. 
+
+(c) Effect of eccentric radius on transmission error. (d) Effect of eccentricity on transmission error. 
+
+Figure 8: Transmission error characteristics under various error conditions. Jiacheng Miao et al.: Preprint submitted to Elsevier Page 24 of 22 A Dynamic Toolkit for Transmission Characteristics Read marker poses 
+
+pi, Ri, vi, ωi
+
+Gear-center transform 
+
+cglob  
+
+> j
+
+= R ⊙ cloc  
+
+> j
+
++ p
+
+Warm-start active set 
+
+Start from cached tooth pair 
+
+Angular pre-screening 
+
+Right: θ Ë [* π˙4 , 0] ; Left: θ Ë [0 , π ˙4] 
+
+Evaluate parametric involute 
+
+r.u/, α c.u/, ϕ c.u/ from Eq. 18–19 
+
+g < 0?Mesh stiffness (Eq. 22) 
+
+k*1 mesh = k*1  
+
+> s,out
+
++ k*1  
+
+> s,in
+
++ k*1 
+
+> H
+
+Penalty contact force 
+
+fn = kmesh .* g/10˙9 + dc max.0 , *g/
+
+Tip probe detection 
+
+Ray-segment intersection 
+
+Assemble into generalized force 
+
+fgen = JT 
+
+> 0
+
+.* fnn/ + JT 
+
+> 1
+
+.fnn/
+
+Update data node cache Yes No 
+
+Figure 9: Complete FewTeeth contact solving flowchart: geometric preprocessing, four-stage search, force computation, and generalized-force assembly. Jiacheng Miao et al.: Preprint submitted to Elsevier Page 25 of 22

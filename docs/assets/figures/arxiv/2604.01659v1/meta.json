@@ -1,0 +1,134 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-001.webp",
+      "caption": "Figure 1. Shared Autonomy for Urban Navigation. We introduce AURA, a dual-system VLA for shared autonomy in urban navigation. AURA not only follows instructions but also enables human users to guide and correct a robot in real time through various visual and language instructions.",
+      "page": 1,
+      "index": 1,
+      "width": 494,
+      "height": 348
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-002.webp",
+      "caption": "Table 1. Open-loop evaluation on MM-CoS. * denotes models re-trained on our dataset.",
+      "page": 6,
+      "index": 2,
+      "width": 491,
+      "height": 259
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-003.webp",
+      "caption": "Figure 15. Prompt for generating reasoning. We expect the VLM to generate a detailed description of the robot’s behavior in the video, and to provide supervision signals (drafting and arrowing) for interpreting human instructions.",
+      "page": 15,
+      "index": 3,
+      "width": 496,
+      "height": 870
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-004.webp",
+      "caption": "Figure 14. Prompt for generating texting instructions. We expect the VLM to produce short, simple instructions that guide the robot at a high level.",
+      "page": 15,
+      "index": 4,
+      "width": 490,
+      "height": 307
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-005.webp",
+      "caption": "Figure 13. Prompt for behavior filter. We use this prompt to let the VLM determine whether the robot in the clip is interacting with objects or the environment.",
+      "page": 15,
+      "index": 5,
+      "width": 496,
+      "height": 389
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-006.webp",
+      "caption": "Figure 4. Visualization of offline inference in MM-CoS. We illustrate three types of human instructions. The green polygon denotes the future trajectories predicted by AURA.",
+      "page": 7,
+      "index": 6,
+      "width": 1022,
+      "height": 261
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-007.webp",
+      "caption": "Figure 5. Human Cost Evaluation in Pseudo-simulation. We compare the human intervention cost of our model against prior methods [35, 40], as well as across different modes of instruction guidance within our own framework.",
+      "page": 7,
+      "index": 7,
+      "width": 496,
+      "height": 248
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-008.webp",
+      "caption": "Figure 12. Auto labeling pipeline. We first select interesting clips based on behavioral cues and ego state information, focusing on frames that show rich interactions with objects or the environment. We then feed the front view images with visual prompts of the projected future trajectory and the speed of each frame into the VLM to generate textual instructions. Finally, we use the projected future trajectory on the front images to derive the drafting and arrowing instructions.",
+      "page": 14,
+      "index": 8,
+      "width": 494,
+      "height": 348
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-009.webp",
+      "caption": "Figure 10. A thumbnail montage showing a subset of the MM-CoS videos collected from real world environments for shared autonomy.",
+      "page": 14,
+      "index": 9,
+      "width": 1036,
+      "height": 612
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-010.webp",
+      "caption": "Figure 8. Overview of the real-world experiment setup. Left: the robot hardware platform; Right: the teleoperation interface.",
+      "page": 13,
+      "index": 10,
+      "width": 1034,
+      "height": 390
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-011.webp",
+      "caption": "Figure 9. Data distribution of our MM-CoS dataset (50h). Behaviors are divided into six subclasses based on their outcomes and causes. Bars of the same color represent different specific actions within each subclass. The top of each bar indicates the number of occurrences of the behavior and its proportion of the total annotations.",
+      "page": 13,
+      "index": 11,
+      "width": 1022,
+      "height": 445
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-012.webp",
+      "caption": "Figure 6. Effectiveness of components on end-to-end planning.",
+      "page": 8,
+      "index": 12,
+      "width": 496,
+      "height": 269
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-013.webp",
+      "caption": "Figure 7. Visualization of the teleoperation interface in realworld experiments. For each row, the center frame corresponds to the moment of human intervention (teleoperation takeover), with the other frames showing the surrounding context. The green polygon denotes the predicted trajectories, and the red lines on both sides indicate the width of the robot.",
+      "page": 8,
+      "index": 13,
+      "width": 484,
+      "height": 444
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-014.webp",
+      "caption": "Figure 2. Overview of the AURA shared autonomy framework. (a) AURA takes front-camera RGB observations and optional human guidance (e.g., texting, drafting, or arrowing). Observations are encoded by a ViT, while human inputs are processed by the SIE and tokenized; all tokens are fused in a pretrained LLM (with LoRA adapters) to produce context features. A diffusion-based action decoder then predicts a distribution over future trajectories via anchor proposals. (b) The SIE converts drafting/arrowing inputs into instruction tokens: it renders the human input as visual prompts, encodes the control points/vectors, and fuses them with visual features to produce instruction embeddings that are injected into the LLM via ⟨instruction⟩.",
+      "page": 4,
+      "index": 14,
+      "width": 1013,
+      "height": 365
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-015.webp",
+      "caption": "Figure 18. Qualitative results in the real world. The first three rows are guided by drafting, rows 4 to 6 by arrowing, and the last three rows by texting. The first column shows human instructions, while columns 2 to 5 show the actions executed by the robot.",
+      "page": 17,
+      "index": 15,
+      "width": 973,
+      "height": 1260
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01659v1/fig-016.webp",
+      "caption": "Figure 17. Prompt for the VLM judge. The judge module is required to output only yes or no. It checks whether the predicted trajectory matches the human-intended action. If the robot’s intent diverges from the human intention, human intervention is needed. For example, the robot may take an incorrect path or make unnecessary stops.",
+      "page": 16,
+      "index": 16,
+      "width": 496,
+      "height": 460
+    }
+  ]
+}

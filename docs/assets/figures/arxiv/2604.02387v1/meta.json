@@ -1,0 +1,102 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-001.webp",
+      "caption": "Table 5 ObjectContactCurveCircles core parameters.",
+      "page": 11,
+      "index": 1,
+      "width": 640,
+      "height": 208
+    },
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-002.webp",
+      "caption": "Table 6 FewTeethAnalyticProfile key parameters.",
+      "page": 11,
+      "index": 2,
+      "width": 446,
+      "height": 277
+    },
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-003.webp",
+      "caption": "Figure 9: Complete FewTeeth contact solving flowchart: geometric preprocessing, four-stage search, force computation, and generalized-force assembly.",
+      "page": 25,
+      "index": 3,
+      "width": 748,
+      "height": 1229
+    },
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-004.webp",
+      "caption": "Figure 5: Modular assembly workflow for the reducer dynamic model.",
+      "page": 15,
+      "index": 4,
+      "width": 502,
+      "height": 494
+    },
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-005.webp",
+      "caption": "Table 10 Sensitivity of hysteresis metrics to geometric errors. Kavg is the average of positive and negative stiffness; LM is lost motion; BL is backlash.",
+      "page": 18,
+      "index": 5,
+      "width": 673,
+      "height": 335
+    },
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-006.webp",
+      "caption": "Figure 6: Five-stage quasi-static torque loading sequence for hysteresis curve extraction (Tr = 3200 N⊙m, tseg = 0.5 s).",
+      "page": 23,
+      "index": 6,
+      "width": 669,
+      "height": 336
+    },
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-007.webp",
+      "caption": "Figure 7: Hysteresis curves under varying geometric error conditions. Subplot (b) confirms that bearing clearance is the dominant driver of lost motion and backlash.",
+      "page": 23,
+      "index": 7,
+      "width": 977,
+      "height": 733
+    },
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-008.webp",
+      "caption": "Figure 4: Angular pre-screening for FewTeeth contact search: only the shaded sectors can carry load on each flank.",
+      "page": 13,
+      "index": 8,
+      "width": 415,
+      "height": 325
+    },
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-009.webp",
+      "caption": "Table 1 Comparison of different modeling frameworks for precision reducers.",
+      "page": 4,
+      "index": 9,
+      "width": 894,
+      "height": 508
+    },
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-010.webp",
+      "caption": "Table 7 FewTeeth contact data node structure.",
+      "page": 12,
+      "index": 10,
+      "width": 908,
+      "height": 278
+    },
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-011.webp",
+      "caption": "Figure 8: Transmission error characteristics under various error conditions.",
+      "page": 24,
+      "index": 11,
+      "width": 977,
+      "height": 512
+    },
+    {
+      "url": "assets/figures/arxiv/2604.02387v1/fig-012.webp",
+      "caption": "Table 3 Circle–Circle contact data node structure.",
+      "page": 9,
+      "index": 12,
+      "width": 948,
+      "height": 407
+    }
+  ]
+}

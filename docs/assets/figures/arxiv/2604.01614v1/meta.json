@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2604.01614v1/fig-001.webp",
+      "caption": "Fig. 4: Qualitative comparison of paths for the baselines across the maze and sparse environments.",
+      "page": 8,
+      "index": 1,
+      "width": 488,
+      "height": 252
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01614v1/fig-002.webp",
+      "caption": "Fig. 3: Qualitative comparison of integral curves for the baseline and proposed methods across three environments. The maximal star-shaped region is highlighted in brown. Notably, in the Bug Trap environment, Steiner points were introduced to generate closer to equilateral triangles and avoid skewed triangles.",
+      "page": 8,
+      "index": 2,
+      "width": 529,
+      "height": 852
+    },
+    {
+      "url": "assets/figures/arxiv/2604.01614v1/fig-003.webp",
+      "caption": "TABLE I: Quantitative Comparison of Methods. NG: Number of Goal Cells tested, NP : Total Integral Curves evaluated.",
+      "page": 7,
+      "index": 3,
+      "width": 525,
+      "height": 231
+    }
+  ]
+}
