@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2604.03730v1/fig-001.webp",
+      "caption": "Fig. 5. Boxplots of NASA–TLX ratings across the four visualization conditions (RGBs, PC, PC+RGB, OT). Higher values indicate higher subjective workload. Each subplot represents one workload dimension. Asterisks indicate the level of statistical significance (* p < .05, ** p < .01, *** p < .001).",
+      "page": 6,
+      "index": 1,
+      "width": 490,
+      "height": 314
+    },
+    {
+      "url": "assets/figures/arxiv/2604.03730v1/fig-002.webp",
+      "caption": "Fig. 6. Boxplots of VR usability ratings (effectiveness, efficiency, satisfaction) across the four visualization conditions (RGBs, PC, PC+RGB, OT). Asterisks denote significant pairwise differences based on Holmcorrected Wilcoxon tests (* p < .05, ** p < .01, *** p < .001).",
+      "page": 6,
+      "index": 2,
+      "width": 490,
+      "height": 314
+    },
+    {
+      "url": "assets/figures/arxiv/2604.03730v1/fig-003.webp",
+      "caption": "Fig. 7. Participants’ subjective preference rankings for the four visualization methods across all preference levels.",
+      "page": 6,
+      "index": 3,
+      "width": 468,
+      "height": 307
+    },
+    {
+      "url": "assets/figures/arxiv/2604.03730v1/fig-004.webp",
+      "caption": "Fig. 8. Task-wise performance across visualization conditions (RGBs, PC, PC+RGB, OT). Left: mean completion time for each task. Right: success rate for each task. Asterisks denote significant pairwise differences based on Holm-corrected Wilcoxon tests (* p < .05, ** p < .01, *** p < .001).",
+      "page": 7,
+      "index": 4,
+      "width": 1052,
+      "height": 291
+    },
+    {
+      "url": "assets/figures/arxiv/2604.03730v1/fig-005.webp",
+      "caption": "Fig. 1. Leader–follower teleoperation system. One Panda arm acts as the leader, physically guided in gravity-compensation mode, while the second acts as the follower in the manipulation workspace. The workspace is observed by three static RGB-D cameras (left, right, upper) and a wrist-mounted RGB-D camera. The participant wears a Meta Quest 3 headset and experiences one of the four visualization conditions (RGBs, PC, PC+RGB, OT).",
+      "page": 3,
+      "index": 5,
+      "width": 445,
+      "height": 315
+    },
+    {
+      "url": "assets/figures/arxiv/2604.03730v1/fig-006.webp",
+      "caption": "Fig. 2. Visualization modalities evaluated in our VR teleoperation study, illustrated here for the cup–insertion task. From left to right: (a) RGBs: four virtual screens showing left, right, top, and wrist RGB streams; (b) PC: semantically filtered fused point cloud rendered together with the leader arm mesh; (c) PC+RGB: the same fused point cloud augmented with a wrist–mounted RGB view rigidly attached to the end–effector. The magenta inset shows a zoomed crop of this wrist RGB stream, highlighting the available high–resolution local detail; (d) OT: ego-centric stereo view from the OpenTeleVision setup.",
+      "page": 4,
+      "index": 6,
+      "width": 1052,
+      "height": 277
+    },
+    {
+      "url": "assets/figures/arxiv/2604.03730v1/fig-007.webp",
+      "caption": "Fig. 3. An overview of the study procedure, highlighting the elements of data collection and randomization of both the displayed visualization modalities and the manipulation tasks.",
+      "page": 4,
+      "index": 7,
+      "width": 518,
+      "height": 256
+    },
+    {
+      "url": "assets/figures/arxiv/2604.03730v1/fig-008.webp",
+      "caption": "Fig. 4. The three manipulation tasks used in the study, shown as start (top), intermediate (middle), and goal (bottom) states: (a) two sequential cup insertions with occluding obstacles, (b) T-shape stacking/assembly, and (c) wire-loop placement around an L-shaped stand.",
+      "page": 5,
+      "index": 8,
+      "width": 512,
+      "height": 387
+    }
+  ]
+}
