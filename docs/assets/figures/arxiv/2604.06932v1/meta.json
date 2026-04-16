@@ -1,0 +1,118 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-001.webp",
+      "caption": "Fig. 3 Schematic diagram of the FC constraint and force analysis of object A.",
+      "page": 6,
+      "index": 1,
+      "width": 869,
+      "height": 420
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-002.webp",
+      "caption": "Fig. 7 The control block diagram of the trajectory smoother.",
+      "page": 11,
+      "index": 2,
+      "width": 852,
+      "height": 292
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-003.webp",
+      "caption": "Fig. 14 Experimental results for four control configurations. (a) Sliding distance distributions for individual objects in experiments F4 and FSC4. (b) Sliding distance distributions for individual objects in experiments F9 and FSC9. (c) Dynamic constraint profiles for experiments FSC4 and FSC9 during 10-20 s interval using a representative input. (d, e) Output orientation trajectories for experiments F4 and FSC4 during 10-20 s interval using the same input trajectory as (c).",
+      "page": 21,
+      "index": 3,
+      "width": 908,
+      "height": 471
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-004.webp",
+      "caption": "Fig. 4 Schematic diagram of ZMP constraint and force analysis of object A.",
+      "page": 7,
+      "index": 4,
+      "width": 404,
+      "height": 390
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-005.webp",
+      "caption": "Fig. 6 Teleoperation control framework.",
+      "page": 10,
+      "index": 5,
+      "width": 869,
+      "height": 214
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-006.webp",
+      "caption": "Table 1 Height, offset distance, friction coefficient and numbering of experimental objects",
+      "page": 14,
+      "index": 6,
+      "width": 824,
+      "height": 298
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-007.webp",
+      "caption": "Fig. 1 Multi-Object nonprehensile transportation through VO-MPC architecture. A video of our experiments is available at https://youtu.be/NsWn40RT-I0.",
+      "page": 3,
+      "index": 7,
+      "width": 548,
+      "height": 438
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-008.webp",
+      "caption": "Table 2 Detailed experimental design",
+      "page": 18,
+      "index": 8,
+      "width": 825,
+      "height": 225
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-009.webp",
+      "caption": "Fig. 11 Schematic diagram of the experimental scenario. The master device operated by the user is a CyberSystem hand controller, and the user’s displacement is scaled by a factor of 2 and mapped to the slave robot’s workspace. Objects on the tray have target markers affixed to their tops. The top left corner shows the camera’s field of view mounted on the tray, which detects the sliding displacement of the objects.",
+      "page": 18,
+      "index": 9,
+      "width": 533,
+      "height": 288
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-010.webp",
+      "caption": "Fig. 8 Simulation Configuration: A manipulator end-effector equipped with a tray transports 18 distinct objects. The system executes predefined trajectory inputs through manipulator controllers while detecting constraint violations related to ZMP and FC conditions.",
+      "page": 13,
+      "index": 10,
+      "width": 546,
+      "height": 466
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-011.webp",
+      "caption": "Fig. 5 Multi-object dynamic constraint analysis. Black dashed boxes denote the original object",
+      "page": 8,
+      "index": 11,
+      "width": 494,
+      "height": 258
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-012.webp",
+      "caption": "Fig. 2 Friction-free orientation illustration.",
+      "page": 5,
+      "index": 12,
+      "width": 460,
+      "height": 273
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-013.webp",
+      "caption": "Fig. 9 Simulation results. (a) and (c) represent experimental object max objS and max objB under F-mode, respectively. (b) and (d) represent experimental object max",
+      "page": 16,
+      "index": 13,
+      "width": 671,
+      "height": 515
+    },
+    {
+      "url": "assets/figures/arxiv/2604.06932v1/fig-014.webp",
+      "caption": "Fig. 10 Trajectory tracking errors for both control modes.",
+      "page": 16,
+      "index": 14,
+      "width": 525,
+      "height": 277
+    }
+  ]
+}
