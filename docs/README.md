@@ -6,100 +6,85 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-17
-- 运行时间：2026-04-17 19:50:26 UTC
+- 最新运行日期：2026-04-18
+- 运行时间：2026-04-18 20:07:13 UTC
 - 运行状态：成功
-- 本次总论文数：26
-- 精读区：15
+- 本次总论文数：21
+- 精读区：10
 - 速读区：11
 
 ### 今日简报（AI）
-今日深挖 26 篇机器人前沿论文，人形机器人全身操控（Whole-Body Manipulation）迎来双满分突破。
-重点关注 HEX 的跨构型专家对齐与 CLAW 的语言驱动动作生成，标志着通用机器人控制迈向新高度。
-建议优先研读人形机器人如何结合主动视觉与语言指令，实现更灵活的动态移动操控。
-- 详情：[/202604/17/README](/202604/17/README)
+今日精选 21 篇前沿成果，重点攻克了全身动作生成与机器人灵巧操作的核心难题。
+满分论文 CLAW 实现了可组合的语言标注全身动作生成，而四足机器人协作运输与多触觉感知重建则在交互领域取得显著进展。
+建议优先研读 CLAW 框架以掌握最新的动作合成技术，并参考灵巧手基准测试评估相关硬件性能。
+- 详情：[/202604/18/README](/202604/18/README)
 
 ### 精读区论文标签
-1. [HEX: Humanoid-Aligned Experts for Cross-Embodiment Whole-Body Manipulation](/202604/17/2604.07993v1-hex-humanoid-aligned-experts-for-cross-embodiment-whole-body-manipulation)  
+1. [CLAW: Composable Language-Annotated Whole-body Motion Generation](/202604/18/2604.11251v1-claw-composable-language-annotated-whole-body-motion-generation)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：双足人形机器人协调全身操作的状态中心框架
-2. [CLAW: Composable Language-Annotated Whole-body Motion Generation](/202604/17/2604.11251v1-claw-composable-language-annotated-whole-body-motion-generation)  
+   evidence：宇树G1人形机器人的语言标注全身运动
+2. [CLAW: Composable Language-Annotated Whole-body Motion Generation](/202604/18/2604.11251v2-claw-composable-language-annotated-whole-body-motion-generation)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：针对宇树G1人形机器人的语言标注全身运动生成
-3. [CLAW: Composable Language-Annotated Whole-body Motion Generation](/202604/17/2604.11251v2-claw-composable-language-annotated-whole-body-motion-generation)  
+   evidence：宇树G1人形机器人的全身运动生成
+3. [Safe Human-to-Humanoid Motion Imitation Using Control Barrier Functions](/202604/18/2604.11447v1-safe-human-to-humanoid-motion-imitation-using-control-barrier-functions)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：针对宇树G1人形机器人的语言标注全身运动生成
-4. [Safe Human-to-Humanoid Motion Imitation Using Control Barrier Functions](/202604/17/2604.11447v1-safe-human-to-humanoid-motion-imitation-using-control-barrier-functions)  
+   evidence：使用控制屏障函数实现安全的人到人形机器人动作模仿
+4. [Tree Learning: A Multi-Skill Continual Learning Framework for Humanoid Robots](/202604/18/2604.12909v1-tree-learning-a-multi-skill-continual-learning-framework-for-humanoid-robots)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：人到人形机器人的运动模仿与避障控制
-5. [Scalable Trajectory Generation for Whole-Body Mobile Manipulation](/202604/17/2604.12565v1-scalable-trajectory-generation-for-whole-body-mobile-manipulation)  
+   evidence：人形机器人的多技能持续学习框架
+5. [Learning Versatile Humanoid Manipulation with Touch Dreaming](/202604/18/2604.13015v1-learning-versatile-humanoid-manipulation-with-touch-dreaming)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：非结构化环境下全身移动操作的大规模轨迹生成
-6. [Tree Learning: A Multi-Skill Continual Learning Framework for Humanoid Robots](/202604/17/2604.12909v1-tree-learning-a-multi-skill-continual-learning-framework-for-humanoid-robots)  
+   evidence：基于强化学习的人形机器人全身控制，用于移动操作和触觉感知
+6. [Vectorizing Projection in Manifold-Constrained Motion Planning for Real-Time Whole-Body Control](/202604/18/2604.13323v1-vectorizing-projection-in-manifold-constrained-motion-planning-for-real-time-whole-body-control)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：人形机器人的多技能持续学习
-7. [Learning Versatile Humanoid Manipulation with Touch Dreaming](/202604/17/2604.13015v1-learning-versatile-humanoid-manipulation-with-touch-dreaming)  
+   evidence：利用SIMD加速规划实现人形机器人的实时全身控制
+7. [Switch: Learning Agile Skills Switching for Humanoid Robots](/202604/18/2604.14834v1-switch-learning-agile-skills-switching-for-humanoid-robots)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：基于强化学习的人形机器人全身控制，用于移动操作和接触感知
-8. [Vectorizing Projection in Manifold-Constrained Motion Planning for Real-Time Whole-Body Control](/202604/17/2604.13323v1-vectorizing-projection-in-manifold-constrained-motion-planning-for-real-time-whole-body-control)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：人形机器人的实时全身控制与流形约束运动规划
-9. [Switch: Learning Agile Skills Switching for Humanoid Robots](/202604/17/2604.14834v1-switch-learning-agile-skills-switching-for-humanoid-robots)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：人形机器人的全身控制与技能切换
-10. [Visually-grounded Humanoid Agents](/202604/17/2604.08509v1-visually-grounded-humanoid-agents)  
+   evidence：人形机器人的全身控制与敏捷技能切换
+8. [Learning to Forget -- Hierarchical Episodic Memory for Lifelong Robot Deployment](/202604/18/2604.11306v1-learning-to-forget----hierarchical-episodic-memory-for-lifelong-robot-deployment)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：在3D场景中像真人一样感知和行动的视觉驱动人形智能体
-11. [LEGO: Latent-space Exploration for Geometry-aware Optimization of Humanoid Kinematic Design](/202604/17/2604.08636v1-lego-latent-space-exploration-for-geometry-aware-optimization-of-humanoid-kinematic-design)  
+   evidence：人形机器人终身部署的分层情节记忆
+9. [Asymptotically Stable Gait Generation and Instantaneous Walkability Determination for Planar Almost Linear Biped with Knees](/202604/18/2604.12274v1-asymptotically-stable-gait-generation-and-instantaneous-walkability-determination-for-planar-almost-linear-biped-with-knees)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：人形机器人运动学设计优化与运动重定向
-12. [Learning to Forget -- Hierarchical Episodic Memory for Lifelong Robot Deployment](/202604/17/2604.11306v1-learning-to-forget----hierarchical-episodic-memory-for-lifelong-robot-deployment)  
+   evidence：双足机器人的渐近稳定步态生成
+10. [Model-Based Reinforcement Learning Exploits Passive Body Dynamics for High-Performance Biped Robot Locomotion](/202604/18/2604.14565v1-model-based-reinforcement-learning-exploits-passive-body-dynamics-for-high-performance-biped-robot-locomotion)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：使人形机器人能够通过多模态感知和交互学习情境记忆的框架
-13. [Whole-Body Mobile Manipulation using Offline Reinforcement Learning on Sub-optimal Controllers](/202604/17/2604.12509v1-whole-body-mobile-manipulation-using-offline-reinforcement-learning-on-sub-optimal-controllers)  
-   标签：评分：9.0/10、query:hr-rob
-   evidence：利用离线强化学习和全身控制器实现底盘与手臂的全身协同
-14. [FastGrasp: Learning-based Whole-body Control method for Fast Dexterous Grasping with Mobile Manipulators](/202604/17/2604.12879v1-fastgrasp-learning-based-whole-body-control-method-for-fast-dexterous-grasping-with-mobile-manipulators)  
-   标签：评分：9.0/10、query:hr-rob
-   evidence：集成全身控制与触觉反馈的移动抓取
-15. [Model-Based Reinforcement Learning Exploits Passive Body Dynamics for High-Performance Biped Robot Locomotion](/202604/17/2604.14565v1-model-based-reinforcement-learning-exploits-passive-body-dynamics-for-high-performance-biped-robot-locomotion)  
-   标签：评分：9.0/10、query:hr-rob
-   evidence：基于模型强化学习和被动动力学的双足机器人运动控制
+   evidence：基于模型强化学习的双足机器人运动控制
 
 ### 速读区论文标签
-1. [Sumo: Dynamic and Generalizable Whole-Body Loco-Manipulation](/202604/17/2604.08508v1-sumo-dynamic-and-generalizable-whole-body-loco-manipulation)  
+1. [PAINT: Partner-Agnostic Intent-Aware Cooperative Transport with Legged Robots](/202604/18/2604.12852v1-paint-partner-agnostic-intent-aware-cooperative-transport-with-legged-robots)  
+   标签：评分：8.5/10、query:hr-rob
+   evidence：足式机器人运输中的协调运动与操作
+2. [Physically Grounded 3D Generative Reconstruction under Hand Occlusion using Proprioception and Multi-Contact Touch](/202604/18/2604.09100v1-physically-grounded-3d-generative-reconstruction-under-hand-occlusion-using-proprioception-and-multi-contact-touch)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：足式机器人的全身移动操作
-2. [Sumo: Dynamic and Generalizable Whole-Body Loco-Manipulation](/202604/17/2604.08508v2-sumo-dynamic-and-generalizable-whole-body-loco-manipulation)  
+   evidence：结合本体感受和触觉的多模态三维重建用于操作
+3. [A Benchmark of Dexterity for Anthropomorphic Robotic Hands](/202604/18/2604.09294v1-a-benchmark-of-dexterity-for-anthropomorphic-robotic-hands)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：足式机器人的全身移动操作
-3. [ActiveGlasses: Learning Manipulation with Active Vision from Ego-centric Human Demonstration](/202604/17/2604.08534v1-activeglasses-learning-manipulation-with-active-vision-from-ego-centric-human-demonstration)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：从第一人称人类演示中学习带有主动视觉的操作
-4. [DINO_4D: Semantic-Aware 4D Reconstruction](/202604/17/2604.09877v1-dino4d-semantic-aware-4d-reconstruction)  
+   evidence：类人机器人手的灵巧性基准
+4. [DINO_4D: Semantic-Aware 4D Reconstruction](/202604/18/2604.09877v1-dino4d-semantic-aware-4d-reconstruction)  
    标签：评分：8.0/10、query:hr-rob
    evidence：用于机器人感知的语义感知4D重建
-5. [Safe Large-Scale Robust Nonlinear MPC in Milliseconds via Reachability-Constrained System Level Synthesis on the GPU](/202604/17/2604.07644v1-safe-large-scale-robust-nonlinear-mpc-in-milliseconds-via-reachability-constrained-system-level-synthesis-on-the-gpu)  
+5. [Simulator Adaptation for Sim-to-Real Learning of Legged Locomotion via Proprioceptive Distribution Matching](/202604/18/2604.11090v1-simulator-adaptation-for-sim-to-real-learning-of-legged-locomotion-via-proprioceptive-distribution-matching)  
+   标签：评分：7.5/10、query:hr-rob
+   evidence：足式机器人运动动力学的仿真到现实学习
+6. [XRZero-G0: Pushing the Frontier of Dexterous Robotic Manipulation with Interfaces, Quality and Ratios](/202604/18/2604.13001v1-xrzero-g0-pushing-the-frontier-of-dexterous-robotic-manipulation-with-interfaces-quality-and-ratios)  
+   标签：评分：7.5/10、query:hr-rob
+   evidence：灵巧机器人操作与具身数据采集
+7. [TAIHRI: Task-Aware 3D Human Keypoints Localization for Close-Range Human-Robot Interaction](/202604/18/2604.08921v1-taihri-task-aware-3d-human-keypoints-localization-for-close-range-human-robot-interaction)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于高维机器人系统的GPU并行非线性模型预测控制
-6. [ViVa: A Video-Generative Value Model for Robot Reinforcement Learning](/202604/17/2604.08168v1-viva-a-video-generative-value-model-for-robot-reinforcement-learning)  
+   evidence：用于近距离人机交互感知的视觉语言模型
+8. [TouchAnything: Diffusion-Guided 3D Reconstruction from Sparse Robot Touches](/202604/18/2604.08945v1-touchanything-diffusion-guided-3d-reconstruction-from-sparse-robot-touches)  
    标签：评分：7.0/10、query:hr-rob
-   evidence：用于机器人操作和强化学习的视频生成价值模型
-7. [HiRO-Nav: Hybrid ReasOning Enables Efficient Embodied Navigation](/202604/17/2604.08232v1-hiro-nav-hybrid-reasoning-enables-efficient-embodied-navigation)  
-   标签：评分：7.0/10、query:hr-rob
-   evidence：处理复杂多模态环境输入和锚定推理的具身导航智能体
-8. [BLaDA: Bridging Language to Functional Dexterous Actions within 3DGS Fields](/202604/17/2604.08410v1-blada-bridging-language-to-functional-dexterous-actions-within-3dgs-fields)  
-   标签：评分：7.0/10、query:hr-rob
-   evidence：非结构化环境下3DGS场内的功能性灵巧抓取
-9. [Spatio-Temporal Grounding of Large Language Models from Perception Streams](/202604/17/2604.07592v1-spatio-temporal-grounding-of-large-language-models-from-perception-streams)  
+   evidence：基于稀疏机器人触觉的3D重建，用于操作任务
+9. [RoboLab: A High-Fidelity Simulation Benchmark for Analysis of Task Generalist Policies](/202604/18/2604.09860v2-robolab-a-high-fidelity-simulation-benchmark-for-analysis-of-task-generalist-policies)  
+   标签：评分：6.5/10、query:hr-rob
+   evidence：通用机器人策略的仿真基准测试
+10. [AssemLM: Spatial Reasoning Multimodal Large Language Models for Robotic Assembly](/202604/18/2604.08983v1-assemlm-spatial-reasoning-multimodal-large-language-models-for-robotic-assembly)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：具身智能体从感知流中进行时空定位
-10. [EgoVerse: An Egocentric Human Dataset for Robot Learning from Around the World](/202604/17/2604.07607v1-egoverse-an-egocentric-human-dataset-for-robot-learning-from-around-the-world)  
+   evidence：机器人装配中的空间推理与3D几何
+11. [V-CAGE: Vision-Closed-Loop Agentic Generation Engine for Robotic Manipulation](/202604/18/2604.09036v1-v-cage-vision-closed-loop-agentic-generation-engine-for-robotic-manipulation)  
    标签：评分：6.0/10、query:hr-rob
-   evidence：用于机器人学习操作任务的大规模第一视角人类数据集
-11. [Vision-Language Navigation for Aerial Robots: Towards the Era of Large Language Models](/202604/17/2604.07705v1-vision-language-navigation-for-aerial-robots-towards-the-era-of-large-language-models)  
-   标签：评分：6.0/10、query:hr-rob
-   evidence：关于机器人视觉语言导航的综述，将语言锚定在视觉感知中
+   evidence：自主机器人数据合成的智能体框架
 
 
 <div class="dpr-home-promo-card">
