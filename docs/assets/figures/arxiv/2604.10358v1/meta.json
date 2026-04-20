@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2604.10358v1/fig-001.webp",
+      "caption": "Fig. 1: Visualization of the NLF-based human mesh recovery [11] (left) and human collision capsules (rendered as cylinders only visually) and output of the inverse kinematics pipeline used to position collision primitives (right).",
+      "page": 1,
+      "index": 1,
+      "width": 512,
+      "height": 274
+    },
+    {
+      "url": "assets/figures/arxiv/2604.10358v1/fig-002.webp",
+      "caption": "Fig. 4: Five tasks used to assess COSMIK-MPPI safety and robustness for collision avoidance with with human. a) Static environment during baseline pick-and-place. b) Physical perturbations and compliance. c) Human-aware collision avoidance. d) Concurrent human activity. e) Highly constrained human–robot interaction.",
+      "page": 7,
+      "index": 2,
+      "width": 728,
+      "height": 427
+    },
+    {
+      "url": "assets/figures/arxiv/2604.10358v1/fig-003.webp",
+      "caption": "Fig. 5: Analysis of the minimum collision distance between the robot and the environment and the human with the Cartesian end-effector velocity during scenario 5.",
+      "page": 7,
+      "index": 3,
+      "width": 396,
+      "height": 397
+    }
+  ]
+}
