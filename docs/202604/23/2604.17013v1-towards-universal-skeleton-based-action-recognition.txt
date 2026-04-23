@@ -1,0 +1,964 @@
+Title: Towards Universal Skeleton-Based Action Recognition
+
+URL Source: https://arxiv.org/pdf/2604.17013v1
+
+Published Time: Tue, 21 Apr 2026 00:48:20 GMT
+
+Number of Pages: 17
+
+Markdown Content:
+# Towards Universal Skeleton-Based Action Recognition 
+
+## Jidong Kuang 1 Hongsong Wang 2 Jie Gui 11School of Cyber Science and Engineering, Southeast University, Nanjing, China 
+
+2School of Computer Science and Engineering, Southeast University, Nanjing, China 
+
+## Abstract 
+
+With the development of robotics, skeleton-based action recognition has become increasingly important, as human-robot interaction requires understanding the actions of hu-mans and humanoid robots. Due to different sources of human skeletons and structures of humanoid robots, skele-ton data naturally exhibit heterogeneity. However, pre-vious works overlook the data heterogeneity of skeletons and solely construct models using homogeneous skeletons. Moreover, open-vocabulary action recognition is also es-sential for real-world applications. To this end, this work studies the challenging problem of heterogeneous skeleton-based action recognition with open vocabularies. We construct a large-scale Heterogeneous Open-Vocabulary (HOV) Skeleton dataset by integrating and refining multiple representative large-scale skeleton-based action datasets. To address universal skeleton-based action recognition, we propose a Transformer-based model that comprises three key components: unified skeleton representation, motion encoder for skeletons, and multi-grained motion-text align-ment. The motion encoder feeds multi-modal skeleton em-beddings into a two-stream Transformer-based encoder to learn spatio-temporal action representations, which are then mapped to a semantic space to align with text embed-dings. Multi-grained motion-text alignment incorporates contrastive learning at three levels: global instance align-ment, stream-specific alignment, and fine-grained align-ment. Extensive experiments on popular benchmarks with heterogeneous skeleton data demonstrate both the effec-tiveness and the generalization ability of the proposed method. Code is available at https://github.com/ jidongkuang/Universal-Skeleton .
+
+## 1. Introduction 
+
+With the development of robotics and embodied intelli-gence, action recognition has become increasingly crucial. Action recognition enhances human-robot interaction, al-lowing robots to understand human gestures, postures, and Head                   
+
+> Neck
+> Spine3
+> Spine1
+> Pelvis
+> L_shoulder
+> L_elbow
+> L_wrist
+> L_hand
+> L_tip
+> L_thumb
+> R_shoulder
+> R_elbow
+> R_wrist
+> R_hand R_thumb
+> R_tip
+> L_hip
+> L_knee
+> R_knee
+> L_ankle R_ankle
+> L_foot R_ foot
+> R_hip 1
+> 2
+> 3
+> 4
+> 21 5
+> 6
+> 7
+> 8
+> 22
+> 23
+> 9
+> 10
+> 11
+> 12 25
+> 24
+> 13 17
+> 18
+> 19
+> 20
+> 14
+> 15 16
+> L_shoulder
+> L_elbow
+> L_wrist
+> R_shoulder
+> R_elbow
+> R_wrist
+> L_hip
+> L_knee
+> R_knee
+> L_ankle R_ankle
+> R_hip
+> nose
+> L_eye R_eye
+> L_ear
+> R_ear
+> 6
+> 8
+> 10
+> 7
+> 9
+> 11
+> 12 13
+> 15
+> 17
+> 14
+> 16
+> 1
+> 23
+> 45
+> Head
+> Spine3
+> Spine1
+> Pelvis
+> L_shoulder
+> L_elbow
+> L_wrist
+> L_hand
+> R_shoulder
+> R_elbow
+> R_wrist
+> R_hand
+> R_thumb
+> L_hip
+> L_knee R_knee
+> L_ankle R_ankle
+> L_foot R_ foot
+> R_hip 1
+> 2
+> 4
+> 39
+> 10
+> 5
+> 6
+> 7
+> 817 13
+> 14
+> 15
+> 16
+> 18
+> 19 20
+> 11
+> 12
+> Head
+> Neck
+> Spine3
+> Spine1
+> Pelvis
+> L_shoulder
+> L_elbow
+> L_wrist
+> L_hand
+> R_shoulder
+> R_elbow
+> R_wrist
+> R_hand L_hip
+> L_knee
+> R_knee
+> L_ankle R_ankle
+> L_foot R_ foot
+> R_hip 1
+> 4
+> 13
+> 10 14
+> 18
+> 20
+> 22 23
+> 6
+> 9
+> 12
+> 5
+> 811
+> Spine2 7
+> 15
+> 16
+> 17
+> 19
+> 21
+> (a) Kinect v1 (b) Kinect v2 (c) 2D pose estimation (d) MoCap
+
+Figure 1. Comparison of heterogeneous skeletons from various common sources, illustrating differences in joint count and struc-ture. (a) Kinect v1 (20 joints), (b) Kinect v2 (25 joints), (c) 2D pose estimation output (e.g., 17 joints), (d) MoCap data adhering to a model like SMPL (e.g., 22 joints). 
+
+intentions. It also boosts the agent’s adaptability to diverse scenarios, and promotes their intelligence by enabling them to analyze human behaviors and make autonomous deci-sions. Action recognition also holds a significant role in other fields such as medical rehabilitation, healthcare, smart homes, intelligent education and intelligent sports. Skeletons are a prevalent modality in action recognition tasks. In contrast to alternative modalities like video se-quences and depth maps, skeletons focus on essential joint positions, offering high abstraction. This results in low-complexity data, reducing computational burden. Another key advantage is their robustness. Unlike video and depth map data, which can be degraded by lighting changes, oc-clusions, or background clutter, skeleton data remains re-liable. Moreover, the inherent alignment of skeleton data with human kinematics facilitates a more precise represen-tation of motion. These characteristics make skeletons an ideal choice for action recognition. Although deep learning methods have advanced rapidly in skeleton-based human action recognition, these meth-ods primarily focus on proposing different network archi-tectures for single homogeneous data. Based on different types of neural networks, they can be broadly classified into three categories: Recurrent Neural Networks (RNNs)-based methods [13, 52, 53], Graph Convolutional Networks (GCNs)-based methods [63, 68], and Transformers-based methods [86]. These methods overlook the data hetero-1
+
+> arXiv:2604.17013v1 [cs.CV] 18 Apr 2026
+
+geneity of skeletons, which arises from a multitude of mo-tion capture technologies, mountable sensors, and pose es-timation algorithms used in data collection. These diverse sources yield skeleton data with varying numbers of joints, disparate skeletal topologies, and different coordinate di-mensionalities. As shown in Figure 1, the Kinect v2 depth sensor captures 25 3D joints, while 2D pose estimation algorithms applied to RGB videos typically yield 17 2D joints. Additionally, motion capture (MoCap) systems fol-lowing biomechanical models such as SMPL [40] produce skeletons with 22 3D joints. Consequently, models trained on data from one specific source cannot directly be ap-plied to skeletons with different structural properties and may exhibit poor generalization. While motion retarget-ing techniques [2, 76, 85] might convert one skeleton to another with different joints, this approach is indirect and often introduces motion artifacts, which hinder representa-tion learning for action recognition. Moreover, most existing action recognition paradigms are designed under the closed-set assumption. Although self-supervised skeleton-based action recognition [24, 51, 74] and zero-shot skeleton-based action recognition [81, 83] can be applied in open-set scenarios, the former requires an additional fine-tuning step, while the latter is restricted to a limited number of unseen classes. Large-scale skeleton-based action recognition with open vocabularies that go be-yond explicitly trained categories is an important problem that needs to be solved. However, in realistic applications, data heterogeneity further complicates the goal of achiev-ing all-in-one skeleton-based action recognition. In such a case, the open-vocabulary system must generalize not only to novel semantic concepts but also to the diverse and het-erogeneous skeletal data associated with them. To address this unified challenge, this work studies het-erogeneous skeleton-based action recognition with open vo-cabularies. The objective is to design a unified action recog-nition model capable of coping with heterogeneous skele-tons under an open-set setting. To address this task, we in-troduce the Heterogeneous Open-Vocabulary (HOV) Skele-ton dataset, which integrates several representative large-scale heterogeneous skeleton-based action datasets. Among them, we establish a new multi-label classification bench-mark on HumanML3D to advance action recognition on MoCap data. We propose a Transformer-based architec-ture that enables unified representation learning across di-verse heterogeneous skeleton data through multi-grained motion-text alignment. This alignment strategy based on contrastive learning incorporates three levels: global in-stance alignment, stream-specific alignment (SSA), and fine-grained alignment (FGA). By capturing information at multiple granularities, our approach enhances the recog-nition of rare actions, thereby promoting robust heteroge-neous skeleton recognition in open-vocabulary scenarios. Our contributions can be summarized as follows: • We study the problem of universal skeleton-based ac-tion recognition, which jointly addresses the critical chal-lenges of data heterogeneity and open vocabularies. • We introduce the large-scale HOV Skeleton dataset to ac-commodate the task of heterogeneous skeleton-based ac-tion recognition with open vocabularies. • We propose a Transformer-based architecture with multi-grained motion-text alignment for all-in-one skeleton-based action recognition. 
+
+## 2. Related Work 
+
+3D Action Representation Learning : 3D action repre-sentation learning primarily relies on the self-supervised pre-trained paradigm and is applied to various downstream tasks. In early studies [7, 43, 56, 67], researchers com-monly employ encoder-decoder architectures to design self-supervised learning objectives. Contrastive learning cur-rently dominates as the mainstream paradigm for self-supervised action representation learning [21, 26, 36, 61]. Su et al. [50] establish a contrastive learning framework built upon motion consistency and temporal continuity. Lin et al. [37] enforce feature space consistency through an idempotent generative model (IGM). Abdelfattah et al. [1] enhance robustness via an Attention-Guided Probabilistic Masking strategy. Emerging techniques further push the boundaries of performance. Gong et al. [20] demonstrate the superiority of hybrid strategies by integrating masked joint reconstruction with contrastive objectives. However, existing skeleton representation methods are constrained by specific data topologies, lacking a topology-independent mechanism for generalizable representation. 
+
+Zero-Shot Skeleton-Based Action Recognition : Zero-shot skeleton-based action recognition (ZSAR) classifies unseen action categories by establishing visual-semantic space alignment [9, 12, 34, 62, 84]. Early approaches em-ploy basic semantic constraints to build cross-modal asso-ciations. Gupta et al. [25] align skeleton sequences with linguistic descriptions through Parts of Speech (PoS) tag-ging mechanisms. Zhou et al. [81] establish global visual-semantic distribution alignment by introducing mutual in-formation estimation and maximization. The advent of Large Language Models (LLMs) drives semantic enhance-ment strategies to the forefront. Zhu et al. [83] leverage LLMs to generate fine-grained motion descriptions, achiev-ing local and global alignment through adaptive joint fea-ture grouping. Chen et al. [8] improve the discriminability of high-similarity action categories via visual-attribute and semantic-part prompts. Xu et al. [65] generate a large num-ber of descriptive texts to enrich semantic information and strengthen the compactness of the visual-semantic space. Sinha et al. [48] distill skeleton information into Vision Language Models (VLMs) and perform zero-shot recogni-2tion using the RGB modality during inference. However, most of these methods heavily rely on pre-trained skele-ton encoders [6, 10, 68], resulting in a disconnect between feature extraction and cross-modal alignment. This limita-tion fundamentally restricts cross-dataset transfer capabili-ties, particularly when handling heterogeneous skeletons. 
+
+Unified Skeleton-Based Action Recognition : Unified skeleton-based action recognition aims to employ a sin-gle model to handle diverse action recognition scenarios. Only a few works have addressed this challenging prob-lem, which can be categorized into three types: skeleton unification, domain unification, and semantic unification. We briefly review works of the first two types, where se-mantic unification corresponds to open-vocabulary or zero-shot settings, which has already been reviewed above. For skeleton unification, UPS [16] represents both pose coor-dinates and action labels as language sequences. Wang et al. [54] explore heterogeneous skeleton data to enhance ac-tion representations. For domain unification, LLM-AR [45] projects skeleton sequences into tokens and leverages large language models for recognition. Furthermore, UNIK [69] achieves cross-domain generalization by learning depen-dency matrices via multi-head attention. To address multi-participant scenarios [58, 59], SkeleTR [15] adopts a two-stage paradigm that integrates graph convolutional net-works with Transformers. Despite these advances toward unified modeling, existing frameworks remain limited in handling single-person action recognition under all condi-tions. To bridge this gap, we propose a source-agnostic model capable of recognizing open-set actions. 
+
+## 3. HOV Skeleton Dataset 
+
+Existing works of skeleton-based action recognition fo-cus on closed-set categories with a specifically defined ho-mogeneous skeleton, and struggle to handle diverse ac-tions across varying scenarios. To address these limita-tions, we introduce the Heterogeneous Open-Vocabulary (HOV) Skeleton dataset by integrating multiple representa-tive large-scale skeleton-based action datasets, and further refine them to fit the demands of our task. In comparison to existing datasets, the HOV Skeleton dataset offers two dis-tinctive characteristics: heterogeneous skeletons and open vocabularies. Details about this dataset are outlined below. 
+
+3.1. Heterogeneous Skeletons 
+
+Human skeleton data acquired from different sources ex-hibit inherent structural heterogeneity. This variability man-ifests in the number of joints, topology, and dimensionality. For example, early depth sensors like Kinect v1 typically provide 20 3D joints, while its successor Kinect v2 captures 25 3D joints. In contrast, 2D pose estimation from RGB videos commonly yields 17 2D joints [14]. Motion capture (MoCap) systems may follow biomechanical models such Head       
+
+> Spine
+> 1
+> 3
+> 21 5
+> 6
+> 7
+> 8
+> 22
+> 23
+> 9
+> 10
+> 11
+> 12 25
+> 24
+> 13 17
+> 18
+> 19 20
+> 14
+> 15 16
+> 2
+> 26
+> 4
+> 27 28
+> 29 30
+> 31
+> Left Arm Right Arm
+> Left Leg Right Leg
+
+(a) 3500             
+
+> 3000
+> 2500
+> 2000
+> 1500
+> 1000
+> 500
+> 0050 100 150 200 250 300 350 400
+> HEAD
+> Few-shot
+> Label Index
+> Number of Samples
+> Medium LONG TAIL
+> Many-shot Medium-shot
+
+(b) 
+
+Figure 2. Characteristics of skeleton structure and sample distri-bution of the HOV Skeleton dataset: (a) Definition of the human skeleton with joint numbering for the HOV Skeleton dataset. (b) Long-tailed distribution of action categories in the HumanML3D. The three tasks are many-shot, medium-shot, and few-shot action recognition, respectively. 
+
+as SMPL [40], which comprise around 22 3D joints. This inherent heterogeneity highlights the need for a unified in-put processing strategy to facilitate cross-dataset learning. To address the problem of heterogeneous skeletons, the HOV Skeleton integrates several representative heteroge-neous skeleton datasets, including NW-UCLA [55], 3D and 2D versions of NTU-60 [47] and NTU-120 [39], and Hu-manML3D [23]. For the HOV Skeleton dataset, human joint numbers are shown in Figure 2(a). However, as Hu-manML3D is a large-scale dataset primarily designed for motion synthesis, its original data and annotations are not directly applicable to action recognition. Therefore, we conduct relevant manual processing for this dataset, and the detailed process is presented in the subsequent descriptions. 
+
+3.2. Open-Vocabulary Recognition 
+
+Open-vocabulary action recognition enables models to rec-ognize novel action categories. Advancing this field re-quires both large-scale datasets covering diverse actions and realistic complexity, including data heterogeneity. How-ever, there is a lack of a suitable large-scale benchmark for open-vocabulary skeleton-based action recognition. Since the original annotations contain multiple sub-actions within a single motion sequence, in order to adapt them to the task of action recognition, we manually pro-cess these annotations and then establish a novel multi-label classification benchmark on HumanML3D. By leveraging the rich motion data of HumanML3D, we aim to facilitate action recognition on the MoCap data. The construction process of the benchmark involves several key steps: 
+
+Description-to-Label Conversion : Leverage LLMs to ex-tract core action verbs from text descriptions following [3]. For example, “a man squats extraordinarily low then bolts up in an unsatisfactory jump” is converted to “squat and jump,” and then tokenized into a label list: [‘squat’, ‘jump’]. Each description undergoes this process, resulting in 3 to 4 preliminary action labels per sequence. 
+
+Label Space Clustering : We collect all unique action to-3kens across the dataset, yielding an initial label space of 8,801 classes. However, this label space suffers from se-mantic redundancy (e.g., “walk”, “walks”, “walking”) and an extreme long-tailed distribution. To mitigate these is-sues, we apply the Balanced K-Means algorithm to clus-ter the original labels into 400 semantically coherent cate-gories. This step merges rare and semantically similar cat-egories into a more compact and balanced label set. The final multi-label annotation for each sequence is defined as the union of its refined label candidates. 
+
+Stratified Dataset Partition : The original split (80% train-ing, 15% test, 5% validation) is designed for motion synthe-sis. We reorganize the dataset into 70% training and 30% testing to align with classification benchmarks, using strati-fied sampling to maintain category distribution consistency. 
+
+Long-Tailed Evaluation : Frequency analysis reveals a long-tailed distribution among the 400 categories, as shown in Figure 2(b). Specifically, a small number of head classes contain a large volume of samples, while the majority of tail classes have only a few. To systematically assess model per-formance across classes of varying frequencies, we catego-rize the labels into three subsets: head (top 10%), medium (middle 30%), and tail (bottom 60%). During evaluation, we report performance on the overall set and each subset to show the model’s capability in handling rare categories. Based on this process, we establish a new multi-label ac-tion classification benchmark based on HumanML3D, fea-turing 400 categories with a long-tailed distribution. This benchmark serves as a valuable testbed for modeling and understanding complex human actions in the open-set set-ting. Further details on our dataset’s construction, including its comparison with related benchmarks BABEL [44], are provided in the Appendix B. 
+
+## 4. Universal Model for Action Recognition 
+
+To address the issues of both data heterogeneity and open vocabularies, we design a network for universal skeleton-based action recognition. The overall architecture of the proposed model is illustrated in Figure 3. Our approach fo-cuses on unifying heterogeneous skeletons and employing a multi-grained cross-modal alignment mechanism to enable open-vocabulary recognition. 
+
+4.1. Unified Skeleton Representation 
+
+To handle heterogeneous skeletons, a crucial first step is to standardize these disparate inputs into a unified for-mat. Let an input skeleton sequence be represented as 
+
+Xorig ∈ RN ×C×T ×K×M , where N is the batch size, and 
+
+C, T, K, M denote the number of coordinate dimensions, frames, joints, and members, respectively. We define a uni-fied spatial structure by establishing maximum joint and member counts, denoted as Kunified and Munified . The val-ues are determined based on the cardinality of the joint and member sets across all datasets D in the training corpus: 
+
+Kunified = |SDd=1 Kd|, Munified = max  
+
+> d∈D
+
+|M d|, (1) where Kd denotes the set of unique joints present in dataset 
+
+d, and Md represents the set of individuals. Input se-quences with fewer joints or members than the unified counts ( K′ < K unified or M ′ < M unified ) undergo zero-padding in the respective dimensions. This adaptive expan-sion ensures all skeletons conform to a consistent spatial structure of Kunified × Munified .
+
+4.2. Motion Encoder for Skeletons 
+
+The proposed model architecture comprises three core stages: multi-modal input embedding and fusion, spatio-temporal feature extraction, and projection layers for cross-modal alignment. 
+
+Multi-Modal Embedding and Fusion : To capture diverse aspects of human motion, we derive multiple modalities from the unified joint coordinates: joint J , bone B, and mo-tion M. The bone B explicitly models the body’s kinematic structure by computing the differences between connected joints, while the motion M captures temporal dynamics by calculating frame-to-frame joint displacements. Each de-rived modality undergoes modality-specific processing be-fore fusion. We employ distinct embedding modules im-plemented as MLPs to map the flattened representations of each modality into a common hidden space with dimension 
+
+Dh. These representations are prepared for both tempo-ral and spatial processing streams. The embedded features 
+
+HJ , HB, HM are fused via weighted averaging followed by linear projection, yielding the fused multi-modal repre-sentations for the temporal stream Hmmt ∈ RN ×T ×Dh and the spatial stream Hmms ∈ RN ×(Kunified ×Munified )×Dh .
+
+Spatio-Temporal Encoding : A two-stream Transformer-based backbone processes the fused features through paral-lel temporal and spatial encoders. The Temporal Encoder 
+
+Et operates on the fused temporal representation Hmmt .Standard sinusoidal positional encodings Epos are added to infuse temporal order information. The sequence is then passed through a stack of L Transformer encoder layers, designed to capture the temporal evolution and dynamics of the action. In parallel, the Spatial Encoder Es processes the fused spatial representation Hmms . Learnable spatial embeddings Espe are added to the input to encode spatial position information. The sequence subsequently passes through L Transformer encoder layers, modeling the com-plex inter-relationships and configurations between joints across the unified skeleton structure. The backbone yields sequence-level feature representations for both streams: 
+
+Vt 
+
+> seq
+
+= Et(Hmmt + Epos ), Vs 
+
+> seq
+
+= Es(Hmms + Espe ).
+
+(2) 4Figure 3. Overview of the proposed architecture for heterogeneous skeleton-based Action Recognition with Open Vocabularies. Hetero-geneous skeletons from diverse sources are standardized into a unified representation and subsequently processed by parallel Transformer-based temporal and spatial encoders. The visual features after decoupled projection are subjected to a multi-grained alignment strategy to facilitate open-vocabulary recognition. The Stream-Specific Alignment (SSA) module captures action information from distinct streams while maintaining spatio-temporal consistency. The Fine-Grained Alignment (FGA) module enhances the understanding of action com-position, thereby improving the recognition capabilities for rare actions. Through the multi-grained alignment strategy, visual features are aligned with action label embeddings from a text encoder, enabling open-vocabulary capabilities. 
+
+Each Transformer layer employs multi-head self-attention (MHSA) mechanisms and feed-forward networks (FFNs), incorporating residual connections and layer nor-malization for stable training. Global representations are derived by applying max-pooling along the sequence dimension, resulting in global temporal features vtg ∈
+
+RN ×Dh and global spatial features vsg ∈ RN ×Dh . A com-prehensive global visual feature vg ∈ RN ×2Dh is formed by concatenating these two global stream representations. 
+
+Decoupled Projection : To facilitate multi-grained cross-modal alignment, we propose a decoupled projection strat-egy. Three parallel projection networks map encoder out-puts to a semantic space aligned with text embeddings 
+
+a ∈ RN ×Da from pre-trained language models: 
+
+v = Pglobal (vg ), vt = Ptemporal (vtg ), vs = Pspatial (vsg ),
+
+(3) where v, vt, vs ∈ RN ×Da , and Da denotes the dimension of the text embeddings. Each P∗ represents the correspond-ing projection network. 
+
+4.3. Multi-Grained Motion-Text Alignment 
+
+To imbue the learned visual representations with semantic meaning, effective alignment with corresponding textual ac-tion labels is paramount. We achieve this through a multi-grained alignment strategy based on contrastive learning. 
+
+Global Instance Alignment : The primary objective is to align the final global visual representation v with the corre-sponding action label embedding a at the instance level: 
+
+Linstance = Lsymm (v, a), (4) where Lsymm represents the symmetric contrastive loss function, ensuring the alignment objective is considered from both visual-to-text and text-to-visual perspectives: 
+
+Lsymm (x, y ) = 12N
+
+> N
+
+X
+
+> i=1
+
+[LC (xi, y i) + LC (yi, x i)] . (5) The core contrastive loss component LC adapted from In-foNCE is given by: 
+
+LC (xi, y i) = 
+
+− log eθ(xi,y i)/τ 
+
+eθ(xi,y i)/τ + X 
+
+> k̸=i
+
+eθ(xi,y k )/τ + eθ(xi,x k )/τ  . (6) where θ(xi, y i) = xi⊤yi 
+
+> ∥xi∥∥ yi∥
+
+denotes cosine similarity, and 
+
+τ is a temperature hyperparameter. The denominator ag-gregates similarities over positive pairs and negative pairs within the batch, including both inter-modal yk and intra-modal xk negatives. This objective pulls together repre-sentations of corresponding visual-text pairs while push-ing apart non-corresponding pairs. It further encourages the model to learn discriminative visual features by push-ing apart the representations of different visual instances. 5Stream-Specific Alignment : To explicitly guide both the temporal and spatial processing streams towards indepen-dently capturing label-relevant information, we introduce the Stream-Specific Alignment (SSA) module. This mod-ule enforces two key alignment objectives. Firstly, aspatio-temporal alignment loss Lts encourages the pro-jected global temporal features vt and spatial features vs
+
+to individually align with the action label embedding a:
+
+Lts = 12 (Lsymm (vt, a) + Lsymm (vs, a)) . (7) Furthermore, to promote coherence between the high-level semantics extracted by the two streams for the same action instance, the SSA module enforces spatio-temporal consis-tency via the loss Lconsis :
+
+Lconsis = Lsymm (vt, vs). (8) 
+
+Fine-Grained Alignment : Relying solely on global fea-tures might obscure nuanced spatio-temporal cues crucial for recognizing rare actions. To capture more localized de-tails, we propose the Fine-Grained Alignment (FGA) mod-ule. Within this module, the temporal sequence features 
+
+Vt 
+
+> seq
+
+are partitioned into Nseg non-overlapping segments, and the spatial sequence features Vs 
+
+> seq
+
+are grouped into Npart 
+
+semantic parts (e.g., head, arms, legs, based on joint in-dices). For each temporal segment j and spatial part k, we obtain representative features ht,j and hs,k via max pooling within the segment/part features from Vt 
+
+> seq
+
+and Vs
+
+> seq
+
+, re-spectively. These local features are then projected using the corresponding projectors to get {vt,j }Nseg  
+
+> j=1
+
+and {vs,k }Npart 
+
+> k=1
+
+.The fine-grained alignment loss Lpart encourages these lo-cal features to align with the action label embedding a:
+
+Lpart =12
+
+ 1
+
+Nseg 
+
+> Nseg
+
+X
+
+> j=1
+
+Lsymm (vt,j , a) + 1
+
+Npart 
+
+> Npart
+
+X
+
+> k=1
+
+Lsymm (vs,k , a)
+
+ .
+
+(9) 
+
+Training Loss: The final training objective function integrates these multi-grained alignment losses via a weighted sum: 
+
+Ltotal = Linstance + λts Lts + λconsis Lconsis + λpart Lpart . (10) Here, λts , λconsis , and λpart are hyper-parameters balancing the contribution of each component. This multi-grained optimization learns representations that preserve global action semantics while capturing discriminative spatio-temporal details, enabling robust performance across heterogeneous skeletons. During inference, the most relevant action category is identified by computing the cosine similarity θ between the global visual embedding v and each action label embedding a.
+
+## 5. Experiments 
+
+5.1. Implementation Details 
+
+All experiments are conducted on two NVIDIA GeForce RTX 4090 GPUs. The model is trained for 400 epochs using the Adam optimizer with a batch size of 256. To improve training stabil-ity, we adopt a learning rate warm-up strategy, linearly increasing the learning rate from 0 to the peak value of 1 × 10 −4 during the first 16 epochs. The learning rate is subsequently decayed follow-ing a cosine annealing schedule. Both the temporal encoder and the spatial encoder use a Transformer with four layers. Semantic representations of action labels are obtained using the pre-trained CLIP text encoder (ViT-L/14@336px). The temperature coeffi-cient for the contrastive loss LC is set to τ = 0 .4. The auxiliary loss weights are set to λts = 1 .0, λconsis = 0 .2 and λpart = 0 .5. For the loss Lpart , we use Nseg = 4 temporal segments and Npart = 4 
+
+spatial body parts per person. Descriptions of the datasets and ad-ditional implementation details are provided in Appendix A. 
+
+5.2. Results and Analysis 
+
+Effect of Multi-Grained Motion-Text Alignment : Table 1 presents an ablation study evaluating the contribution of each com-ponent within our proposed multi-grained motion-text alignment framework. Starting from a baseline model trained solely with the instance-level alignment loss Linstance , we progressively incor-porate the other alignment losses. Improvements over the base-line are shown in parentheses. The model is jointly trained on the NTU-60 (3D and 2D versions) and HumanML3D datasets, followed by separate evaluations on each. Results show that the inclusion of the Lconsis , Lts , and Lpart consistently enhances clas-sification performance. This indicates that both the SSA and FGA modules facilitate the visual encoder in learning more effective representations for heterogeneous skeletons. SSA improves recog-nition accuracy across all evaluated datasets by promoting seman-tic learning through both temporal and spatial streams. Notably, the integration of FGA yields substantial performance gains in the medium-shot and few-shot categories of HumanML3D, showing its effectiveness in recognizing rare actions and mitigating bias toward head classes. The corresponding visualization analysis is provided in the Appendix D. When multi-modal inputs (J+B+M) are fused, the model achieves its optimal performance. 
+
+Results on the HumanML3D : As described in Sec. 3.2, to facil-itate open-vocabulary skeleton-based action recognition, we con-struct the HumanML3D dataset, which is originally used for mo-tion synthesis. We establish representative baselines of zero-shot skeleton-based action recognition methods on this benchmark and present the results in Table 2. For a fair comparison, all base-lines adopt the same visual backbone as our method. The results demonstrate that our method significantly outperforms the state-of-the-art approaches. Additional zero-shot experiments and qual-itative visualizations are provided in Appendix C. 
+
+Cross-Format Generalization Evaluation : To validate cross-format generalization, we train the model on a single dataset with a specific skeletal format and subsequently evaluate its transferabil-ity on other datasets with different skeleton formats. As shown in Table 3, the model demonstrates strong generalization ability across heterogeneous skeletal representations. For example, when trained solely on HumanML3D (MoCap data), it achieves an accu-racy of 74.81% on NTU-60 (Kinect v2 data). Similarly, training on NTU-60 (3D) and testing on NW-UCLA (Kinect v1 data) yields an accuracy of 91.59%. These results indicate that the model ef-fectively bridges substantial structural and semantic discrepancies across skeleton types. This suggests that the unified framework 
+
+6Table 1. Effect of Multi-Grained Motion-Text Alignment on NTU-60 and HumanML3D. The blue numbers denote the performance improvements over the baseline model (first row). All datasets are evaluated using a single unified model. 
+
+SSA FGA Modality NTU-60 (3D) NTU-60 (2D) HumanML3D 
+
+Lconsis Lts Lpart x-sub x-sub Overall Many-shot Medium-shot Few-shot J 82.09 86.56 56.76 67.38 46.74 42.17 
+
+✓ J 82.92 (+0.83) 86.70 (+0.14) 58.15 (+1.39) 68.02 (+0.64) 48.27 (+1.53) 44.72 (+2.55) 
+
+✓ ✓ J 84.52 (+2.43) 87.46 (+0.90) 58.81 (+2.05) 69.65 (+2.27) 48.61 (+1.87) 46.90 (+4.73) 
+
+✓ ✓ ✓ J 84.70 (+2.61) 87.58 (+1.02) 59.34 (+2.58) 69.44 (+2.06) 49.92 (+3.18) 47.36 (+5.19) 
+
+✓ ✓ ✓ J+B+M 87.01 90.10 61.23 71.51 52.28 49.36 
+
+Table 2. Results of action recognition on the HumanML3D. All methods employ the same visual backbone for fair comparison. Method Overall Many-shot Medium-shot Few-shot RelationNet [29] 26.05 54.74 20.69 5.65 CADA-VAE [46] 43.60 51.98 28.50 12.30 SMIE [81] 49.21 56.42 36.58 23.60 Ours 59.34 69.44 49.92 47.36 Ours (J+B+M) 61.23 71.51 52.28 49.36 
+
+Table 3. Cross-dataset evaluation across different skeleton for-mats. The model is pre-trained on a single dataset with a specific skeletal format and transferred to datasets featuring different sens-ing modalities, including Kinect v2 (3D), 2D pose estimations, MoCap data, and Kinect v1. Training Testing Skeleton Format Accuracy NTU-60 (3D) HumanML3D Kinect v2 → MoCap 52.72 NTU-60 (3D) NTU-60 (2D) Kinect v2 → 2D Pose 75.41 NTU-60 (3D) NW-UCLA Kinect v2 → Kinect v1 91.59 HumanML3D NTU-60 (3D) MoCap → Kinect v2 74.81 HumanML3D NTU-60 (2D) MoCap → 2D Pose 74.91 HumanML3D NW-UCLA MoCap → Kinect v1 86.85 Table 4. Effect of partition strategies for Fine-Grained Alignment (FGA) on HumanML3D. Different combinations of temporal seg-ments Nseg and spatial partitions Npart are evaluated to assess the influence of motion granularity on recognition performance. 
+
+Nseg Npart Medium-shot Few-shot 1 1 46.70 43.55 2 2 48.60 45.93 4 4 49.39 47.15 
+
+6 6 48.87 45.73 learns a robust, semantically grounded representation rather than overfitting to any particular skeleton topology, validating its effec-tiveness in real-world heterogeneous scenarios. 
+
+Effect of Partition Strategies : The FGA module relies on parti-tioning temporal and spatial feature sequences to capture localized action semantics. To comprehensively assess the impact of differ-Table 5. Effect of different visual encoder configurations on NTU-60. Temporal-only, spatial-only, and spatio-temporal (ST) en-coders with different layers are compared. Visual encoder NTU-60 (3D) NTU-60 (2D) Temporal 82.93 86.51 Spatial 80.86 80.03 ST (2L) 83.35 86.77 ST (4L) 84.70 87.58 
+
+Table 6. Effect of various pre-trained text encoders on NTU-60. Several widely used language and vision–language encoders, in-cluding MPNet and CLIP variants, are evaluated. Text encoder NTU-60 (3D) NTU-60 (2D) MPNet-v1 84.41 87.39 MPNet-v2 84.61 87.40 CLIP-L/14 84.50 87.57 CLIP-L/14@336 84.70 87.58 
+
+ent partition strategies, we conduct an ablation study on the Hu-manML3D dataset, focusing on performance in medium-shot and few-shot categories. As shown in Table 4, the configuration us-ing Nseg = 4 temporal segments and Npart = 4 spatial body parts (head, arms, spine, and legs) achieves the best performance. The results highlight that the FGA module significantly improves the recognition of rare actions by leveraging fine-grained local cues. Effectively decomposing actions into meaningful spatio-temporal components contributes to improved performance under the long-tailed distribution of the HumanML3D dataset. 
+
+Effect of Different Encoders :Table 5 compares different visual backbones, including temporal-only, spatial-only, and spatio-temporal (ST) encoders with varying depths. Results show that ST encoders consistently outperform single-stream ones. Moreover, increasing the number of Transformer layers from 2 to 4 using residual connections fur-ther boosts performance. Table 6 investigates the influence of dif-ferent pre-trained text encoders for generating action label embed-dings. Both MPNet, a BERT-based variant, and CLIP demonstrate strong performance. This suggests that the visual encoder can ben-efit from text embeddings derived from either pure language or vision-language pretraining. 
+
+Evaluation on Heterogeneous Skeletons : To evaluate the 
+
+7Table 7. Performance Comparison on the NW-UCLA, NTU-60 (x-sub), and NTU-120 (x-sub) datasets for heterogeneous skeleton-based action recognition. “Train” indicates whether the method’s encoder or the fully connected (FC) classifier is trained/fine-tuned on the corresponding datasets. All results are evaluated using the pre-trained models reported in Table 1 (last row). 
+
+Method Backbone Train NW-UCLA NTU-60 NTU-120 LongT GAN [77] GRU ✓ 74.3 39.1 35.6 P&C [49] GRU ✓ 84.9 50.7 41.1 MS 2L [35] GRU ✓ 76.8 52.6 -PCRP [66] GRU ✓ 87.0 53.9 41.7 MCAE-MP [67] MCAE ✓ 84.9 65.6 52.8 CRRL [56] GRU ✓ 83.8 67.6 57.0 H-Transformer [11] Transformer ✓ 83.9 69.3 -GL-Transformer [30] Transformer ✓ 90.4 76.3 66.0 3s-CrosSCLR [32] GCN ✓ 83.6 77.8 67.9 4s-ST-CL [19] GCN ✓ 81.2 68.1 54.2 4s-MG-AL [72] GCN ✓ 81.1 64.7 46.2 CrossMoco [73] GCN ✓ 87.6 78.4 -3s-Colorization [70] DGCNN ✓ 91.1 75.2 64.3 3s-C-F Colorization [71] DGCNN ✓ 92.0 79.1 69.2 Ours Transformer × 43.5 87.0 -Ours (w/ FC classifier) Transformer ✓ 93.5 87.2 79.5 
+
+Table 8. Ablation study on unified representation strategies. Three padding methods are compared: (1) Zero Padding, (2) Interpola-tion Padding, which synthesizes missing joints from semantically adjacent ones (e.g., pelvis = (left hip + right hip)/2), and (3) Learn-able Padding, where missing joints are parameterized. 
+
+Padding Method NTU-60 NTU-60 HumanML3D (3D) (2D) Overall Many-shot Medium-shot Few-shot Interpolation Padding 86.92 90.31 60.98 72.22 52.34 49.15 Learnable Padding 86.87 90.23 61.19 71.35 52.27 49.20 Zero Padding 87.01 90.10 61.23 71.51 52.28 49.36 
+
+model’s generalization to heterogeneous skeletons and its potential for open-vocabulary action recognition, we conduct both zero-shot and transfer learning experiments using the pre-trained model. As shown in Table 7, we compare our method with several self-supervised learning (SSL) approaches. Under a comparable pro-tocol where the encoder is frozen and training a linear classifier, our model (w/ FC classifier) achieves 93.5% accuracy on NW-UCLA and 79.5% on NTU-120, despite not encountering NW-UCLA data during its initial training. These results significantly outperform existing SSL baselines. Therefore, our model’s ability to outperform these specialized baselines is not just an incremen-tal improvement but a strong testament to the superior general-ization and transferability of the representations learned through our multi-grained alignment. In the more challenging zero-shot setting, the model performs inference directly without a classifier head and still achieves 43.5% accuracy on NW-UCLA. This result underscores the model’s capacity for open-vocabulary recognition, driven by the effective cross-domain semantic alignment. 
+
+Ablation on Unified Skeleton Representation : A core com-ponent of the framework is the unified skeleton representation, implemented through zero padding to standardize heterogeneous skeletal inputs. As shown in Table 8, all three strategies yield nearly identical performance across NTU-60 (3D/2D) and Hu-manML3D. The marginal differences indicate that, under the strong Multi-Grained Motion–Text Alignment framework, the specific choice of padding has limited influence on the final rep-Accuracy (%)                             
+
+> τ
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3 0 . 4 0 . 5 0 . 6 0 . 7 0 . 8
+> NTU-60 (3D)
+> NTU-60 (2D)
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 2 0 . 4 0 . 6 0 . 8 11 . 2 1 . 4 1 . 6
+> NTU-60 (3D)
+> NTU-60 (2D)
+> Accuracy (%)
+> 𝝀 ts
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3 0 . 4 0 . 5 0 . 6 0 . 7 0 . 8
+> NTU-60 (3D)
+> NTU-60 (2D)
+> Accuracy (%)
+> 𝝀 part
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3 0 . 4 0 . 5 0 . 6 0 . 7 0 . 8
+> NTU-60 (3D)
+> NTU-60 (2D)
+> Accuracy (%)
+> 𝝀 consis
+
+(a) Temperature τAccuracy (%)                              
+
+> τ
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3 0 . 4 0 . 5 0 . 6 0 . 7 0 . 8
+> NTU-60 (3D)
+> NTU-60 (2D)
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 2 0 . 4 0 . 6 0 . 8 11 . 2 1 . 4 1 . 6
+> NTU-60 (3D)
+> NTU-60 (2D)
+> Accuracy (%)
+> 𝝀 ts
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3 0 . 4 0 . 5 0 . 6 0 . 7 0 . 8
+> NTU-60 (3D)
+> NTU-60 (2D)
+> Accuracy (%)
+> 𝝀 part
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3 0 . 4 0 . 5 0 . 6 0 . 7 0 . 8
+> NTU-60 (3D)
+> NTU-60 (2D)
+> Accuracy (%)
+> 𝝀 consis
+
+(b) Loss weight λts Accuracy (%)                             
+
+> τ
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3 0 . 4 0 . 5 0 . 6 0 . 7 0 . 8
+> NTU-60 (3D)
+> NTU-60 (2D)
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 2 0 . 4 0 . 6 0 . 8 11 . 2 1 . 4 1 . 6
+> NTU-60 (3D)
+> NTU-60 (2D)
+> Accuracy (%)
+> 𝝀 ts
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3 0 . 4 0 . 5 0 . 6 0 . 7 0 . 8
+> NTU-60 (3D)
+> NTU-60 (2D)
+> Accuracy (%)
+> 𝝀 part
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3 0 . 4 0 . 5 0 . 6 0 . 7 0 . 8
+> NTU-60 (3D)
+> NTU-60 (2D)
+> Accuracy (%)
+> 𝝀 consis
+
+(c) Loss weight λconsis Accuracy (%)                    
+
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 2 0 . 4 0 . 6
+> Accuracy (%)
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3 0 . 4 0 . 5 0 . 6 0 . 7 0 . 8
+> NTU-60 (3D)
+> NTU-60 (2D)
+> Accuracy (%)
+> 𝝀 part
+> 86
+> 87
+> 88
+> 89
+> 90
+> 91
+> 0 . 1 0 . 2 0 . 3 0 . 4 0 . 5 0 . 6 0 . 7 0 . 8
+> NTU-60 (3D)
+> NTU-60 (2D)
+> Accuracy (%)
+> 𝝀 consis
+
+(d) Loss weight λpart 
+
+Figure 4. Sensitivity analysis for the hyper-parameters on the NTU-60 (3D) and NTU-60 (2D) datasets. Each subfigure il-lustrates the model’s performance when varying a single hyper-parameter while fixing all others at their optimal settings. resentation. This suggests that the model reliably focuses on in-formative non-padded joints while naturally disregarding padded regions. Given its simplicity, efficiency, and independence from prior joint semantics, zero padding emerges as a preferable design choice and scales easily to arbitrary skeleton formats. 
+
+Hyper-parameter Sensitivity Analysis : To further assess the ro-bustness and stability of our model, we conduct a sensitivity analy-sis on the key hyper-parameters governing our multi-grained align-ment loss. We vary one parameter at a time while keeping the oth-ers at their optimal values and report the performance on the NTU-60 datasets, as illustrated in Figure 4. The analysis demonstrates that the model maintains consistently strong performance across a broad and practical range of all hyper-parameters. In Figure 4(a), the temperature τ achieves optimal performance at 0.4. For the loss weights, the spatio-temporal alignment loss weight λts peaks around 1.0 (Figure 4(b)), while the fine-grained weight λpart is op-timal at 0.5 (see Figure 4(d)). Notably, the spatio-temporal con-sistency weight λconsis is most effective at a small value of 0.2 (see Figure 4(c)), suggesting that forcing excessive similarity between the temporal and spatial streams can hinder their ability to learn complementary features. Based on these findings, we adopt the optimal configuration τ = 0 .4, λts = 1 .0, λconsis = 0 .2, and 
+
+λpart = 0 .5 for all remaining experiments throughout the paper. 
+
+## 6. Conclusion and Limitations 
+
+In this work, we study the novel problem of heterogeneous skeleton-based action recognition with open vocabularies, taking an important step toward the application of skeleton-based action recognition in real-world scenarios. We construct a large-scale dataset named Heterogeneous Open-Vocabulary (HOV) Skeleton to accommodate this task. We propose a Transformer-based model with unified skeleton representation and multi-grained motion-text alignment to achieve an all-in-one solution for skeleton-based ac-tion recognition. Extensive experiments demonstrate that the pro-posed model not only excels at recognizing human actions from heterogeneous data sources but also exhibits superior transferabil-
+
+8ity across diverse scenarios in skeleton-based action recognition. 
+
+Limitations : Action recognition performance of the pre-trained model tested directly on new scenarios is lower than that of the model fine-tuned on the corresponding training sets of these new scenarios. We believe that a promising future direction for im-provement lies in training a robust and large-scale model for text-skeleton alignment under open-vocabulary conditions. 
+
+## References 
+
+[1] Mohamed Abdelfattah, Mariam Hassan, and Alexandre Alahi. Maskclr: Attention-guided contrastive learning for robust action representation learning. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 18678–18687, 2024. 2 [2] Kfir Aberman, Peizhuo Li, Dani Lischinski, Olga Sorkine-Hornung, Daniel Cohen-Or, and Baoquan Chen. Skeleton-aware networks for deep motion retargeting. ACM Transac-tions on Graphics , 39(4):62–1, 2020. 2 [3] L´ eore Bensabath, Mathis Petrovich, and Gul Varol. A cross-dataset study for text-based 3d human motion retrieval. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vi-sion and Pattern Recognition , pages 1932–1940, 2024. 3 [4] Wei-Lun Chao, Soravit Changpinyo, Boqing Gong, and Fei Sha. An empirical study and analysis of generalized zero-shot learning for object recognition in the wild. In Com-puter Vision–ECCV 2016: 14th European Conference, Am-sterdam, The Netherlands, October 11-14, 2016, Proceed-ings, Part II 14 , pages 52–68. Springer, 2016. 15 [5] Haipeng Chen, Yuheng Yang, and Yingda Lyu. Skeleton-based action recognition with non-linear dependency model-ing and hilbert-schmidt independence criterion. In Proceed-ings of the AAAI Conference on Artificial Intelligence , pages 2043–2051, 2025. 15 [6] Yuxin Chen, Ziqi Zhang, Chunfeng Yuan, Bing Li, Ying Deng, and Weiming Hu. Channel-wise topology refinement graph convolution for skeleton-based action recognition. In 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 13359–13368, 2021. 3 [7] Yuxiao Chen, Long Zhao, Jianbo Yuan, Yu Tian, Zhaoyang Xia, Shijie Geng, Ligong Han, and Dimitris N Metaxas. Hi-erarchically self-supervised transformer for human skeleton representation learning. In European Conference on Com-puter Vision , pages 185–202. Springer, 2022. 2 [8] Yang Chen, Jingcai Guo, Tian He, Xiaocheng Lu, and Ling Wang. Fine-grained side information guided dual-prompts for zero-shot skeleton action recognition. In Proceedings of the 32nd ACM International Conference on Multimedia ,pages 778–786, 2024. 2, 16 [9] Yang Chen, Jingcai Guo, Song Guo, and Dacheng Tao. Neu-ron: Learning context-aware evolving representations for zero-shot skeleton action recognition. In Proceedings of the Computer Vision and Pattern Recognition Conference , pages 8721–8730, 2025. 2, 16 [10] Ke Cheng, Yifan Zhang, Xiangyu He, Weihan Chen, Jian Cheng, and Hanqing Lu. Skeleton-based action recognition with shift graph convolutional network. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 183–192, 2020. 3 [11] Yi-Bin Cheng, Xipeng Chen, Junhong Chen, Pengxu Wei, Dongyu Zhang, and Liang Lin. Hierarchical transformer: Unsupervised representation learning for skeleton-based hu-man action recognition. In 2021 IEEE International Con-ference on Multimedia and Expo (ICME) , pages 1–6. IEEE, 2021. 8 [12] Jeonghyeok Do and Munchurl Kim. Bridging the skeleton-text modality gap: Diffusion-powered modality alignment for zero-shot skeleton-based action recognition. In Proceed-ings of the IEEE/CVF International Conference on Com-puter Vision , pages 12757–12768, 2025. 2, 16 [13] Yong Du, Yun Fu, and Liang Wang. Representation learning of temporal dynamics for skeleton-based action recognition. 
+
+IEEE Transactions on Image Processing , 25(7):3010–3022, 2016. 1 [14] Haodong Duan, Yue Zhao, Kai Chen, Dahua Lin, and Bo Dai. Revisiting skeleton-based action recognition. In Pro-ceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 2969–2978, 2022. 3, 13 [15] Haodong Duan, Mingze Xu, Bing Shuai, Davide Mod-olo, Zhuowen Tu, Joseph Tighe, and Alessandro Bergamo. Skeletr: Towards skeleton-based action recognition in the wild. In Proceedings of the IEEE/CVF international con-ference on computer vision , pages 13634–13644, 2023. 3 [16] Lin Geng Foo, Tianjiao Li, Hossein Rahmani, Qiuhong Ke, and Jun Liu. Unified pose sequence modeling. In Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 13019–13030, 2023. 3 [17] Luca Franco, Paolo Mandica, Bharti Munjal, and Fabio Galasso. Hyperbolic self-paced learning for self-supervised skeleton-based action representations. In International Con-ference on Learning Representations , 2023. 15 [18] Andrea Frome, Greg S Corrado, Jon Shlens, Samy Bengio, Jeff Dean, Marc’Aurelio Ranzato, and Tomas Mikolov. De-vise: A deep visual-semantic embedding model. Advances in Neural Information Processing Systems , 26, 2013. 16 [19] Xuehao Gao, Yang Yang, Yimeng Zhang, Maosen Li, Jin-Gang Yu, and Shaoyi Du. Efficient spatio-temporal con-trastive learning for skeleton-based 3-d action recognition. 
+
+IEEE Transactions on Multimedia , 25:405–417, 2021. 8 [20] Tao Gong, Qi Chu, Bin Liu, and Nenghai Yu. Rethinking masked data reconstruction pretraining for strong 3d action representation learning. In Proceedings of the AAAI Confer-ence on Artificial Intelligence , pages 3149–3157, 2025. 2, 15 [21] Shannan Guan, Xin Yu, Wei Huang, Gengfa Fang, and Haiyan Lu. Dmmg: dual min-max games for self-supervised skeleton-based action recognition. IEEE Transactions on Im-age Processing , 33:395–407, 2023. 2 [22] Chuan Guo, Xinxin Zuo, Sen Wang, Shihao Zou, Qingyao Sun, Annan Deng, Minglun Gong, and Li Cheng. Ac-tion2motion: Conditioned generation of 3d human motions. In Proceedings of the 28th ACM International Conference on Multimedia , pages 2021–2029, 2020. 13 [23] Chuan Guo, Shihao Zou, Xinxin Zuo, Sen Wang, Wei Ji, Xingyu Li, and Li Cheng. Generating diverse and natural 3d 
+
+9human motions from text. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition ,pages 5152–5161, 2022. 3, 13 [24] Tianyu Guo, Hong Liu, Zhan Chen, Mengyuan Liu, Tao Wang, and Runwei Ding. Contrastive learning from ex-tremely augmented skeleton sequences for self-supervised action recognition. In Proceedings of the AAAI conference on artificial intelligence , pages 762–770, 2022. 2, 15 [25] Pranay Gupta, Divyanshu Sharma, and Ravi Kiran Sarvadev-abhatla. Syntactically guided generative embeddings for zero-shot skeleton action recognition. In 2021 IEEE Interna-tional Conference on Image Processing (ICIP) , pages 439– 443. IEEE, 2021. 2, 16 [26] Yilei Hua, Wenhan Wu, Ce Zheng, Aidong Lu, Mengyuan Liu, Chen Chen, and Shiqian Wu. Part aware contrastive learning for self-supervised action recognition. In Proceed-ings of the Thirty-Second International Joint Conference on Artificial Intelligence , pages 855–863, 2023. 2 [27] Xiaohu Huang, Hao Zhou, Jian Wang, Haocheng Feng, Junyu Han, Errui Ding, Jingdong Wang, Xinggang Wang, Wenyu Liu, and Bin Feng. Graph contrastive learn-ing for skeleton-based action recognition. arXiv preprint arXiv:2301.10900 , 2023. 15 [28] Yao-Hung Hubert Tsai, Liang-Kang Huang, and Ruslan Salakhutdinov. Learning robust visual-semantic embed-dings. In Proceedings of the IEEE International Conference on Computer Vision , pages 3571–3580, 2017. 16 [29] Bhavan Jasani and Afshaan Mazagonwalla. Skeleton based zero shot action recognition in joint pose-language semantic space. arXiv preprint arXiv:1911.11344 , 2019. 7, 16 [30] Boeun Kim, Hyung Jin Chang, Jungho Kim, and Jin Young Choi. Global-local motion transformer for unsupervised skeleton-based action learning. In European conference on computer vision , pages 209–225. Springer, 2022. 8 [31] Jungho Lee, Minhyeok Lee, Dogyoon Lee, and Sangyoun Lee. Hierarchically decomposed graph convolutional net-works for skeleton-based action recognition. In Proceedings of the IEEE/CVF international conference on computer vi-sion , pages 10444–10453, 2023. 15 [32] Linguo Li, Minsi Wang, Bingbing Ni, Hang Wang, Jiancheng Yang, and Wenjun Zhang. 3d human action rep-resentation learning via cross-view consistency pursuit. In 
+
+Proceedings of the IEEE/CVF conference on computer vi-sion and pattern recognition , pages 4741–4750, 2021. 8 [33] Ming-Zhe Li, Zhen Jia, Zhang Zhang, Zhanyu Ma, and Liang Wang. Multi-semantic fusion model for generalized zero-shot skeleton-based action recognition. In International Conference on Image and Graphics , pages 68–80. Springer, 2023. 16 [34] Sheng-Wei Li, Zi-Xiang Wei, Wei-Jie Chen, Yi-Hsin Yu, Chih-Yuan Yang, and Jane Yung-jen Hsu. Sa-dvae: Improv-ing zero-shot skeleton-based action recognition by disentan-gled variational autoencoders. In European Conference on Computer Vision , pages 447–462. Springer, 2024. 2, 16 [35] Lilang Lin, Sijie Song, Wenhan Yang, and Jiaying Liu. Ms2l: Multi-task self-supervised learning for skeleton based action recognition. In Proceedings of the 28th ACM international conference on multimedia , pages 2490–2498, 2020. 8 [36] Lilang Lin, Jiahang Zhang, and Jiaying Liu. Actionlet-dependent contrastive learning for unsupervised skeleton-based action recognition. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,pages 2363–2372, 2023. 2, 15 [37] Lilang Lin, Lehong Wu, Jiahang Zhang, and Jiaying Liu. Idempotent unsupervised representation learning for skeleton-based action recognition. In European Conference on Computer Vision , pages 75–92. Springer, 2024. 2 [38] Hongda Liu, Yunfan Liu, Min Ren, Hao Wang, Yunlong Wang, and Zhenan Sun. Revealing key details to see differ-ences: A novel prototypical perspective for skeleton-based action recognition. In Proceedings of the Computer Vision and Pattern Recognition Conference , pages 29248–29257, 2025. 15 [39] Jun Liu, Amir Shahroudy, Mauricio Perez, Gang Wang, Ling-Yu Duan, and Alex C Kot. Ntu rgb+ d 120: A large-scale benchmark for 3d human activity understanding. IEEE Transactions on Pattern Analysis and Machine Intelligence ,42(10):2684–2701, 2019. 3, 13 [40] Matthew Loper, Naureen Mahmood, Javier Romero, Gerard Pons-Moll, and Michael J Black. Smpl: A skinned multi-person linear model. ACM Transactions on Graphics , 34(6), 2015. 2, 3, 13 [41] Naureen Mahmood, Nima Ghorbani, Nikolaus F Troje, Ger-ard Pons-Moll, and Michael J Black. Amass: Archive of motion capture as surface shapes. In Proceedings of the IEEE/CVF international conference on computer vision ,pages 5442–5451, 2019. 13 [42] Yunyao Mao, Wengang Zhou, Zhenbo Lu, Jiajun Deng, and Houqiang Li. Cmd: Self-supervised 3d action representation learning with cross-modal mutual distillation. In European Conference on Computer Vision , pages 734–752. Springer, 2022. 15 [43] Qiang Nie, Ziwei Liu, and Yunhui Liu. Unsupervised 3d human pose representation with viewpoint and pose disen-tanglement. In European Conference on Computer Vision ,pages 102–118. Springer, 2020. 2 [44] Abhinanda R Punnakkal, Arjun Chandrasekaran, Nikos Athanasiou, Alejandra Quiros-Ramirez, and Michael JBlack. Babel: Bodies, action and behavior with english la-bels. In Proceedings of the IEEE/CVF Conference on Com-puter Vision and Pattern Recognition , pages 722–731, 2021. 4, 13 [45] Haoxuan Qu, Yujun Cai, and Jun Liu. Llms are good action recognizers. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 18395– 18406, 2024. 3 [46] Edgar Schonfeld, Sayna Ebrahimi, Samarth Sinha, Trevor Darrell, and Zeynep Akata. Generalized zero-and few-shot learning via aligned variational autoencoders. In Proceed-ings of the IEEE/CVF conference on computer vision and pattern recognition , pages 8247–8255, 2019. 7, 16 [47] Amir Shahroudy, Jun Liu, Tian-Tsong Ng, and Gang Wang. Ntu rgb+ d: A large scale dataset for 3d human activity anal-ysis. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition , pages 1010–1019, 2016. 3, 13 
+
+10 [48] Arkaprava Sinha, Dominick Reilly, Francois Bremond, Pu Wang, and Srijan Das. Ski models: Skeleton induced vision-language embeddings for understanding activities of daily living. In Proceedings of the AAAI Conference on Artificial Intelligence , pages 6931–6939, 2025. 2 [49] Kun Su, Xiulong Liu, and Eli Shlizerman. Predict & cluster: Unsupervised skeleton based action recognition. In Proceed-ings of the IEEE/CVF conference on computer vision and pattern recognition , pages 9631–9640, 2020. 8 [50] Yukun Su, Guosheng Lin, and Qingyao Wu. Self-supervised 3d skeleton action representation learning with motion con-sistency and continuity. In Proceedings of the IEEE/CVF international conference on computer vision , pages 13328– 13338, 2021. 2 [51] Shengkai Sun, Daizong Liu, Jianfeng Dong, Xiaoye Qu, Junyu Gao, Xun Yang, Xun Wang, and Meng Wang. Uni-fied multi-modal unsupervised representation learning for skeleton-based action understanding. In Proceedings of the 31st ACM International Conference on Multimedia , pages 2973–2984, 2023. 2, 14, 15, 16 [52] Hongsong Wang and Liang Wang. Modeling temporal dynamics and spatial configurations of actions using two-stream recurrent neural networks. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recog-nition , pages 499–508, 2017. 1 [53] Hongsong Wang and Liang Wang. Beyond joints: Learning representations from primitive geometries for skeleton-based action recognition and detection. IEEE Transactions on Im-age Processing , 27(9):4382–4394, 2018. 1 [54] Hongsong Wang, Xiaoyan Ma, Jidong Kuang, and Jie Gui. Heterogeneous skeleton-based action representation learn-ing. In Proceedings of the Computer Vision and Pattern Recognition Conference , pages 19154–19164, 2025. 3 [55] Jiang Wang, Xiaohan Nie, Yin Xia, Ying Wu, and Song-Chun Zhu. Cross-view action modeling, learning and recog-nition. In Proceedings of the IEEE conference on computer vision and pattern recognition , pages 2649–2656, 2014. 3, 13 [56] Peng Wang, Jun Wen, Chenyang Si, Yuntao Qian, and Liang Wang. Contrast-reconstruction representation learning for self-supervised skeleton-based action recognition. IEEE Transactions on Image Processing , 31:6224–6238, 2022. 2, 8[57] Jiangning Wei, Lixiong Qin, Bo Yu, Tianjian Zou, Chuhan Yan, Dandan Xiao, Yang Yu, Lan Yang, Ke Li, and Jun Liu. Va-ar: Learning velocity-aware action representations with mixture of window attention. In Proceedings of the AAAI Conference on Artificial Intelligence , pages 8286– 8294, 2025. 15 [58] Yuhang Wen, Zixuan Tang, Yunsheng Pang, Beichen Ding, and Mengyuan Liu. Interactive spatiotemporal token atten-tion network for skeleton-based general interactive action recognition. In 2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , pages 7886–7892. IEEE, 2023. 3 [59] Yuhang Wen, Mengyuan Liu, Songtao Wu, and Beichen Ding. Chase: Learning convex hull adaptive shift for skeleton-based multi-entity action recognition. Advances in Neural Information Processing Systems , 37:9388–9420, 2024. 3 [60] Michael Wray, Diane Larlus, Gabriela Csurka, and Dima Damen. Fine-grained action retrieval through multiple parts-of-speech embeddings. In Proceedings of the IEEE/CVF In-ternational Conference on Computer Vision , pages 450–459, 2019. 16 [61] Cong Wu, Xiao-Jun Wu, Josef Kittler, Tianyang Xu, Sara Ahmed, Muhammad Awais, and Zhenhua Feng. Scd-net: Spatiotemporal clues disentanglement network for self-supervised skeleton-based action recognition. In Proceed-ings of the AAAI Conference on Artificial Intelligence , pages 5949–5957, 2024. 2 [62] Wenhan Wu, Zhishuai Guo, Chen Chen, Hongfei Xue, and Aidong Lu. Frequency-semantic enhanced variational au-toencoder for zero-shot skeleton-based action recognition. 
+
+arXiv preprint arXiv:2506.22179 , 2025. 2 [63] Wangmeng Xiang, Chao Li, Yuxuan Zhou, Biao Wang, and Lei Zhang. Generative action description prompts for skeleton-based action recognition. In Proceedings of the IEEE/CVF International Conference on Computer Vision ,pages 10276–10285, 2023. 1, 15 [64] Jianyang Xie, Yanda Meng, Yitian Zhao, Anh Nguyen, Xi-aoyun Yang, and Yalin Zheng. Dynamic semantic-based spa-tial graph convolution network for skeleton-based human ac-tion recognition. In Proceedings of the AAAI conference on artificial intelligence , pages 6225–6233, 2024. 15 [65] Haojun Xu, Yan Gao, Jie Li, and Xinbo Gao. An information compensation framework for zero-shot skeleton-based action recognition. IEEE Transactions on Multimedia , 2025. 2, 16 [66] Shihao Xu, Haocong Rao, Xiping Hu, Jun Cheng, and Bin Hu. Prototypical contrast and reverse prediction: Unsuper-vised skeleton based action recognition. IEEE Transactions on Multimedia , 25:624–634, 2021. 8 [67] Ziwei Xu, Xudong Shen, Yongkang Wong, and Mohan S Kankanhalli. Unsupervised motion representation learning with capsule autoencoders. Advances in Neural Information Processing Systems , 34:3205–3217, 2021. 2, 8 [68] Sijie Yan, Yuanjun Xiong, and Dahua Lin. Spatial tempo-ral graph convolutional networks for skeleton-based action recognition. In Proceedings of the AAAI Conference on Ar-tificial Intelligence , 2018. 1, 3 [69] Di Yang, Yaohui Wang, Antitza Dantcheva, Lorenzo Garat-toni, Gianpiero Francesca, and Franc ¸ois Br´ emond. Unik: A unified framework for real-world skeleton-based action recognition. arXiv preprint arXiv:2107.08580 , 2021. 3 [70] Siyuan Yang, Jun Liu, Shijian Lu, Meng Hwa Er, and Alex C Kot. Skeleton cloud colorization for unsupervised 3d action representation learning. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 13423– 13433, 2021. 8 [71] Siyuan Yang, Jun Liu, Shijian Lu, Er Meng Hwa, Yongjian Hu, and Alex C Kot. Self-supervised 3d action representa-tion learning with skeleton cloud colorization. IEEE Trans-actions on Pattern Analysis and Machine Intelligence , 46(1): 509–524, 2023. 8 
+
+11 [72] Yang Yang, Guangjun Liu, and Xuehao Gao. Motion guided attention learning for self-supervised 3d human action recog-nition. IEEE Transactions on Circuits and Systems for Video Technology , 32(12):8623–8634, 2022. 8 [73] Qinyang Zeng, Chengju Liu, Ming Liu, and Qijun Chen. Contrastive 3d human skeleton action representation learn-ing via crossmoco with spatiotemporal occlusion mask data augmentation. IEEE Transactions on Multimedia , 25:1564– 1574, 2023. 8 [74] Haoyuan Zhang, Yonghong Hou, Wenjing Zhang, and Wan-qing Li. Contrastive positive mining for unsupervised 3d action representation learning. In European Conference on Computer Vision , pages 36–51. Springer, 2022. 2, 15 [75] Jiahang Zhang, Lilang Lin, and Jiaying Liu. Hierarchi-cal consistent contrastive learning for skeleton-based action recognition with growing augmentations. In Proceedings of the AAAI Conference on Artificial Intelligence , pages 3427– 3435, 2023. 15 [76] Jiaxu Zhang, Junwu Weng, Di Kang, Fang Zhao, Shaoli Huang, Xuefei Zhe, Linchao Bao, Ying Shan, Jue Wang, and Zhigang Tu. Skinned motion retargeting with residual per-ception of motion semantics & geometry. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 13864–13872, 2023. 2 [77] Nenggan Zheng, Jun Wen, Risheng Liu, Liangqu Long, Jian-hua Dai, and Zhefeng Gong. Unsupervised representation learning with long-term dynamics for skeleton based action recognition. In Proceedings of the AAAI conference on arti-ficial intelligence , 2018. 8 [78] Yaolin Zheng, Hongbo Huang, Xiuying Wang, Xiaoxu Yan, and Longfei Xu. Spatio-temporal fusion for human action recognition via joint trajectory graph. In Proceedings of the AAAI conference on artificial intelligence , pages 7579–7587, 2024. 15 [79] Huanyu Zhou, Qingjie Liu, and Yunhong Wang. Learn-ing discriminative representations for skeleton based action recognition. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 10608– 10617, 2023. 15 [80] Yujie Zhou, Haodong Duan, Anyi Rao, Bing Su, and Ji-aqi Wang. Self-supervised action representation learning from partial spatio-temporal skeleton sequences. In Proceed-ings of the AAAI conference on artificial intelligence , pages 3825–3833, 2023. 15 [81] Yujie Zhou, Wenwen Qiang, Anyi Rao, Ning Lin, Bing Su, and Jiaqi Wang. Zero-shot skeleton-based action recogni-tion via mutual information estimation and maximization. In 
+
+Proceedings of the 31st ACM International Conference on Multimedia , pages 5302–5310, 2023. 2, 7, 16 [82] Yuxuan Zhou, Xudong Yan, Zhi-Qi Cheng, Yan Yan, Qi Dai, and Xian-Sheng Hua. Blockgcn: Redefine topology aware-ness for skeleton-based action recognition. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 2049–2058, 2024. 15 [83] Anqi Zhu, Qiuhong Ke, Mingming Gong, and James Bai-ley. Part-aware unified representation of language and skele-ton for zero-shot action recognition. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 18761–18770, 2024. 2, 16 [84] Anqi Zhu, Jingmin Zhu, James Bailey, Mingming Gong, and Qiuhong Ke. Semantic-guided cross-modal prompt learning for skeleton-based zero-shot action recognition. In Proceed-ings of the Computer Vision and Pattern Recognition Con-ference , pages 13876–13885, 2025. 2, 16 [85] Wentao Zhu, Zhuoqian Yang, Ziang Di, Wayne Wu, Yizhou Wang, and Chen Change Loy. Mocanet: Motion retargeting in-the-wild via canonicalization networks. In Proceedings of the AAAI Conference on Artificial Intelligence , pages 3617– 3625, 2022. 2 [86] Wentao Zhu, Xiaoxuan Ma, Zhaoyang Liu, Libin Liu, Wayne Wu, and Yizhou Wang. Motionbert: A unified perspective on learning human motion representations. In Proceedings of the IEEE/CVF International Conference on Computer Vi-sion , pages 15085–15099, 2023. 1 [87] Yisheng Zhu, Hu Han, Zhengtao Yu, and Guangcan Liu. Modeling the relative visual tempo for self-supervised skeleton-based action recognition. In Proceedings of the IEEE/CVF International Conference on Computer Vision ,pages 13913–13922, 2023. 15 
+
+12 Appendix 
+
+This supplementary material provides additional details, experi-ments, and analyses that complement the main paper. The ap-pendix is organized as follows: • Sec. A: Additional Implementation Details. – Training and Evaluation Datasets 
+
+– Evaluation Metrics • Sec. B: Detailed Dataset Construction and Rationale. – Comparison with the BABEL Dataset 
+
+– Sensitivity to Number of Label Clusters (K) 
+
+– HumanML3D Annotation Processing Examples • Sec. C: Additional Quantitative Results. – Recognition on NTU RGB+D 
+
+– Cross-Dataset Generalization to NTU-120 
+
+– Zero-Shot Recognition on HumanML3D 
+
+– Zero-Shot Recognition on NTU RGB+D 
+
+– Ablation of Alignment Modules • Sec. D: Additional Visualization. – Influence of Alignment Modules 
+
+– Influence of the Calibration Factor in ZSL 
+
+## A. Additional Implementation Details 
+
+A.1. Training and Evaluation Datasets 
+
+We utilize the representative human action datasets with vary-ing acquisition methods, skeletal configurations, and annotation schemes: 
+
+NTU-3D (NTU-60 [47] & NTU-120 [39]): Captured from three Microsoft Kinect v2 sensors from different viewpoints, providing 25-joint 3D coordinates. NTU-60 contains 56,880 samples across 60 actions, while NTU-120 extends to 120 actions with 57,367 additional samples. 
+
+NTU-2D [14]: Derived from NTU RGB+D videos using HRNet pose estimation, offering 17-joint 2D coordinates. 
+
+HumanML3D [23]: One of the largest and most diverse scripted 3D motion capture (MoCap) datasets, integrating motion se-quences from HumanAct12 [22], AMASS [41], and others. Fol-lowing SMPL [40] topology with 22 joints, it contains 14,616 mo-tions paired with 44,970 text descriptions for text-to-motion gen-eration. 
+
+NW-UCLA [55]: This dataset is captured using three Microsoft Kinect v1 cameras and contains 1,494 action samples performed by 10 subjects. It includes 10 distinct action categories, with each skeleton represented by 20 3D joints. 
+
+A.2. Evaluation Metrics 
+
+We employ top-1 accuracy as the primary evaluation metric across all datasets. For the multi-label HumanML3D dataset, this met-ric assesses whether the top-scoring predicted label matches any of the ground-truth labels. To evaluate performance across vary-ing action frequencies, we also report stratified accuracy: Head (Many-shot), Medium (Medium-shot), and Tail (Few-shot). In zero-shot learning (ZSL) experiments, we report the ZSL accuracy as well as the generalized ZSL metrics: Seen accuracy (S), Unseen accuracy (U), and Harmonic Mean (H). All datasets in each row of the table are evaluated using the same model. Table 9. Comparison between our processed HumanML3D bench-mark and the BABEL dataset.             
+
+> Attribute BABEL Dataset Our HumanML3D Benchmark Data Unit Short motion clips Complete action sequences Task Formulation Single-Label Classification Multi-Label Classification Skeleton Format Uniform (Kinect v2) original SMPL format Evaluation Focus General classification Long-tail distribution analysis Reported Accuracy 42.45% (Top-1, official 41.14%) 61.23% (Overall, multi-label)
+
+## B. Detailed Dataset Construction and Ratio-nale 
+
+This section provides a detailed rationale for the construction of our HOV Skeleton dataset, particularly the processing of the Hu-manML3D benchmark. We address the comparison with related datasets, and the sensitivity analysis for our clustering choices. 
+
+B.1. Comparison with the BABEL Dataset 
+
+Although both our processed HumanML3D benchmark and the BABEL dataset [44] are derived from the AMASS [41], they dif-fer substantially in design philosophy and suitability for universal action recognition. The major distinctions are summarized in Ta-ble 9 and elaborated below. 
+
+Full Sequences vs. Short Clips : This represents the most funda-mental difference. BABEL provides frame-level annotations for short motion clips, which often lack sufficient temporal context to support robust representation learning. As a result, performance is constrained: our re-implementation achieves 42.45% accuracy on BABEL’s single-label task, closely matching its official 41.14%, underscoring the difficulty of further improvement. In contrast, our benchmark uses full action sequences, enabling models to exploit long-range temporal dynamics, learn richer features, and achieve higher recognition accuracy. 
+
+Multi-Label vs. Single-Label : AMASS sequences frequently contain multiple co-occurring actions. While BABEL simplifies these into a single-label formulation, our benchmark preserves this complexity by adopting a multi-label setting, which more accu-rately reflects the intrinsic structure of the underlying motion data. 
+
+Preservation of Heterogeneity : To support research on heteroge-neous skeletons, our benchmark retains the SMPL joint structure provided by AMASS. In contrast, publicly released BABEL data converts all motions into a unified Kinect v2 skeleton, removing the structural diversity that is central to our investigation. 
+
+Comprehensive Evaluation : Our benchmark is specifically de-signed to facilitate rigorous analysis of generalization perfor-mance by organizing the labels into a long-tailed distribution (Many/Medium/Few). This evaluation perspective is not a primary focus of the BABEL benchmark. In summary, the HumanML3D benchmark offers a more suit-able data representation and task formulation, preserves essential structural heterogeneity, and enables long-tail performance assess-ment, making it a more robust and realistic testbed for universal action recognition. 
+
+B.2. Sensitivity to Number of Label Clusters (K) 
+
+The choice of the number of clusters (K) in our label space clus-tering step is a critical hyper-parameter. To justify our choice of K 
+
+13 Table 10. Sensitivity analysis for the number of clusters (K) on the HumanML3D benchmark. Results show that K=400 provides the best trade-off. 
+
+K Overall Many-shot Medium-shot Few-shot 200 60.87 70.15 51.33 49.91 
+
+400 61.23 71.51 52.28 49.36 
+
+600 60.54 70.89 51.02 48.03 
+
+= 400, we conducted an empirical study by training and evaluating our model with different values of K. The results are presented in Table 10. As the results demonstrate, the model’s performance is stable across the tested range of K, indicating the robustness of our over-all framework to this choice. However, K=400 achieves the best performance across most metrics. A smaller K (200) leads to a slight performance drop, likely because distinct semantic concepts are merged, reducing the label space’s expressiveness. A larger K (600) also results in a minor decline, which we attribute to the cre-ation of an overly sparse long tail, making it harder for the model to learn robust representations for the rarest classes. Therefore, our choice of K=400 is empirically justified as providing the optimal balance between semantic richness and a learnable class distribu-tion. 
+
+B.3. HumanML3D Annotation Processing 
+
+To provide a concrete illustration of our data processing pipeline for the HumanML3D benchmark, this section details the transfor-mation from raw, descriptive text into structured, multi-label an-notations. The original annotations in HumanML3D are free-form natural language sentences, which are rich in detail but unsuitable for direct use as classification labels due to their narrative style and semantic ambiguity. Our annotation pipeline is designed to address this. First, we employ a Large Language Model (LLM) to parse each sentence and extract the core atomic action verbs or short phrases. This step filters out stylistic modifiers, narrative context, and redundant information. Second, a clustering algo-rithm consolidates the vast vocabulary of extracted terms into a coherent set of 400 semantic action classes, merging synonyms and morphological variations (e.g., ‘jumped’, ‘jumps’, and ‘jump-ing’ are unified into a single ‘jump’ class). Table 11 showcases several examples of this transformation. It contrasts the original descriptive text with the final, structured multi-label action set used to train our model. The resulting labels are more atomic, consistent, and directly suitable for a multi-label classification framework. 
+
+## C. Additional Results 
+
+C.1. Recognition on NTU RGB+D 
+
+Table 12 presents a comparative analysis of our method against state-of-the-art supervised and unsupervised techniques on the NTU RGB+D 60 (NTU-60) and NTU RGB+D 120 (NTU-120) datasets. The results reported for our method utilize the multi-modal input strategy (Joint+Bone+Motion), which empirically yielded the best performance. It is important to note that while our training paradigm incorporates action label semantics (hence, “supervised” in a broad sense), our architecture is distinct from traditional supervised methods as it does not employ a final classi-fication head. Instead, recognition is achieved through aligning vi-sual features with textual action label embeddings, a design choice aimed at facilitating open-vocabulary capabilities. As shown in Table 12, our approach achieves competitive performance, particu-larly on the NTU-60 dataset. “Ours (2D)” attains 90.10% on NTU-60 X-Sub and 96.62% on NTU-60 X-View. These results are com-parable to several fully supervised methods that utilize dedicated classification layers. This strong performance, achieved without a dataset-specific classifier and with a focus on open-set gener-alizability, underscores the efficacy of our multi-grained motion-text alignment in learning discriminative and robust representa-tions. Furthermore, our method demonstrates a notable advantage in computational efficiency. Due to the early fusion strategy for multi-modal inputs, our approach achieves a relatively low com-putational complexity of 3.46 GFLOPs. This efficiency, combined with strong performance, highlights the practical viability of our framework. 
+
+C.2. Cross-Dataset Generalization to NTU-120 
+
+To further investigate the transferability and generalization ca-pabilities of the representations learned by our model, partic-ularly when trained on datasets with different skeletal struc-tures and action vocabularies, we conduct a cross-dataset evalu-ation on the NTU-120 benchmark. Table 13 compares the per-formance of our method under different training regimes with UmURL [51]. We consider two variants of our approach: one pre-trained solely on HumanML3D (“Ours (HumanML3D)”), and another pre-trained on a combination of NTU-60 and Hu-manML3D (“Ours (NTU60+HumanML3D)”). During evaluation, we freeze the pre-trained backbone and train a linear classifier on the NTU-120 dataset. The results indicate that our model achieves substantial zero-shot transfer performance on NTU-120 even when pre-trained only on HumanML3D, which differs sig-nificantly from NTU-120 in both skeleton structure (SMPL-based with 22 joints vs. Kinect v2-based with 25 joints) and action semantics. Furthermore, incorporating NTU-60 into pre-training (“Ours (NTU60+HumanML3D)”) significantly improves general-ization to NTU-120. With multimodal input (J+B+M), our model achieves the best performance among all compared methods. These findings further highlight the effectiveness of our method in learning generalizable representations for heterogeneous action recognition. 
+
+C.3. Zero-Shot Recognition on HumanML3D 
+
+To assess the open-vocabulary recognition capabilities of our pro-posed method under more stringent conditions, we conduct Zero-Shot Learning (ZSL) experiments on our HumanML3D multi-label classification benchmark. Specifically, we select 8 of the least frequent (tail) categories from the classes in HumanML3D to constitute the set of unseen classes, denoted as Cnovel . The remain-ing categories form the set of seen classes, Cseen , which are used for training the model. For evaluation, we report performance under two standard ZSL settings: • Conventional ZSL (ZSL): Test samples are known to belong to Cnovel , and accuracy is measured by correctly classifying them 
+
+14 Table 11. Examples of the annotation transformation process on the HumanML3D dataset. Original free-form text descriptions are converted into a structured set of multi-label action classes. 
+
+Original Text Description Processed Action Labels a person is walking, then crouches and crawls forward. [‘walk’, ‘crouch’, ‘crawl’] someone is waving both their hands in the air. [‘wave hands’] the person takes a few steps and then begins to skip. [‘walk’, ‘skip’] a person is punching the air with their left and right fists. [‘punch’] the person is running in a circle. [‘run in circle’] a person hops on one leg and then switches to the other. [‘hop’, ‘switch leg’] a person bends down to tie their shoe. [‘bend down’, ‘tie shoe’] a person turns 360 degrees and then claps. [‘turn’, ‘clap’] the person is marching in place while pumping their arms. [‘march’, ‘pump arms’] a person is looking left, then looking right. [‘look left’, ‘look right’] the person kicks a ball and then runs after it. [‘kick’, ‘run’] a person stretches their arms out to their sides. [‘stretch arms’] 
+
+Table 12. Comparative performance on NTU-60 and NTU-120. Our method performs recognition on both the 2D and 3D versions of NTU through visual-text alignment, without relying on a dedicated classification head. The results presented are the best multi-modal performances of each method. 
+
+Method Publication FLOPs/G NTU-60 NTU-120 x-sub x-view x-sub x-set 
+
+Supervised Methods 
+
+SkeletonGCL [27] ICLR 2023 - 92.8 97.1 89.8 91.2 FR-Head [79] CVPR 2023 - 92.8 96.8 89.5 90.9 GAP [63] ICCV 2023 - 92.9 97.0 89.9 91.1 HD-GCN [31] ICCV 2023 7.08 93.4 97.2 90.1 91.6 JT-GraphFormer [78] AAAI 2024 - 93.4 97.5 89.9 91.7 DS-GCN [64] AAAI 2024 - 93.1 97.5 89.2 91.1 BlockGCN [82] CVPR 2024 6.52 93.1 97.0 90.3 91.5 NDMHIC [5] AAAI 2025 - 93.7 97.3 90.6 91.7 VA-VR [57] AAAI 2025 - 93.1 97.2 90.3 91.5 ProtoGCN [38] CVPR 2025 - 93.8 97.8 90.9 92.2 
+
+Unsupervised Methods 
+
+AimCLR [24] AAAI 2022 3.45 78.9 83.8 68.2 68.8 CPM [74] ECCV 2022 6.66 83.2 87.0 73.0 74.0 CMD [42] ECCV 2022 17.28 84.1 90.9 74.7 76.1 HiCLR [75] AAAI 2023 7.08 78.8 83.1 67.3 69.9 PSTL [80] AAAI 2023 3.45 79.1 83.8 69.2 70.3 HYSP [17] ICLR 2023 72.72 79.1 85.2 64.5 67.3 ActCLR [36] CVPR 2023 8.98 84.3 88.8 74.3 75.7 RVTCLR [20] ACM MM 2023 - 79.7 84.6 68 68.9 UmURL [51] ACM MM 2023 5.22 84.4 91.4 75.9 77.2 RMDRP [87] AAAI 2025 - 86.9 91.0 80.0 81.5 Ours (3D) - 3.46 87.0 93.2 79.9 82.2 Ours (2D) - 3.46 90.1 96.6 81.3 84.5 
+
+among the unseen classes. • Generalized ZSL (GZSL): Test samples can belong to either 
+
+Cseen or Cnovel , and the model must predict the correct class from the entire set of 400 classes. For prediction in GZSL setting, given the projected global visual feature v for a sample and the set of all action label text features {ac}|C seen ∪C novel | 
+
+> c=1
+
+, we employ a calibrated scoring mechanism inspired by Calibrated Stack-ing [4]. The predicted class c∗ is determined as: 
+
+c∗ = arg max 
+
+> c∈C test
+
+(θ(v, ac) − γ · I[c ∈ C seen ]) (11) 
+
+15 Table 13. Cross-dataset generalization performance on NTU-120. “Ours (HumanML3D)” indicates pre-trained solely on Hu-manML3D, while “Ours (NTU60+HumanML3D)” indicates pre-trained on the combined datasets, both followed by linear classifi-cation on NTU-120. 
+
+Method Modality NTU-120 x-sub x-set UmURL [51] J 73.5 74.3 Ours (HumanML3D) J 57.8 58.0 Ours (NTU60+HumanML3D) J 76.3 82.9 
+
+UmURL [51] J+B+M 75.9 77.2 Ours (HumanML3D) J+B+M 63.8 64.9 Ours (NTU60+HumanML3D) J+B+M 79.5 86.1 
+
+Table 14. ZSL and GZSL performance on the HumanML3D benchmark. The unseen class set ( Cnovel ) includes 8 tail categories. S: Accuracy on seen classes. U: Accuracy on unseen classes. H: Harmonic mean. 
+
+Method ZSL GZSL Acc S U HRelationNet [29] 38.60 23.74 18.91 21.05 CADA-VAE [46] 38.86 27.32 21.50 24.06 SMIE [81] 39.89 26.78 23.57 25.07 Ours 43.26 34.81 28.75 31.49 
+
+where θ is the cosine similarity, γ ≥ 0 is a calibration factor penalizing seen classes, and I[·] is the indicator function. In the GZSL setting, Ctest = Cseen ∪ C novel , and γ helps balance predictions between seen and novel categories. We report Seen Accuracy (S) on test samples from Cseen , Unseen Accuracy (U) on test samples from Cnovel , and their Harmonic Mean (H) as 
+
+H = 2×S×US+U .We compare our method with several skeleton-based zero-shot ac-tion recognition approaches. To ensure a fair comparison, the vi-sual backbones of all baselines are standardized to match the ar-chitecture used in our method. As shown in Table 14, our method consistently outperforms all evaluated baselines across both ZSL and GZSL metrics. Under the conventional ZSL setting, our model achieves an accuracy of 43.26% on the unseen tail classes, sur-passing SMIE [81] by 3.37%. This demonstrates our model’s abil-ity to generalize the learned motion-text alignment to novel ac-tion classes that share no instances with the training set. In the more challenging and realistic GZSL scenario, our method also shows a substantial advantage. It achieves a harmonic mean (H) of 31.49%, a balanced metric for GZSL performance. This H score is significantly higher than that of SMIE, highlighting our model’s stronger capability to correctly classify both seen and unseen in-stances when the label space includes all categories. These re-sults underscore the effectiveness of our proposed architecture and alignment mechanism in tackling the challenging task of zero-shot action recognition from heterogeneous skeleton data, especially in leveraging textual semantics to bridge the gap toward unseen ac-tion classes. Table 15. Zero-shot action recognition performance on NTU-60 and NTU-120. Our end-to-end model achieves competitive results compared to two-stage ZSAR methods.                                                                                       
+
+> Method Venue NTU-60 (%) NTU-120 (%) 55/5 48/12 110/10 96/24 DeViSE [18] NeurIPS 2013 60.72 24.51 47.49 25.74 RelationNet [29] ICCV 2019 40.12 30.06 52.59 29.06 ReViSE [28] ICCV 2017 59.31 17.49 55.04 32.89 JPoSE [60] ICCV 2019 64.82 28.75 51.93 32.44 CADA-VAE [46] CVPR 2019 76.84 28.96 59.34 33.57 SynSE [25] ICIP 2021 75.81 33.30 62.69 38.70 SMIE [81] ACMMM 2023 77.98 40.18 65.74 45.30 SA-DVAE [34] ECCV 2024 82.37 41.38 68.77 46.12 STAR [8] ACMMM 2024 81.40 45.10 63.30 44.30 GZSSAR [33] ICIG 2023 83.30 49.80 72.00 60.70 InfoCPL [65] TMM 2025 85.91 53.32 74.81 60.05 PURLS [83] CVPR 2024 79.23 40.99 71.95 52.01 ScoPLe [84] CVPR 2025 84.10 52.96 74.53 52.17 Neuron [9] CVPR 2025 86.90 62.70 71.50 57.10 TDSM [12] ICCV 2025 86.49 56.03 74.15 65.06
+> Ours -80.04 40.17 66.01 51.85
+
+C.4. Zero-Shot Recognition on NTU RGB+D 
+
+To comprehensively evaluate our model’s open-vocabulary capa-bility, we conduct zero-shot action recognition experiments on the widely adopted NTU-60 and NTU-120 datasets. We follow the standard protocol and data splits established by SynSE [25], such as the 55/5 split on NTU-60, where 55 classes are treated as seen and the remaining 5 as unseen. The results are reported in Ta-ble 15 and compared with a variety of specialized zero-shot action recognition methods. It is important to emphasize a fundamental architectural distinction: most existing zero-shot action recogni-tion approaches adopt a two-stage training paradigm. They first pretrain a skeleton feature extractor, then freeze this encoder and train a separate visual–semantic alignment module. In contrast, our model employs an end-to-end training scheme, jointly opti-mizing both the feature extractor and the alignment mechanism from scratch using only the seen classes. Despite this more chal-lenging end-to-end formulation, our model achieves competitive performance across all data splits. These results demonstrate that our multi-granularity alignment strategy can effectively learn gen-eralizable representations for open-vocabulary recognition, even without relying on a pretrained, fixed feature extractor. 
+
+C.5. Ablation of Alignment Modules (SSA & FGA) 
+
+To investigate the individual contributions of the Stream-Specific Alignment (SSA) and Fine-Grained Alignment (FGA) modules, we conduct an ablation study by progressively removing them from our full model. The experiments are performed on the J+B+M modality. As shown in Table 16, both modules provide significant and complementary performance gains. The results clearly demonstrate that both SSA and FGA are crucial for achiev-ing optimal performance. Removing either module leads to a no-ticeable drop in accuracy across all datasets. Notably, the im-provements are particularly pronounced in the more challenging medium-shot and few-shot categories of the HumanML3D bench-mark, highlighting the importance of these alignment strategies for 
+
+16 Table 16. Ablation study of the SSA and FGA modules on the J+B+M modality. Both components contribute significantly to the final performance.                                 
+
+> Model Variant NTU-60 NTU-60 HumanML3D (3D) (2D) Overall Many-shot Medium-shot Few-shot Base 85.13 88.76 55.81 68.32 45.19 36.57 Ours w/o FGA 86.51 89.12 60.26 71.23 50.90 47.03 Ours w/o SSA 86.08 89.06 60.42 71.34 51.65 48.11 Ours 87.01 90.10 61.23 71.51 52.28 49.36
+
+learning robust representations that generalize to rare actions. A detailed per-category analysis of their impact on similar vs. rare actions is provided in Appendix D.1. 
+
+## D. Additional Visualization 
+
+D.1. Influence of Alignment Modules 
+
+To provide a more nuanced understanding of how the Stream-Specific Alignment (SSA) and Fine-Grained Alignment (FGA) modules contribute to recognition performance, particularly for challenging action categories, we present a qualitative analysis us-ing a radar chart in Figure 5. This chart visualizes the per-class ac-curacy improvements achieved by progressively adding SSA and FGA to a baseline model (‘Base‘, trained with instance-level align-ment only) on a selection of representative actions. These ac-tions are chosen to highlight performance on (1) similar actions that are easily confused, and (2) rare actions with limited train-ing samples. As illustrated in Figure 5, The introduction of the SSA module (red line), demonstrates a consistent improvement across most actions, particularly for those that are semantically similar and might be easily confused (e.g., “reading,” “writing,” highlighted in orange and sourced from NTU-60). This suggests that by enforcing consistency and independent semantic alignment within the temporal and spatial streams, SSA helps the model learn more discriminative global features that better capture the subtle differences defining such closely related actions. Furthermore, the integration of the FGA module (blue line) shows a particularly pronounced impact on the recognition of rare actions (e.g., “hand-stand,” “jogging in a circle,” highlighted in purple and sourced from HumanML3D). This indicates that FGA, by focusing on the alignment of localized temporal segments and spatial body parts with textual descriptions, enables the model to capture unique, fine-grained cues characteristic of these rare actions, which might be overlooked by global alignment strategies alone. The combined model (‘Base+SSA+FGA’, green line) generally achieves the best performance, benefiting from both the enhanced discriminability from SSA and the detailed local understanding provided by FGA. 
+
+D.2. Influence of the Calibration Factor in Zero-Shot Learning 
+
+The calibration factor γ, as defined in Equation 11, plays a criti-cal role in balancing predictions between seen classes and unseen classes during Generalized Zero-Shot Learning (GZSL) inference. To assess its effect, we conduct a sensitivity analysis by varying 
+
+γ on the HumanML3D benchmark. The results are illustrated in Figure 6. For the GZSL metrics, when γ = 0 , the model exhibits a strong bias toward seen classes, resulting in a high Seen accuracy drink water 
+
+eat meal 
+
+reading 
+
+writing 
+
+put on glasses 
+
+take off glasses dance waltz 
+
+curve walk 
+
+answer phone call 
+
+march 
+
+jogging in a circle 
+
+handstand 
+
+> 51.5
+> 53.2
+> 25.4
+> 76.3
+> 37.4
+
+Orange : Similar actions 
+
+Purple : Rare actions  
+
+> 88.7
+> 85.9
+> 47.6
+
+Base+SSA 
+
+Base 
+
+Base+SSA+FGA 
+
+Base+FGA      
+
+> 0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1
+> drink water
+> eat meal
+> reading
+> writing
+> put on glasses
+> take off glasses
+> dance waltz
+> curve walk
+> march
+> answer phone call
+> jogging in a circle
+> handstand
+> 图表标题
+> 系列 1系列 2系列 3系列 4
+> 46.0
+> 66.2
+> 86.1
+> 25.6
+> 66.7
+> 62.2
+> 75.4
+> 73.6
+> 70.1
+> 63.3
+> 54.4 52.4
+> 62.6
+> 61.8 54.6
+> 49.1
+> 39.2
+> 45.3
+> 35.6
+> 85.4 81.2
+> 79.4
+> 87.7
+> 75.4
+> 43.2
+> 52.6
+> 32.1
+> 51.2
+> 23.7
+> 8.7 4.8
+> 24.3
+> 12.6 6.4
+> 60.2
+> 51.2
+> 45.9
+> 65.5
+> 61.9
+> 58.3
+
+Figure 5. Radar Chart of Per-Class Accuracy Improvements from SSA and FGA Modules, Highlighting NTU-60 Similar Actions (Orange) and HumanML3D Rare Actions (Purple). ACC           
+
+> 0
+> 10
+> 20
+> 30
+> 40
+> 50
+> 60
+> 00 . 0 4 0 . 0 8 0 . 1 2 0 . 1 6 0 . 2 0 . 2 4 0 . 2 8 0 . 3 2 0 . 3 6 0 . 4
+
+Seen  Unseen  H_mean  ZSL 
+
+> Accuracy (%)
+
+Parameter  𝜸𝜸 
+
+Figure 6. Sensitivity analysis of the calibration factor γ on ZSL and GZSL performance metrics (Seen Accuracy, Unseen Accu-racy, Harmonic Mean) on the HumanML3D benchmark. (blue line) and a low Unseen accuracy (orange line). As γ in-creases, it imposes a penalty on predictions for seen classes. Con-sequently, Seen decreases monotonically, while Unseen generally increases, indicating a shift in predictions toward unseen classes. The harmonic mean, which measures the trade-off between Seen and Unseen, initially increases with γ and reaches its peak at an optimal point of γ = 0 .2. At this value, the model achieves the best balance between recognizing seen and unseen categories, ef-fectively mitigating the inherent bias in GZSL inference. 
+
+17
