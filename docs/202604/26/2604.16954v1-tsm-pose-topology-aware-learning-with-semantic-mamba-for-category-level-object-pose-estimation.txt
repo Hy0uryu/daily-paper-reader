@@ -1,0 +1,637 @@
+Title: TSM-Pose: Topology-Aware Learning with Semantic Mamba for Category-Level Object Pose Estimation
+
+URL Source: https://arxiv.org/pdf/2604.16954v1
+
+Published Time: Tue, 21 Apr 2026 00:44:56 GMT
+
+Number of Pages: 12
+
+Markdown Content:
+# TSM-Pose: Topology-Aware Learning with Semantic Mamba for Category-Level Object Pose Estimation 
+
+## Jinshuo Liu 1 , Bingtao Ma 1∗ , Junlin Su 1 , Guanyuan Pan 1 , Beining Wu 1 ,
+
+## Cheng Yang 1 , Jiaxuan Lu 2 , Chenggang Yan 1∗ and Shuai Wang 1∗
+
+> 1
+
+## Hangzhou Dianzi University 
+
+> 2
+
+## Shanghai Artificial Intelligence Laboratory 
+
+## Abstract 
+
+Category-level object pose estimation is fundamen-tal for embodied intelligence, yet achieving ro-bust generalization to unseen instances remains challenging. However, existing methods mainly rely on simple feature extraction and aggregation, which struggle to capture category-shared topo-logical structures and conduct semantic keypoint modeling, limiting their generalization. To ad-dress these, we propose a Topology-Aware Learn-ing with Semantic Mamba for Category-Level Pose Estimation framework (TSM-Pose). Specifically, we introduce a Topology Extractor to capture the global topological representation of the point cloud, which is integrated into local geometry features and enables robust category-level structural representa-tion. Simultaneously, we propose a Mamba-based Global Semantic Aggregator that injects semantics priors into keypoints to enhance their expressive-ness and leverages multiple TwinMamba blocks to model long-range dependencies for more effective global feature aggregation. Extensive experiments on three benchmark datasets (REAL275, CAM-ERA25, and HouseCat6D) demonstrate that TSM-Pose outperforms existing state-of-the-art methods. 
+
+## 1 Introduction 
+
+Object pose estimation stands as a cornerstone of Embod-ied AI and ubiquitous robotics, enabling machines to per-ceive and interact with the physical world through tasks such as robotic grasping and manipulation [Sun et al. , 2025; Wen et al. , 2022; Wu et al. , 2020; Cong et al. , 2021], au-tonomous driving [Hoque et al. , 2023; Mao et al. , 2023; Sun et al. , 2021], and 3D scene understanding [Zhu et al. ,2025; Corsetti et al. , 2025; Ma et al. , 2023; Ma et al. , 2024]. Traditional instance-level paradigms [Xiang et al. , 2017] of-ten struggle due to their reliance on high-fidelity CAD mod-els, which limit their utility in the open world, where en-countering novel, unmodeled objects is the norm rather than the exception. To address this issue, researchers proposed a 
+
+Category-level Object Pose Estimation [Wang et al. , 2019] 
+
+> ∗
+
+Corresponding Authors Point Cloud 
+
+> Local Geometric Feature
+> Topological Feature
+> Fused Feature
+
+Figure 1: TUMAP visualizations of local geometric features (Point-Net++), topological features, and their fusion. The proposed Topol-ogy Extractor derives topology-aware representations from point clouds. We integrate global topological features into local geomet-ric features, leading to more compact intra-class feature distributions (i.e. , fused features) while preserving inter-class separability. 
+
+(COPE), which can estimate the pose and dimensions of un-seen instances without relying on CAD models. These meth-ods typically offer greater flexibility and stronger generaliza-tion ability. However, COPE remains challenging due to sig-nificant intra-class shape variations and complex real-world observation conditions ( e.g. , occlusion and noise). Most COPE methods [Yu et al. , 2024; Chen et al. ,2022; Tian et al. , 2020] employ the dense correspondence paradigm, which establishes point-to-point correspondences and recovers poses by learning to map RGB-D observations to a normalized object coordinate space (NOCS) [Wang et al. ,2019]. However, when there are significant geometric differ-ences within a category, the lack of stable one-to-one cor-respondences between instances reduces generalization abil-ity and prediction stability for unseen instances. Recent re-search [Yu et al. , 2025; Xu et al. , 2025; Lin et al. , 2024a] has gradually shifted towards sparse-keypoint-based strate-gies. By abstracting objects into semantically consistent key-points, these methods aim to construct a universal structural skeleton that transcends individual geometry, enhancing ro-bustness and generalization under shape variations and com-plex observation conditions. AG-Pose [Lin et al. , 2024a] is a typical keypoint-based method that improves cross-instance keypoint stability via instance-adaptive detection and geometry-aware feature ag-gregation. However, its feature extraction and aggregation capabilities are still limited when faced with significant intra-class deformations: the features used are mainly local fea-
+
+> arXiv:2604.16954v1 [cs.CV] 18 Apr 2026
+
+tures, which are easily affected by deformations, and its sim-ple pooling operation lacks the ability to model the global structure, making it difficult to capture long-range depen-dencies between key points. Meanwhile, compressing dense point clouds into sparse keypoints inevitably causes semantic dilution, leading to the loss of category-level context required for global pose reasoning and thereby reducing its robustness. To address these challenges, we propose TSM-Pose, a topology-aware, semantic-enhanced framework for COPE that explicitly integrates structural and semantic priors into keypoint-based pose estimation. To overcome the inher-ent sensitivity of local geometric features to intra-class de-formations, we introduce a Topology Extractor that derives topology-aware representations from point clouds, comple-menting local geometric features for more stable structural modeling, as shown in Figure 1. To aggregate sparse key-points with long-range structural reasoning, we design an Mamba-based Global Semantic Aggregator (MGSA) that leverages TwinMamba to model global dependencies among keypoints and enhances holistic feature aggregation. More-over, to mitigate semantic context loss introduced by keypoint compression, we innovate a Semantic Injection Mechanism, which appends a lightweight category-encoded CAT token to the keypoint sequence, injecting explicit semantic priors and allowing category-level information to be progressively prop-agated during global sequence modeling. Extensive experi-ments on CAMERA25 [Wang et al. , 2019], REAL275 [Wang 
+
+et al. , 2019], and HouseCat6D [Jung et al. , 2024] demonstrate that TSM-Pose achieves state-of-the-art performance. We outline the contributions of TSM-Pose as follows: • We propose TSM-Pose, a novel COPE framework that enhances the robustness and generalization of pose es-timation in scenarios with significant intra-class shape differences by improving global structural representa-tion and keypoint sequence semantic modeling capabil-ities. It achieves SOTA performance on the benchmark datasets CAMERA25, REAL275, and HouseCat6D. • We introduce topology Exactor to obtain deformation-insensitive global structural representations from point clouds, effectively compensating for the shortcomings of traditional local geometric features in cross-instance global structural modeling. • We design an MGSA to model long-range geometric de-pendencies among keypoints while preserving structural consistency. In addition, we introduce category Seman-tic Injection to propagate category priors and alleviate semantic loss caused by sparse keypoints. 
+
+## 2 Related Work 
+
+2.1 Category-level Object Pose Estimation 
+
+COPE aims to predict the 6D pose of unseen instances within the same object category without relying on instance-level CAD models. We categorize existing approaches into shape-prior-based methods and shape-prior-free methods. Early studies primarily focused on explicit shape prior modeling. NOCS [Wang et al. , 2019] introduced a unified normal-ized coordinate space that maps category instances into a canonical reference frame, enabling joint estimation of ob-ject pose and size by the Umeyama algorithm. Subsequent works [Zheng et al. , 2024; Liu et al. , 2024; Li et al. , 2025] further built upon category templates or canonical shapes by incorporating deformation modeling, geometric alignment, or correspondence learning to handle complex intra-class geo-metric variations. In recent years, researchers have proposed a series of shape-prior-free methods. SpotPose [Ren et al. ,2025b] improves performance by using explicit anomaly key identification and clearing. AG-Pose [Lin et al. , 2024a] in-troduces adaptive geometry-aware keypoint learning. MK-Pose [Yang et al. , 2025] explores Self-supervised keypoint learning with polymorphic fusion. TSM-Pose also follows the shape-prior-free paradigm. However, there are still per-formance bottlenecks in terms of estimation accuracy and ro-bustness that need further improvement. 
+
+2.2 Mamba in Point Cloud Tasks 
+
+Mamba is an efficient sequence modeling architecture that excels at modeling long-range dependencies through selec-tive state updates, while maintaining high performance and throughput, and has recently attracted significant research at-tention. Since the original Mamba follows a causal model-ing paradigm, subsequent studies (e.g., Vision Mamba) have further explored bidirectional Mamba to enhance information interaction at both ends of the sequence, thereby improving global modeling capability [Zhu et al. , ]. Motivated by these advances, recent studies have begun exploring the applica-tion of Mamba to 3D point cloud understanding tasks. Point-Mamba [Liang et al. , 2024] maps unordered point clouds into 1D sequences using the Hilbert space-filling curve and its Trans-Hilbert variant, and applies Mamba to perform global feature modeling while preserving spatial continuity as much as possible. Owing to its strong global modeling capabil-ity and favorable efficiency–performance trade-off, we adopt Mamba as the backbone to further enhance COPE. 
+
+2.3 Topology-Aware Point Cloud Analysis 
+
+There has been a growing interest in incorporating topologi-cal information [Su et al. , 2025] into point cloud processing. These approaches aim to extract global structural properties inherent in point clouds, such as connectivity, holes, cavi-ties, and branching structures, which can be characterized as topological invariants. Researchers employ tools from topo-logical data analysis (TDA) [Carlsson, 2009], such as persis-tent homology, to model structural features that remain stable across multiple scales. Such global structural information is often difficult for neural networks that rely on local receptive fields to learn effectively. Moreover, topological features ex-hibit strong robustness to point cloud noise and non-uniform sampling. While existing research explores the application of topological descriptors for point cloud reconstruction [Jig-nasu et al. , 2024] and classification [Ghosh and Dutta, 2025; Chen and Lin, 2025], the effective integration of topological invariants with learnable geometric features within the con-text of COPE remains largely unexplored. Therefore, incor-porating topological features into point cloud representation learning offers a promising approach to enhancing COPE’s cross-instance generalization ability. DINOv2         
+
+> PointNet++
+> Topology
+> Extractor
+> KeyPoints
+> Detector
+> Local
+> Aggregator
+> Global
+> Aggregator
+> Pose
+> Estimator
+> C
+> C
+> Pose & Size
+> (a) Overview Framework
+> (b) Topology Extractor
+> Feature
+> Aggregation
+> PH Analysis
+> (H0 / H1)
+> Complex
+> Construction
+> Persistence Diagram
+> Persistent
+> Entropy
+> Betti
+> Curves
+> CConcat Trainable Frozen Parameter-free Addition 1D Conv
+> Semantic
+> Injection
+> ·
+> ·
+> ··
+> ·
+> ··
+> ·
+> ·
+> cut
+> TwinMamba ×n
+> Mamba
+> CF CF Mamba
+> Layer Norm
+> C
+> Local Geometric
+> Feature Aggregator
+> hilbert
+> (C) Mamba-based Global Semantic Aggregator（MGFA）
+> Pose
+> Embedding
+
+ℱ
+
+> o
+
+ℱ
+
+> t
+
+ℱ
+
+> p
+
+ℱ
+
+> r
+
+ℱf
+
+> 
+> kpt
+> KNN
+
+Figure 2: (a) Overall framework of TSM-Pose. We fuse multimodal features Fr , Fp and Ft into Fo, which are then fed into a keypoint detector. The detected keypoints, along with their associated features, are subsequently passed to a Local geometric feature Aggregator (LGFA) and MGSA. Finally, we use a pose estimator to predict the object’s pose. (b) Topology Extractor capturing intrinsic topological structures of the point cloud using persistent homology with homology dimensions H0 and H1. (c) MGSA serializes the key points and performs Semantic Injection, then models long-range dependencies through stacked TwinMamba blocks. 
+
+## 3 Method 
+
+3.1 Overview 
+
+Following previous works [Lin et al. , 2024a; Yang et al. ,2025], we apply Mask R-CNN for instance segmentation to obtain cropped RGB image Io ∈ RH×W ×3 and object point cloud Po ∈ RN ×3, where N is the number of points, as shown in Figure 2. TSM-Pose uses them to estimate the 3D rotation 
+
+R ∈ R3×3, translation t ∈ R3, and object size s ∈ R3.TSM-Pose consists of four stages. First, we extract visual, geometric, and topological features from the image and point cloud, and fuse them into a unified point-by-point feature rep-resentation to serve as input for subsequent keypoint infer-ence. Second, we employ an keypoint detector to predict a set of sparse yet discriminative keypoints. Subsequently, we feed the predicted keypoints and their corresponding features from the fused features into the LGFA and MGSA, thereby enhancing the keypoint representation by fusing local geo-metric details and global semantic context. Finally, the im-proved keypoint features are used to regress the object’s pose. 
+
+3.2 Feature Extractor 
+
+We obtain visual representations from the RGB image Io by DINOv2 (ViT-S/14) [Oquab et al. , 2023]. Meanwhile, We use a PointNet++ [Qi et al. , 2017] to extract local geometric features Fp ∈ RN ×dp and a Topology Extractor to extract and obtain global topological features Ft ∈ Rdt . We then broadcast Ft to the point level and fuse it with Fp to obtain 
+
+Ff ∈ RN ×df . We project each 3D point onto the image and fetch its pixel embedding by bilinear sampling to obtain 
+
+FI ∈ RN ×dr . Then we concatenate FI with Ff to build 
+
+Fo ∈ RN ×d, which we use as the network input. 
+
+3.3 Topology Extractor 
+
+In most COPE frameworks [Lin et al. , 2024a; Ren et al. ,2025c], learning-based geometric representations (such as PointNet++) can be sensitive to variations in point cloud sam-pling density, occlusion, and appearance differences between instances within the same class. This sensitivity can easily lead to the separation of feature distributions within instances of the same class (as shown in Figure 1). In contrast, topo-logical structures exhibit greater stability to these perturba-tions and can provide global shape constraint information be-yond local geometric details. Based on this, we introduce a TDA-inspired topological structure descriptor to supplement the shortcomings of local geometric features. To capture the global topological structure, we construct an Alpha complex from Po using a scale parameter α. Specif-ically, for each point Pio, we define a closed ball B(Pio, α )
+
+centered at Pio with radius α. We include a k-simplex formed by points {P i0 
+
+> o
+
+, . . . , PiN 
+
+> o
+
+} in the Alpha complex [Edelsbrun-ner and M¨ ucke, 1994] at scale α if the corresponding balls have a non-empty intersection: 
+
+\
+
+> j
+
+B(Pij 
+
+> o
+
+, α )̸ = ∅. (1) As α increases, we obtain a series of nested alpha complexes, forming an alpha-filtering process. Based on this filtering, we compute its k-dimensional persistence [Edelsbrunner et al. , 2002]: 
+
+Dk =
+
+n
+
+(b(k) 
+
+> j
+
+, d (k) 
+
+> j
+
+)
+
+o
+
+, k ∈ { 0, 1}. (2) Here, b(k) 
+
+> j
+
+and d(k) 
+
+> j
+
+are the birth and death scales of the j-th k-th topological feature during the filtering process. We use j as indices to enumerate all topological features in the persistence diagram Dk. We define the persistence length of the j-th feature as ℓ(k) 
+
+> j
+
+= d(k) 
+
+> j
+
+−b(k) 
+
+> j
+
+. Let p(k) 
+
+> j
+
+= ℓ(k) 
+
+> j
+> P
+> iℓ(k)
+> i
+
+, then we denote the topological entropy as follows: 
+
+H(k) = − X
+
+> j
+
+p(k) 
+
+> j
+
+log 
+
+
+
+p(k) 
+
+> j
+
++ ε
+
+
+
+. (3) Here, ε is a small constant for numerical stability. The entropy characterizes the distribution of lifetimes of topological features in the persistence diagram, quantifying the relative importance and diversity of global topological structures within the shape. To better capture the evolution of topology across different scales, we linearly normalize all birth and death values into the range [0 , 1] , resulting in 
+
+(˜b(k) 
+
+> j
+
+, ˜d(k) 
+
+> j
+
+). We then uniformly sample scales tm ∈ [0 , 1] and count the number of features that remain alive at each scale, which results in the Betti curve: 
+
+β(k)(tm) = # 
+
+n
+
+j ˜b(k) 
+
+> j
+
+≤ tm < ˜d(k)
+
+> j
+
+o
+
+, (4) 
+
+#{·} denotes the cardinality of a set. We incorporate a global topological feature vector consisting of topological entropy and Betti curves into the point cloud representation to ob-tain topology-enhanced features Ft ∈ RNk ×dt . Then, key-points Fkpt are detected by multimodal features Fo and the instance-adaptive keypoint detector [Lin et al. , 2024a]. The further details are available in the supplementary material. 
+
+3.4 Local Geometric Feature Aggregator 
+
+Given the detected keypoints, we explicitly aggregate their neighborhood feature with a Local Geometric Feature Ag-gregator (LGFA), which based on graph attention mecha-nism [Velickovic et al. , 2017] to better capture local geo-metric structure. Let fm ∈ F kpt denote the feature of the 
+
+m-th keypoint, and let N (m) represent its K nearest neigh-bors (KNN). We encode Local geometric information via the relative displacement ∆pm,j = pj − pm using a geometric encoder: 
+
+em,j = M LP geo (∆ pm,j ). (5) To model the dynamic relationship among a keypoint, its neighbors, and their relative geometry, we compute attention coefficients from a concatenation of the query, key, and geo-metric representations. We obtain the attention score cm,j as 
+
+cm,j = LeakyReLU  aT [qm ; kj ; em,j ] . (6) We obtain the attention weights αm,j via softmax normaliza-tion over the local neighborhood. Using this, we aggregate neighborhood features by incorporating the geometric encod-ing into the value representations: 
+
+f loc  
+
+> m
+
+= X 
+
+> j∈N (m)
+
+αm,j (vj + em,j ). (7) We then fuse the aggregated local feature with the original keypoint feature via a residual connection: 
+
+ˆfkpt = ReLU( f loc  
+
+> kpt
+
++ fkpt ). (8) Stacking all keypoints yields the output feature set ˆFkpt .
+
+> AG-Pose TSM-Pose
+> Figure 3: We visualized and compared TSM-Pose and our baseline AG-Pose on the REAL275 dataset, where predicted and ground truth bounding boxes are represented in green and red, respectively.
+
+3.5 Mamba-based Global Semantic Aggregator 
+
+Although LGFA effectively captures fine-grained geometric information, it lacks the capacity to model the global structure required for COPE. Existing keypoint-based methods [Lin et al. , 2024a; Yang et al. , 2025] use simple pooling and concate-nation for global feature aggregation, which not only loses substantial local keypoint semantic context but also ignores the global geometric relationships between keypoints. To ad-dress these issues, we propose MGSA to enhance the global semantic representation of keypoints by introducing an Se-mantic Injection and combining TwinMamba to model long-range dependencies between keypoints. 
+
+Keypoint Serialization. Unlike discriminative point cloud tasks that emphasize permutation invariance, keypoints in pose estimation are highly sparse, making ensemble model-ing insufficient for capturing global geometry. We serialize keypoints using a single Hilbert space-filling curve, provid-ing a stable traversal order while preserving local spatial con-tinuity. We formulate the one-dimensional keypoint sequence 
+
+Hkpt = h1; h2; . . . ; hNk
+
+ ∈ RNk ×d, where hNk denotes the feature embedding of the Nk-th keypoint after local fea-ture aggregation. 
+
+Semantic Injection. To address the loss of inherent se-mantic context in point features, we inject category se-mantics into the keypoint sequence to augment local key-points with semantic information, which enables category-level semantics to be progressively propagated along the key-point sequence, allowing subsequent Mamba networks to perform global modeling conditioned on prior semantic in-formation. Furthermore, we encode the category seman-tics into an independent global semantic token and place it at the beginning of the sequence to provide a stable se-mantic anchor: c = MLP (CAT n), n ∈ [0 , 5] , ˜Hkpt =c; h1; h2; . . . ; hNk
+
+ ∈ R(Nk +1) ×d. Subsequently, we input the sequence ˜Hkpt into TwinMamba for global modeling. 
+
+TwinMamba Block. Since sparse keypoints constitute a high-level abstraction of object geometry, effectively captur-ing their intricate spatial dependencies is crucial. To fully exploit this relational potential, we orchestrate a TwinMamba module to achieve global modeling of keypoints. To alleviate the model’s over-reliance on serialization or-der, we constructed two sequence branches based on comple-mentary feature modeling. Specifically, one branch models keypoints along the original Hilbert curve sequence, while the other branch, preserving the keypoint order, uses a chan-nel flipping (CF) operation to construct a symmetrical model-ing path along the feature dimension. The CF operation con-structs a symmetric modeling path without altering the token order. Given a keypoint feature vector 
+
+ˆfNk = fNk ,1, f Nk ,2, . . . , f Nk ,d 
+
+ ∈ Rd,
+
+CF performs a channel-wise reversal: 
+
+CF (ˆfNk ) = fNk ,d , f Nk ,d −1, . . . , f Nk ,1
+
+ ∈ Rd.
+
+We can uniformly express the two branches as: 
+
+ˆHf = Mamba( ˜Hkpt ), ˆHb = CF  Mamba(CF( ˜Hkpt )) ,
+
+(9) Subsequently, we input the two sequences into a parameter-shared Mamba module for global modeling. Finally, we fuse the two branch outputs at the token level, followed by feature refinement through residual connections: 
+
+ˆhk = hk + MLP 
+
+h ˆhf,k ∥ ˆhb,k 
+
+i 
+
+. (10) We then feed the updated keypoint representation ˆHkpt ∈
+
+RNk ×d into the subsequent pose regression module. To ensure that the aggregated keypoints retain meaningful geometric structures, we employ a reconstruction-based su-pervision mechanism [Lin et al. , 2024a]. We reconstruct the shape by predicting multiple 3D offset vectors for each key-point and adding them to the corresponding keypoint coordi-nates, yielding a set of local point clusters whose union forms the reconstructed point cloud. The reconstructed point cloud is denoted as Precon o and the ground-truth point cloud is Pgt o .We supervise the reconstruction using a symmetric Chamfer Distance (CD) to enforce geometric consistency: 
+
+Lrecon = CD( Precon o , Pgt o ). (11) To prevent excessive deformation, we further regularize the predicted offset vectors {∆i} with an ℓ2 penalty: 
+
+Lδ = 1
+
+N
+
+> N
+
+X
+
+> i=1
+
+∥∆i∥2. (12) 
+
+3.6 Loss Function 
+
+We follow prior work [Lin et al. , 2024a] and jointly supervise pose estimation, keypoint localization, NOCS prediction, and shape reconstruction with a multi-term loss: 
+
+L = λpose Lpose + λnocs Lnocs + λcd Lcd 
+
++ λdiv Ldiv + λrecon Lrecon + λδ Lδ , (13) where Lpose is an ℓ2 regression loss for predciting rotation 
+
+R ∈ R3×3, translation t ∈ R3, and scale s ∈ R3 of aligning an object instance to the NOCS. Lpose is formulated as: 
+
+Lpose = ∥R − Rgt ∥2 + ∥t − tgt ∥2 + ∥s − sgt ∥2, (14) where Rgt , tgt , and sgt denote the ground-truth rotation, translation, and scale, respectively. In addition, Lnocs en-forces consistency between predicted keypoint NOCS coor-dinates and the ground truth. Lcd encourages keypoints to lie on the object surface, while Ldiv promotes their spatial diver-sity. Definitions and implementation details of the remaining loss terms are given in the supplementary materials. 
+
+## 4 Experiment 
+
+4.1 Dataset 
+
+In the experiment, we conduct evaluations on two widely used datasets, NOCS [Wang et al. , 2019] and House-Cat6D [Jung et al. , 2024]. NOCS contains a synthetic split (CAMERA25) and a real-world split (REAL275). CAM-ERA25 includes 275K synthetic RGB-D images for training and 25K for testing, while REAL275 includes 4,318 real im-ages for training and 2,754 for testing. It covers six com-mon categories (bottle, bowl, camera, can, laptop, and mug) with accurate pose and size annotations. HouseCat6D [Jung 
+
+et al. , 2024] is a large-scale multimodal pose dataset with 10 household-object categories and 194 object instances, featur-ing diverse viewpoints, heavy occlusion, and realistic scenes. 
+
+4.2 Evaluation Metrics 
+
+Following prior works [Lin et al. , 2024a; Lin et al. , 2025], we evaluate the performance using two metrics. 3D IoU: 
+
+This metric measures the spatial overlap between the pre-dicted and ground-truth 3D bounding boxes. We adopt the 3D IoU defined in CATRE [Liu et al. , 2022] and report the mean Average Precision under a threshold of 75%. For the HouseCat6D [Jung et al. , 2024] dataset, we additionally re-port the mAP of 3D IoU under thresholds of 25% and 50%. 
+
+n°m cm: This metric jointly evaluates rotation and transla-tion errors for pose estimation. A prediction counts as correct if the rotation error is below n◦ and the translation error is below m cm. Following standard evaluation protocols, we report results under four commonly used thresholds across all datasets: 5◦2 cm, 5◦5 cm, 10 ◦2 cm, and 10 ◦5 cm. 
+
+4.3 Implementation Details 
+
+In the experiment, we uniformly sample each point cloud to 
+
+N = 1024 points and normalize them. During training, we add Gaussian noise to the point clouds and apply color jitter-ing and random noise perturbations to the RGB images. We set the input RGB image resolution to 224 ×224 and the num-ber of keypoints to Nk = 96 . We construct local neighbor-hoods using the KNN with K = 16 . The feature dimensions are dt = 96 , dr = dp = 128 , and d = 256 . We extract Topo-logical features corresponding to the 0- and 1-dimensional Betti numbers. The loss function is a weighted sum of multi-ple terms with λpose = 0 .3, λnocs = 2 .0, λcd = 2 .0, λdiv = 10 ,
+
+λrecon = 15 , λδ = 1 .0. We conduct Training on a single NVIDIA RTX 3090 GPU with a batch size of 40 . We use the Adam optimizer with a cyclic learning rate schedule ranging from 2 × 10 −5 to 5 × 10 −4 over 60 epochs. For the NOCS dataset, we use a 3:1 synthetic-to-real data ratio. 
+
+4.4 Comparison with SOTA Methods 
+
+Results on REAL275. Table 1 shows the quantitative re-sults on the REAL275 dataset. The results demonstrate that our method achieves the best performance across all reported evaluation metrics. Specifically, under the evaluation settings of 5◦2 cm, 5◦5 cm, 10 ◦2 cm, and 10 ◦5 cm, TSM-Pose attains accuracies of 62.4%, 68.5%, 81.5%, and 88.7%, respectively. Compared with AG-Pose [Lin et al. , 2024a], which serves as the baseline, TSM-Pose yields consistent improvements of Table 1: Quantitative comparison on the REAL275 dataset against SOTA approaches. ’*’ denotes CATRE[Liu et al. , 2022] IoU metrics, and ’–’ denotes unavailable entries. We emphasize the top and runner-up results in bold and underlined. 
+
+Methods Venue/Source Shape Prior IoU ∗ 
+
+> 75
+
+5◦ 2 cm 5◦ 5 cm 10 ◦ 2 cm 10 ◦ 5 cm 
+
+MH6D [Liu et al. , 2024] TNNLS’24 ✓ 54.2 53.0 61.1 72.0 82.0 GeoRef [Zheng et al. , 2024] TNNLS’24 ✓ 51.8 54.4 60.3 71.9 79.4 CatFormer [Yu et al. , 2024] AAAI’24 ✗ – 47.7 53.7 69.0 79.5 CLIPose [Lin et al. , 2024b] TCSVT’24 ✗ – 48.5 58.2 70.3 85.1 SpotPose [Ren et al. , 2025b] CVPR’24 ✗ – 59.7 68.3 76.5 84.2 AG-Pose [Lin et al. , 2024a] CVPR’24 ✗ 61.3 57.0 64.6 75.1 84.7 GCE-Pose [Li et al. , 2025] CVPR’25 ✓ – 57.0 65.1 75.6 86.3 KeyPose [Yu et al. , 2025] AAAI’25 ✗ – 57.7 66.0 78.8 88.0 SpherePose [Ren et al. , 2025a] ICLR’25 ✗ – 58.2 67.4 76.2 88.2 MK-Pose [Yang et al. , 2025] IROS’25 ✗ – 60.8 – 78.0 84.6 CleanPose [Lin et al. , 2025] ICCV’25 ✗ 62.7 61.7 67.6 78.3 86.3 
+
+TSM-Pose (ours) – ✗ 63.1 62.4 68.5 81.5 88.7 
+
+Table 2: Quantitative comparison on the CAMERA25 dataset against SOTA approaches. ’*’ denotes CATRE[Liu et al. , 2022] IoU metrics, and ’–’ denotes unavailable entries. The top and runner-up results are emphasized in bold and underlined.                                                                         
+
+> Methods IoU ∗
+> 75 5◦2cm 5◦5cm 10 ◦2cm 10 ◦5cm
+> MH6D [Liu et al. , 2024] 54.2 53.0 61.1 72.0 82.0 GeoRef [Zheng et al. , 2024] 79.2 77.9 84.0 83.8 90.5 VI-Net [Lin et al. , 2023] -74.1 81.4 79.3 87.3 CLIPose [Lin et al. , 2024b] -74.8 82.2 82.0 91.2 SpotPose [Ren et al. , 2025b] -80.4 83.8 87.7 92.2 AG-Pose [Lin et al. , 2024a] 81.2 79.5 83.7 87.1 92.6 MK-Pose [Yang et al. , 2025] -77.9 -86.1 91.7 KeyPose [Yu et al. , 2025] -79.8 83.6 87.1 92.3 CleanPose [Lin et al. , 2025] 80.7 80.3 84.2 87.7 92.7
+> TSM-Pose (ours) 81.1 79.9 84.6 88.2 93.6
+
+Table 3: Quantitative comparison on the HouseCat6D dataset against SOTA approaches. The top and runner-up results are em-phasized in bold and underlined.                                                 
+
+> Methods IoU 25 5◦2cm 5◦5cm 10 ◦2cm 10 ◦5cm
+> VI-Net [Lin et al. , 2023] 80.7 8.4 10.3 20.5 29.1 SecondPose [Chen et al. , 2024] 83.7 11.0 13.4 25.3 35.7 AG-Pose [Lin et al. , 2024a] 88.1 21.3 22.1 51.3 54.3 SpherePose [Ren et al. , 2025a] 88.8 19.3 25.9 40.9 55.3 CleanPose [Lin et al. , 2025] 89.2 22.4 24.1 51.6 56.5
+> TSM-Pose (ours) 90.2 23.6 25.1 53.2 57.8
+
+8.6%, 5.7%, 8.5%, and 4.7% on the corresponding metrics. Furthermore, under the same evaluation protocol, TSM-Pose also outperforms the SOTA CleanPose method across all met-rics. Figure 3 presents qualitative comparisons, further illus-trating that TSM-Pose produces more accurate and reliable pose estimates in complex scenarios. 
+
+Results on CAMERA25. Table 2 reports the performance evaluation results on the CAMERA25 dataset. The experi-mental results indicate that TSM-Pose achieves the best per-formance across all evaluation metrics except IoU75 and 
+
+Table 4: Ablation study of individual modules. The best perfor-mance is highlighted in bold. TM denotes TwinMamba, TE denotes the Topology Extractor and SI denotes Semantic Injection. TM TE SI 5◦ 2 cm 5◦ 5 cm 10 ◦ 2 cm 10 ◦ 5 cm 
+
+✗ ✗ ✗ 57.0 64.6 75.1 84.7 
+
+✓ ✗ ✗ 59.9 65.3 78.4 86.6 
+
+✓ ✓ ✗ 61.7 66.7 80.8 87.7 
+
+✓ ✓ ✓ 62.4 68.5 81.5 88.7 
+
+Table 5: Effect of serialization. Gray represents the default settings, and the best results are indicated in bold .Setting 5◦ 2 cm 5◦ 5 cm 10 ◦ 2 cm 10 ◦ 5 cm 
+
+Non-serialized 60.8 66.7 79.8 87.5 Z-order 61.9 67.9 80.4 88.4 Hilbert 62.4 68.5 81.5 88.7 
+
+the 5◦2 cm criterion; even on these two metrics, its per-formance remains very close to that of the current SOTA methods. Specifically, TSM-Pose attains accuracy rates of 79.9%, 84.6%, 88.2%,and 93.6% under the 5◦2 cm, 5◦5 cm, 
+
+10 ◦2 cm, and 10 ◦5 cm metrics, respectively. Furthermore, the experimental results on the synthetic dataset further validate the effectiveness of the proposed TSM-Pose. 
+
+Results on HouseCat6D. As shown in Table 3, our method consistently outperforms existing methods on House-Cat6D [Jung et al. , 2024]. In particular, it improves the 
+
+5◦2 cm, 10 ◦2 cm, and 10 ◦5 cm scores by 5.4%, 3.1%, and 2.3% over the best competing method, highlighting its strong generalization ability on COPE. 
+
+4.5 Ablation Studies 
+
+We conduct a systematic ablation study on a unified base-line model to analyze the contributions of three core compo-nents: TwinMamba, Topology Extractor, and Semantic Injec-Table 6: Effect of different mamba. Gray represents the default set-tings, and the best results are indicated in bold . CF denotes channel flipping, TF denotes token flipping, and RA denotes Random Chan-nel Arrangement. Method 5◦ 2 cm 5◦ 5 cm 10 ◦ 2 cm 10 ◦ 5 cm                          
+
+> TwinMamba 62.4 68.5 81.5 88.7
+> BiMamba 61.2 67.3 77.4 85.6 Attention 59.0 64.4 81.0 87.9 CF 62.4 68.5 81.5 88.7
+> TF 60.9 66.6 79.5 87.0 RA 58.2 65.3 77.4 86.5 Table 7: Effect of different numbers of TwinMamba Blocks. Gray represents the default settings. The best results are indicated in bold .
+
+Setting 5◦ 2 cm 5◦ 5 cm 10 ◦ 2 cm 10 ◦ 5 cm 
+
+2 60.4 66.3 80.0 87.7 4 61.1 67.3 80.2 88.2 6 62.4 68.5 81.5 88.7 
+
+8 60.7 67.0 78.0 85.8 10 60.5 65.9 79.7 86.5 
+
+tion. We summarize the experimental results in Table 4. We use AG-Pose as our baseline. 
+
+Effect of TwinMamba. As shown in Table 4, the introduc-tion of TwinMamba significantly improves the model’s per-formance across all evaluation settings. At the 10 ◦2cm set-ting, performance improves from 75.1% to 78.4%, and at the more stringent 5◦2cm setting, performance improves from 57.0% to 59.9%, demonstrating that TwinMamba effectively captures long-range dependencies and globally models key-points, significantly enhancing global feature representation. 
+
+Effect of Topology Extractor. As shown in Figure 4, the introduction of the Topology Extracto significantly improves model performance, increasing the accuracy at 5◦2cm from 59.9% to 61.7%. By capturing global structural features that are robust to local geometric changes (as shown in Figure 1), the Topology Extracto supplements local geometric features and improves the consistency of intra-class features, thus im-proving the model’s generalization ability. 
+
+Effect of Semantic Injection. As shown in Table 4, with the introduction of Semantic Injection, the performance under the 5◦2cm setting improves from 61.7% to 62.4%, indicat-ing that incorporating semantic features effectively compen-sates for the semantic context lost during keypoint selection, thereby enhancing the semantic expressiveness of keypoints. 
+
+Effect of Serialization. In Table 5, we evaluated the impact of different serialization on the model. Non-serialized refers to the default point cloud order we used. Among the methods compared, Hilbert serialization achieved the best results. 
+
+Effect of Different Mamba. As shown in Table 6, Bi-Mamba is instantiated from VisionMamba [Zhu et al. , ], while the Attention [Vaswani et al. , 2017] adopts stan-dard self-attention with a comparable number of parame-ters. TwinMamba consistently outperforms both BiMamba and the Attention baseline across all evaluation metrics. No-tably, channel flipping yields significantly better performance than token flipping, indicating that preserving the spatial or-der of keypoints while constructing symmetric feature rep-resentations is more suitable for keypoint sequence model-ing. In contrast, random channel arrangement (RA) performs worse, indicating that arbitrarily disrupting the channel or-der destroys all structural information in point features and is therefore detrimental to keypoint sequence modeling. 
+
+Effect of Varying Number of TwinMamba Blocks. As shown in Table 7, increasing the number of blocks from 2 to 6 results in continuous improvement across all metrics, due to a deeper aggregation network that enhances the represen-tation of global keypoints. However, further increasing the number of blocks from 6 to 10 may cause excessive global information fusion, resulting in homogenized features across different keypoints and reduced discriminative power. Over-all, 6 blocks yield the best performance. 
+
+Note on Efficiency. Given that current topological feature extraction algorithms generally lack efficient GPU-parallel implementations, the introduction of topology-aware features limits the model throughput to a certain extent. Experi-mental results show that, during inference, TSM-Pose runs at 15 FPS, which is slightly lower than AG-Pose (23 FPS) and CleanPose (22 FPS). In terms of model size, TSM-Pose contains 38.35M parameters, which is higher than AG-Pose (33.47M) but still remains within the same order of magni-tude overall. Although this introduces a certain inference overhead, TSM-Pose still maintains practical inference ef-ficiency in offline analysis and batch-processing scenarios. More importantly, as shown in Table 1, the proposed method achieves significant gains in robustness and generalization performance. 
+
+## 5 Conclusion 
+
+In this paper, we present TSM-Pose, a novel framework for COPE. Our approach introduces a Topology Extrac-tor to explicitly capture global topological structures from point clouds, complemented by lightweight category tokens that inject global semantic priors into keypoints. Further-more, the proposed TwinMamba module facilitates compre-hensive global modeling, significantly bolstering the model’s robustness against complex geometries and substantial intra-category variations. Extensive benchmarks demonstrate that TSM-Pose consistently surpasses state-of-the-art methods across multiple datasets. In the future, we aim to optimize the computational efficiency of topological feature genera-tion through GPU parallelism and explore richer multimodal learning strategies to further enhance generalization. 
+
+## Acknowledgements 
+
+This research is supported by Zhejiang Provincial Nat-ural Science Foundation of China under Grant No. LQN25F030009. We thank Wenhua Zhang and Liting Wang from the Cloud Network Technology Center at China Mobile Migu for pro-viding computational resources through the Migu AI Training and Inference Service Platform. 
+
+## References 
+
+[Carlsson, 2009] G. Carlsson. Topology and data. Bulletin of the American Mathematical Society , 46(2):255–308, 2009. [Chen and Lin, 2025] Y. Chen and H. Lin. Robust model reconstruction based on the topological understanding of point clouds using persistent homology. Computer-Aided Design , page 103934, 2025. [Chen et al. , 2022] K. Chen, S. James, C. Sui, Y.-H. Liu, P. Abbeel, and Q. Dou. Stereopose: Category-level 6d transparent object pose estimation from stereo images via back-view nocs. arXiv preprint arXiv:2211.01644 , 2022. [Chen et al. , 2024] Y. Chen, Y. Di, G. Zhai, F. Manhardt, C. Zhang, R. Zhang, F. Tombari, N. Navab, and B. Busam. Secondpose: Se (3)-consistent dual-stream feature fusion for category-level pose estimation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 9959–9969, 2024. [Cong et al. , 2021] Y. Cong, R. Chen, B. Ma, H. Liu, D. Hou, and C. Yang. A comprehensive study of 3-d vision-based robot manipulation. IEEE Transactions on Cybernetics , 53(3):1682–1698, 2021. [Corsetti et al. , 2025] J. Corsetti, F. Giuliari, A. Fasoli, D. Boscaini, and F. Poiesi. Functionality understanding and segmentation in 3d scenes. In Proceedings of the Com-puter Vision and Pattern Recognition Conference , pages 24550–24559, 2025. [Edelsbrunner and M¨ ucke, 1994] H. Edelsbrunner and E. P. M¨ ucke. Three-dimensional alpha shapes. ACM Transac-tions on Graphics (TOG) , 13(1):43–72, 1994. [Edelsbrunner et al. , 2002] Edelsbrunner, Letscher, and Zomorodian. Topological persistence and simplification. 
+
+Discrete & computational geometry , 28(4):511–533, 2002. [Ghosh and Dutta, 2025] A. Ghosh and A. Dutta. Taco-net: Topological signatures triumph in 3d object classification. 
+
+arXiv preprint arXiv:2509.24802 , 2025. [Hoque et al. , 2023] S. Hoque, S. Xu, A. Maiti, Y. Wei, and M. Y. Arafat. Deep learning for 6d pose estimation of ob-jects—a case study for autonomous driving. Expert Sys-tems with Applications , 223:119838, 2023. [Jignasu et al. , 2024] A. Jignasu, A. Balu, S. Sarkar, C. Hegde, B. Ganapathysubramanian, and A. Krishna-murthy. Sdfconnect: Neural implicit surface reconstruc-tion of a sparse point cloud with topological constraints. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 5271–5279, 2024. [Jung et al. , 2024] H. Jung, S.-C. Wu, P. Ruhkamp, G. Zhai, H. Schieber, G. Rizzoli, P. Wang, H. Zhao, L. Garattoni, S. Meier, et al. Housecat6d-a large-scale multi-modal category level 6d object perception dataset with house-hold objects in realistic scenarios. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 22498–22508, 2024. [Li et al. , 2025] W. Li, H. Xu, J. Huang, H. Jung, P. K. T. Yu, N. Navab, and B. Busam. Gce-pose: Global context enhancement for category-level object pose estimation. In 
+
+Proceedings of the Computer Vision and Pattern Recogni-tion Conference , pages 27154–27165, 2025. [Liang et al. , 2024] D. Liang, X. Zhou, W. Xu, X. Zhu, Z. Zou, X. Ye, X. Tan, and X. Bai. Pointmamba: A simple state space model for point cloud analysis. In Advances in Neural Information Processing Systems , 2024. [Lin et al. , 2023] J. Lin, Z. Wei, Y. Zhang, and K. Jia. Vi-net: Boosting category-level 6d object pose estimation via learning decoupled rotations on the spherical representa-tions. In Proceedings of the IEEE/CVF international con-ference on computer vision , pages 14001–14011, 2023. [Lin et al. , 2024a] X. Lin, W. Yang, Y. Gao, and T. Zhang. Instance-adaptive and geometric-aware keypoint learning for category-level 6d object pose estimation. In Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 21040–21049, 2024. [Lin et al. , 2024b] X. Lin, M. Zhu, R. Dang, G. Zhou, S. Shu, F. Lin, C. Liu, and Q. Chen. Clipose: Category-level object pose estimation with pre-trained vision-language knowledge. IEEE Transactions on Circuits and Systems for Video Technology , 34(10):9125–9138, 2024. [Lin et al. , 2025] X. Lin, Y. Peng, L. Wang, X. Zhong, M. Zhu, Y. Feng, J. Yang, C. Liu, and Q. Chen. Clean-pose: Category-level object pose estimation via causal learning and knowledge distillation. In Proceedings of the IEEE/CVF International Conference on Computer Vision ,pages 5990–6000, 2025. [Liu et al. , 2022] X. Liu, G. Wang, Y. Li, and X. Ji. CATRE: iterative point clouds alignment for category-level object pose refinement. In European Conference on Computer Vision (ECCV) , October 2022. [Liu et al. , 2024] J. Liu, W. Sun, C. Liu, H. Yang, X. Zhang, and A. Mian. Mh6d: Multi-hypothesis consistency learn-ing for category-level 6-d object pose estimation. IEEE Transactions on Neural Networks and Learning Systems ,2024. [Ma et al. , 2023] B. Ma, Y. Cong, and J. Dong. Topology-aware graph convolution network for few-shot incremental 3-d object learning. IEEE Transactions on Systems, Man, and Cybernetics: Systems , 54(1):324–337, 2023. [Ma et al. , 2024] B. Ma, Y. Cong, and Y. Ren. Iosl: In-cremental open set learning. IEEE Transactions on Cir-cuits and Systems for Video Technology , 34(4):2235–2248, 2024. [Mao et al. , 2023] J. Mao, S. Shi, X. Wang, and H. Li. 3d object detection for autonomous driving: A comprehen-sive survey. International Journal of Computer Vision ,131(8):1909–1963, 2023. [Oquab et al. , 2023] M. Oquab, T. Darcet, T. Moutakanni, H. Vo, M. Szafraniec, V. Khalidov, P. Fernandez, D. Haz-iza, F. Massa, A. El-Nouby, et al. Dinov2: Learning ro-bust visual features without supervision. arXiv preprint arXiv:2304.07193 , 2023. [Qi et al. , 2017] C. R. Qi, L. Yi, H. Su, and L. J. Guibas. Pointnet++: Deep hierarchical feature learning on point sets in a metric space. Advances in neural information processing systems , 30, 2017. [Ren et al. , 2025a] H. Ren, W. Yang, X. Liu, S. Zhang, and T. Zhang. Learning shape-independent transformation via spherical representations for category-level object pose es-timation. In The Thirteenth International Conference on Learning Representations , 2025. [Ren et al. , 2025b] H. Ren, W. Yang, S. Zhang, and T. Zhang. Rethinking correspondence-based category-level object pose estimation. In Proceedings of the Com-puter Vision and Pattern Recognition Conference , pages 1170–1179, 2025. [Ren et al. , 2025c] H. Ren, W. Yang, S. Zhang, and T. Zhang. Rethinking correspondence-based category-level object pose estimation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2025. [Su et al. , 2025] Z. Su, X. Liu, L. B. Hamdan, V. Maroulas, J. Wu, G. Carlsson, and G.-W. Wei. Topological data anal-ysis and topological deep learning beyond persistent ho-mology: a review. Artificial Intelligence Review , 2025. [Sun et al. , 2021] Gan Sun, Yang Cong, Jiahua Dong, Qiang Wang, Lingjuan Lyu, and Ji Liu. Data poisoning attacks on federated machine learning. IEEE Internet of Things Journal , 9(13):11365–11375, 2021. [Sun et al. , 2025] J. Sun, P. Mao, L. Kong, and J. Wang. A review of embodied grasping. Sensors (Basel, Switzer-land) , 25(3):852, 2025. [Tian et al. , 2020] M. Tian, M. H. Ang Jr, and G. H. Lee. Shape prior deformation for categorical 6d object pose and size estimation. In European Conference on Computer Vi-sion , pages 530–546. Springer, 2020. [Vaswani et al. , 2017] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polo-sukhin. Attention is all you need. Advances in neural in-formation processing systems , 30, 2017. [Velickovic et al. , 2017] P. Velickovic, G. Cucurull, A. Casanova, A. Romero, P. Lio, Y. Bengio, et al. Graph attention networks. stat , 1050(20):10–48550, 2017. [Wang et al. , 2019] H. Wang, S. Sridhar, J. Huang, J. Valentin, S. Song, and L. J. Guibas. Normalized object coordinate space for category-level 6d object pose and size estimation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,pages 2642–2651, 2019. [Wen et al. , 2022] B. Wen, W. Lian, K. Bekris, and S. Schaal. You only demonstrate once: Category-level manipulation from single visual demonstration. arXiv preprint arXiv:2201.12716 , 2022. [Wu et al. , 2020] C. Wu, J. Chen, Q. Cao, J. Zhang, Y. Tai, L. Sun, and K. Jia. Grasp proposal networks: An end-to-end solution for visual learning of robotic grasps. 
+
+Advances in Neural Information Processing Systems ,33:13174–13184, 2020. [Xiang et al. , 2017] Y. Xiang, T. Schmidt, V. Narayanan, and D. Fox. Posecnn: A convolutional neural network for 6d object pose estimation in cluttered scenes. arXiv preprint arXiv:1711.00199 , 2017. [Xu et al. , 2025] W. Xu, L. Zhang, L. Liu, Y. Zhong, H. Jiang, X. Wang, and R. Wang. Pre-defined keypoints promote category-level articulation pose estimation via multi-modal alignment. In Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intel-ligence , pages 2125–2133, 2025. [Yang et al. , 2025] Y. Yang, P. Song, E. Lan, D. Liu, and J. Liu. Mk-pose: Category-level object pose estimation via multimodal-based keypoint learning. arXiv preprint arXiv:2507.06662 , 2025. [Yu et al. , 2024] S. Yu, D.-H. Zhai, and Y. Xia. Catformer: Category-level 6d object pose estimation with transformer. In Proceedings of the AAAI Conference on Artificial Intel-ligence , volume 38, pages 6808–6816, 2024. [Yu et al. , 2025] S. Yu, D.-H. Zhai, and Y. Xia. Key-pose: Category-level 6d object pose estimation with self-adaptive keypoints. In Proceedings of the AAAI Confer-ence on Artificial Intelligence , volume 39, pages 9653– 9661, 2025. [Zheng et al. , 2024] L. Zheng, T. H. E. Tse, C. Wang, Y. Sun, E. Dasgupta, H. Chen, A. Leonardis, W. Zhang, and H. J. Chang. Georef: Geometric alignment across shape varia-tion for category-level object pose refinement. In Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , June 2024. [Zhu et al. , ] L. Zhu, B. Liao, Q. Zhang, X. Wang, W. Liu, and X. Wang. Vision mamba: Efficient visual represen-tation learning with bidirectional state space model. In 
+
+Forty-first International Conference on Machine Learning .[Zhu et al. , 2025] Z. Zhu, X. Wang, Y. Li, Z. Zhang, X. Ma, Y. Chen, B. Jia, W. Liang, Q. Yu, Z. Deng, et al. Move to understand a 3d scene: Bridging visual grounding and ex-ploration for efficient and versatile embodied navigation. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 8120–8132, 2025. Supplementary Material for Paper Titled “TSM-Pose: Topology-Aware Learning with Semantic Mamba for Category-Level Object Pose Estimation” A Instance-Adaptive Keypoint Detector 
+
+The instance-adaptive keypoint detector (IAKD) predicts a set of sparse yet discriminative keypoints. IAKD maintains a set of learnable keypoint queries Q = {qj }Nk 
+
+> j=1
+
+shared across instances, and update them into instance-adaptive queries via an attention module: 
+
+Q′ = AttnLayer( Q, F), (15) where Nk is the number of keypoints. Next, we compute the cosine similarity between each updated query q′ 
+
+> j
+
+and all point features fi ∈ F f , and apply a temperature-softmax to obtain a soft assignment heatmap: 
+
+hj,i = exp  cos( q′ 
+
+> j
+
+, fi)/τ PNm=1 exp  cos( q′ 
+
+> j
+
+, fm)/τ  , τ = 0 .1. (16) Here, hj,i indicates the correspondence weight of point i for keypoint j. Finally, we compute the 3D location of each key-point as the weighted expectation over point coordinates: 
+
+pj =
+
+> N
+
+X
+
+> i=1
+
+hj,i xi, xi ∈ P o, (17) and Pkpt = {pj }Nk
+
+> j=1
+
+. Given the soft assignment heatmap 
+
+hj,i , we let fi denote the fused feature of the i-th point, then the feature of the j-th keypoint is defined as: 
+
+f kpt j =
+
+> N
+
+X
+
+> i=1
+
+hj,i fi, (18) Then, we inject a positional encoding derived from the pre-dicted keypoint coordinates: 
+
+˜f kpt j = f kpt j + ϕ(pj ), (19) where ϕ(·) is a learnable MLP that maps the 3D keypoint location pj ∈ R3 to the feature dimension, and Fkpt =
+
+{˜f kpt j }Nk
+
+> j=1
+
+To ensure geometrically meaningful keypoints, we further encourage the predicted keypoints to lie close to the object surface. Given the object surface point cloud Po = {xi}Ni=1 ,we adopt a one-sided, object-aware Chamfer distance: 
+
+Lsurf = 1
+
+Nk
+
+X
+
+> pi∈P kpt
+
+min  
+
+> xj∈P o
+
+∥pi − xj ∥2. (20) This formulation effectively suppresses outlier keypoints while maintaining stable optimization. Moreover, to prevent keypoint collapse and encourage spatial diversity, we intro-duce a margin-based diversity loss: 
+
+Ldiv =
+
+> Nk
+
+X
+
+> i=1
+> Nk
+
+X 
+
+> j=1 ,j ̸=i
+
+max (0 , th − ∥ pi − pj ∥2) , (21) 
+
+Table 8: Overall and category-wise evaluation on REAL275. We highlight the best results in bold . ’*’ denotes CATRE IoU metrics.                                                                                                                        
+
+> Object Method IoU 75 *5◦2cm 5◦5cm 10 ◦2cm 10 ◦5cm
+> Bottle AG-Pose 36.8 72.8 80.0 79.1 87.8 CleanPose 37.1 75.7 81.7 79.9 87.8 Ours 38.3 78.3 83.6 82.0 87.9
+> Bowl AG-Pose 94.0 93.8 98.9 94.7 99.9 CleanPose 93.8 93.3 98.2 95.0 99.9 Ours 94.0 93.5 98.1 95.5 100.0
+> Camera AG-Pose 36.7 1.4 1.7 28.7 34.0 CleanPose 39.9 2.8 3.2 33.9 40.5 Ours 36.2 3.1 3.3 49.0 53.3
+> Can AG-Pose 38.6 80.7 83.7 97.0 99.8
+> CleanPose 43.2 84.2 85.9 96.9 98.6 Ours 44.9 82.3 85.6 96.6 98.7 Laptop AG-Pose 78.3 59.8 89.7 63.1 97.6 CleanPose 76.1 69.2 90.9 71.9 98.5
+> Ours 78.1 70.5 93.9 72.6 98.3 Mug AG-Pose 82.9 34.6 34.8 89.5 90.0 CleanPose 86.1 45.2 45.6 91.9 91.9 Ours 86.8 46.1 46.5 93.3 93.9
+> Average AG-Pose 61.3 57.0 64.6 75.1 84.7 CleanPose 62.7 61.7 67.6 78.3 86.3 Ours 63.1 62.4 68.5 81.5 88.7
+
+where th = 0 .01 is a predefined distance threshold measured in meters. This loss penalizes pairs of keypoints that are closer than th , encouraging their dispersion over the object surface. This differentiable selection process enables instance-adaptive keypoint localization, providing stable structural cues for subsequent pose regression. 
+
+## B Loss Function Details 
+
+There are additional loss functions used to constrain keypoint and pose estimation. Let Pnocs kpt = {ˆui}Nk 
+
+> i=1
+
+denote their corresponding predicted coordinates in the NOCS. Using the ground-truth pose parameters, we project each keypoint into the canonical space as: 
+
+ugt i = 1
+
+∥sgt ∥2
+
+Rgt (pi − tgt ), (22) which yields the ground-truth NOCS keypoints Pgt kpt =
+
+{ugt i }. Consistency between predicted and ground-truth NOCS coordinates is enforced using a Smooth L1 loss: 
+
+Lnocs = 1
+
+NkNkX
+
+> i=1
+
+SmoothL1( ugt i , ˆui). (23) This auxiliary supervision stabilizes category-level pose learning across intra-class shape variations. C Topological Feature Analysis 
+
+We visualize the persistent homology representations of six object categories, including Betti curves and corresponding persistence graphs, in Figure 4. Betti curves characterize the trend in the number of topo-logical features as the scale parameter varies at different ho-mology dimensions. The horizontal axis represents the evolu-tion of the filtering scale from local to global, and the vertical axis represents the number of Betti curves for the correspond-ing homology dimension at that scale. Betti curves provide a visual observation of differences in topological complexity and evolution across categories. The persistence diagram characterizes the topological structure from the perspective of feature lifetimes. Each point in the persistence diagram corresponds to a topological fea-ture, with the horizontal and vertical axes representing the scales at which the feature appears and disappears, respec-tively. Points farther from the diagonal represent longer-lived and more stable features, while points closer to the diagonal typically correspond to transient, noisy structures. In our experimental setup, the input point clouds primarily originate from single- or limited-view surface scans. Conse-quently, their geometry typically covers only the outer sur-faces of objects, making it challenging to form closed vol-umes or complete cavity structures. Therefore, the topolog-ical features corresponding to the H2 dimension appear in-frequently in most object categories, and their lifetimes are usually short, mainly distributed near the diagonal of the per-sistent graph. These features are sensitive to sampling den-sity and noise, and provide relatively limited information for class-level structural differentiation. In contrast, the H0 and H1 dimensions can more stably characterize the main topological features of objects in terms of connectivity and toroidal structures, and exhibit better re-peatability and consistency across different instances. There-fore, this paper primarily focuses on topological representa-tions of the H0 and H1 dimensions to achieve a good bal-ance among expressive power, stability, and computational efficiency. 
+
+## D Extra Experimental Results on REAL275 
+
+As shown in Table 8, we conduct detailed quantitative evalu-ations across different categories using the REAL275 dataset. We compare our method with the baseline AG-Pose and the current state-of-the-art CleanPose. Overall, our method achieves state-of-the-art performance on average, outper-forming the comparison methods on five evaluation metrics: IoU 75 , 5◦ 2 cm , 5◦ 5 cm , 10 ◦ 2 cm , and 10 ◦ 5 cm , validating its overall advantage in COPE. From a category-level perspective, our method shows con-sistent improvement on objects with regular geometric struc-tures such as Bottles, Bowls, and Mugs, with a particularly significant advantage under more stringent pose evaluation criteria. For the Camera category, although the IoU 75 is slightly lower than the state-of-the-art method, significant im-provements of 49.0% and 53.3% are achieved under more relaxed pose constraints ( 10 ◦ 2 cm and 10 ◦ 5 cm ). Further-more, in categories with complex component structures, such as Laptop and Can, our method achieves state-of-the-art or near-optimal results on most metrics, further validating its ef-fectiveness. (a) bottle (b) bowl (c) camera   
+
+> (d) can (e) laptop (f) mug
+
+Figure 4: Topological representations of six object categories. For each category, the Betti curves (top) and the corresponding persistence diagrams (bottom) are shown.
