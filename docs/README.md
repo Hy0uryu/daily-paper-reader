@@ -6,92 +6,85 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-29
-- 运行时间：2026-04-29 20:34:16 UTC
+- 最新运行日期：2026-04-30
+- 运行时间：2026-04-30 21:02:46 UTC
 - 运行状态：成功
-- 本次总论文数：23
-- 精读区：12
+- 本次总论文数：21
+- 精读区：10
 - 速读区：11
 
 ### 今日简报（AI）
-- 今日共生成 23 篇推荐（精读 12 篇，速读 11 篇）
-- 精读：《Learn Weightlessness: Imitate Non-Self-Stabilizing Motions on Humanoid Robot》（10.0/10）, 《X2-N: A Transformable Wheel-legged Humanoid Robot with Dual-mode Locomotion and Manipulation》（10.0/10）
-- 速读：《HALO: Hybrid Auto-encoded Locomotion with Learned Latent Dynamics, Poincaré Maps, and Regions of Attraction》（8.5/10）, 《Environmental Understanding Vision-Language Model for Embodied Agent》（8.5/10）, 《A Survey of Legged Robotics in Non-Inertial Environments: Past, Present, and Future》（8.5/10）
-- 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
-- 详情：[/202604/29/README](/202604/29/README)
+今日聚焦 21 篇机器人前沿进展，深度解析指尖视觉感知与人形机器人失重运动模仿等满分突破。
+重点关注 FingerViP 如何通过指尖视觉实现灵巧操作，以及人形机器人如何模仿非自稳态的复杂动态动作。
+建议优先研读两篇 10 分论文，深入理解视觉反馈与动态平衡在提升机器人敏捷性中的核心作用。
+- 详情：[/202604/30/README](/202604/30/README)
 
 ### 精读区论文标签
-1. [Learn Weightlessness: Imitate Non-Self-Stabilizing Motions on Humanoid Robot](/202604/29/2604.21351v1-learn-weightlessness-imitate-non-self-stabilizing-motions-on-humanoid-robot)  
+1. [FingerViP: Learning Real-World Dexterous Manipulation with Fingertip Visual Perception](/202604/30/2604.21331v1-fingervip-learning-real-world-dexterous-manipulation-with-fingertip-visual-perception)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：人形机器人非自稳运动的全身控制与环境交互
-2. [X2-N: A Transformable Wheel-legged Humanoid Robot with Dual-mode Locomotion and Manipulation](/202604/29/2604.21541v1-x2-n-a-transformable-wheel-legged-humanoid-robot-with-dual-mode-locomotion-and-manipulation)  
+   evidence：结合指尖视觉感知的全身视觉运动策略用于灵巧操作
+2. [Learn Weightlessness: Imitate Non-Self-Stabilizing Motions on Humanoid Robot](/202604/30/2604.21351v1-learn-weightlessness-imitate-non-self-stabilizing-motions-on-humanoid-robot)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：具有双模式移动与操作的可变形轮足人形机器人
-3. [Multi-Gait Learning for Humanoid Robots Using Reinforcement Learning with Selective Adversarial Motion Prior](/202604/29/2604.19102v1-multi-gait-learning-for-humanoid-robots-using-reinforcement-learning-with-selective-adversarial-motion-prior)  
+   evidence：人形机器人非自稳动作的全身控制
+3. [X2-N: A Transformable Wheel-legged Humanoid Robot with Dual-mode Locomotion and Manipulation](/202604/30/2604.21541v1-x2-n-a-transformable-wheel-legged-humanoid-robot-with-dual-mode-locomotion-and-manipulation)  
+   标签：评分：10.0/10、query:hr-rob
+   evidence：具有双模式移动与操作的可变形轮足类人机器人
+4. [RecoverFormer: End-to-End Contact-Aware Recovery for Humanoid Robots](/202604/30/2604.22911v1-recoverformer-end-to-end-contact-aware-recovery-for-humanoid-robots)  
+   标签：评分：10.0/10、query:hr-rob
+   evidence：具有接触感知行为和全身重塑的端到端人形机器人恢复策略
+5. [asRoBallet: Closing the Sim2Real Gap via Friction-Aware Reinforcement Learning for Underactuated Spherical Dynamics](/202604/30/2604.24916v1-asroballet-closing-the-sim2real-gap-via-friction-aware-reinforcement-learning-for-underactuated-spherical-dynamics)  
+   标签：评分：10.0/10、query:hr-rob
+   evidence：在人形球足机器人硬件上部署强化学习
+6. [Egocentric Tactile and Proximity Sensors as Observation Priors for Humanoid Collision Avoidance](/202604/30/2604.25554v1-egocentric-tactile-and-proximity-sensors-as-observation-priors-for-humanoid-collision-avoidance)  
+   标签：评分：10.0/10、query:hr-rob
+   evidence：使用触觉和接近传感器在H1-2人形机器人上实现全身避障
+7. [RPG: Robust Policy Gating for Smooth Multi-Skill Transitions in Humanoid Fighting](/202604/30/2604.21355v1-rpg-robust-policy-gating-for-smooth-multi-skill-transitions-in-humanoid-fighting)  
    标签：评分：9.5/10、query:hr-rob
-   evidence：基于强化学习的人形机器人多步态学习
-4. [Reinforcement Learning Enabled Adaptive Multi-Task Control for Bipedal Soccer Robots](/202604/29/2604.19104v1-reinforcement-learning-enabled-adaptive-multi-task-control-for-bipedal-soccer-robots)  
-   标签：评分：9.5/10、query:hr-rob
-   evidence：基于强化学习的双足机器人自适应多任务控制
-5. [GenerativeMPC: VLM-RAG-guided Whole-Body MPC with Virtual Impedance for Bimanual Mobile Manipulation](/202604/29/2604.19522v1-generativempc-vlm-rag-guided-whole-body-mpc-with-virtual-impedance-for-bimanual-mobile-manipulation)  
-   标签：评分：9.5/10、query:hr-rob
-   evidence：用于双臂移动操作的虚拟阻抗全身模型预测控制
-6. [RPG: Robust Policy Gating for Smooth Multi-Skill Transitions in Humanoid Fighting](/202604/29/2604.21355v1-rpg-robust-policy-gating-for-smooth-multi-skill-transitions-in-humanoid-fighting)  
-   标签：评分：9.5/10、query:hr-rob
-   evidence：人形机器人格斗与技能切换的全身控制
-7. [RecoverFormer: End-to-End Contact-Aware Recovery for Humanoid Robots](/202604/29/2604.22911v1-recoverformer-end-to-end-contact-aware-recovery-for-humanoid-robots)  
-   标签：评分：9.5/10、query:hr-rob
-   evidence：人形机器人的端到端接触感知恢复策略
-8. [QuietWalk: Physics-Informed Reinforcement Learning for Ground Reaction Force-Aware Humanoid Locomotion Under Diverse Footwear](/202604/29/2604.23702v1-quietwalk-physics-informed-reinforcement-learning-for-ground-reaction-force-aware-humanoid-locomotion-under-diverse-footwear)  
-   标签：评分：9.5/10、query:hr-rob
-   evidence：物理启发的强化学习框架，用于不同鞋履条件下的类人机器人行走。
-9. [asRoBallet: Closing the Sim2Real Gap via Friction-Aware Reinforcement Learning for Underactuated Spherical Dynamics](/202604/29/2604.24916v1-asroballet-closing-the-sim2real-gap-via-friction-aware-reinforcement-learning-for-underactuated-spherical-dynamics)  
-   标签：评分：9.5/10、query:hr-rob
-   evidence：首次在人形球轮机器人硬件上成功部署强化学习
-10. [Egocentric Tactile and Proximity Sensors as Observation Priors for Humanoid Collision Avoidance](/202604/29/2604.25554v1-egocentric-tactile-and-proximity-sensors-as-observation-priors-for-humanoid-collision-avoidance)  
-   标签：评分：9.5/10、query:hr-rob
-   evidence：在H1-2类人机器人上利用触觉和接近传感器实现全身避障。
-11. [UniT: Toward a Unified Physical Language for Human-to-Humanoid Policy Learning and World Modeling](/202604/29/2604.19734v1-unit-toward-a-unified-physical-language-for-human-to-humanoid-policy-learning-and-world-modeling)  
+   evidence：动态人形格斗和多技能切换的全身控制
+8. [FingerEye: Continuous and Unified Vision-Tactile Sensing for Dexterous Manipulation](/202604/30/2604.20689v1-fingereye-continuous-and-unified-vision-tactile-sensing-for-dexterous-manipulation)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：人到人形机器人的策略学习与基础模型
-12. [A Replicable Robotics Awareness Method Using LLM-Enabled Robotics Interaction: Evidence from a Corporate Challenge](/202604/29/2604.21377v1-a-replicable-robotics-awareness-method-using-llm-enabled-robotics-interaction-evidence-from-a-corporate-challenge)  
+   evidence：用于灵巧机器人操作的连续视觉-触觉传感
+9. [QuietWalk: Physics-Informed Reinforcement Learning for Ground Reaction Force-Aware Humanoid Locomotion Under Diverse Footwear](/202604/30/2604.23702v1-quietwalk-physics-informed-reinforcement-learning-for-ground-reaction-force-aware-humanoid-locomotion-under-diverse-footwear)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：在物流任务环境中使用大语言模型驱动的人形机器人活动
+   evidence：用于人形机器人步态和地面反作用力控制的物理信息强化学习
+10. [Lifting Embodied World Models for Planning and Control](/202604/30/2604.26182v1-lifting-embodied-world-models-for-planning-and-control)  
+   标签：评分：9.0/10、query:hr-rob
+   evidence：高维动作空间类人实体的规划与控制世界模型
 
 ### 速读区论文标签
-1. [HALO: Hybrid Auto-encoded Locomotion with Learned Latent Dynamics, Poincaré Maps, and Regions of Attraction](/202604/29/2604.18887v1-halo-hybrid-auto-encoded-locomotion-with-learned-latent-dynamics-poincar-maps-and-regions-of-attraction)  
+1. [Cortex 2.0: Grounding World Models in Real-World Industrial Deployment](/202604/30/2604.20246v1-cortex-20-grounding-world-models-in-real-world-industrial-deployment)  
    标签：评分：8.5/10、query:hr-rob
-   evidence：学习足式机器人周期性混合动力学的潜空间降阶模型
-2. [Environmental Understanding Vision-Language Model for Embodied Agent](/202604/29/2604.19839v1-environmental-understanding-vision-language-model-for-embodied-agent)  
+   evidence：工业双臂操作与长程规划的世界模型
+2. [A Survey of Legged Robotics in Non-Inertial Environments: Past, Present, and Future](/202604/30/2604.20990v1-a-survey-of-legged-robotics-in-non-inertial-environments-past-present-and-future)  
    标签：评分：8.5/10、query:hr-rob
-   evidence：具身智能体的环境理解与物体感知
-3. [A Survey of Legged Robotics in Non-Inertial Environments: Past, Present, and Future](/202604/29/2604.20990v1-a-survey-of-legged-robotics-in-non-inertial-environments-past-present-and-future)  
+   evidence：非惯性环境下足式机器人状态估计与控制综述
+3. [A Replicable Robotics Awareness Method Using LLM-Enabled Robotics Interaction: Evidence from a Corporate Challenge](/202604/30/2604.21377v1-a-replicable-robotics-awareness-method-using-llm-enabled-robotics-interaction-evidence-from-a-corporate-challenge)  
    标签：评分：8.5/10、query:hr-rob
-   evidence：足式机器人建模与控制现状综述
-4. [FingerViP: Learning Real-World Dexterous Manipulation with Fingertip Visual Perception](/202604/29/2604.21331v1-fingervip-learning-real-world-dexterous-manipulation-with-fingertip-visual-perception)  
+   evidence：物流启发任务环境中的大模型驱动人形机器人活动
+4. [FLARE-BO: Fused Luminance and Adaptive Retinex Enhancement via Bayesian Optimisation for Low-Light Robotic Vision](/202604/30/2604.22093v1-flare-bo-fused-luminance-and-adaptive-retinex-enhancement-via-bayesian-optimisation-for-low-light-robotic-vision)  
    标签：评分：8.5/10、query:hr-rob
-   evidence：基于扩散的全身视觉运动策略用于灵巧操作
-5. [RoboWM-Bench: A Benchmark for Evaluating World Models in Robotic Manipulation](/202604/29/2604.19092v1-robowm-bench-a-benchmark-for-evaluating-world-models-in-robotic-manipulation)  
+   evidence：通过贝叶斯优化增强低光照下的机器人视觉感知
+5. [Reinforcing 3D Understanding in Point-VLMs via Geometric Reward Credit Assignment](/202604/30/2604.21160v1-reinforcing-3d-understanding-in-point-vlms-via-geometric-reward-credit-assignment)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：评估机器人操作中世界模型和物理合理性的基准
-6. [Quadruped Parkour Learning: Sparsely Gated Mixture of Experts with Visual Input](/202604/29/2604.19344v1-quadruped-parkour-learning-sparsely-gated-mixture-of-experts-with-visual-input)  
+   evidence：增强具身智能体的3D理解与空间推理
+6. [Full-Body Dynamic Safety for Robot Manipulators: 3D Poisson Safety Functions for CBF-Based Safety Filters](/202604/30/2604.21189v1-full-body-dynamic-safety-for-robot-manipulators-3d-poisson-safety-functions-for-cbf-based-safety-filters)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：基于视觉的机器人跑酷，用于在挑战性地形上运动
-7. [Mask World Model: Predicting What Matters for Robust Robot Policy Learning](/202604/29/2604.19683v2-mask-world-model-predicting-what-matters-for-robust-robot-policy-learning)  
+   evidence：机械臂的全身安全约束与避障
+7. [An Efficient Beam Search Algorithm for Active Perception in Mobile Robotics](/202604/30/2604.23327v1-an-efficient-beam-search-algorithm-for-active-perception-in-mobile-robotics)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：预测语义掩码以实现鲁棒的机器人策略学习
-8. [Bimanual Robot Manipulation via Multi-Agent In-Context Learning](/202604/29/2604.20348v1-bimanual-robot-manipulation-via-multi-agent-in-context-learning)  
+   evidence：移动机器人的主动感知与信息观测
+8. [$M^2$-VLA: Boosting Vision-Language Models for Generalizable Manipulation via Layer Mixture and Meta-Skills](/202604/30/2604.24182v1-m2-vla-boosting-vision-language-models-for-generalizable-manipulation-via-layer-mixture-and-meta-skills)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：使用大语言模型进行双臂协同操作
-9. [Gated Memory Policy](/202604/29/2604.18933v1-gated-memory-policy)  
+   evidence：通过元技能实现通用机器人操作的视觉语言模型
+9. [LLM-Guided Safety Agent for Edge Robotics with an ISO-Compliant Perception-Compute-Control Architecture](/202604/30/2604.20193v1-llm-guided-safety-agent-for-edge-robotics-with-an-iso-compliant-perception-compute-control-architecture)  
    标签：评分：6.5/10、query:hr-rob
-   evidence：用于机器人操作的视觉运动策略，学习何时以及从记忆中召回什么。
-10. [BALTIC: A Benchmark and Cross-Domain Strategy for 3D Reconstruction Across Air and Underwater Domains Under Varying Illumination](/202604/29/2604.19133v1-baltic-a-benchmark-and-cross-domain-strategy-for-3d-reconstruction-across-air-and-underwater-domains-under-varying-illumination)  
+   evidence：人机交互安全的感知-计算-控制架构
+10. [Stability-Driven Motion Generation for Object-Guided Human-Human Co-Manipulation](/202604/30/2604.20336v1-stability-driven-motion-generation-for-object-guided-human-human-co-manipulation)  
    标签：评分：6.5/10、query:hr-rob
-   evidence：用于机器人感知的跨空气和水下领域的3D重建基准。
-11. [BALTIC: A Benchmark and Cross-Domain Strategy for 3D Reconstruction Across Air and Underwater Domains Under Varying Illumination](/202604/29/2604.19133v2-baltic-a-benchmark-and-cross-domain-strategy-for-3d-reconstruction-across-air-and-underwater-domains-under-varying-illumination)  
+   evidence：物体引导的协同操作和负载动力学的运动生成
+11. [MOMO: A framework for seamless physical, verbal, and graphical robot skill learning and adaptation](/202604/30/2604.20468v1-momo-a-framework-for-seamless-physical-verbal-and-graphical-robot-skill-learning-and-adaptation)  
    标签：评分：6.5/10、query:hr-rob
-   evidence：用于机器人感知的跨空气和水下领域的3D重建基准。
+   evidence：通过包括动觉触控在内的多模态交互进行机器人技能适应的框架
 
 
 <div class="dpr-home-promo-card">

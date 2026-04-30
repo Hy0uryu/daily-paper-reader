@@ -1,0 +1,231 @@
+Title: FLARE-BO: Fused Luminance and Adaptive Retinex Enhancement via Bayesian Optimisation for Low-Light Robotic Vision
+
+URL Source: https://arxiv.org/pdf/2604.22093v1
+
+Published Time: Mon, 27 Apr 2026 00:13:27 GMT
+
+Number of Pages: 7
+
+Markdown Content:
+# FLARE-BO: Fused Luminance and Adaptive Retinex Enhancement via Bayesian Optimisation for Low-Light Robotic Vision 
+
+Nathan Shankar , Pawel Ladosz and Hujun Yin 
+
+Abstract —Reliable visual perception under low illumination remains a core challenge for autonomous robotic systems, where degraded image quality directly compromises navigation, inspec-tion, and various operations. A recent training free approach showed that Bayesian optimisation with Gaussian Processes can adaptively select brightness, contrast, and denoising parameters on a per-image basis, achieving competitive enhancement without any learned model. However, that framework is limited to three parameters, applies no illumination decomposition or white balance correction, and relies on Non-Local Means denoising, which tends to over smooth edges under noisy conditions. This paper proposes FLARE-BO (Fused Luminance and Adaptive Retinex Enhancement via Bayesian Optimisation), an extended framework that jointly optimises eight parameters spanning across gamma correction, LIME-style illumination normalisation, chrominance denoising, bilateral filtering, NLM denoising, Grey-World automatic white balance, and adaptive post smooth-ing. The search engine employs a unit hypercube parameter normalisation, objective standardisation, Sobol quasi-random initialisation, and Log Expected Improvement acquisition for principled exploration of the expanded space. Performance of the proposed method is benchmarked using the Low Light paired dataset (LOL) and results show marked improvements of the proposed method over existing methods that were not specifically trained using this dataset. 
+
+Index Terms —Bayesian optimisation, Gaussian processes, Retinex, bilateral filtering, chrominance denoising, robotic vision 
+
+I. I NTRODUCTION 
+
+Autonomous robotic systems operating in uncontrolled en-vironments must maintain reliable visual perception across a wide range of illumination conditions. Applications including subsea navigation [1], structural inspection [2], and search-and-rescue missions [3] which routinely encounter scenes where the ambient light falls far below the threshold required for standard camera operation. Under such conditions, sensor noise is amplified, local contrast within the image degrades, colour channels are unevenly degraded, and fine spatial detail is lost which in turn impairs the downstream perception modules that robotic systems depend on. Rodrigues et al. [4] proposed a training-free alternative by casting enhancement as a black-box parameter optimisation problem. Their method applies a linear brightness and contrast 
+
+This work was supported by the Robotics and Artificial Intelligence Collaboration (RAICo). (Corresponding author: Pawel Ladosz.) The authors are with the Department of Mechanical, Aerospace and Civil Engineering and the Department of Electrical and Electronic Engineering at the Uni-versity of Manchester, Manchester, M13 9PL, United Kingdom, (e-mail: pawel.ladosz@manchester.ac.uk). 
+
+transform followed by Non-Local Means (NLM) denoising, and uses a Gaussian Process (GP) surrogate to search for the optimal three-parameter configuration (α, β, h ) that maximises a composite quality objective on each image individually. On the LOL dataset [5] it achieved PSNR 18.79, SSIM 0.711, and NIQE 3.909, outperforming several deep learning methods on structural fidelity without any training data. While this represents a compelling baseline, the framework has several limitations that constrain its enhancement ceiling. The three-parameter pipeline omits illumination decomposi-tion entirely, meaning that spatially non uniform darkness, the dominant mode in real low-light scenes, is handled only through a global linear rescaling. No chrominance correction is applied, leaving colour noise and channel-level bias un-addressed. NLM denoising treats all spatially distant patches equally within its search window, which tends to over smooth edges in signal dependent noise regions. Finally, the unscaled and unstandardised optimisation space can bias GP kernel learning, and standard expected improvement may under ex-plore in later iterations. This paper addresses these limitations with FLARE-BO ,an eight parameter Bayesian optimisation framework for low-light enhancement. The key contributions are: 1) A structured eight-stage enhancement pipeline incorpo-rating LIME style guided illumination normalisation, gamma and linear contrast correction, Grey World au-tomatic white balance (AWB), LAB space chrominance denoising, bilateral spatial filtering, NLM luminance de-noising, and adaptive Gaussian post-smoothing which of each are controlled by a dedicated optimised parameter. 2) A structure prioritised composite objective function f (θ)
+
+that strongly emphasises structural similarity, steering the search toward perceptually coherent outputs suited to downstream robotic perception. 3) A numerically robust BO engine featuring unit hy-percube parameter normalisation, objective standardis-ation, Sobol initialisation, and LogEI acquisition with L-BFGS-B maximisation. The remainder of the paper is structured as follows. Sec-tion II reviews related work. Section III presents the FLARE-BO pipeline and optimisation engine. Section IV reports experimental results. Section V concludes the findings of this work and suggest future directions. 
+
+> arXiv:2604.22093v1 [cs.CV] 23 Apr 2026
+
+II. R ELATED WORK 
+
+A. Classical and Heuristic Methods 
+
+Early low-light enhancement methods were based of off Retinex theory, which separates a scene into an illumination layer and a reflectance layer [6]. Global operators such as histogram equalisation and contrast stretching improved the average brightness but applied uniform transformations that failed under spatially varying illumination. LIME [7] improved upon global Retinex by constructing a spatially varying illu-mination map through a structure aware regularisation but its fixed smoothing parameters limit adaptability across different scene types. Gamma correction [8] and multiscale Retinex variants [9] offered controllable lifting but required manual parameter selection for each dataset. None of these approaches jointly addressed illumination normalisation, colour correc-tion, noise suppression, and structural preservation under a unified adaptive framework. 
+
+B. Deep Learning Methods 
+
+Supervised deep networks have substantially raised the enhancement standards and benchmark. RetinexNet [10] de-composed images into reflectance and illumination compo-nents using paired training data. Zero-DCE [11] reformulated enhancement as zero reference curve estimation guided by non-reference losses for colour constancy, smoothness, and illumination range. EnlightGAN [12] used unpaired adver-sarial training to avoid the requirement for reference im-ages. MIRNet [13] combined multiscale feature aggregation with selective kernel fusion for joint denoising and detail recovery. URetinex-Net [14] embedded Retinex priors into a deep unfolding network, while SNR-aware enhancement [15] modulated processing according to local signal-to-noise es-timates. RetinexFormer [16] brought one-stage transformer attention into the Retinex framework, and PyDiff [17] showed that pyramid diffusion models could achieve high perceptual quality, though at substantial computational cost. The shared limitation of all these approaches is their dependence on large paired datasets. 
+
+C. Optimisation Based Methods 
+
+RUAS [18] reduced data dependence by unrolling an en-ergy minimisation with learnable activation functions, but still required a training phase. Semantic aware guidance [19] incorporated scene level priors into image restoration but again relied on supervised learning. Rodrigues et al. [4] proposed a Bayesian optimisation approach to low-light enhancement, using a GP surrogate to select per-image brightness, contrast, and NLM denoising parameters guided by a PSNR, SSIM and NIQE composite objective. The approach is immediately applicable to any sen-sor without data collection, making it well-suited for a diverse range of low-light datasets without prior training, however it is failed to note that the optimisation itself is a a time con-suming process and cannot be used for online denoising, and their method is only practical for offline denoising. FLARE-BO builds directly on this work, substantially expanding the parameter space, introducing illumination decomposition and chrominance correction stages, and improving the optimisation engine, yielding markedly higher quantitative performance on the same benchmark. III. P ROPOSED METHOD 
+
+FLARE-BO processes each low-light image I through a structured eight-stage pipeline whose parameters θ =(α, β, γ, h, σ s, λ, d, h c) are selected per image by Bayesian Optimisation. Figure 1 illustrates the architecture. Table I summarises all parameters and their search bounds.                                     
+
+> TABLE I FLARE-BO OPTIMISED PARAMETERS AND SEARCH BOUNDS .
+> Symbol Description Stage Bounds
+> αContrast scale factor Linear adjust [0 .5,5.0]
+> βBrightness offset Linear adjust [−20 ,50]
+> γGamma exponent Gamma correct [0 .1,2.0]
+> λLIME illumination factor Illumination [0 .0,0.6]
+> hcChrominance filter strength Chroma denoise [0 ,40]
+> dBilateral filter diameter Spatial filter [0 ,15]
+> hNLM luminance strength NLM denoise [1 ,50]
+> σsPost-smoothing std. dev. Smoothing [0 .0,1.5]
+
+A. Stage 1: LIME-Style Illumination Normalisation 
+
+When λ > 0, a Retinex-inspired illumination correction is applied first. The per-pixel illumination map is estimated as the maximum channel response: 
+
+L(x) = max  
+
+> c∈{ R,G,B }
+
+Ic(x) (1) and smoothed with a guided filter [20] to produce an edge-preserving illumination estimate ˆL(x). The image is then normalised: 
+
+Ilime (x) = I(x)ˆL(x)λ + ϵ (2) where ϵ = 10 −4 prevents division by zero and λ controls the strength of the correction. Setting λ = 0 bypasses this stage entirely. 
+
+B. Stage 2: Gamma and Linear Contrast Adjustment 
+
+A combined gamma correction and linear rescaling is ap-plied: 
+
+I′ = clip  α · Iγ 
+
+> lime
+
+· 255 + β, 0, 255  (3) where α is the linear contrast factor, γ is the gamma exponent, and β is the additive brightness offset. The exponentiation is applied in the normalised [0 , 1] domain before rescaling to 8-bit. 
+
+C. Stage 3: Grey World Automatic White Balance 
+
+After contrast adjustment, a Grey World AWB correc-tion [21] is applied to I′. The method assumes that the mean of each colour channel should equal the global mean intensity 
+
+¯μ under neutral illumination. Per channel gain factors are computed as: 
+
+gc = ¯μμc + ϵ , c ∈ { R, G, B } (4) Fig. 1. Architecture of the enhancement technique 
+
+and each channel is scaled and clamped accordingly. This cor-rection is parameter free and it introduces no additional degree of freedom to the search besides it removes the chromatic bias that low light captures consistently exhibit under artificial illumination sources. 
+
+D. Stage 4: LAB Space Chrominance Denoising 
+
+Sensor noise under low illumination manifests as both luminance noise and chrominance noise. The latter produces visually disturbing random colour speckle that is not addressed by luminance only denoisers. When hc > 0, FLARE-BO converts I′ to the CIELAB colour space and applies a median filter separately to the a∗ and b∗ chrominance channels: 
+
+k = 2 
+
+ hc
+
+10 
+
+
+
++ 1 (5) where k ≥ 3 is the filter kernel size. The median filter is chosen over Gaussian smoothing because it suppresses impulse type colour noise without blurring chrominance edges. The luminance channel L∗ is left unmodified at this stage, preserving brightness information for the subsequent denoising steps. 
+
+E. Stage 5: Bilateral Spatial Filtering 
+
+A bilateral filter is applied to the chrominance corrected image when d > 0:
+
+˜I(x) = 1
+
+W (x)
+
+X
+
+> y∈N d(x)
+
+Gs
+
+ ∥x − y∥ Gr
+
+ ∥ ˜I(x) − ˜I(y)∥ ˜I(y)
+
+(6) 
+
+Nd(x) = {y | ∥ x − y∥ ≤ d/ 2} (7) where Gs and Gr are spatial and radiometric Gaussian kernels respectively, W (x) is the per-pixel normalisation constant, and d is the filter diameter. Fixed sigma values are used for both kernels, with d as the sole optimised parameter. The joint spatial radiometric weighting preserves intensity discontinuities at object boundaries while suppressing noise in smooth regions, providing more better edge smoothing than NLM for signal-dependent noise [22]. 
+
+F. Stage 6: NLM Luminance Denoising 
+
+After bilateral filtering, NLM denoising [23] is applied with luminance filter strength h. NLM computes a weighted average over non-local similar patches: 
+
+I′′ (x) = X 
+
+> y∈N (x)
+
+w(x, y ) ˜I(y) (8) 
+
+w(x, y ) ∝ exp  −∥ ˜I(x) − ˜I(y)∥2/h 2 (9) Following bilateral filtering, NLM suppresses the residual fine grained luminance noise that bilateral filtering may miss in the high-frequency texture regions. The two denoising stages are therefore interdependent, where the bilateral filtering handles large scale smooth regions and edges, while the NLM handles fine grained textural noise. The colour denoising strength is set to h + hc to maintain consistency with the chrominance correction applied in Stage 4. 
+
+G. Stage 7: Adaptive Gaussian Post-Smoothing 
+
+A final Gaussian smoothing pass with standard deviation σs
+
+is applied to suppress quantisation artefacts. When σs ≤ 0.05 
+
+the pass is skipped entirely. As σs increases, fine texture detail is traded for smoother tonal transitions, which tends to benefit NIQE at the cost of some SSIM. This parameter allows the optimiser to explicitly control the perceptual naturalness of the final output. 
+
+H. Bayesian Optimisation Engine 
+
+All eight parameters θ = ( α, β, γ, h, σ s, λ, d, h c) are op-timised jointly by Bayesian Optimisation with a GP surro-gate [24]. The scalar objective is: 
+
+f (θ) = 1 .0 PSNR + 80 .0 SSIM − 5.0 NIQE (10) where the coefficients are set empirically to compensate for the differing numerical scales of each metric as PSNR typically ranges from 10-25 dB on LOL, SSIM from 0.4-0.9, and NIQE from 3-10. The weight of 80.0 on SSIM counteracts its compressed [0 , 1] range while deliberately prioritising structural fidelity and making it just as important. The coefficient of 5.0 on NIQE treats perceptual naturalness as a secondary regulariser rather than a primary driver. PSNR is always numerically larger regardless of the dataset, the relative weighting remains meaningful beyond LOL and sensitivity analysis across additional benchmarks is left as future work. 
+
+Parameter normalisation: All raw parameters are mapped to the unit hypercube [0 , 1] 8 before any GP operation: 
+
+ˆθi = θi − θmin 
+
+> i
+
+θmax  
+
+> i
+
+− θmin 
+
+> i
+
+(11) This removes the large scale disparity between parameters like 
+
+α and h, ensuring that the GP squared exponential kernel assigns equitable length scale learning to all dimensions. Sobol sampling, acquisition maximisation, and all GP fitting are performed in the unit cube and the candidates are unscaled to raw bounds before evaluation. Fig. 2. The different stages of enhancement in the pipeline 
+
+Objective standardisation: Collected objective values are standardised before GP model fitting: 
+
+˜fi = fi − ¯fσf + ϵ (12) where ¯f and σf are the running mean and standard deviation, and ϵ = 10 −6 prevents degenerate scaling. Standardisation stabilises GP kernel hyperparameter optimisation across the wide range of absolute objective values that arise across different images. 
+
+Initialisation: Before active optimisation, candidates are drawn from the unit hypercube using Sobol quasi-random sampling [25]. The larger initialisation set reflects the ex-panded eight-dimensional search space, where low discrepancy coverage is more critical for avoiding poor warm start optima. 
+
+Acquisition: Each subsequent candidate is selected by maximising the Log Expected Improvement [26]: 
+
+LogEI( ˆθ) = log E
+
+h
+
+max   ˜f (ˆθ) − ˜f ∗, 0i
+
+(13) where ˜f ∗ is the best standardised objective observed so far. LogEI is numerically stable in flat regions of the acquisition surface where standard EI can collapse to near-zero values, maintaining meaningful candidate differentiation in later iter-ations. The acquisition function is maximised via multi-start L-BFGS-B. 
+
+Model fitting: The GP (SingleTaskGP with automatic kernel learning) is implemented in BoTorch [27] and GPy-Torch [28] and refitted at every iteration by exact marginal log-likelihood optimisation. The engine is reinitialised inde-pendently for each input image, ensuring fully image adaptive parameter selection. The enhancement done across all the explained stages in the pipeline can be seen in Figure 2. This shows how the different stages improves the metrics of the image while improving the structure, reducing the noise and making the images look more natural. IV. E XPERIMENTS 
+
+A. Dataset 
+
+Experiments are conducted on the LOL (Low-Light paired) dataset [5], which comprises 500 paired low-light and normal-light images, all at 400 × 600 resolution depicting predomi-nantly indoor scenes. 
+
+B. Compared Methods 
+
+FLARE-BO is evaluated against nine published methods as seen in Figure 3 spanning across heuristic, deep learning, and optimisation-based categories. The heuristic category includes LIME [7] and ZeroIG [29]. The deep learning category in-cludes Zero-DCE [11], EnlightenGAN [12], RetinexNet [10], RUAS [18], SCI [30], ISSR [31], and SGZ [32]. Methods with publicly available weights specifically trained on the LOL dataset are not included in this comparison, as they benefit from dataset specific supervision. In contrast, all evaluated methods operate without explicit training on LOL, ensuring a fair comparison with FLARE-BO, which is training free. Rodrigues et al. [4] is used as the primary baseline, as FLARE-BO directly extends its training free optimisation framework, and all methods are evaluated on the same LOL dataset. However, since the method in [4] is not open-sourced, it could not be independently evaluated under the same conditions as other methods. Therefore, the results reported for this method are taken directly from the original paper. 
+
+C. Evaluation Metrics 
+
+Three metrics are used to assess enhancement quality with benchmarks to the previous work. PSNR [33] measures pixel-level signal fidelity between the enhanced output and the reference image; higher values indicate closer agreement. SSIM [34] jointly evaluates luminance, contrast, and structural Fig. 3. Comparison across various enhancement techniques. 
+
+correlation, providing a perceptually motivated measure of image similarity; higher is better. NIQE [35] is a no-reference metric that quantifies deviation from the statistical proper-ties of natural pristine images; lower scores indicate higher perceptual naturalness. Because LOL provides paired ground-truth references, PSNR and SSIM are the primary indicators of reconstruction fidelity, with NIQE serves as a supplementary naturalness check. 
+
+D. Quantitative Results 
+
+Table II reports the quantitative comparison. FLARE-BO achieves the highest PSNR and SSIM of all compared methods by a substantial margin. The closest competitor on PSNR and SSIM is Rodrigues et al. [4]. The results reflect the cumulative benefit of the expanded eight parameter pipeline over the three parameter baseline of [4]. The LIME-style illumination normalisation corrects spatially varying darkness before any global transform is applied, a capability absent from linear-only pipelines. The gamma exponent introduces a non-linear tonal response that more closely matches the human visual system’s sensitivity under dark adaptation. The LAB-space chrominance denoising removes colour speckle that luminance-domain filters such as bilateral and NLM denoisers cannot address on their own. Together these additions substantially improve structural cor-respondence with the ground-truth reference. On NIQE, Rodrigues et al. [4] achieve the best score and ISSR the second best. FLARE-BO scores 4.695, which is higher than all other baselines including RetinexNet, ZeroIG, SGZ, LIME, Zero-DCE, SCI, EnlightenGAN, and RUAS. The moderately higher NIQE relative to [4] is the expected conse-quence of the SSIM dominant weighting in Equation (10) as the optimiser is steered away from the heavy global smoothing that lowers NIQE but undermines the structural detail that SSIM rewards. Giving NIQE a higher coefficient made the optimiser struggle between balancing all three parameters and                                                   
+
+> TABLE II IMAGE QUALITY ASSESSMENT ON THE LOL DATASET .↑HIGHER IS BETTER ;↓LOWER IS BETTER .BOLD :BEST . U NDERLINE :SECOND BEST .
+> Method PSNR ↑SSIM ↑NIQE ↓
+> ZeroIG [29] 16.580 0.531 8.938 Zero-DCE [11] 14.585 0.611 8.081 EnlightenGAN [12] 13.604 0.659 7.026 RetinexNet [10] 17.120 0.498 9.300 RUAS [18] 18.206 0.715 6.867 SCI [30] 13.609 0.544 7.246 ISSR [31] 12.442 0.544 4.026 SGZ [32] 15.238 0.620 8.249 LIME [7] 13.745 0.571 8.294 Rodrigues et al. [4] 18.790 0.711 3.909 FLARE-BO (proposed) 22.402 0.8427 4.695
+
+this caused the resulting image to struggle with a good PSNR and SSIM. 
+
+E. Qualitative Results 
+
+Visual inspection from Fig. 4 confirms the quantitative find-ings. FLARE-BO produces images with consistent brightness across the full frame, neutral colour rendition, and well pre-served structural detail. The illumination normalisation stage is particularly effective in scenes with mixed or spatially varying lighting, where the input contains both heavily underexposed regions and locally brighter objects. FLARE-BO restores vis-ibility in both cases without introducing saturation artefacts, clipping, or tonal inversion The histogram analysis further supports this behaviour. In both scenes, the input distributions are heavily skewed toward low intensities, reflecting severe underexposure. In contrast, FLARE-BO shifts the distribution toward the mid intensity range while maintaining a similar overall shape to the ground truth. This indicates that the enhancement is not a simple global brightness boost, but a structured remapping of inten-sities that preserves relative luminance relationships. Unlike Fig. 4. Sample Images from the LOL Dataset. 
+
+competing methods that either over compress the dynamic range or introduce artificial peaks, FLARE-BO maintains a smoother, more continuous distribution that closely tracks the ground-truth statistics across all tonal regions. Chrominance denoising visibly eliminates the random colour speckle that persists in results in some compared methods. FLARE-BO jointly optimises noise suppression and structural fidelity under a single objective, resulting in outputs that are both perceptually stable and statistically aligned with ground truth. V. C ONCLUSIONS 
+
+This paper presented FLARE-BO, a training free low-light image enhancement framework that extends the Bayesian optimisation of Rodrigues et al. [4]. By expanding from three to eight jointly optimised parameters and adding LIME-style illumination normalisation, gamma correction, Grey-World white balance, LAB-space chrominance denoising, bilateral filtering, and adaptive post-smoothing, FLARE-BO achieves PSNR improvement of +3 .61 dB and SSIM improvement of 
+
++0 .132 on the LOL dataset relative to the baseline [4], while outperforming all compared deep learning methods on both reference based metrics. The BO engine with unit hypercube normalisation, objective standardisation, Sobol initialisation, and LogEI acquisition ensures effective exploration of the expanded eight dimensional search space. The method requires no training data making it usable on any kind of low-light image without prior scene information. Its primary limitation is it has a higher NIQE, which is the deliberate consequence of heavily weighting SSIM in the objective function and also the optimisation process is slower than deep learning methods and this optimiser can only be run offline. Future work will explore incorporating percep-tual loss terms to recover NIQE competitiveness, multi-scale illumination estimation for high resolution inputs, dynamic optimisation budget allocation based on scene complexity, and evaluation on additional benchmarks ACKNOWLEDGMENT 
+
+This work was supported by the Robotics and Artificial Intelligence Collaboration (RAICo). REFERENCES 
+
+[1] H. Wu, Y. Hou, W. Xu, and M. Zhao, “Ultra-low-light-level digital still camera for autonomous underwater ve-hicle,” Optical Engineering , vol. 58, no. 1, pp. 013 106– 013 106, 2019. [2] S. Schwaiger, L. Muster, G. Novotny, M. Schebek, W. W¨ ober, S. Thalhammer, and C. B¨ ohm, “Ugv-cbrn: an unmanned ground vehicle for chemical, biological, radi-ological, and nuclear disaster response,” arXiv preprint arXiv:2406.14385 , 2024. [3] M. Abdeh, F. Abut, and F. Akay, “Autonomous naviga-tion in search and rescue simulated environment using deep reinforcement learning,” Balkan Journal of Electri-cal and Computer Engineering , vol. 9, no. 2, pp. 92–98, 2021. [4] G. F. Rodrigues, A. B. Viana, L. A. Martinho, J. M. Calvalcanti, J. L. Pio, and F. G. Oliveira, “Low-light im-age quality enhancement through bayesian optimization using gaussian processes,” in 2025 Brazilian Conference on Robotics (CROS) , vol. 1. IEEE, 2025, pp. 1–6. [5] C. Wei, W. Wang, W. Yang, and J. Liu, “Deep retinex de-composition for low-light enhancement,” arXiv preprint arXiv:1808.04560 , 2018. [6] L. H. Pham, D. N.-N. Tran, and J. W. Jeon, “Low-light image enhancement for autonomous driving sys-tems using driveretinex-net,” in 2020 IEEE International Conference on Consumer Electronics-Asia (ICCE-Asia) .IEEE, 2020, pp. 1–5. [7] X. Guo, Y. Li, and H. Ling, “Lime: Low-light image enhancement via illumination map estimation,” IEEE Transactions on image processing , vol. 26, no. 2, pp. 982–993, 2016. [8] W. Kubinger, M. Vincze, and M. Ayromlou, “The role of gamma correction in colour image processing,” in 
+
+9th European signal processing conference (EUSIPCO 1998) . IEEE, 1998, pp. 1–4. [9] C.-H. Lee, J.-L. Shih, C.-C. Lien, and C.-C. Han, “Adaptive multiscale retinex for image contrast enhance-ment,” in 2013 International Conference on Signal-Image Technology & Internet-Based Systems (SITIS) . IEEE Computer Society, 2013, pp. 43–50. [10] C. Wei, W. Wang, and Y. Liu, “Retinexnet: Deep retinex decomposition for low-light enhancement,” in 
+
+Brit. Mach. Vis. Conf.(BMVC) , 2018, pp. 182–190. [11] C. Guo, C. Li, J. Guo, C. C. Loy, J. Hou, S. Kwong, and R. Cong, “Zero-reference deep curve estimation for low-light image enhancement,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2020, pp. 1780–1789. [12] Y. Jiang, X. Gong, D. Liu, Y. Cheng, C. Fang, X. Shen, J. Yang, P. Zhou, and Z. Wang, “Enlightengan: Deep light enhancement without paired supervision,” IEEE transactions on image processing , vol. 30, pp. 2340– 2349, 2021. [13] S. W. Zamir, A. Arora, S. Khan, M. Hayat, F. S. Khan, M.-H. Yang, and L. Shao, “Learning enriched features for real image restoration and enhancement,” in European conference on computer vision . Springer, 2020, pp. 492– 511. [14] W. Wu, J. Weng, P. Zhang, X. Wang, W. Yang, and J. Jiang, “Uretinex-net: Retinex-based deep unfolding network for low-light image enhancement,” in Proceed-ings of the IEEE/CVF conference on computer vision and pattern recognition , 2022, pp. 5901–5910. [15] X. Xu, R. Wang, C.-W. Fu, and J. Jia, “Snr-aware low-light image enhancement,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2022, pp. 17 714–17 724. [16] Y. Cai, H. Bian, J. Lin, H. Wang, R. Timofte, and Y. Zhang, “Retinexformer: One-stage retinex-based transformer for low-light image enhancement,” in Pro-ceedings of the IEEE/CVF international conference on computer vision , 2023, pp. 12 504–12 513. [17] D. Zhou, Z. Yang, and Y. Yang, “Pyramid diffusion models for low-light image enhancement,” arXiv preprint arXiv:2305.10028 , 2023. [18] R. Liu et al. , “Ruas: Retinex-inspired unrolling with learnable activation functions for low-light image en-hancement,” IEEE Trans. on Pat. Analysis and Machine Intelligence , vol. 43, no. 11, pp. 3965–3979, 2021. [19] Y. Wu, C. Pan, G. Wang, Y. Yang, J. Wei, C. Li, and H. T. Shen, “Learning semantic-aware knowledge guidance for low-light image enhancement,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2023, pp. 1662–1671. [20] K. He, J. Sun, and X. Tang, “Guided image filtering,” 
+
+IEEE transactions on pattern analysis and machine in-telligence , vol. 35, no. 6, pp. 1397–1409, 2012. [21] G. Buchsbaum, “A spatial processor model for object colour perception,” Journal of the Franklin institute , vol. 310, no. 1, pp. 1–26, 1980. [22] C. Tomasi and R. Manduchi, “Bilateral filtering for gray and color images,” in Sixth international conference on computer vision (IEEE Cat. No. 98CH36271) . IEEE, 1998, pp. 839–846. [23] A. Buades, B. Coll, and J.-M. Morel, “A non-local algorithm for image denoising,” in 2005 IEEE computer society conference on computer vision and pattern recog-nition (CVPR’05) , vol. 2. Ieee, 2005, pp. 60–65. [24] J. Snoek, H. Larochelle, and R. P. Adams, “Practical bayesian optimization of machine learning algorithms,” 
+
+Advances in neural information processing systems ,vol. 25, 2012. [25] I. M. Sobol, “Distribution of points in a cube and ap-proximate evaluation of integrals,” USSR Computational mathematics and mathematical physics , vol. 7, pp. 86– 112, 1967. [26] S. Ament, S. Daulton, D. Eriksson, M. Balandat, and E. Bakshy, “Unexpected improvements to expected im-provement for bayesian optimization,” Advances in neu-ral information processing systems , vol. 36, pp. 20 577– 20 612, 2023. [27] M. Balandat, B. Karrer, D. Jiang, S. Daulton, B. Letham, A. G. Wilson, and E. Bakshy, “Botorch: A framework for efficient monte-carlo bayesian optimization,” Advances in neural information processing systems , vol. 33, pp. 21 524–21 538, 2020. [28] J. Gardner, G. Pleiss, K. Q. Weinberger, D. Bindel, and A. G. Wilson, “Gpytorch: Blackbox matrix-matrix gaus-sian process inference with gpu acceleration,” Advances in neural information processing systems , vol. 31, 2018. [29] Y. Shi, D. Liu, L. Zhang, Y. Tian, X. Xia, and X. Fu, “Zero-ig: Zero-shot illumination-guided joint denoising and adaptive enhancement for low-light images,” in Pro-ceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2024, pp. 3015–3024. [30] L. Ma, T. Ma, R. Liu, X. Fan, and Z. Luo, “Toward fast, flexible, and robust low-light image enhancement,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2022, pp. 5637–5646. [31] M. Fan, W. Wang, W. Yang, and J. Liu, “Integrating semantic segmentation and retinex model for low-light image enhancement,” in Proceedings of the 28th ACM international conference on multimedia , 2020, pp. 2317– 2325. [32] S. Zheng and G. Gupta, “Semantic-guided zero-shot learning for low-light image/video enhancement,” in Pro-ceedings of the IEEE/CVF Winter conference on appli-cations of computer vision , 2022, pp. 581–590. [33] A. Hore and D. Ziou, “Image quality metrics: Psnr vs. ssim,” in 2010 20th international conference on pattern recognition . IEEE, 2010, pp. 2366–2369. [34] Z. Wang, A. C. Bovik, H. R. Sheikh, and E. P. Simoncelli, “Image quality assessment: from error visibility to struc-tural similarity,” IEEE transactions on image processing ,vol. 13, no. 4, pp. 600–612, 2004. [35] A. Mittal, R. Soundararajan, and A. C. Bovik, “Making a “completely blind” image quality analyzer,” IEEE Signal processing letters , vol. 20, no. 3, pp. 209–212, 2012.
