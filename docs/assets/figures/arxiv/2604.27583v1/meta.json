@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2604.27583v1/fig-001.webp",
+      "caption": "Fig. 1. Motion retargeting example. The recorded infant movements (top) are reconstructed in a virtual simulator (bottom).",
+      "page": 1,
+      "index": 1,
+      "width": 495,
+      "height": 255
+    },
+    {
+      "url": "assets/figures/arxiv/2604.27583v1/fig-002.webp",
+      "caption": "Fig. 5. Simulation of sensorimotor infant experiences for different humanoids. (A) The robot iCub performing hand regard. His eyes have cameras which allow us to simulate the visual experience of an infant looking at their hand. Due to the proximity of the hand to the face, there is a binocular disparity in the left and right images. This is shown as the red and cyan colors in the stereoscopic anaglyph. (B) Touch sensation in MIMo. During a sequence of 2,900 frames, most of MIMo’s touch sensors are inactive. The example frames show a reconstruction of MIMo’s virtual skin with no touches (left), touches from the hands to the torso (center), and touches between the feet (right). (C) Proprioception in EMFANT. The 162 muscle–tendons provide a rich biologically-inspired alternative to the conventional joint angles used for proprioception in robotics. The example frames show the EMFANT’s skeleton and muscles used for retargeting through the OpenSim platform. (D) MIMo’s vestibular sensation. By applying the motion retargeting to MIMo from a video where an infant performs a roll over, we can simulate the accelerations detected in the vestibular system. The inset plot presents peak in accelerations at the moment of the roll over, also shown in the example frames.",
+      "page": 6,
+      "index": 2,
+      "width": 1040,
+      "height": 952
+    },
+    {
+      "url": "assets/figures/arxiv/2604.27583v1/fig-003.webp",
+      "caption": "Fig. 2. Motion retargeting pipeline. From a single view of a moving infant, the three dimensional body pose can be estimated and reconstructed in a humanoid. This method allows the simulation of multimodal sensory streams from a first-person perspective. The examples show EMFANT’s muscle-tendon structure, MIMo’s virtual skin of touch sensors activated due to a hand-to-body contact, and MIMo’s binocular vision when fixating on his right hand.",
+      "page": 2,
+      "index": 3,
+      "width": 1028,
+      "height": 522
+    },
+    {
+      "url": "assets/figures/arxiv/2604.27583v1/fig-004.webp",
+      "caption": "Fig. 6. Distributions of self-touches. The manual coding was performed by expert annotators, whereas the humanoid touches were detected as collisions between the hands and the bodies.",
+      "page": 7,
+      "index": 4,
+      "width": 512,
+      "height": 477
+    },
+    {
+      "url": "assets/figures/arxiv/2604.27583v1/fig-005.webp",
+      "caption": "Fig. 3. Accuracy of the motion retargeting. MIMo and EMFANT achieve the lowest relative distances, since their morphology can be modified to fit that of the recorded infant. The relative orientation and velocities, measured using vectors pointing from the MidHip keypoint to each end effector, provide a more qualitative comparison of the retargeting accuracy. MIMo performs best overall, with an average MAE below 2 degrees, while the real (R) and simulated (S) iCub achieve satisfactory relative orientations and velocities.",
+      "page": 3,
+      "index": 5,
+      "width": 504,
+      "height": 765
+    },
+    {
+      "url": "assets/figures/arxiv/2604.27583v1/fig-006.webp",
+      "caption": "Fig. 4. Cross-embodiment invariance and shared sensorimotor manifold. (A) Similarity triangle diagram summarizing pairwise latent correlations among the three embodiments (EMFANT, MIMo, and iCub). Edge labels indicate Spearman ρ correlations. (B) Kernel density plot from dimensionality reduction of GPA-aligned fused latent distribution (tactile + proprioception + vision) at K = 20.",
+      "page": 4,
+      "index": 6,
+      "width": 505,
+      "height": 252
+    }
+  ]
+}
