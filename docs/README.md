@@ -6,73 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-05-03
-- 运行时间：2026-05-03 19:51:18 UTC
+- 最新运行日期：2026-05-04
+- 运行时间：2026-05-04 20:13:39 UTC
 - 运行状态：成功
 - 本次总论文数：17
 - 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日深度解析 17 篇机器人前沿进展，重点突破球形动力学控制与类人避障技术。
-核心结论指出，摩擦感知强化学习能有效弥合 Sim2Real 鸿沟，而触觉与近接传感器的结合为类人机器人安全交互提供了新方案。
-推荐关注如何将人类意图先验与高效搜索算法结合，以提升复杂环境下的操作灵活性。
-- 详情：[/202605/03/README](/202605/03/README)
+今日深度复盘 17 篇机器人前沿论文，重点聚焦人形机器人避障与交互控制两大核心突破。
+触觉感知先验与 ExoActor 视频生成技术为人形机器人提供了更精准的避障能力与泛化控制方案。
+建议关注多模态感知与生成式 AI 的结合，这是提升机器人复杂环境适应力的关键。
+- 详情：[/202605/04/README](/202605/04/README)
 
 ### 精读区论文标签
-1. [asRoBallet: Closing the Sim2Real Gap via Friction-Aware Reinforcement Learning for Underactuated Spherical Dynamics](/202605/03/2604.24916v1-asroballet-closing-the-sim2real-gap-via-friction-aware-reinforcement-learning-for-underactuated-spherical-dynamics)  
+1. [Egocentric Tactile and Proximity Sensors as Observation Priors for Humanoid Collision Avoidance](/202605/04/2604.25554v1-egocentric-tactile-and-proximity-sensors-as-observation-priors-for-humanoid-collision-avoidance)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：在人形球轮机器人硬件上部署强化学习
-2. [Egocentric Tactile and Proximity Sensors as Observation Priors for Humanoid Collision Avoidance](/202605/03/2604.25554v1-egocentric-tactile-and-proximity-sensors-as-observation-priors-for-humanoid-collision-avoidance)  
+   evidence：H1-2人形机器人的全身避障
+2. [ExoActor: Exocentric Video Generation as Generalizable Interactive Humanoid Control](/202605/04/2604.27711v1-exoactor-exocentric-video-generation-as-generalizable-interactive-humanoid-control)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：使用触觉和接近传感器在H1-2人形机器人上实现全身避障
-3. [ExoActor: Exocentric Video Generation as Generalizable Interactive Humanoid Control](/202605/03/2604.27711v1-exoactor-exocentric-video-generation-as-generalizable-interactive-humanoid-control)  
-   标签：评分：10.0/10、query:hr-rob
-   evidence：通过视频生成实现可泛化的人形机器人交互控制
-4. [QuietWalk: Physics-Informed Reinforcement Learning for Ground Reaction Force-Aware Humanoid Locomotion Under Diverse Footwear](/202605/03/2604.23702v1-quietwalk-physics-informed-reinforcement-learning-for-ground-reaction-force-aware-humanoid-locomotion-under-diverse-footwear)  
+   evidence：通过视频生成实现可泛化的交互式人形机器人控制
+3. [QuietWalk: Physics-Informed Reinforcement Learning for Ground Reaction Force-Aware Humanoid Locomotion Under Diverse Footwear](/202605/04/2604.23702v1-quietwalk-physics-informed-reinforcement-learning-for-ground-reaction-force-aware-humanoid-locomotion-under-diverse-footwear)  
    标签：评分：9.5/10、query:hr-rob
-   evidence：物理感知的强化学习用于人形机器人地面反作用力感知运动
-5. [Lifting Embodied World Models for Planning and Control](/202605/03/2604.26182v1-lifting-embodied-world-models-for-planning-and-control)  
+   evidence：用于人形机器人运动控制的物理启发强化学习
+4. [asRoBallet: Closing the Sim2Real Gap via Friction-Aware Reinforcement Learning for Underactuated Spherical Dynamics](/202605/04/2604.24916v1-asroballet-closing-the-sim2real-gap-via-friction-aware-reinforcement-learning-for-underactuated-spherical-dynamics)  
+   标签：评分：9.5/10、query:hr-rob
+   evidence：首次在人形球轮机器人硬件上成功部署强化学习
+5. [Lifting Embodied World Models for Planning and Control](/202605/04/2604.26182v1-lifting-embodied-world-models-for-planning-and-control)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：针对具有高维动作空间的人形具身智能体的规划与控制
-6. [Simulating Infant First-Person Sensorimotor Experience via Motion Retargeting from Babies to Humanoids](/202605/03/2604.27583v1-simulating-infant-first-person-sensorimotor-experience-via-motion-retargeting-from-babies-to-humanoids)  
+   evidence：用于类人具身规划与关节控制的世界模型
+6. [Simulating Infant First-Person Sensorimotor Experience via Motion Retargeting from Babies to Humanoids](/202605/04/2604.27583v1-simulating-infant-first-person-sensorimotor-experience-via-motion-retargeting-from-babies-to-humanoids)  
    标签：评分：9.0/10、query:hr-rob
    evidence：从人类到物理和虚拟人形机器人的运动重定向
 
 ### 速读区论文标签
-1. [Move-Then-Operate: Behavioral Phasing for Human-Like Robotic Manipulation](/202605/03/2604.23620v1-move-then-operate-behavioral-phasing-for-human-like-robotic-manipulation)  
+1. [Task-Conditioned Uncertainty Costmaps for Legged Locomotion](/202605/04/2605.00261v1-task-conditioned-uncertainty-costmaps-for-legged-locomotion)  
    标签：评分：8.5/10、query:hr-rob
-   evidence：将机器人操作解耦为重定位和交互阶段的VLA框架
-2. [Learning Human-Intention Priors from Large-Scale Human Demonstrations for Robotic Manipulation](/202605/03/2604.24681v1-learning-human-intention-priors-from-large-scale-human-demonstrations-for-robotic-manipulation)  
-   标签：评分：8.5/10、query:hr-rob
-   evidence：从大规模视频中学习机器人操作的人类意图先验
-3. [An Efficient Beam Search Algorithm for Active Perception in Mobile Robotics](/202605/03/2604.23327v1-an-efficient-beam-search-algorithm-for-active-perception-in-mobile-robotics)  
+   evidence：用于足式机器人运动规划和落脚点预测的不确定性代价图
+2. [Unleashing the Agility of Wheeled-Legged Robots for High-Dynamic Reflexive Obstacle Evasion](/202605/04/2604.23761v1-unleashing-the-agility-of-wheeled-legged-robots-for-high-dynamic-reflexive-obstacle-evasion)  
    标签：评分：8.0/10、query:hr-rob
-   evidence：机器人主动感知算法，用于决定移动和传感以获取最有价值的观测信息。
-4. [ANCHOR: A Physically Grounded Closed-Loop Framework for Robust Home-Service Mobile Manipulation](/202605/03/2604.25323v1-anchor-a-physically-grounded-closed-loop-framework-for-robust-home-service-mobile-manipulation)  
+   evidence：足式机器人的运动规划与避障
+3. [ANCHOR: A Physically Grounded Closed-Loop Framework for Robust Home-Service Mobile Manipulation](/202605/04/2604.25323v1-anchor-a-physically-grounded-closed-loop-framework-for-robust-home-service-mobile-manipulation)  
    标签：评分：8.0/10、query:hr-rob
    evidence：家庭环境下移动操作的闭环框架
-5. [Safe Navigation using Neural Radiance Fields via Reachable Sets](/202605/03/2604.26899v1-safe-navigation-using-neural-radiance-fields-via-reachable-sets)  
+4. [GS-Playground: A High-Throughput Photorealistic Simulator for Vision-Informed Robot Learning](/202605/04/2604.25459v1-gs-playground-a-high-throughput-photorealistic-simulator-for-vision-informed-robot-learning)  
+   标签：评分：8.0/10、query:hr-rob
+   evidence：用于视觉感知机器人学习和感知范式的模拟器
+5. [SPLIT: Separating Physical-Contact via Latent Arithmetic in Image-Based Tactile Sensors](/202605/04/2604.24449v1-split-separating-physical-contact-via-latent-arithmetic-in-image-based-tactile-sensors)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：使用NeRF和可达集在复杂环境中进行安全导航
-6. [Learning Tactile-Aware Quadrupedal Loco-Manipulation Policies](/202605/03/2604.27224v1-learning-tactile-aware-quadrupedal-loco-manipulation-policies)  
+   evidence：一种模拟基于图像的触觉传感器的新方法，旨在改进机器人的环境感知能力
+6. [VISION-SLS: Safe Perception-Based Control from Learned Visual Representations via System Level Synthesis](/202605/04/2604.24894v1-vision-sls-safe-perception-based-control-from-learned-visual-representations-via-system-level-synthesis)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：结合触觉感知的四足机器人运动操作策略学习
-7. [RAY-TOLD: Ray-Based Latent Dynamics for Dense Dynamic Obstacle Avoidance with TDMPC](/202605/03/2604.27450v1-ray-told-ray-based-latent-dynamics-for-dense-dynamic-obstacle-avoidance-with-tdmpc)  
+   evidence：基于视觉表征的感知控制及鲁棒性保证
+7. [RADIO-ViPE: Online Tightly Coupled Multi-Modal Fusion for Open-Vocabulary Semantic SLAM in Dynamic Environments](/202605/04/2604.26067v1-radio-vipe-online-tightly-coupled-multi-modal-fusion-for-open-vocabulary-semantic-slam-in-dynamic-environments)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：用于动态环境中避障的以LiDAR为中心的潜在动力学
-8. [Efficient Image Annotation via Semi-Supervised Object Segmentation with Label Propagation](/202605/03/2604.22992v1-efficient-image-annotation-via-semi-supervised-object-segmentation-with-label-propagation)  
-   标签：评分：7.0/10、query:hr-rob
-   evidence：通用服务机器人的物体感知与分割
-9. [Safe Navigation in Unknown and Cluttered Environments via Direction-Aware Convex Free-Region Generation](/202605/03/2604.23648v1-safe-navigation-in-unknown-and-cluttered-environments-via-direction-aware-convex-free-region-generation)  
+   evidence：动态环境下的在线语义SLAM与环境建图
+8. [STARRY: Spatial-Temporal Action-Centric World Modeling for Robotic Manipulation](/202605/04/2604.26848v2-starry-spatial-temporal-action-centric-world-modeling-for-robotic-manipulation)  
+   标签：评分：7.5/10、query:hr-rob
+   evidence：用于精确机器人操作和几何约束的时空世界建模
+9. [ATLAS: An Annotation Tool for Long-horizon Robotic Action Segmentation](/202605/04/2604.26637v1-atlas-an-annotation-tool-for-long-horizon-robotic-action-segmentation)  
    标签：评分：6.5/10、query:hr-rob
-   evidence：通过凸自由区域生成实现未知环境下的安全导航
-10. [Characterizing Vision-Language-Action Models across XPUs: Constraints and Acceleration for On-Robot Deployment](/202605/03/2604.24447v1-characterizing-vision-language-action-models-across-xpus-constraints-and-acceleration-for-on-robot-deployment)  
+   evidence：用于长程机器人动作分割与操作的标注工具
+10. [RopeDreamer: A Kinematic Recurrent State Space Model for Dynamics of Flexible Deformable Linear Objects](/202605/04/2604.28161v1-ropedreamer-a-kinematic-recurrent-state-space-model-for-dynamics-of-flexible-deformable-linear-objects)  
    标签：评分：6.5/10、query:hr-rob
-   evidence：针对机器人部署和实时控制的VLA模型分析
-11. [LA-Pose: Latent Action Pretraining Meets Pose Estimation](/202605/03/2604.27448v1-la-pose-latent-action-pretraining-meets-pose-estimation)  
+   evidence：柔性可变形线性对象的机器人操作
+11. [Action Motifs: Self-Supervised Hierarchical Representation of Human Body Movements](/202605/04/2604.28173v1-action-motifs-self-supervised-hierarchical-representation-of-human-body-movements)  
    标签：评分：6.5/10、query:hr-rob
-   evidence：用于机器人相机位姿估计的自监督预训练
+   evidence：用于行为建模的人体运动分层表征
 
 
 <div class="dpr-home-promo-card">
