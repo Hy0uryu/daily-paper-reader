@@ -1,0 +1,110 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-001.webp",
+      "caption": "Fig. 1: SixthSense: Inferring whole-body contact wrench fields via proprioception. This task-agnostic, plug-and-play module provides a robust perception foundation for diverse downstream control and decision-making applications.",
+      "page": 1,
+      "index": 1,
+      "width": 529,
+      "height": 467
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-002.webp",
+      "caption": "Fig. 6: Comparison of success rates across tasks: task-agnostic vs. task-specific vs. baseline estimators",
+      "page": 7,
+      "index": 2,
+      "width": 420,
+      "height": 509
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-003.webp",
+      "caption": "Fig. 7: An example multi-point contact scenario",
+      "page": 7,
+      "index": 3,
+      "width": 529,
+      "height": 246
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-004.webp",
+      "caption": "Fig. 12: Spatiotemporally sparse contact wrench field estimation",
+      "page": 10,
+      "index": 4,
+      "width": 529,
+      "height": 492
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-005.webp",
+      "caption": "Fig. 13: Physical human–robot interaction cases with SixthSense contact estimation",
+      "page": 10,
+      "index": 5,
+      "width": 529,
+      "height": 516
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-006.webp",
+      "caption": "TABLE III: Contact detection metrics under Top-1 and Top-3 settings",
+      "page": 8,
+      "index": 6,
+      "width": 492,
+      "height": 283
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-007.webp",
+      "caption": "Fig. 8: Zero-shot multi-contact inference",
+      "page": 8,
+      "index": 7,
+      "width": 529,
+      "height": 259
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-008.webp",
+      "caption": "TABLE IV: Performance comparison under multi-contact points",
+      "page": 8,
+      "index": 8,
+      "width": 502,
+      "height": 242
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-009.webp",
+      "caption": "Fig. 9: Sensitivity to observation noise under single-contact localization",
+      "page": 8,
+      "index": 9,
+      "width": 420,
+      "height": 561
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-010.webp",
+      "caption": "Fig. 2: Mapping whole-body surface contact force to wrench at sub-region’s center of mass",
+      "page": 4,
+      "index": 10,
+      "width": 529,
+      "height": 604
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-011.webp",
+      "caption": "TABLE V: Effect of controller robustness on contact estimation",
+      "page": 9,
+      "index": 11,
+      "width": 598,
+      "height": 512
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-012.webp",
+      "caption": "Fig. 4: Overview of information flow: Tokenized proprioceptive observations are streamed into iterative CFM refinement modules to progressively infer whole-body contact masks and external wrench fields",
+      "page": 5,
+      "index": 12,
+      "width": 1076,
+      "height": 291
+    },
+    {
+      "url": "assets/figures/arxiv/2605.01427v1/fig-013.webp",
+      "caption": "Fig. 3: Overview: Given a contact-resilient control policy, we use its rollouts to train a conditional flow-matching model that outputs a whole-body external contact wrench field over the discretized robot surface.",
+      "page": 5,
+      "index": 13,
+      "width": 1076,
+      "height": 562
+    }
+  ]
+}
