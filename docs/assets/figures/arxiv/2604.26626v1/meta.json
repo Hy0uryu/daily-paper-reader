@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2604.26626v1/fig-001.webp",
+      "caption": "Table 2. Comparison across different scenarios.",
+      "page": 15,
+      "index": 1,
+      "width": 700,
+      "height": 717
+    },
+    {
+      "url": "assets/figures/arxiv/2604.26626v1/fig-002.webp",
+      "caption": "Fig. 5. Comparison of performance by different ellipsoid initialization.",
+      "page": 14,
+      "index": 2,
+      "width": 725,
+      "height": 190
+    },
+    {
+      "url": "assets/figures/arxiv/2604.26626v1/fig-003.webp",
+      "caption": "Fig. 6. Pairwise comparison of polytope volumes in maze maps with FIRI-lite as the x-axis reference.",
+      "page": 14,
+      "index": 3,
+      "width": 721,
+      "height": 245
+    },
+    {
+      "url": "assets/figures/arxiv/2604.26626v1/fig-004.webp",
+      "caption": "Fig. 1. Generation of a collision-free starshaped set from point clouds and a query point. Blue points are the extreme points of the starshaped set. gets flipped outside of the sphere. Moreover, f−1 R (fR(x)) = Id(x) = x, where f−1 R = fR. We show that (1) yields a starshaped set that preserves visibility.",
+      "page": 5,
+      "index": 4,
+      "width": 725,
+      "height": 194
+    },
+    {
+      "url": "assets/figures/arxiv/2604.26626v1/fig-005.webp",
+      "caption": "Fig. 7. Convex polytopes over increasing temporal windows. The top row uses eventbased data, and the bottom row uses ground-truth LiDAR.",
+      "page": 16,
+      "index": 5,
+      "width": 725,
+      "height": 200
+    }
+  ]
+}
