@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.06498v1/fig-001.webp",
+      "caption": "Table 5 Application of H-GRNE-FBS and H-GABI-FBS to aerial manipulator in Fig. 2",
+      "page": 11,
+      "index": 1,
+      "width": 1032,
+      "height": 1362
+    },
+    {
+      "url": "assets/figures/arxiv/2605.06498v1/fig-002.webp",
+      "caption": "Fig. 2 a) Schematic representation of the floating base system in home configuration H0. The base is a fully-actuated hexarotor called TiltHex [60], and the attached manipulators have 3 revolute joints each, composing two 3-DoF flying endeffectors. The propeller pi is rigidly attached to the base and tilted around 2 axes. Frames FBi are at the configuration H0 and oriented identically to Fw . b) Kinematic tree representing the system, with B denoting a body (node) and q a revolute joint (edge).",
+      "page": 7,
+      "index": 2,
+      "width": 790,
+      "height": 510
+    },
+    {
+      "url": "assets/figures/arxiv/2605.06498v1/fig-003.webp",
+      "caption": "Fig. 3 Inputs and outputs of H-GRNE-FBS and H-GABI-FBS up to order r = 5. 𝑾0 B1,prop = (τB1 , f ) is obtained via Q1 while τj is joint j torque given by Qj from Alog. 2. Output of H-GABI-FBS up to r=5 is shown in dashed lines in (a). Observe that it retrieved back the input trajectories, as demonstrated by the dashed trajectories coinciding with their solid counterparts in (a), when given the state (C 0 B1 (t),V 0 B1 (t), q (t)), base wrench and joint torques in (b), verifying successful operation of our higher-order algorithms. For r = 0, . . . , 5, the average runtime per call for H-GRNE-FBS is (2.326, 3.078, 2.867, 4.355, 5.960, 8.171)[µs], respectively, while for H-GABI-FBS it is (4.106, 4.802, 6.486, 6.461, 8.589, 11.085)[µs], respectively.",
+      "page": 10,
+      "index": 3,
+      "width": 1053,
+      "height": 1225
+    },
+    {
+      "url": "assets/figures/arxiv/2605.06498v1/fig-004.webp",
+      "caption": "Table 1 Existing Methods for Dynamics Modeling",
+      "page": 3,
+      "index": 4,
+      "width": 1006,
+      "height": 599
+    },
+    {
+      "url": "assets/figures/arxiv/2605.06498v1/fig-005.webp",
+      "caption": "Table 3 Simulation Parameters.",
+      "page": 8,
+      "index": 5,
+      "width": 511,
+      "height": 848
+    },
+    {
+      "url": "assets/figures/arxiv/2605.06498v1/fig-006.webp",
+      "caption": "Fig. 4 Benchmark results demonstrate that time differentiating geometric dynamics of floating-base robots through our proposed methods becomes significantly faster than automatic differentiation when the order increases for the same tree size.",
+      "page": 12,
+      "index": 6,
+      "width": 500,
+      "height": 893
+    },
+    {
+      "url": "assets/figures/arxiv/2605.06498v1/fig-007.webp",
+      "caption": "Table 4 Benchmark setup. Model: aerial manipulator in Fig. 2 with NB=5 branches; kinematic and dynamics parameters are in Table 3. CasADi benchmark measures evaluation time of the r-differentiated dynamics; Automatic differentiation occurs once per r > 0 via built-in jtimes(dy,t,1) outside the timed loop.",
+      "page": 9,
+      "index": 7,
+      "width": 1032,
+      "height": 239
+    }
+  ]
+}
