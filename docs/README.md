@@ -6,85 +6,85 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-05-09
-- 运行时间：2026-05-09 19:54:12 UTC
+- 最新运行日期：2026-05-10
+- 运行时间：2026-05-10 20:23:24 UTC
 - 运行状态：成功
 - 本次总论文数：21
 - 精读区：10
 - 速读区：11
 
 ### 今日简报（AI）
-今日聚焦人形机器人与具身智能，深度解析 21 篇论文中 VOFA 满分架构带来的力自适应控制突破。
-重点关注人形机器人视觉推行技术及多尺度高斯语言地图在零样本导航中的推理应用。
-建议深入探索力控算法与视觉注意力机制的结合，以提升复杂环境下移动操作的鲁棒性。
-- 详情：[/202605/09/README](/202605/09/README)
+今日精选 21 篇机器人前沿论文，深度解析人形机器人在感知与控制领域的双重突破。
+重点推荐两篇满分论文：SixthSense 实现了仅靠本体感受的全身力矩估计，VOFA 则通过力自适应控制优化了视觉引导的推物任务。
+建议关注人形机器人如何通过力觉反馈与视觉融合，提升在复杂动态环境中的作业精度与稳定性。
+- 详情：[/202605/10/README](/202605/10/README)
 
 ### 精读区论文标签
-1. [VOFA: Visual Object Goal Pushing with Force-Adaptive Control for Humanoids](/202605/09/2605.01518v1-vofa-visual-object-goal-pushing-with-force-adaptive-control-for-humanoids)  
+1. [SixthSense: Task-Agnostic Proprioception-Only Whole-Body Wrench Estimation for Humanoids](/202605/10/2605.01427v1-sixthsense-task-agnostic-proprioception-only-whole-body-wrench-estimation-for-humanoids)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：用于推动物体的视觉目标条件人形机器人移动-操作系统
-2. [VOFA: Visual Object Goal Pushing with Force-Adaptive Control for Humanoids](/202605/09/2605.01518v2-vofa-visual-object-goal-pushing-with-force-adaptive-control-for-humanoids)  
+   evidence：基于本体感知的类人机器人全身力矩估计
+2. [VOFA: Visual Object Goal Pushing with Force-Adaptive Control for Humanoids](/202605/10/2605.01518v1-vofa-visual-object-goal-pushing-with-force-adaptive-control-for-humanoids)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：视觉目标驱动的人形机器人移动操作系统
-3. [VOFA: Visual Object Goal Pushing with Force-Adaptive Control for Humanoids](/202605/09/2605.01518v3-vofa-visual-object-goal-pushing-with-force-adaptive-control-for-humanoids)  
+   evidence：用于推动物体的类人机器人移动操作系统
+3. [VOFA: Visual Object Goal Pushing with Force-Adaptive Control for Humanoids](/202605/10/2605.01518v2-vofa-visual-object-goal-pushing-with-force-adaptive-control-for-humanoids)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：人形机器人视觉目标调节的移动操作系统，用于推物体
-4. [Stability of Control Lyapunov Function Guided Reinforcement Learning](/202605/09/2605.01978v1-stability-of-control-lyapunov-function-guided-reinforcement-learning)  
+   evidence：带有机载感知的类人机器人运动操作
+4. [VOFA: Visual Object Goal Pushing with Force-Adaptive Control for Humanoids](/202605/10/2605.01518v3-vofa-visual-object-goal-pushing-with-force-adaptive-control-for-humanoids)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：基于强化学习的人形机器人运动稳定性分析
-5. [SixthSense: Task-Agnostic Proprioception-Only Whole-Body Wrench Estimation for Humanoids](/202605/09/2605.01427v1-sixthsense-task-agnostic-proprioception-only-whole-body-wrench-estimation-for-humanoids)  
+   evidence：用于推动物体的类人机器人移动操作系统
+5. [Stability of Control Lyapunov Function Guided Reinforcement Learning](/202605/10/2605.01978v1-stability-of-control-lyapunov-function-guided-reinforcement-learning)  
+   标签：评分：10.0/10、query:hr-rob
+   evidence：利用控制李雅普诺夫函数对人形机器人步态强化学习进行稳定性分析。
+6. [BifrostUMI: Bridging Robot-Free Demonstrations and Humanoid Whole-Body Manipulation](/202605/10/2605.03452v1-bifrostumi-bridging-robot-free-demonstrations-and-humanoid-whole-body-manipulation)  
+   标签：评分：10.0/10、query:hr-rob
+   evidence：专为人形机器人全身视觉运动策略量身定制的数据采集框架
+7. [Stability of Control Lyapunov Function Guided Reinforcement Learning](/202605/10/2605.01978v2-stability-of-control-lyapunov-function-guided-reinforcement-learning)  
    标签：评分：9.5/10、query:hr-rob
-   evidence：人形机器人全身力矩估计与接触感知
-6. [Stability of Control Lyapunov Function Guided Reinforcement Learning](/202605/09/2605.01978v2-stability-of-control-lyapunov-function-guided-reinforcement-learning)  
-   标签：评分：9.5/10、query:hr-rob
-   evidence：人形机器人基于强化学习的运动稳定性分析
-7. [BifrostUMI: Bridging Robot-Free Demonstrations and Humanoid Whole-Body Manipulation](/202605/09/2605.03452v1-bifrostumi-bridging-robot-free-demonstrations-and-humanoid-whole-body-manipulation)  
-   标签：评分：9.5/10、query:hr-rob
-   evidence：人形机器人全身操作数据采集与策略训练
-8. [Right Model, Right Time: Real-Time Cascaded-Fidelity MPC for Bipedal Walking](/202605/09/2605.04607v1-right-model-right-time-real-time-cascaded-fidelity-mpc-for-bipedal-walking)  
+   evidence：人形机器人运动强化学习的稳定性分析
+8. [Right Model, Right Time: Real-Time Cascaded-Fidelity MPC for Bipedal Walking](/202605/10/2605.04607v1-right-model-right-time-real-time-cascaded-fidelity-mpc-for-bipedal-walking)  
    标签：评分：9.5/10、query:hr-rob
    evidence：双足行走的全身模型预测控制
-9. [Visibility-Aware Mobile Grasping in Dynamic Environments](/202605/09/2605.02487v1-visibility-aware-mobile-grasping-in-dynamic-environments)  
+9. [Lie Group Formulation of Recursive Dynamics Algorithms of Higher Order for Floating-Base Robots](/202605/10/2605.06498v1-lie-group-formulation-of-recursive-dynamics-algorithms-of-higher-order-for-floating-base-robots)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：动态环境下的移动抓取全身规划器
-10. [Lie Group Formulation of Recursive Dynamics Algorithms of Higher Order for Floating-Base Robots](/202605/09/2605.06498v1-lie-group-formulation-of-recursive-dynamics-algorithms-of-higher-order-for-floating-base-robots)  
+   evidence：适用于人形机器人等浮动基座机器人的递归动力学算法
+10. [ReActor: Reinforcement Learning for Physics-Aware Motion Retargeting](/202605/10/2605.06593v1-reactor-reinforcement-learning-for-physics-aware-motion-retargeting)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：使用李群公式的浮动基座机器人递归动力学算法
+   evidence：将人体运动重定向到机器人形态并保持物理一致性
 
 ### 速读区论文标签
-1. [Task-Conditioned Uncertainty Costmaps for Legged Locomotion](/202605/09/2605.00261v1-task-conditioned-uncertainty-costmaps-for-legged-locomotion)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：足式机器人运动中感知不确定性的运动规划
-2. [Stereo Multistage Spatial Attention for Real-Time Mobile Manipulation Under Visual Scale Variation and Disturbances](/202605/09/2605.00471v1-stereo-multistage-spatial-attention-for-real-time-mobile-manipulation-under-visual-scale-variation-and-disturbances)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：实时移动操作的立体空间注意力
-3. [Multi-Scale Gaussian-Language Map for Zero-shot Embodied Navigation and Reasoning](/202605/09/2605.01736v1-multi-scale-gaussian-language-map-for-zero-shot-embodied-navigation-and-reasoning)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：用于零样本具身导航与环境建图的多尺度高斯语言地图
-4. [Embody4D: A Generalist 4D World Model for Embodied AI](/202605/09/2605.01799v1-embody4d-a-generalist-4d-world-model-for-embodied-ai)  
-   标签：评分：8.0/10、query:hr-rob
-   evidence：用于具身空间推理的4D世界模型
-5. [CoRAL: Contact-Rich Adaptive LLM-based Control for Robotic Manipulation](/202605/09/2605.02600v1-coral-contact-rich-adaptive-llm-based-control-for-robotic-manipulation)  
+1. [Visibility-Aware Mobile Grasping in Dynamic Environments](/202605/10/2605.02487v1-visibility-aware-mobile-grasping-in-dynamic-environments)  
+   标签：评分：8.5/10、query:hr-rob
+   evidence：用于移动抓取的迭代低层全身规划器
+2. [Visibility-Aware Mobile Grasping in Dynamic Environments](/202605/10/2605.02487v2-visibility-aware-mobile-grasping-in-dynamic-environments)  
+   标签：评分：8.5/10、query:hr-rob
+   evidence：迭代低层全身规划器结合主动感知
+3. [AnchorD: Metric Grounding of Monocular Depth Using Factor Graphs](/202605/10/2605.02667v1-anchord-metric-grounding-of-monocular-depth-using-factor-graphs)  
+   标签：评分：8.5/10、query:hr-rob
+   evidence：利用因子图对单目深度进行度量接地，用于机器人操作和导航。
+4. [Latent Bridge: Feature Delta Prediction for Efficient Dual-System Vision-Language-Action Model Inference](/202605/10/2605.02739v1-latent-bridge-feature-delta-prediction-for-efficient-dual-system-vision-language-action-model-inference)  
+   标签：评分：8.5/10、query:hr-rob
+   evidence：高效的机器人操作VLA模型推理，在GR00T等类人相关模型上进行了测试。
+5. [Multi-Scale Gaussian-Language Map for Zero-shot Embodied Navigation and Reasoning](/202605/10/2605.01736v1-multi-scale-gaussian-language-map-for-zero-shot-embodied-navigation-and-reasoning)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：基于大语言模型的接触密集型机器人操作控制
-6. [OGPO: Sample Efficient Full-Finetuning of Generative Control Policies](/202605/09/2605.03065v1-ogpo-sample-efficient-full-finetuning-of-generative-control-policies)  
+   evidence：用于语义地图构建和导航的多尺度高斯语言地图
+6. [Anticipation-VLA: Solving Long-Horizon Embodied Tasks via Anticipation-based Subgoal Generation](/202605/10/2605.01772v1-anticipation-vla-solving-long-horizon-embodied-tasks-via-anticipation-based-subgoal-generation)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：机器人操作策略的高采样效率微调
-7. [Hardware-Aware Neural Feature Extraction for Resource-Constrained Devices](/202605/09/2605.04282v2-hardware-aware-neural-feature-extraction-for-resource-constrained-devices)  
+   evidence：长程具身任务与子目标生成
+7. [Optimizing Trajectory-Trees in Belief Space: An Application from Model Predictive Control to Task and Motion Planning](/202605/10/2605.01860v1-optimizing-trajectory-trees-in-belief-space-an-application-from-model-predictive-control-to-task-and-motion-planning)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：针对视觉SLAM的硬件感知神经特征提取
-8. [Active Contact Sensing for Robust Robot-to-Human Object Handover](/202605/09/2605.04610v1-active-contact-sensing-for-robust-robot-to-human-object-handover)  
+   evidence：在信念空间中优化轨迹树，用于部分可观测环境下的机器人任务与运动规划。
+8. [Temporally Consistent Object 6D Pose Estimation for Robot Control](/202605/10/2605.02708v1-temporally-consistent-object-6d-pose-estimation-for-robot-control)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：机器人与人交接物体的动作感知
-9. [Zero-Shot Signal Temporal Logic Planning with Disjunctive Branch Selection in Dynamic Semantic Maps](/202605/09/2605.01222v1-zero-shot-signal-temporal-logic-planning-with-disjunctive-branch-selection-in-dynamic-semantic-maps)  
+   evidence：用于机器人控制的时间一致性物体6D位姿估计
+9. [Point-to-Cloud NMPC with Smooth Avoidance Constraints](/202605/10/2605.01431v1-point-to-cloud-nmpc-with-smooth-avoidance-constraints)  
    标签：评分：6.5/10、query:hr-rob
-   evidence：动态语义地图中使用STL的运动规划
-10. [Hydra-DP3: Frequency-Aware Right-Sizing of 3D Diffusion Policies for Visuomotor Control](/202605/09/2605.01581v1-hydra-dp3-frequency-aware-right-sizing-of-3d-diffusion-policies-for-visuomotor-control)  
+   evidence：具有平滑避障约束的非线性模型预测控制，适用于复杂几何环境
+10. [Feedback Motion Planning for Stochastic Nonlinear Systems with Signal Temporal Logic Specifications](/202605/10/2605.02361v1-feedback-motion-planning-for-stochastic-nonlinear-systems-with-signal-temporal-logic-specifications)  
    标签：评分：6.5/10、query:hr-rob
-   evidence：用于高效视觉运动控制和动作轨迹生成的频率感知3D扩散策略
-11. [MiniVLA-Nav v1: A Multi-Scene Simulation Dataset for Language-Conditioned Robot Navigation](/202605/09/2605.00397v1-minivla-nav-v1-a-multi-scene-simulation-dataset-for-language-conditioned-robot-navigation)  
-   标签：评分：6.0/10、query:hr-rob
-   evidence：语言调节机器人导航与感知的仿真数据集
+   evidence：随机非线性系统的反馈运动规划
+11. [A Semantic Autonomy Framework for VLM-Integrated Indoor Mobile Robots: Hybrid Deterministic Reasoning and Cross-Robot Adaptive Memory](/202605/10/2605.02525v1-a-semantic-autonomy-framework-for-vlm-integrated-indoor-mobile-robots-hybrid-deterministic-reasoning-and-cross-robot-adaptive-memory)  
+   标签：评分：6.5/10、query:hr-rob
+   evidence：室内移动机器人导航的语义自主框架
 
 
 <div class="dpr-home-promo-card">
