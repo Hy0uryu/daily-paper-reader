@@ -1,0 +1,190 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-001.webp",
+      "caption": "Table 1. Performance on FurnitureBench in simulation. Success rates (%) are reported for different initial randomization levels.",
+      "page": 6,
+      "index": 1,
+      "width": 658,
+      "height": 258
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-002.webp",
+      "caption": "Figure 7. A successful rollout of HDFlow planner on the one_leg assembly task initialized with Low randomness.",
+      "page": 25,
+      "index": 2,
+      "width": 806,
+      "height": 580
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-003.webp",
+      "caption": "Figure 8. A successful rollout of HDFlow planner on the one_leg assembly task initialized with Med randomness.",
+      "page": 26,
+      "index": 3,
+      "width": 804,
+      "height": 580
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-004.webp",
+      "caption": "Figure 9. A successful rollout of HDFlow planner on the one_leg assembly task initialized with High randomness.",
+      "page": 26,
+      "index": 4,
+      "width": 804,
+      "height": 582
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-005.webp",
+      "caption": "Table 8. High-Level Planner Hyperparameters",
+      "page": 21,
+      "index": 5,
+      "width": 741,
+      "height": 550
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-006.webp",
+      "caption": "Table 10. Low-Level Planner Hyperparameters",
+      "page": 21,
+      "index": 6,
+      "width": 683,
+      "height": 327
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-007.webp",
+      "caption": "Figure 3. (left) Real-world FurnitureBench setup. (right) A successful rollout of HDFlow planner on the one_leg assembly task initialized with Med randomness in both simulation (top) and real-world (bottom).",
+      "page": 7,
+      "index": 7,
+      "width": 863,
+      "height": 269
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-008.webp",
+      "caption": "Figure 15. A successful rollout of HDFlow planner on the lamp assembly task initialized with Low randomness in the real-world.",
+      "page": 29,
+      "index": 8,
+      "width": 806,
+      "height": 299
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-009.webp",
+      "caption": "Figure 14. A successful rollout of HDFlow planner on the one_leg assembly task initialized with Low randomness in the real-world.",
+      "page": 29,
+      "index": 9,
+      "width": 706,
+      "height": 345
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-010.webp",
+      "caption": "Figure 16. A successful rollout of HDFlow planner on the round_table assembly task initialized with Low randomness in the real-world.",
+      "page": 29,
+      "index": 10,
+      "width": 806,
+      "height": 297
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-011.webp",
+      "caption": "Figure 5. RLBench Manipulation Tasks. We evaluate HDFlow on 18 simulated RLBench tasks, covering 249 variations of object poses, goal configurations, and scene appearances. During evaluation, the robot must complete each task under randomized colors, shapes, sizes, and semantic arrangements.",
+      "page": 18,
+      "index": 11,
+      "width": 1000,
+      "height": 568
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-012.webp",
+      "caption": "Table 11. Ablation study on the choice of vision encoder for the world model. This table reports HDFlow success rates (%) on all tasks with respective randomization levels.",
+      "page": 23,
+      "index": 12,
+      "width": 708,
+      "height": 192
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-013.webp",
+      "caption": "Table 12. Ablation study on the choice of total subgoals K. Success rates (%) of HDFlow on all tasks with respective randomization levels for different K values, highlighting the importance of temporal abstraction for optimal performance.",
+      "page": 23,
+      "index": 13,
+      "width": 708,
+      "height": 190
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-014.webp",
+      "caption": "Figure 12. A successful rollout of HDFlow planner on the lamp assembly task initialized with Med randomness.",
+      "page": 28,
+      "index": 14,
+      "width": 1008,
+      "height": 542
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-015.webp",
+      "caption": "Figure 13. A successful rollout of HDFlow planner on the cabinet assembly task initialized with Low randomness.",
+      "page": 28,
+      "index": 15,
+      "width": 1006,
+      "height": 540
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-016.webp",
+      "caption": "Table 5. Performance on RLBench. We report success rates on 18 RLBench tasks with 249 variations.",
+      "page": 8,
+      "index": 16,
+      "width": 1017,
+      "height": 276
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-017.webp",
+      "caption": "Table 6. Performance on OGBench. We report the average binary success rate (%) across five test-time goals for each task, averaged over 8 seeds. Standard deviations are indicated by the ± symbol.",
+      "page": 8,
+      "index": 17,
+      "width": 879,
+      "height": 376
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-018.webp",
+      "caption": "Figure 1. HDFlow pipeline. The framework consists of two main stages: World Model Learning (left), where observations are encoded into a structured latent space, and Hierarchical Planner Training (right). The latter involves a High-Level diffusion planner generating sparse strategic subgoals (z1, . . . , zK) with Manifold-aware EBM guidance, and a Low-Level rectified flow planner synthesizing dense trajectories τ = [τ1, . . . , τH ] between subgoals using an ODE solver.",
+      "page": 4,
+      "index": 18,
+      "width": 808,
+      "height": 288
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-019.webp",
+      "caption": "Figure 6. OGBench Tasks. We evaluate HDFlow on 14 simulated OGBench tasks.",
+      "page": 19,
+      "index": 19,
+      "width": 754,
+      "height": 492
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-020.webp",
+      "caption": "Figure 11. A successful rollout of HDFlow planner on the lamp assembly task initialized with Low randomness.",
+      "page": 27,
+      "index": 20,
+      "width": 1010,
+      "height": 590
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-021.webp",
+      "caption": "Figure 10. A successful rollout of HDFlow planner on the round_table assembly task initialized with Low randomness.",
+      "page": 27,
+      "index": 21,
+      "width": 1004,
+      "height": 539
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-022.webp",
+      "caption": "Table 7. World Model Hyperparameters",
+      "page": 20,
+      "index": 22,
+      "width": 417,
+      "height": 350
+    },
+    {
+      "url": "assets/figures/arxiv/2605.04525v1/fig-023.webp",
+      "caption": "Figure 4. Overview of tasks from FurnitureBench in simulation.",
+      "page": 16,
+      "index": 23,
+      "width": 858,
+      "height": 443
+    }
+  ]
+}

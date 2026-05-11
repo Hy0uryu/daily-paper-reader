@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.02862v1/fig-001.webp",
+      "caption": "Figure 1: Task success rate across all three planners over 200 dynamic-obstacle trials. SRAH achieves the highest success rate at 62.0%.",
+      "page": 3,
+      "index": 1,
+      "width": 504,
+      "height": 313
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02862v1/fig-002.webp",
+      "caption": "Figure 2: Violin plot of steps to completion for successful trials. SRAH and BFS show similar median path lengths, indicating that semantic cost shaping does not significantly elongate paths.",
+      "page": 3,
+      "index": 2,
+      "width": 504,
+      "height": 311
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02862v1/fig-003.webp",
+      "caption": "Figure 3: Planning time (ms) versus mean replan count. SRAH occupies a unique operating point higher recovery than BFS at modest overhead, while Greedy avoids all replanning at the cost of near-total task failure in dynamic settings.",
+      "page": 3,
+      "index": 3,
+      "width": 429,
+      "height": 289
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02862v1/fig-004.webp",
+      "caption": "Figure 4: Example 12×12 grid-world paths. Orange cells indicate SRAH’s semantic risk zones (high obstacle adjacency). BFS routes through risky corridors; SRAH avoids them, improving resilience to dynamic obstacles.",
+      "page": 4,
+      "index": 4,
+      "width": 504,
+      "height": 259
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02862v1/fig-005.webp",
+      "caption": "Figure 5: Task success rate vs. static obstacle density (no dynamic obstacles, 80 trials each). SRAH outperforms BFS at all densities above 10%, with increasing advantage at higher clutter levels.",
+      "page": 4,
+      "index": 5,
+      "width": 504,
+      "height": 313
+    }
+  ]
+}
