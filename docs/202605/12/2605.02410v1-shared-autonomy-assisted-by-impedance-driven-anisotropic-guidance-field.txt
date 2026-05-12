@@ -1,0 +1,653 @@
+Title: Shared Autonomy Assisted by Impedance-Driven Anisotropic Guidance Field
+
+URL Source: https://arxiv.org/pdf/2605.02410v1
+
+Published Time: Tue, 05 May 2026 01:49:47 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+> IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. ACCEPTED MARCH, 2026 1
+
+# Shared Autonomy Assisted by Impedance-Driven Anisotropic Guidance Field 
+
+Sihan Chen 1,∗, Hang Xu 1,†, Yupu Lu 1, Chen Wang 1, Benfang Duan 2, Ruixing Jia 1, and Jia Pan 1,†
+
+Abstract —Shared autonomy (SA) enables robots to infer hu-man intent and assist in its achievement. While most research focuses on improving intent inference, it overlooks whether humans can understand the robot’s intent in return. Without such mutual understanding, collaboration becomes less effective, degrading user experience and task performance. To address this gap, previous studies have explicitly conveyed the robot intent through additional interfaces, which remain unintuitive and limited in expressiveness. Inspired by impedance control, we propose Impedance-Driven Anisotropic Guidance Field En-hanced Shared Autonomy (IAGF-SA), a novel paradigm that extends SA with an embodied, physically-grounded communi-cation channel. This channel adaptively modulates the robot’s dynamic response to human input, enabling intuitive, continuous, physically-grounded robot intent communication while naturally guiding human actions. User studies across three scenarios and two teleoperation interfaces indicate that IAGF-SA improves task performance, human-robot agreement, and subjective experience, thus demonstrating its effectiveness in enhancing human-robot communication and collaboration. 
+
+Index Terms —Human-robot collaboration, human-aware mo-tion planning, shared autonomy, variable impedance control. 
+
+I. I NTRODUCTION 
+
+# SHARED Autonomy (SA) is an established paradigm in Human-Robot Interaction (HRI) that synergistically combines robotic capabilities with human decision-making to achieve shared goals [1], [2]. A typical framework comprises three components [2]: (1) Goal Inference , which interprets the user’s intent from control inputs (e.g., joystick signals); (2) Robot Decision , where an autonomous policy generates an assistive command; and (3) Action Blending , which fuses the user’s and robot’s commands. This integration allows SA systems to mitigate human limitations in situational awareness, rationality, and motor precision, thereby reducing workload and improving task performance [3], [4]. These benefits have led to successful applications in diverse domains such as assistive manipulation [5], [6]. However, a fundamental asymmetry in communication per-sists even in successful SA systems. While the robot continu-ously interprets human input, the operator has little access to the robot’s internal intent-related states [3], [5], [6]. We define 
+
+transparency as the extent to which the operator can perceive and understand such internal information [7]. The lack of 
+
+Manuscript accepted: March 25, 2026. ( † Corresponding authors: Jia Pan and Hang Xu.) 
+
+> 1
+
+Sihan Chen, Hang Xu, Yupu Lu, Chen Wang, Ruixing Jia, and Jia Pan are with the School of Computing and Data Science, The Univer-sity of Hong Kong, Hong Kong, China sihanchen@connect.hku.hk, xuhang_official@outlook.com, jpan@cs.hku.hk. 
+
+> 2
+
+Benfang Duan is with the School of Engineering, Nanjing University of Information Science and Technology, Nanjing, China. Human Input      
+
+> Robot Intent
+> Goal Confidence
+> Intended Direction
+> Damping Fields Stiffness Fields
+> Active Mode Passive Mode
+> Control
+> Interface
+> Human’s input direction Robot’s intended direction
+> Confidence
+> Goal
+> IAGF
+> d2↑d2↑
+
+Fig. 1. Illustration of human-robot bidirectional communication. 
+
+transparency in SA systems arises, because the blended action, despite combining human and robot commands, is sent directly to the controller for execution, without providing a dedicated semantic channel for human interpretation. This problem is ex-acerbated in complex interactions involving operator hesitation or changes in intent, where operators cannot assess whether their actions are being interpreted correctly or understand how to adjust input for clarity. This transparency limitation fre-quently leads to longer completion times, increased subjective workload, and lower perceived collaboration quality [8], [9]. Enhancing robot-to-human communication is a critical path-way to improving transparency and mutual understanding in SA systems [10]. Prior research has explored diverse modalities to convey robot intent, including visual displays [8], light indicators [11], and virtual reality interfaces [9]. However, such modalities only display the robot’s predicted intent, failing to deliver actionable operational support to users. While haptic shared control [12], [13] provides action-level haptic guidance through a dedicated device, existing re-search is largely limited to satisfying low-level environmental constraints rather than high-level task goals communication and often enforces passive human compliance, functioning as unilateral low-level guidance rather than fostering high-level robot-to-human communication. These critical limitations un-derscore the need for an intuitive communication strategy that seamlessly integrates high-level intent, confidence, and guidance into a coherent, efficient interactive experience. To address this need, impedance control [14], [15] offers a promising pathway. Widely adopted in physical HRI, it models the robot’s dynamics as a mass-spring-damper system, enabling compliant and seamless collaboration via adaptive damping and stiffness modulation. Our insight is that the robot’s variations in resistance or compliance can inherently communicate its intent and provide motion guidance, estab-lishing a natural, physically-grounded embodied communica-tion channel that eliminates the need for external interfaces  
+
+> arXiv:2605.02410v1 [cs.RO] 4 May 2026 IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. ACCEPTED MARCH, 2026 2
+
+[8], [11], [9]. Specifically, the robot can convey rich, high-bandwidth information through this embodied interaction. Building on this insight, we introduce a directionally-specific modulation mechanism, allowing the robot to encode intent through anisotropic impedance adaptation for more nuanced communication. In this paper, we introduce Impedance-Driven Anisotropic Guidance Field Enhanced Shared Autonomy (IAGF-SA), a novel paradigm extending standard SA with an embodied, physically-grounded robot-to-human communication channel through anisotropic impedance adaptation. Concretely, IAGF is an anisotropic, circle-like virtual field whose radial length encodes the robot’s directional preference. The preference magnitude for the human’s input direction is determined by its alignment with the robot’s intended direction. This field acts as an impedance modulation map that scales damping or stiffness parameters by the aforementioned alignment degree, and applies them along the current motion direction to shape the robot’s dynamic response — rendering it either sluggish or agile. This enables operators to intuitively perceive directional alignment with the robot’s intent and receive implicit guidance for smoother coordination. IAGF dynamically adapts to the robot’s intent and sys-tem state through two mechanisms: adjusting the overall size and shape of the virtual field, and switching between two complementary modes (passive damping modulation and active stiffness modulation). These mechanisms enable the communication channel to convey continuous, rich informa-tion that reflects the evolution of interaction. Furthermore, multiple IAGFs can be instantiated for distinct objectives (e.g., goal-directed tasks, singularity avoidance) and fused via a superposition mechanism, ensuring broad applicability across diverse interaction scenarios. We validated IAGF-SA on daily grasping tasks. Compared to pure teleoperation [16] and standard SA [1], [2], IAGF-SA consistently improved task performance, human-robot alignment, and subjective experience across varied scenarios and interfaces, demonstrating its effectiveness in enhancing human-robot communication and collaboration. II. R ELATED WORKS 
+
+A. Communication in Shared Autonomy 
+
+Bidirectional communication [10] is essential for SA, and prior work has explored various interfaces to convey a robot’s internal state or intention to the human. Screens are the most widely used interface [8], [17], [18], but their detachment from the robot’s workspace forces operators to split attention, which breaks spatial grounding, increases cognitive load, and impairs interaction fluency [19]. Augmented reality (AR) and virtual reality (VR) address this spatial misalignment by embedding virtual cues directly into the the workspace [9], [20], yet they often require additional or costly hardware, limiting their feasibility in industrial or unstructured scenarios. Colored lights [11], [21] and auditory signals [22], [23] are low-cost and intuitive, but convey only discrete, low-dimensional information, which limits their expressive capacity. Across these modalities, a shared limitation is that they reveal the robot’s intent but provide no guidance on how the human should response, leaving communication informative but un-able to meaningfully support the user’s next action. Haptic shared control or haptic guidance [12], [13] has emerged as a promising approach to address this gap by providing cor-rective action-level haptic feedback. However, such guidance is typically derived from low-level environmental constraints, without interpreting and communicating the human’s high-level intent, and often enforces passive user compliance rather than collaboration. In contrast, our work encodes rich high-level information—including the robot’s real-time confidence and human-robot intent alignment—directly into the robot’s embodied dynamic behavior, enabling spatially grounded, in-tuitive communication with implicit actionable guidance. 
+
+B. Impedance Control in HRI 
+
+Impedance control is widely used in HRI, with recent work focusing on variable schemes that adjust stiffness and damping to improve safety, comfort, and task performance. Some methods globally increase damping near singularities or joint limits to enhance stability [24], while others modulate damping along the user’s force direction to reducing effort [25], [26]. However, such directional modulation is entirely human-driven, reflecting only the operator’s input rather than the robot’s own intent. Task-driven strategies assign distinct impedance along Cartesian axes—reducing stiffness in un-certain directions and increasing it along confident ones—to balance human adjustment and precision [27], [28], while goal-oriented approaches lower damping toward task targets [14]. Yet these methods primarily optimize motion efficiency and do not convey the robot’s internal state. In contrast, our work integrates impedance control into SA, using directional impedance as a dedicated communication channel. Coupling direction-dependent stiffness or damping to the robot’s inferred intent, our method lets the robot externalize its directional preferences, boosting decision transparency and intuitive in-teraction guidance. III. O VERVIEW 
+
+The IAGF-SA framework enhances transparency in hu-man–robot collaboration by improving the operator’s aware-ness of the robot’s intent and decision-making process. It facilitates intuitive, bidirectional communication by conveying the robot’s intent inferred from human input, while also pro-viding implicit guidance cues that promote smoother and more effective collaborative behavior. As shown in the overview in Fig. 2, IAGF-SA extends the conventional SA framework [2]—comprising goal inference , robot decision , and action blending —through the introduction of an embodied commu-nication channel, the IAGF. The IAGF communication channel operates in parallel with the blending of human command ah and robot command 
+
+ar . Formally, the IAGF-SA framework combines the blended action aSA and the IAGF-generated guidance ac through an effect-level composition: a =  (1 − β) ah + β a r
+
+| {z }
+
+> aSA
+
+⊕ ac,where ⊕ denotes effect-level composition and β ∈ [0 , 1] IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. ACCEPTED MARCH, 2026 3Standard Shared Autonomy                
+
+> Action Blending
+> Impedance -Driven Anisotropic Guidance Field (IAGF)
+> To grasp the clip box,
+> I should go along this
+> direction: .
+> Ishould generate
+> guidance along
+> human’s input
+> direction: .
+> Query policy
+> for each goal
+> Goal Inference
+> & Robot Decision
+> Calculate arbitration parameter Blend human and robot commands
+> Compute robot
+> command
+> Update goal
+> probabilities
+> Calculate intended direction Adapt field’s size &mode Fuse fields (optional) Generate guidance
+> Ishould adapt size
+> and mode to make
+> my intent clear.
+> Impedance Controller
+> Calculate the final
+> command sent to robot
+
+IAGF -SA    
+
+> Calculate robot intent direction. Size & Mode adaption Field Integration (Optional) Assistance ge ner ation
+> 𝒇 𝒄 ,𝒕
+> 𝐱 𝒅 ,𝒕
+
+Fig. 2. Overview of the IAGF-SA framework. 
+
+is the arbitration parameter. While aSA interpolates between human and robot commands for correction or compensation, 
+
+ac functions in a complementary manner to continuously adapt the robot’s behavior, conveying its internal intent while providing adaptive guidance. The resulting robot command is implemented through a Cartesian impedance controller: 
+
+¨xd,t = M −1
+
+K(xd,t − xt) + D( ˙ xd,t − ˙xt) + fc,t 
+
+
+
+, (1) where xt and ˙xt ∈ Rm are the actual position and velocity of the end-effector; xd,t = aSA and ˙xd,t ∈ Rm are the desired values derived from action blending; M, K, D ∈ Rm×m
+
+are the inertia, stiffness, and damping matrices, respectively; 
+
+fc,t = ac ∈ Rm is the force generated by the IAGF; and ¨xd,t 
+
+is the final commanded acceleration sent to the robot. The first two terms in Eq. 1 establish a conventional impedance behavior driving the end-effector toward the desired position, while fc,t (i.e., ac) modulates the robot’s dynamic response to achieve two primary objectives: encoding informative cues about the robot’s intent and confidence, and providing natural passive or active guidance. This integrated approach ensures intuitive perception of ac without requiring operators to divert attention to external displays, thereby maintaining focus on the primary task while receiving implicit guidance through the robot’s physical response. IV. M ETHODOLOGY 
+
+This section details the IAGF. We begin by presenting its unified representation and two operating modes in Sec. IV-A, which also explains how the IAGF generates the guidance force fc,t in Eq. 1. Building on this representation, Sec. IV-B and IV-C introduce two specialized IAGF instantiations tailored for enhancing task execution and avoiding robot singularities, respectively. Finally, Sec. IV-D demonstrates how these IAGF variants can be integrated to seamlessly balance task progression with singularity avoidance. 
+
+A. Unified Representation 
+
+For clarity, we define IAGF in 2D, though it extends natu-rally to higher dimensions. At each time instant t, the robot generates an IAGF centered at the origin of the end-effector’s local Cartesian frame, operating alongside the action blending process. Given the robot’s intended direction, represented by a unit vector vr ∈ R2 (with ∥vr ∥ = 1 )—later contextualized as vr,I or vr,S —the IAGF is defined as: 
+
+d(ϕ) = d1 ± d2 u(ϕ)Tvr , (2) where d1 and d2 are non-negative scalar parameters deter-mining the radial length, and d2 is always smaller than 
+
+d1. u(ϕ) ∈ R2 is a unit direction vector parameterized by the angle ϕ ∈ (−π, π ], i.e., u(ϕ) = [cos ϕ, sin ϕ]T. This formulation yields a circle-like field where the radial length 
+
+d(ϕ) in each direction depends on its angular alignment with vr . The resulting anisotropy enables the IAGF to act as an information-rich communication channel, encoding the robot’s directional preference through varying radial lengths. A smaller angular deviation signifies a stronger preference, represented by a shorter radial length in damping field or a longer one in stiffness field , corresponding to the two operating modes elaborated below. 
+
+1) Passive Mode: When the negative sign is applied in Eq. 2, i.e., d(ϕ) = d1 − d2 u(ϕ)Tvr , the IAGF operates in a passive mode . In this mode, the robot provides minimal, non-intrusive damping cues that act as a subtle reference rather than steering the operator in any specific direction. These cues enables the human to perceive and correct deviations between their input and the robot’s intent. In this configuration, the IAGF functions as a damping field , where the anisotropic radial lengths represent the damping magnitude along each respective direction, as illustrated in Fig. 3(a). A stronger robot preference—corresponding to a smaller angle between the current direction and vr —is indicated by a shorter radial length. Specifically, the radial length reaches its minimum 
+
+d1 −d2 along the robot’s intended direction vr , represented by the dark green arrow in Fig. 3(a). This minimal length reflects the robot’s highest preference in that direction. As a result, when the human’s input aligns with vr , they experience the least resistance. By substituting the unit vector of the human’s intended direction, vh into Eq. 2 in place of u(ϕ), the corresponding radial length dh (denoted by the red arrow) is obtained. The guidance force fc,t is then computed as a damping-based term providing passive guidance: fc,t = Kd dh ( ˙ xd,t − ˙xt), where 
+
+Kd is a constant gain mapping the radial length to the physical damping value. To ensure this term serves as a strictly passive damping term, we set ˙xd,t to zero, such that the damping strength increases monotonically with dh.
+
+2) Active Mode: When a positive sign is applied in Eq. 2, i.e., d(ϕ) = d1 +d2 u(ϕ)Tvr , IAGF operates in an active mode 
+
+where the robot actively guides the human’s actions toward the intended direction, thereby improving task efficiency and reducing physical and mental effort. IAGF is referred to as a 
+
+stiffness field , where the anisotropic radial lengths represent IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. ACCEPTED MARCH, 2026 4
+
+the stiffness magnitude along each respective direction, as shown in Fig. 3(b), with a stronger preference resulting in a longer radial length. The guidance force fc,t is formulated as a stiffness term providing active guidance toward xd,t :
+
+fc,t = Kpdh (xd,t − xt), where Kp is a constant gain that maps the radial length to the actual stiffness value. Notably, the robot’s intended direction vr , the two operating modes, and the scalars d1 and d2 vary consistently during interaction according to application-specific principles, estab-lishing a continuous channel that reflects changes in the robot’s intent transparently and intuitively. In the following subsections, we present two instantiations of the IAGF for different purposes: enhancing execution toward the intended goal (see Sec. IV-B) and avoiding robot singularities within the task space (see Sec. IV-C). 
+
+B. Intent-aware Guidance Field 
+
+The IAGF is instantiated as an Intent-aware Guidance Field (IntGF ), designed to convey the robot’s inferred human intent to enhance intent transparency and task efficiency. Specifically, during the SA process, the human’s input direction is represented by a unit vector vh, and the robot’s intended direction is denoted as vr,I . At each time step, the robot performs goal inference (detailed in Sec. V) to predict the human’s intent and obtains a corresponding confidence level C. Accordingly, the radial length dh,I of the guidance field along the direction of vh is defined as: 
+
+dh,I = d1 + sign (C − Cth ) d2vT 
+
+> h
+
+vr,I 
+
+where Cth is a predefined confidence threshold. When the confidence C is below the threshold Cth , the robot operates with low certainty about human intent. The IntGF 
+
+then functions in a passive mode, referred to as the Intent-aware Damping Guidance Field ( IntGF-D ; see Fig. 3(a)), where damping signals deviations from the inferred intent without imposing misleading directional cues. Conversely, when C exceeds Cth , the system switches to an active mode, forming the Intent-aware Stiffness Guidance Field ( IntGF-S ;Fig. 3(b)), where stiffness is used to amplify the robot’s in-tended direction, improving intent communication and mutual understanding. While d1 remains constant, d2 varies with C:
+
+d2 =
+
+
+
+d1
+
+Cth 
+
+C, C < C th ,d1
+
+1 − Cth 
+
+C − d1Cth 
+
+1 − Cth 
+
+, Cth ≤ C ≤ 1.
+
+Across both mode, d2 increases with C.By definition, d2
+
+governs the maximum deviation from the base length d1. A larger d2 widens the radial length difference in all directions, enhancing the anisotropy and clarifying the corresponding communication, as illustrated in Fig. 1. 
+
+C. Singularity-aware Guidance Field 
+
+In addition to assisting humans in task execution, robots must also address hidden risks within the workspace that may not be perceptible to the operator. Among these, singular con-figurations pose a significant threat, as they can result in loss of controllability and unpredictable system behavior. To mitigate this risk, we introduce a Singularity-Aware Guidance Field (SinGF ), which communicates the robot’s intent to avoid singular configurations and intuitively guides the operator away from such regions. The robot’s proximity to singularities is quantified using the manipulability measure [29], defined as: m(q) = pdet ( J(q) J(q)T), where q ∈ Rn is the joint configuration vector and J(q) ∈ Rm×n is the manipulator Jacobian matrix at configuration q, which maps joint velocities to end-effector velocities. To obtain a robust and effective guidance direction in Cartesian space, we compute the change in manipulability ∆m [24] and the normalized displacement of the end-effector ∆x as: 
+
+∆m = m(qk) − m(qk−1), ∆x = xk − xk−1
+
+∥xk − xk−1∥ ,
+
+where k and k − 1 denote consecutive time steps. The robot’s intended direction for singularity avoidance, vr,S , is then given by vr,S = sign (∆ m)∆ x. Accordingly, SinGF is: 
+
+dh,S =
+
+
+
+None , m(q) > m th ,d1 − d2 vT 
+
+> h
+
+vr,S , mcrit < m (q) ≤ mth ,d1 + d2 vT 
+
+> h
+
+vr,S , m(q) ≤ mcrit ,
+
+where mth and mcrit are warning and critical manipulability thresholds, respectively, with mth > m crit . The size of the guidance field adapts dynamically with m(q) through d2:
+
+d2 =
+
+
+
+0, m(q) > m th ,d1
+
+mth − m(q)
+
+mth − mcrit 
+
+, mcrit ≤ m(q) ≤ mth ,d1
+
+mcrit − m(q)
+
+mcrit 
+
+, m(q) < m crit .
+
+As m(q) decreases (indicating a trend toward singularity), d2
+
+increases, thereby amplifying the robot’s intent communication as the system approaches hidden risks. The operating princi-ples of the SinGF are summarized below:  
+
+> •
+
+m(q) > mth : The manipulator operates in a well-conditioned region, and the SinGF remains inactive.  
+
+> •
+
+mcrit < m (q) ≤ mth : The manipulator approaches a singularity. The SinGF functions as a damping field (SinGF-D ), operating in a passive mode that conveys risk and resists motions toward singularities.  
+
+> •
+
+m(q) ≤ mcrit : The manipulator is near a singularity. The 
+
+SinGF acts as a stiffness field ( SinGF-S ), providing active assistance to steer away from the singular region. 
+
+D. Hybrid Guidance Field 
+
+This section describes how IntGF and SinGF are fused to form a Hybrid Guidance Field, which jointly assists the human operator within the IAGF-SA framework. Strong          
+
+> Preferenc e
+> Weak
+> Preferenc e
+> (a) The damping field. (b) The stiffness field. (c) Hybrid damping field. (d) Hybrid stiffness field.
+> (𝒅 𝟏 −𝒅 𝟐 )%𝐯 𝒓
+> (d1-d2)!vr
+> dh!vh
+> (d1+d2)!vr
+> dh!vh
+> Fig. 3. Representations of the IAGF. IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. ACCEPTED MARCH, 2026 5
+
+1) Homogeneous Hybrid: When IntGF and SinGF share the same field form (i.e., both are damping fields or both are stiffness fields), they can be directly fused. Consequently, homogeneous hybrid guidance fields comprise two types: 1) 
+
+IntGF-D and SinGF-D ; 2) IntGF-S and SinGF-S ; The size of the hybrid guidance field along the human’s input direction is given by dh =
+
+
+
+dαh,I + dαh,S 
+
+1/α 
+
+, where α
+
+determines the fusion behavior between dh,I and dh,S : a larger 
+
+α amplifies the contribution of the dominant field, whereas a smaller α produces a balanced average. Hybrid damping and stiffness field with α = 4 are illustrated in Fig. 3(c) and (d). 
+
+2) Heterogeneous Hybrid: When IntGF and SinGF adopt different field forms (i.e., one damping and one stiffness), we implement a stiffness-prioritized condition : the stiffness field dominates, reflecting high confidence in intent or prox-imity to a singularity, while the damping field is suppressed. This approach supports two types of heterogeneous hybrid guidance fields: 1) IntGF-D and SinGF-S ; 2) IntGF-S 
+
+and SinGF-D . Under normal conditions, the hybrid fields cooperate; in critical scenarios, such as high intent confidence or near singularity, the stiffness field prevails. Thus, the hybrid field provides both singularity-related and task-related communicative guidance. V. I MPLEMENTATION DETAILS 
+
+This section details the implementation of three compo-nents integrated into our proposed IAGF-SA framework: robot decision-making , goal inference , and action blending , all of which follow the standard SA pipeline. 
+
+1) Robot Decision: For robot assistance synthesis, we train a library of policies using the advanced imitation learning (IL) method ACT [30]. Each policy πg : ot 7 → ag,t maps observations to actions for a specific goal g ∈ G, where 
+
+ot consists of the current RGB image and robot state (end-effector pose and gripper state), and each action is represented in the same format as the robot state. To enhance robustness to user variability and out-of-distribution scenarios, demonstra-tions are collected from multiple operators under varied initial conditions. The actions generated by each policy πg are then utilized for goal inference. Notably, this module is not limited to IL and can be flexibly instantiated with alternative action generation methods. 
+
+2) Goal Inference: We employ a Recursive Bayesian framework [2] to update the posterior belief Pt(g) over all possible goals g at each time step: Pt(g) ∝ P (ah,t |
+
+st, g )Pt−1(g). The likelihood P (ah,t | st, g ) is defined under the principle that human input expresses intent: its similarity to the robot’s actions indicates the likelihood of goal g. Specif-ically, P (ah,t | st, g ) ∝ exp ( γ sim enc (g) + (1 − γ) sim dir (g)) .Here, sim enc (g) denotes the cosine similarity between em-beddings obtained from a 3-layer MLP encoder of the most recent 6-step human commands and the robot action sequence 
+
+ag,t −5: t, capturing multi-step behavioral alignment for sta-ble inference; sim dir (g) measures instantaneous directional cosine similarity, reflecting immediate action agreement for fast responsiveness to intent change. The weight γ ∈ [0 , 1] 
+
+balances the stability and responsiveness of goal inference: sole reliance on sim dir (g) causes high sensitivity to input noise, while sole use of sim enc (g) yields smooth but slow response to goal changes. The predicted goal g∗ is the one with the highest posterior probability, and the prediction confidence C
+
+is defined as the difference between the posterior of g∗ and that of the next most probable goal [2]. 
+
+3) Action Blending: The goal inference results are lever-aged to synthesize the robot’s control command through a posterior-weighted combination of all goal-directed action sequences: ar,t = P 
+
+> g∈G
+
+Pt(g)πg (st). The resulting robot command ar,t is then blended with human command ah,t via an action blending mechanism, yielding the shared autonomy command aSA,t = (1 − β)ah,t + βa r,t where β is modulated by the goal prediction confidence C [2]. VI. U SER STUDY 
+
+To evaluate the proposed method, we conducted within-subject user studies across three distinct scenarios, comparing it against two baselines: pure teleoperation (NA) [16] and standard SA [2]. These studies were approved by the Human Research Ethics Committee of the University of Hong Kong. 
+
+A. Experimental Design 1) Experimental Setup: The experimental platform con-sisted of a Franka Emika Panda manipulator and an Intel RealSense L515 camera. Participants teleoperated the robot using either an Xbox 360 controller or a 3D Systems Touch haptic device to verify that the proposed method is independent of the control interface. All three methods (NA, SA, and IAGF-SA) were im-plemented within an identical control framework, includ-ing the control frequency, human input processing pipeline, impedance controller (Eq. 1), and low-level controller provided by franka-ros . NA directly used raw human input, while SA and IAGF-SA utilize the blended action (Sec. V) as the desired command for the impedance controller. Notably, IAGF-SA additionally applied the fc,t (Kp = 80 N /m, Kd =10 N · s/m, d1 = 2 ), whereas the fc,t was set to zero in NA and SA. Thus, these three methods differ only in action blending (absent in NA) and the application of fc,t (used only in IAGF-SA), ensuring a controlled comparison. 
+
+2) Task and Scenarios: In the user study, participants were instructed to teleoperate the robot to grasp stationery items 
+
+A, B, and C placed on a desk (Fig. 4). Unlike prior work, we emphasize the complex and dynamic nature of HRI. Starting Point        
+
+> Switching Line
+> ABC
+> (a )Workspace setup .(c) The Xbox 360 controller.
+> (b) The 3D Systems Touch
+> haptic controller.
+> Fig. 4. Experimental setup.
+
+IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. ACCEPTED MARCH, 2026 6
+
+Human behavior can be highly variable due to changing intent, unskilled actions, or irrational decisions; users may persist with a single goal, frequently switch goals, or issue task-irrelevant commands, reducing efficiency. To assess whether the proposed guidance field addresses these challenges by providing assistance and communication, we designed three distinct scenarios: 
+
+• S1 - Single-minded Scenario : The user selects one goal at the start and maintains it throughout the task. This scenario includes three tasks labeled by their goals: A,
+
+B, and C (yellow trajectory in Fig. 4). 
+
+• S2 - Goal-switching Scenario : The user changes goals during execution, including transitions such as A → C,
+
+C → A, B → A, B → C (green trajectory in Fig. 4). 
+
+• S3 - Indecisive-exploration Scenario : The user exhibits hesitation and repeatedly alternates between goals, due to lack of focus or deliberate consideration. This scenario includes four tasks: A → B → A, C → B → C, B →
+
+A → B, B → C → B (blue trajectory in Fig. 4). These scenarios were designed to reflect increasing levels of interaction complexity in human-robot collaboration, covering both ideal and challenging cases. While S1 represents smooth, goal-aligned cooperation, S2 and S3 capture situations where changes in human intent cause the robot’s predictions to fluctuate between certain and uncertain states. Such instabil-ity complicates consistent assistance and heightens the need for the human to understand the robot’s internal intent to prevent misunderstandings and performance degradation. Our proposed method directly addresses this challenge, and these scenarios were selected to demonstrate its advantages across varying interaction complexities. To standardize trajectories in Scenarios 2 and 3, which involve goal switching, we introduced a mechanism to reduce variability. A virtual switching line (invisible to the operator) was defined in the workspace, as shown in Fig. 4. When the robot reached this line, participants received an audio prompt instructing them to switch goals. 
+
+3) Independent Variables: Each task was performed by participants under three collaboration methods: 
+
+• Pure Teleoperation (No Assistance: NA) : The robot ex-ecutes the operator’s teleoperation commands without providing assistance. 
+
+• Shared Autonomy (SA) : The robot assists the operator through action blending. 
+
+• Communicative Shared Autonomy (IAGF-SA) : The robot provides both action blending and embodied communica-tive assistance generated by our method. 
+
+4) Dependent Measures: To evaluate the performance of the proposed method, we used two categories of dependent measures: objective and subjective. 
+
+Objective measures included the following four metrics for quantitative evaluation of task performance and robotic assistance characteristics: 
+
+• Task Completion Time : Time elapsed from task initiation to successful object grasp. 
+
+• Disagreement : One minus the mean cosine similarity be-tween human and robot commands, reflecting directional inconsistency. 
+
+• Alignment Time : Time spent fine-tuning the end-effector near the target for accurate grasping. 
+
+• Minimum Manipulability : The lowest manipulability value recorded during task execution; lower values in-dicate proximity to singular configurations. 
+
+Subjective measures assessed the perceived usability and communicative quality of the system: 
+
+• Communicative Assistance Scale (CAS) evaluates partic-ipants’ perceptions of the clarity and effectiveness of the robot’s communicative behaviors. 
+
+• System Usability Scale (SUS) [31] is a standardized questionnaire for measuring overall system usability. 
+
+5) Participants and Procedure: Twelve participants (8 males, 4 females; mean age = 26.9 years) were recruited. S1 S2 S3                           
+
+> 0
+> 5
+> 10
+> 15
+> 20
+> 25
+> Time(s)
+> *
+> ***
+> *** ***
+> ** ***
+> ***
+> Task Completion Time (↓)
+> S1 S2 S3
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> Time(s)
+> ***
+> ** ***
+> *** *
+> ***
+> ***
+> Alignment Time (↓)
+> S1 S2 S3
+> 0.00
+> 0.02
+> 0.04
+> 0.06
+> 0.08
+> 0.10
+> 0.12
+> 0.14
+> Manipulability
+> ***
+> *** **
+> *** ***
+> ***
+> Minimum Manipulability (↑)
+> S1 S2 S3
+> 0
+> 10
+> 20
+> 30
+> 40
+> 50
+> Disagreement(  ∘ )
+> *** **
+> ***
+> ***
+> Disagreement (↓)
+> S1: F(2,46)=28.031, p<0.001, η2=0.347
+> S2: F(2,46)=14.199, p<0.001, η2=0.303
+> S3: F(2,46)=49.435, p<0.001, η2=0.534
+> S1: F(2,46)=19.795, p<0.001, η2=0.395
+> S2: F(2,46)=26.005, p<0.001, η2=0.377
+> S3: F(2,46)=62.244, p<0.001, η2=0.574
+> S1: F(2,46)=36.227, p<0.001, η2=0.311
+> S2: F(2,46)=16,174, p<0.001, η2=0.288
+> S3: F(2,46)=46.174, p<0.001, η2=0.341
+> S1: F(2,46)=6.783, p<0.05, η2=0.142
+> S2: F(2,46)9.461, p<0.001, η2=0.197
+> S3: F(2,46)=36.741, p<0.001, η2=0.422
+> NA
+> SA
+> IAGF-SA
+
+Fig. 5. Results of the objective metrics for the joystick controller. S1 S2 S3                           
+
+> 0
+> 5
+> 10
+> 15
+> 20
+> 25
+> Time(s)
+> ***
+> *** ***
+> *** ***
+> Task Completion Time (↓)
+> S1 S2 S3
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> Time(s)
+> *** ***
+> ** ***
+> **
+> Alignment Time (↓)
+> S1 S2 S3
+> 0.00
+> 0.02
+> 0.04
+> 0.06
+> 0.08
+> 0.10
+> 0.12
+> 0.14
+> Manipulability
+> ***
+> *** ***
+> *** ***
+> ***
+> Minimum Manipulability (↑)
+> S1 S2 S3
+> 0
+> 10
+> 20
+> 30
+> 40
+> 50
+> Disagreement(  ∘ )
+> ****
+> ***
+> ***
+> Disagreement (↓)
+> S1: F(2,46)=16.603, p<0.001, η2=0.310
+> S2: F(2,46)=19.668, p<0.001, η2=0.261
+> S3: F(2,46)=7.684, p<0.001, η2=0.136
+> S1: F(2,46)=11.939, p<0.001, η2=0.282
+> S2: F(2,46)=11.828, p<0.001, η2=0.279
+> S3: F(2,46)=21.209, p<0.001, η2=0.340
+> S1: F(2,46)=25.363, p<0.001, η2=0.389
+> S2: F(2,46)=55.029, p<0.001, η2=0.401
+> S3: F(2,46)=69.417, p<0.001, η2=0.391
+> S1: F(2,46)=4.224, p<0.05, η2=0.093
+> S2: F(2,46)=10.769, p<0.001, η2=0.218
+> S3: F(2,46)=18.910, p<0.001, η2=0.357
+> NA
+> SA
+> IAGF-SA
+
+Fig. 6. Results of the objective metrics for the haptic controller. IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. ACCEPTED MARCH, 2026 7
+
+Nine had robotics backgrounds and three were novices. After informed consent, participants completed a 5-minute tutorial and a 10-minute practice session. A Latin Square design was employed to counterbalance task assignment, control device order, collaboration method, and scenario sequence. Each participant performed a total of 36 trials (2 tasks × 3 scenarios × 3 methods × 2 devices). A trial was deemed complete upon successful grasp, and and control inputs and robot states were recorded for post-analysis. After finishing trials with each device, participants completed a questionnaire (Sec.VI-A4) following a short break. After the study, semi-structured interviews were conducted regarding collaboration method and device preferences. 
+
+6) Hypotheses: The following hypotheses were proposed: 
+
+H1. IAGF-SA improves task performance (in terms of efficiency and safety) compared to both NA and SA. 
+
+H2. IAGF-SA increases human–robot agreement compared to NA and SA, particularly in S2 and S3. In contrast, SA is not expected to show a clear advantage over NA. 
+
+H3. IAGF-SA leads to a better subjective experience for the operator. 
+
+H4. IAGF-SA performs effectively with both joystick and haptic controllers, independent of specific feedback channels in the control interface. 
+
+B. Results and Analysis 
+
+For each performance measure, a one-way repeated-measures ANOVA (rANOVA) was conducted to assess sig-nificant differences among the three collaboration methods (p < 0.05 ). When significant effects were detected, post-hoc pairwise comparisons with Bonferroni correction were applied. Significance levels are denoted as p < 0.05 : *, p < 0.01 : **, and p < 0.001 : ***. Objective results are presented in Figs. 5 and 6, and subjective results in Fig. 7. 
+
+1) Effects of Improving Task performance: Regarding H1 ,we report three objective measures from the first three subplots of Figs. 5 and 6. For task efficiency, Task Completion Time 
+
+and Alignment Time were measured. While SA reduces these times compared to NA, IAGF-SA demonstrates a further significant improvement, indicating higher efficiency than both baselines. This enhancement stems from the IntGF component (Sec. IV-B), which provides intent-aware guidance to help operators issue more effective commands. Consequently, hu-man–robot coordination becomes smoother, unnecessary fine-tuning is reduced, and task execution is accelerated. For system safety, Minimum Manipulability was evaluated, with smaller values indicating proximity to singularities. Supported by the SinGF component in IAGF (Sec. IV-C), IAGF-SA effectively mitigates excessive decreases in manipulability, maintaining it within a safe range and indicating lower risk of singular configurations alongside improved system stability. These findings support H1 .
+
+2) Effects of Improving Human–Robot Agreement: Regard-ing H2 , human–robot Disagreement was measured, as shown in the last subplots of Figs. 5 and 6. IAGF-SA significantly reduces Disagreement compared to SA and NA, whereas SA shows no notable improvement over NA. This effect is pronounced in complex scenarios S2 and S3, where goal changes occur during task execution. In these cases, SA fails to reduce disagreement and even underperforms NA in S3,suggesting that assistance without effective communication may exacerbate misunderstandings in complex interactions, leading to operator confusion and increased disagreement. In contrast, IAGF-SA leverages IAGF to explicitly convey the robot’s intent information, enhancing the human-robot understanding and alignment. The reduction in disagreement subsequently contributes to improved task performance. These results support H2 .
+
+3) Effects of Improving Use Experience: Regarding H3 ,two subjective measures were employed: the standardized SUS 
+
+and a custom CAS . The CAS assessed participants’ perceptions of the robot’s guidance and communication behaviors. Partici-pants rated each collaboration method on a 0–100 scale based on the following items: 
+
+Q1. The robot helped me during the task. 
+
+Q2. The robot helped me complete the task more effectively. 
+
+Q3. The robot was able to understand my intentions. 
+
+Q4. I was able to perceive the robot’s cues. 
+
+Q5. I was able to understand the robot’s cues. 
+
+Q6. I adjusted my operation based on the robot’s cues. 
+
+Q7. I trusted the system to provide appropriate assistance. 
+
+Q8. Please rate your overall collaboration. CAS results (Figs. 7(a) (b)) show IAGF-SA consistently out-performed SA and NA, effectively conveying robot intent (Q4) and providing meaningful guidance (Q6). This led to enhanced mutual understanding and trust (Q3, Q5, Q7), and higher overall collaboration ratings (Q8). IAGF-SA also achieved highest SUS scores (Figs. 7(c)(d)), confirming significantly improved usability. These findings support H3 .
+
+4) Interface-Independent Performance: For H4 , quantita-tive measures were not directly compared between control in-Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8                                        
+
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> Score
+> **
+> **
+> **
+> ***
+> *
+> ** ***
+> **
+> **
+> **
+> **
+> **
+> **
+> *
+> **
+> *
+> (a) CAS scores for the joystick controller
+> Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> *
+> **
+> ***
+> ***
+> **
+> ***
+> ** *
+> ***
+> **
+> ***
+> ** *
+> ***
+> ** *
+> ***
+> *
+> **
+> *
+> (b) CAS scores for the haptic controller
+> NA SA IAGF-SA
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> ***
+> ***
+> *
+> F=48.725, p<0.001,
+> η2=0.647
+> (c) SUS Scores for
+> the joystick controller
+> NA SA IAGF-SA
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> *
+> ***
+> *
+> F=35.457, p<0.001,
+> η2=0.570
+> (d) SUS Scores for
+> the haptic controller
+> Q1: F=27.624, p<0.001, η2=0.682 Q5: F=17.515, p<0.001, η2=0.563
+> Q2: F=32.460, p<0.001, η2=0.671 Q6: F=21.314, p<0.001, η2=0.639
+> Q3: F=15.647, p<0.001, η2=0.597 Q7: F=15.087, p<0.001, η2=0.567
+> Q4: F=25.385, p<0.001, η2=0.675 Q8: F=18.543, p<0.001, η2=0.589
+> Q1: F=18.103, p<0.001, η2=0.682 Q5: F=25.335, p<0.001, η2=0.655
+> Q2: F=48.079, p<0.001, η2=0.764 Q6: F=30.943, p<0.001, η2=0.697
+> Q3: F=49.823, p<0.001, η2=0.663 Q7: F=24.468, p<0.001, η2=0.694
+> Q4: F=34.432, p<0.001, η2=0.672 Q8: F=14.103, p<0.001, η2=0.487
+> NA
+> SA
+> IAGF-SA
+
+Fig. 7. Results of the CAS and SUS. IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. ACCEPTED MARCH, 2026 8
+
+terfaces due to confounding factors from distinct implementa-tions and user experiences. However, consistent superiority of IAGF-SA over SA and NA across both interfaces (as supported by H1–H3 ) provides indirect evidence that its communicative advantage stems from the robot’s intrinsic response behavior, rather than interface-specific feedback. Post-study interviews revealed a dominant preference for IAGF-SA (10 participants) over NA and SA (1 each). Device preference was mixed: 7 favored the haptic interface for its physical feedback, while 5 preferred the joystick for its sim-plicity and gaming familiarity. Notably, all 3 novices preferred IAGF-SA with haptic controller for its intuitive guidance. VII. C ONCLUSION 
+
+This work introduced IAGF-SA, a novel shared autonomy framework that integrates an embodied robot-to-human com-munication channel. By adaptively shaping the robot’s dy-namic response, this channel continuously conveys the robot’s intent and provides actionable guidance, fostering decision quality, partner alignment, and user engagement for smoother human-robot teamwork. User studies confirmed significant improvements in task performance, human-robot agreement, and subjective experience across diverse scenarios and tele-operation interfaces, underscoring that intent transparency is essential for effective collaboration. Several directions remain for future work. First, while IAGF-SA is broadly applicable, it holds particular advantages in scenarios with ambiguous intent, multiple feasible goals, or safety-critical requirements (e.g., collaborative assembly or precise manipulation in cluttered environments), where conveying the robot’s internal state helps mitigate intent mis-alignment and enables safer interaction. Second, extending IAGF from 2D to higher-dimensional settings is a natural progression; its unified structure also suggests potential for broader HRI applications beyond task execution and singular-ity avoidance. Third, post-study interviews indicated that prior user experience may influence system preferences, suggesting future designs should account for diverse user backgrounds. Finally, physiological signals like eye-tracking data could serve as sensitive measures of subjective experience and can be incorporated in future evaluations. REFERENCES [1] A. D. Dragan and S. S. Srinivasa, “A policy-blending formalism for shared control,” IJRR , vol. 32, no. 7, pp. 790–805, 2013. [2] S. Jain and B. Argall, “Recursive bayesian human intent recognition in shared-control robotics,” in IROS , 2018, pp. 3905–3912. [3] Y. Oh, M. Toussaint, and J. Mainprice, “Learning to arbitrate human and robot control using disagreement between sub-policies,” in IROS ,2021, pp. 5305–5311. [4] C. Schaff and M. R. Walter, “Residual policy learning for shared autonomy,” arXiv:2004.05097 , 2020. [5] A. Jonnavittula, S. A. Mehta, and D. P. Losey, “Sari: Shared autonomy across repeated interaction,” ACM THRI , vol. 13, no. 2, pp. 1–36, 2024. [6] M. Zurek, A. Bobu, D. S. Brown, and A. D. Dragan, “Situational confidence assistance for lifelong shared autonomy,” in ICRA , 2021, pp. 2783–2789. [7] V. Alonso and P. De La Puente, “System transparency in shared autonomy: A mini review,” Frontiers in neurorobotics , vol. 12, p. 83, 2018. [8] J. Hoegerman, S. Sagheb, B. A. Christie, and D. P. Losey, “Aligning learning with communication in shared autonomy,” in IROS , 2024, pp. 11 530–11 536. [9] E. Rosen, D. Whitney, E. Phillips, G. Chien, J. Tompkin, G. Konidaris, and S. Tellex, “Communicating and controlling robot arm motion intent through mixed-reality head-mounted displays,” IJRR , vol. 38, no. 12-13, pp. 1513–1526, 2019. [10] S. Habibian, A. Alvarez Valdivia, L. H. Blumenschein, and D. P. Losey, “A survey of communicating robot learning during human-robot interaction,” IJRR , vol. 44, no. 4, pp. 665–698, 2025. [11] K. Backman, D. Kuli´ c, and H. Chung, “From novice to skilled: Rl-based shared autonomy communicating with pilots in uav multi-task missions,” 
+
+ACM THRI , vol. 14, no. 2, pp. 1–37, 2025. [12] D. Zhang, R. Tron, and R. P. Khurshid, “Haptic feedback improves human-robot agreement and user satisfaction in shared-autonomy tele-operation,” in ICRA , 2021, pp. 3306–3312. [13] M. Coffey and A. Pierson, “Collaborative teleoperation with haptic feedback for collision-free navigation of ground robots,” in IROS , 2022, pp. 8141–8148. [14] D. Bazzi, M. Lapertosa, A. M. Zanchettin, and P. Rocco, “Goal-driven variable admittance control for robot manual guidance,” in IROS , 2020, pp. 9759–9766. [15] X. Xing, K. Maqsood, D. Huang, C. Yang, and Y. Li, “Iterative learning-based robotic controller with prescribed human–robot interaction force,” 
+
+IEEE TASE , vol. 19, no. 4, pp. 3395–3408, 2021. [16] G. Niemeyer, C. Preusche, S. Stramigioli, and D. Lee, “Telerobotics,” in Springer handbook of robotics . Springer, 2016, pp. 1085–1108. [17] A. Rossi, M. M. Scheunemann, G. L’Arco, and S. Rossi, “Evaluation of a humanoid robot’s emotional gestures for transparent interaction,” in ICSR , 2021, pp. 397–407. [18] A. Cleaver, D. V. Tang, V. Chen, E. S. Short, and J. Sinapov, “Dynamic path visualization for human-robot collaboration,” in HRI , 2021, pp. 339–343. [19] R. Suzuki, A. Karim, T. Xia, H. Hedayati, and N. Marquardt, “Aug-mented reality and robotics: A survey and taxonomy for ar-enhanced human-robot interaction and robotic interfaces,” in CHI , 2022, pp. 1– 33. [20] C. Wang, A. Belardinelli, S. Hasler, T. Stouraitis, D. Tanneberg, and M. Gienger, “Explainable human-robot training and cooperation with augmented reality,” in CHI , 2023, pp. 1–5. [21] S. Song and S. Yamada, “Designing led lights for a robot to communi-cate gaze,” Adv. Robot. , vol. 33, no. 7-8, pp. 360–368, 2019. [22] S. Tellex, N. Gopalan, H. Kress-Gazit, and C. Matuszek, “Robots that use language,” Annual Review of Control, Robotics, and Autonomous Systems , vol. 3, no. 1, pp. 25–55, 2020. [23] V. V. Unhelkar, S. Li, and J. A. Shah, “Decision-making for bidirectional communication in sequential human-robot collaborative tasks,” in HRI ,2020, pp. 329–341. [24] D. Reyes-Uquillas and T. Hsiao, “Safe and intuitive manual guidance of a robot manipulator using adaptive admittance control towards robot agility,” RCIM , vol. 70, p. 102127, 2021. [25] F. Ficuciello, L. Villani, and B. Siciliano, “Variable impedance control of redundant manipulators for intuitive human–robot physical interaction,” 
+
+IEEE TRO , vol. 31, no. 4, pp. 850–863, 2015. [26] H. Chen, W. Xu, W. Guo, and X. Sheng, “Variable admittance con-trol using velocity-curvature patterns to enhance physical human-robot interaction,” RAL , vol. 9, no. 6, pp. 5054–5061, 2024. [27] D. Parent, A. Colom´ e, and C. Torras, “Variable impedance control in cartesian latent space while avoiding obstacles in null space,” in ICRA ,2020, pp. 9888–9894. [28] M. M¨ uhlbauer, T. Hulin, B. Weber, S. Calinon, F. Stulp, A. Albu-Sch¨ affer, and J. Silv´ erio, “A probabilistic approach to multi-modal adaptive virtual fixtures,” RAL , vol. 9, no. 6, pp. 5298–5305, 2024. [29] T. Yoshikawa, “Manipulability of robotic mechanisms,” IJRR , vol. 4, no. 2, pp. 3–9, 1985. [30] T. Z. Zhao, V. Kumar, S. Levine, and C. Finn, “Learning fine-grained bimanual manipulation with low-cost hardware,” arXiv:2304.13705 ,2023. [31] J. Brooke, “SUS: a retrospective.” Journal of Usability Studies , vol. 8, no. 2, 2013.

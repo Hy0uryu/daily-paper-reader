@@ -1,0 +1,102 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-001.webp",
+      "caption": "Fig. 7. Swing foot trajectory generation for stair ascending (first row) and descending (second row) at different step heights.",
+      "page": 11,
+      "index": 1,
+      "width": 529,
+      "height": 433
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-002.webp",
+      "caption": "Fig. 4. Final exoskeleton configuration for local frame computation in different terrains.",
+      "page": 7,
+      "index": 2,
+      "width": 1076,
+      "height": 298
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-003.webp",
+      "caption": "TABLE I RECONSTRUCTION ERROR OF THE Environment Understanding MODULE IN DIFFERENT ENVIRONMENTS.",
+      "page": 10,
+      "index": 3,
+      "width": 512,
+      "height": 284
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-004.webp",
+      "caption": "Fig. 6. Human demonstrations (blue) used to train the swing foot KMP model (a) and the support leg KMP model (b), together with the reference trajectories (dotted red) generated with the GMR.",
+      "page": 10,
+      "index": 4,
+      "width": 542,
+      "height": 464
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-005.webp",
+      "caption": "TABLE V ALGORITHM COMPUTATION TIME AND RMSE BETWEEN PLANNED AND MEASURED JOINT TRAJECTORIES, FOR EACH ENVIRONMENT AND SPECIFIC CONDITION, AVERAGED ACROSS MULTIPLE TRIALS",
+      "page": 14,
+      "index": 5,
+      "width": 524,
+      "height": 370
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-006.webp",
+      "caption": "Fig. 1. Overview of the proposed solution for environment-adaptive gait generation. The Environment Understanding module receives and processes the 3D point cloud coming from the camera to recognize ground, terrain type and obstacles, it locates the exoskeleton in the environment, and it identifies the best foothold position for the next step; the Adaptive Gait Generation (AGG) module represents the core of the system and it employs two Kernelized Movement Primitives (KMPs) models for encoding the gait trajectories of the swing foot and the support leg offline. Via-points and linear constraints based on the outcome of the Environment Understanding are then introduced to adapt the learned trajectories at run-time during the exoskeleton usage.",
+      "page": 3,
+      "index": 6,
+      "width": 914,
+      "height": 775
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-007.webp",
+      "caption": "Fig. 12. Results of the adaptive gait generation experiments on the real exoskeleton when crossing different types of obstacles (cube, cylinder, rectangle, large obstacle). For each obstacle, the stick figure and swing foot trajectories are shown (top), together with the generated angular trajectories for hip and knee joints of both legs (bottom).",
+      "page": 13,
+      "index": 7,
+      "width": 1076,
+      "height": 446
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-008.webp",
+      "caption": "Fig. 11. Results of the adaptive gait generation experiments on the real exoskeleton across different terrains (flat-ground, curb ascending-descending, slope ascending and descending). For each terrain, the stick figure and swing foot trajectories are shown (top), together with the generated angular trajectories for hip and knee joints of both legs (bottom).",
+      "page": 13,
+      "index": 8,
+      "width": 1074,
+      "height": 481
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-009.webp",
+      "caption": "Fig. 2. General kinematic model of the exoskeleton for the implementation of the proposed adaptive gait generation method.",
+      "page": 4,
+      "index": 9,
+      "width": 346,
+      "height": 408
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-010.webp",
+      "caption": "Fig. 10. Results of the real experiments in different scenarios (time progression from left to right). a) Flat ground. b) Curb ascending and descending. c) Slope ascending. d) Slope descending. e) Obstacle crossing.",
+      "page": 12,
+      "index": 10,
+      "width": 529,
+      "height": 564
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-011.webp",
+      "caption": "Fig. 5. Obstacle’s linear constraints identified from the ensemble of foot points for which either the toes (blue dots) or the heel collides with the obstacle surface.",
+      "page": 9,
+      "index": 11,
+      "width": 529,
+      "height": 402
+    },
+    {
+      "url": "assets/figures/arxiv/2605.02513v1/fig-012.webp",
+      "caption": "Fig. 3. Examples of different terrains acquired with an RGB-D camera (left column) and the corresponding 3D point clouds processed with Environment Understanding module (right column). The point clouds illustrate the segmentation of relevant areas for walking and the selected foothold position (yellow area).",
+      "page": 5,
+      "index": 12,
+      "width": 529,
+      "height": 773
+    }
+  ]
+}

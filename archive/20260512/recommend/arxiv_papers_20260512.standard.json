@@ -1,0 +1,767 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-05-12T21:24:30.204319+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 24,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 81,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2605.03452v1",
+      "source": "arxiv",
+      "title": "BifrostUMI: Bridging Robot-Free Demonstrations and Humanoid Whole-Body Manipulation",
+      "abstract": "High-quality data collection is a fundamental cornerstone for training humanoid whole-body visuomotor policies. Current data acquisition paradigms predominantly rely on robot teleoperation, which is often hindered by limited hardware accessibility and low operational efficiency. Inspired by the Universal Manipulation Interface (UMI), we propose BifrostUMI, a portable, efficient, and robot-free data collection framework tailored for humanoid robots. BifrostUMI leverages lightweight VR devices to capture human demonstrations as sparse keypoint trajectories while simultaneously recording wrist-mounted visual data. These multimodal data are subsequently utilized to train a high-level policy network that predicts future keypoint trajectories conditioned on the captured visual features. Through a robust keypoint retargeting pipeline, keypoint trajectories are precisely mapped onto the robot's morphology and executed via a whole-body controller. This approach enables the seamless transfer of diverse and agile behaviors from natural human demonstrations to humanoid embodiments. We demonstrate the efficacy and versatility of the proposed framework across two distinct experimental scenarios.",
+      "authors": [
+        "Chenhao Yu",
+        "Hongwu Wang",
+        "Youhao Hu",
+        "Jiachen Zhang",
+        "Yuanyuan Li",
+        "Shaqi Luo"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-05-05T07:35:09+00:00",
+      "link": "https://arxiv.org/pdf/2605.03452v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "robot-free data collection framework for humanoid whole-body manipulation",
+      "llm_evidence_cn": "用于人形机器人全身操作的无机器人数据采集框架",
+      "llm_evidence": "用于人形机器人全身操作的无机器人数据采集框架",
+      "canonical_evidence": "用于人形机器人全身操作的无机器人数据采集框架",
+      "llm_tldr_en": "BifrostUMI enables efficient humanoid whole-body policy training using VR-based human demonstrations.",
+      "llm_tldr_cn": "BifrostUMI利用基于VR的人类演示实现高效的人形机器人全身策略训练。",
+      "llm_tldr": "BifrostUMI利用基于VR的人类演示实现高效的人形机器人全身策略训练。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "integrated locomotion and manipulation for humanoids",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.04607v1",
+      "source": "arxiv",
+      "title": "Right Model, Right Time: Real-Time Cascaded-Fidelity MPC for Bipedal Walking",
+      "abstract": "This paper presents a multi-phase whole-body model predictive control approach for bipedal walking, combining a detailed whole-body model in the near horizon with a simplified single-rigid-body model in the later prediction steps. This reduces computational complexity while retaining prediction capabilities. The resulting nonlinear optimal control problem is solved using sequential quadratic programming (SQP) in acados. Using a prior specified contact schedule and a target walking speed, the controller optimizes joint torques without depending on prior selected foot step locations. The controller is validated in MuJoCo simulation on the 18-DoF bipedal robot HyPer-2",
+      "authors": [
+        "Franek Stark",
+        "Felix Wiebe",
+        "Shubham Vyas",
+        "Dennis Mronga",
+        "Frank Kirchner"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-05-06T07:54:49+00:00",
+      "link": "https://arxiv.org/pdf/2605.04607v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "multi-phase whole-body model predictive control for bipedal walking",
+      "llm_evidence_cn": "用于双足行走的全身多相模型预测控制",
+      "llm_evidence": "用于双足行走的全身多相模型预测控制",
+      "canonical_evidence": "用于双足行走的全身多相模型预测控制",
+      "llm_tldr_en": "A cascaded-fidelity MPC approach for real-time whole-body control of bipedal robots like HyPer-2.",
+      "llm_tldr_cn": "一种用于HyPer-2等双足机器人实时全身控制的级联保真度MPC方法。",
+      "llm_tldr": "一种用于HyPer-2等双足机器人实时全身控制的级联保真度MPC方法。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "whole-body control frameworks for humanoid robots",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.09944v1",
+      "source": "arxiv",
+      "title": "Explicit Stair Geometry Conditioning for Robust Humanoid Locomotion",
+      "abstract": "Robust humanoid stair climbing remains challenging due to geometric discontinuities, sensitivity to step height variations, and perception uncertainty in real-world environments. Existing learning-based locomotion policies often rely on implicit terrain representations or blind proprioceptive feedback, limiting their ability to generalize across varying stair geometries and to anticipate required gait adjustments. This paper proposes an explicit stair geometry conditioning framework for robust humanoid stair climbing. Instead of encoding terrain as high-dimensional latent features, we extract a compact set of interpretable geometric parameters, including step height, step depth, and current yaw angle relative to the robot heading. These explicit stair parameters directly condition a Proximal Policy Optimization (PPO)-based locomotion policy, enabling proactive modulation of swing-foot clearance and stride characteristics according to stair structure. Simulation experiments demonstrate improved generalization across unseen stair heights beyond the training distribution. Real-world experiments on the Unitree G1 humanoid validate reliable indoor and outdoor stair traversal. In challenging outdoor scenarios, the robot successfully ascends 33 consecutive steps without failure, demonstrating robustness and practical deployability.",
+      "authors": [
+        "Jianguo Zhang",
+        "Wentai Xu",
+        "Shusheng Ye",
+        "Yuxiang He",
+        "Weimin Qi",
+        "Qinbo Sun",
+        "Ning Ding",
+        "Liguang Zhou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-05-11T03:47:24+00:00",
+      "link": "https://arxiv.org/pdf/2605.09944v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "humanoid locomotion and stair geometry conditioning",
+      "llm_evidence_cn": "人形机器人行走与楼梯几何调节",
+      "llm_evidence": "人形机器人行走与楼梯几何调节",
+      "canonical_evidence": "人形机器人行走与楼梯几何调节",
+      "llm_tldr_en": "Proposes an explicit stair geometry conditioning framework to improve robust humanoid locomotion on stairs.",
+      "llm_tldr_cn": "提出了一种显式楼梯几何调节框架，以增强人形机器人在楼梯环境下的行走鲁棒性。",
+      "llm_tldr": "提出了一种显式楼梯几何调节框架，以增强人形机器人在楼梯环境下的行走鲁棒性。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "state of the art in humanoid robot motion planning and control",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.09146v1",
+      "source": "arxiv",
+      "title": "Beyond Thinking: Imagining in 360$^\\circ$ for Humanoid Visual Search",
+      "abstract": "Humanoid Visual Search (HVS) requires agents to actively explore immersive 360$^\\circ$ environments. While prior methods treat this as a monolithic task relying on cumulative, multi-turn Chain-of-Thought (CoT) reasoning, they impose heavy cognitive burdens and require expensive trajectory-level annotations. In this paper, we propose Imagining in 360$^\\circ$, a novel framework that decouples the exploration process into a specialized Imaginator and an Actor. The Imaginator functions as a probabilistic predictor of spatial priors; instead of maintaining a cumulative reasoning chain, it infers the semantic layout of both observed and unobserved regions in a single step. By sampling multiple hypotheses within this semantic space, we provide the Actor with a distribution of effective spatial information, offering robust guidance that hedges against uncertainty during active search. This decoupled architecture significantly lowers data engineering costs by eliminating the need for full-trajectory CoT annotations, enabling the generation of over 1.96 million curated training samples. Extensive experiments demonstrate that explicitly modeling semantic spatial priors drastically improves search efficiency and success rates in complex, in-the-wild environments.",
+      "authors": [
+        "Jingdong Zhang",
+        "Yizhou Wang",
+        "Zhengzhong Tu",
+        "Xin Li",
+        "Wenping Wang",
+        "Xiaohang Zhan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-09T20:10:53+00:00",
+      "link": "https://arxiv.org/pdf/2605.09146v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 9.5,
+      "llm_evidence_en": "humanoid visual search and semantic layout inference in 360 environments",
+      "llm_evidence_cn": "人形机器人视觉搜索及360度环境下的语义布局推断",
+      "llm_evidence": "人形机器人视觉搜索及360度环境下的语义布局推断",
+      "canonical_evidence": "人形机器人视觉搜索及360度环境下的语义布局推断",
+      "llm_tldr_en": "A framework for humanoid visual search that decouples exploration into spatial prior prediction and action.",
+      "llm_tldr_cn": "一种人形机器人视觉搜索框架，将探索过程解耦为空间先验预测与动作执行。",
+      "llm_tldr": "一种人形机器人视觉搜索框架，将探索过程解耦为空间先验预测与动作执行。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "advancements in humanoid robot perception and environmental mapping",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.02487v2",
+      "source": "arxiv",
+      "title": "Visibility-Aware Mobile Grasping in Dynamic Environments",
+      "abstract": "This paper addresses the problem of mobile grasping in dynamic, unknown environments where a robot must operate under a limited field-of-view. The fundamental challenge is the inherent trade-off between ``seeing'' around to reduce environmental uncertainty and ``moving'' the body to achieve task progress in a high-dimensional configuration space, subject to visibility constraints. Previous approaches often assume known or static environments and decouple these objectives, failing to guarantee safety when unobserved dynamic obstacles intersect the robot's path during manipulation. In this paper, we propose a unified mobile grasping system comprising two core components: (1) an iterative low-level whole-body planner coupled with velocity-aware active perception to navigate dynamic environments safely; and (2) a hierarchical high-level planner based on behavior trees that adaptively generates subgoals to guide the robot through exploration and runtime failures. We provide experimental results across 400 randomized simulation scenarios and real-world deployment on a Fetch mobile manipulator. Results show that our system achieves a success rate of 68.8\\% and 58.0\\% in unknown static and dynamic environments, respectively, significantly boosting success rates by 22.8\\% and 18.0\\% over the \\nam approach in both unknown static and dynamic environments, with improved collision safety.",
+      "authors": [
+        "Tianrun Hu",
+        "Anxing Xiao",
+        "David Hsu",
+        "Hanbo Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-05-04T11:41:28+00:00",
+      "link": "https://arxiv.org/pdf/2605.02487v2",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "whole-body planner for mobile grasping in dynamic environments",
+      "llm_evidence_cn": "动态环境下移动抓取的全身规划器",
+      "llm_evidence": "动态环境下移动抓取的全身规划器",
+      "canonical_evidence": "动态环境下移动抓取的全身规划器",
+      "llm_tldr_en": "A unified mobile grasping system using a whole-body planner and active perception for dynamic environments.",
+      "llm_tldr_cn": "该系统结合全身规划器与主动感知，解决了动态环境下移动抓取的可见性与运动平衡问题。",
+      "llm_tldr": "该系统结合全身规划器与主动感知，解决了动态环境下移动抓取的可见性与运动平衡问题。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "whole body motion planning for complex humanoid tasks",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.02487v3",
+      "source": "arxiv",
+      "title": "Visibility-Aware Mobile Grasping in Dynamic Environments",
+      "abstract": "This paper addresses the problem of mobile grasping in dynamic, unknown environments where a robot must operate under a limited field-of-view. The fundamental challenge is the inherent trade-off between ``seeing'' around to reduce environmental uncertainty and ``moving'' the body to achieve task progress in a high-dimensional configuration space, subject to visibility constraints. Previous approaches often assume known or static environments and decouple these objectives, failing to guarantee safety when unobserved dynamic obstacles intersect the robot's path during manipulation. In this paper, we propose a unified mobile grasping system comprising two core components: (1) an iterative low-level whole-body planner coupled with velocity-aware active perception to navigate dynamic environments safely; and (2) a hierarchical high-level planner based on behavior trees that adaptively generates subgoals to guide the robot through exploration and runtime failures. We provide experimental results across 400 randomized simulation scenarios and real-world deployment on a Fetch mobile manipulator. Results show that our system achieves a success rate of 68.8\\% and 58.0\\% in unknown static and dynamic environments, respectively, significantly boosting success rates by 22.8\\% and 18.0\\% over the \\nam approach in both unknown static and dynamic environments, with improved collision safety.",
+      "authors": [
+        "Tianrun Hu",
+        "Anxing Xiao",
+        "David Hsu",
+        "Hanbo Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-05-04T11:41:28+00:00",
+      "link": "https://arxiv.org/pdf/2605.02487v3",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "iterative low-level whole-body planner coupled with active perception",
+      "llm_evidence_cn": "迭代低级全身规划器结合主动感知",
+      "llm_evidence": "迭代低级全身规划器结合主动感知",
+      "canonical_evidence": "迭代低级全身规划器结合主动感知",
+      "llm_tldr_en": "Proposes a whole-body planner with active perception for mobile grasping in dynamic environments.",
+      "llm_tldr_cn": "提出了一种结合主动感知的全身规划器，用于动态环境下的移动抓取。",
+      "llm_tldr": "提出了一种结合主动感知的全身规划器，用于动态环境下的移动抓取。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "whole-body control frameworks for humanoid robots",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.02347v1",
+      "source": "arxiv",
+      "title": "ShapeGrasp: Simultaneous Visuo-Haptic Shape Completion and Grasping for Improved Robot Manipulation",
+      "abstract": "Humans grasp unfamiliar objects by combining an initial visual estimate with tactile and proprioceptive feedback during interaction. We present ShapeGrasp, a robotic implementation of this approach. The proposed method is an iterative grasp-and-complete pipeline that couples implicit surface visuo-haptic shape completion (creation of full 3D shape from partial information) with physics-based grasp planning. From a single RGB-D view, ShapeGrasp infers a complete shape (point cloud or triangular mesh), generates candidate grasps via rigid-body simulation, and executes the best feasible grasp. Each grasp attempt yields additional geometric constraints -- tactile surface contacts and space occupied by the gripper body -- which are fused to update the object shape. Failures trigger pose re-estimation and regrasping using the refined shape. We evaluate ShapeGrasp in the real world using two different robots and grippers. To the best of our knowledge, this is the first approach that updates shape representations following a real-world grasp. We achieved superior results over baselines for both grippers (grasp success rate of 84% with a three-finger gripper and 91% with a two-finger gripper), while improving the 3D shape reconstruction quality in all evaluation metrics used.",
+      "authors": [
+        "Lukas Rustler",
+        "Matej Hoffmann"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-05-04T08:49:52+00:00",
+      "link": "https://arxiv.org/pdf/2605.02347v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.5,
+      "llm_evidence_en": "Visuo-haptic shape completion and physics-based grasp planning",
+      "llm_evidence_cn": "视觉-触觉形状补全与基于物理的抓取规划",
+      "llm_evidence": "视觉-触觉形状补全与基于物理的抓取规划",
+      "canonical_evidence": "视觉-触觉形状补全与基于物理的抓取规划",
+      "llm_tldr_en": "ShapeGrasp combines visual and tactile feedback for iterative shape completion and robot grasping.",
+      "llm_tldr_cn": "ShapeGrasp结合视觉和触觉反馈，实现迭代形状补全和机器人抓取。",
+      "llm_tldr": "ShapeGrasp结合视觉和触觉反馈，实现迭代形状补全和机器人抓取。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.02513v1",
+      "source": "arxiv",
+      "title": "Adaptive Gait Generation for Multi-Terrain Exoskeletons via Constrained Kernelized Movement Primitives",
+      "abstract": "Lower limb exoskeletons (LLEs) present the potential to make motor-impaired individuals walk again. Their application in real-world environments is still limited by the lack of effective adaptive gait planning. Indeed, current exoskeletons are meant to walk only on a flat and even terrain. Generating environment-aware, physiologically consistent gait trajectories in real-time is an open challenge. To overcome this, we propose a novel Kernelized Movement Primitives (KMP)-based framework for adaptive gait generation (AGG) across multiple indoor terrains. The proposed approach learns a probabilistic representation of human gait in both the joint and task spaces from a limited number of human demonstrations, representing natural gait characteristics and ensuring kinematic feasibility. In addition, the learned trajectories are adapted using environmental information extracted from an onboard RGB-D camera by treating the AGG as a linearly constrained optimization problem with via-points. The proposed method has been thoroughly validated first in simulations for gait generation in different scenarios, such as flat-ground walking, slopes, stairs, and obstacles crossing. Finally, the effectiveness and robustness of the method have been demonstrated with experiments on a commercial LLE in real-world scenarios. The results obtained demonstrate the feasibility of an environment-aware gait planning system for a new generation of intelligent lower limb exoskeletons for assisting people with disabilities in their every-day life.",
+      "authors": [
+        "Edoardo Trombin",
+        "Miroljub Mihailovic",
+        "Matheus Henrique Ferreira Moura",
+        "Luca Tonin",
+        "Emanuele Menegatti",
+        "Stefano Tortora"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-05-04T12:08:18+00:00",
+      "link": "https://arxiv.org/pdf/2605.02513v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.5,
+      "llm_evidence_en": "adaptive gait generation for multi-terrain locomotion",
+      "llm_evidence_cn": "多地形环境下的自适应步态生成",
+      "llm_evidence": "多地形环境下的自适应步态生成",
+      "canonical_evidence": "多地形环境下的自适应步态生成",
+      "llm_tldr_en": "A KMP-based framework for real-time, environment-aware adaptive gait generation in exoskeletons.",
+      "llm_tldr_cn": "一种基于KMP的框架，用于外骨骼在多地形下的实时环境感知自适应步态生成。",
+      "llm_tldr": "一种基于KMP的框架，用于外骨骼在多地形下的实时环境感知自适应步态生成。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "state of the art in humanoid robot motion planning and control",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.02410v1",
+      "source": "arxiv",
+      "title": "Shared Autonomy Assisted by Impedance-Driven Anisotropic Guidance Field",
+      "abstract": "Shared autonomy (SA) enables robots to infer human intent and assist in its achievement. While most research focuses on improving intent inference, it overlooks whether humans can understand the robot's intent in return. Without such mutual understanding, collaboration becomes less effective, degrading user experience and task performance. To address this gap, previous studies have explicitly conveyed the robot intent through additional interfaces, which remain unintuitive and limited in expressiveness. Inspired by impedance control, we propose Impedance-Driven Anisotropic Guidance Field Enhanced Shared Autonomy (IAGF-SA), a novel paradigm that extends SA with an embodied, physically-grounded communication channel. This channel adaptively modulates the robot's dynamic response to human input, enabling intuitive, continuous, physically-grounded robot intent communication while naturally guiding human actions. User studies across three scenarios and two teleoperation interfaces indicate that IAGF-SA improves task performance, human-robot agreement, and subjective experience, thus demonstrating its effectiveness in enhancing human-robot communication and collaboration.",
+      "authors": [
+        "Sihan Chen",
+        "Hang Xu",
+        "Yupu Lu",
+        "Chen Wang",
+        "Benfang Duan",
+        "Ruixing Jia",
+        "Jia Pan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "published": "2026-05-04T10:01:21+00:00",
+      "link": "https://arxiv.org/pdf/2605.02410v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 6.5,
+      "llm_evidence_en": "Impedance-driven guidance for shared autonomy and human-robot collaboration",
+      "llm_evidence_cn": "用于共享自主和人机协作的阻抗驱动引导",
+      "llm_evidence": "用于共享自主和人机协作的阻抗驱动引导",
+      "canonical_evidence": "用于共享自主和人机协作的阻抗驱动引导",
+      "llm_tldr_en": "IAGF-SA uses an impedance-driven guidance field to improve mutual understanding in shared autonomy.",
+      "llm_tldr_cn": "IAGF-SA利用阻抗驱动引导场提升共享自主中的人机互理解。",
+      "llm_tldr": "IAGF-SA利用阻抗驱动引导场提升共享自主中的人机互理解。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "state of the art in humanoid robot motion planning and control",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.02600v1",
+      "source": "arxiv",
+      "title": "CoRAL: Contact-Rich Adaptive LLM-based Control for Robotic Manipulation",
+      "abstract": "While Large Language Models (LLMs) and Vision-Language Models (VLMs) demonstrate remarkable capabilities in high-level reasoning and semantic understanding, applying them directly to contact-rich manipulation remains a challenge due to their lack of explicit physical grounding and inability to perform adaptive control. To bridge this gap, we propose CoRAL (Contact-Rich Adaptive LLM-based control), a modular framework that enables zero-shot planning by decoupling high-level reasoning from low-level control. Unlike black-box policies, CoRAL uses LLMs not as direct controllers, but as cost designers that synthesize context-aware objective functions for a sampling-based motion planner (MPPI). To address the ambiguity of physical parameters in visual data, we introduce a neuro-symbolic adaptation loop: a VLM provides semantic priors for environmental dynamics, such as mass and friction estimates, which are then explicitly refined in real time via online system identification, while the LLM iteratively modulates the cost-function structure to correct strategic errors based on interaction feedback. Furthermore, a retrieval-based memory unit allows the system to reuse successful strategies across recurrent tasks. This hierarchical architecture ensures real-time control stability by decoupling high-level semantic reasoning from reactive execution, effectively bridging the gap between slow LLM inference and dynamic contact requirements. We validate CoRAL on both simulation and real-world hardware across challenging and novel tasks, such as flipping objects against walls by leveraging extrinsic contacts. Experiments demonstrate that CoRAL outperforms state-of-the-art VLA and foundation-model-based planner baselines by boosting success rates over 50% on average in unseen contact-rich scenarios, effectively handling sim-to-real gaps through its adaptive physical understanding.",
+      "authors": [
+        "Berk Çiçek",
+        "Mert K. Er",
+        "Özgür S. Öğüz"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-05-04T13:49:19+00:00",
+      "link": "https://arxiv.org/pdf/2605.02600v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.5,
+      "llm_evidence_en": "LLM-based control for contact-rich robotic manipulation and planning",
+      "llm_evidence_cn": "基于大语言模型的接触密集型机器人操作与规划控制",
+      "llm_evidence": "基于大语言模型的接触密集型机器人操作与规划控制",
+      "canonical_evidence": "基于大语言模型的接触密集型机器人操作与规划控制",
+      "llm_tldr_en": "Uses LLMs as cost designers for motion planners to enable adaptive, contact-rich robotic manipulation.",
+      "llm_tldr_cn": "将LLM作为运动规划器的代价设计器，实现自适应的接触密集型机器人操作。",
+      "llm_tldr": "将LLM作为运动规划器的代价设计器，实现自适应的接触密集型机器人操作。",
+      "llm_tags": [
+        "query:hr-rob:composite"
+      ],
+      "matched_query_tag": "query:hr-rob:composite",
+      "matched_query_text": "Papers central to 人形机器人运动规划、感知与全身操作相关论文检索, especially work that connects or combines: humanoid robot research and development; environmental perception and sensing for robots; integrated locomotion and manipulation for humanoids; whole-body control frameworks for humanoid robots; state of the art in humanoid robot motion planning and control; advancements in humanoid robot perception and environmental mapping; coordinated locomotion and manipulation strategies for humanoid robots; whole body motion planning for complex humanoid tasks.",
+      "matched_requirement_id": "req-composite-hr-rob",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.02708v1",
+      "source": "arxiv",
+      "title": "Temporally Consistent Object 6D Pose Estimation for Robot Control",
+      "abstract": "Single-view RGB object pose estimators have reached a level of precision and efficiency that makes them good candidates for vision-based robot control. However, off-the-shelf methods lack temporal consistency and robustness that are mandatory for a stable feedback control. In this work, we develop a factor graph approach to enforce temporal consistency of the object pose estimates. In particular, the proposed approach: (i) incorporates object motion models, (ii) explicitly estimates the object pose measurement uncertainty, and (iii) integrates the above two components in an online optimization-based estimator. We demonstrate that with appropriate outlier rejection and smoothing using the proposed factor graph approach, we can significantly improve the results on standardized pose estimation benchmarks. We experimentally validate the stability of the proposed approach for a feedback-based robot control task in which the object is tracked by the camera attached to a torque controlled manipulator.",
+      "authors": [
+        "Kateryna Zorina",
+        "Vojtech Priban",
+        "Mederic Fourmy",
+        "Josef Sivic",
+        "Vladimir Petrik"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-05-04T15:15:09+00:00",
+      "link": "https://arxiv.org/pdf/2605.02708v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.5,
+      "llm_evidence_en": "Temporally consistent object 6D pose estimation for robot control",
+      "llm_evidence_cn": "用于机器人控制的时间一致物体6D位姿估计",
+      "llm_evidence": "用于机器人控制的时间一致物体6D位姿估计",
+      "canonical_evidence": "用于机器人控制的时间一致物体6D位姿估计",
+      "llm_tldr_en": "Uses a factor graph approach to improve the temporal consistency of object pose estimation for robot control.",
+      "llm_tldr_cn": "采用因子图方法提高机器人控制中物体位姿估计的时间一致性。",
+      "llm_tldr": "采用因子图方法提高机器人控制中物体位姿估计的时间一致性。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.03288v1",
+      "source": "arxiv",
+      "title": "Neural Control: Adjoint Learning Through Equilibrium Constraints",
+      "abstract": "Many physical AI tasks are governed by implicit equilibrium: an agent actuates a subset of degrees of freedom (boundary DoFs), while the remaining free DoFs settle by minimizing a total potential energy. Even seemingly basic tasks such as bending a deformable linear object (DLO) to a target shape can exhibit strongly nonlinear behavior due to multi-stability: the same boundary conditions may yield multiple equilibrium shapes depending on the actuation trajectory. However, learning and control in such systems is brittle because the actuation-to-configuration map is defined only implicitly, and naive backpropagation through iterative equilibrium solvers is memory- and compute-intensive. We propose Neural Control, a boundary-control framework that computes trajectory-dependent, memory-efficient proxy gradients by differentiating equilibrium conditions via an adjoint formulation, avoiding unrolling of solver iterations. To improve robustness over long horizons, we integrate these sensitivities into a receding-horizon MPC scheme that repeatedly re-anchors optimization to realized equilibria and mitigates basin-switching in multi-stable regimes. We evaluate Neural Control in simulation and on physical robots manipulating DLOs, and show improved performance over gradient-free baselines such as SPSA and CEM.",
+      "authors": [
+        "Dezhong Tong",
+        "Jiawen Wang",
+        "Hengyi Zhou",
+        "Yinglong Shen",
+        "Xiaonan Huang",
+        "M. Khalid Jawed"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-05-05T02:19:37+00:00",
+      "link": "https://arxiv.org/pdf/2605.03288v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 6.5,
+      "llm_evidence_en": "boundary-control framework for systems with implicit equilibrium constraints",
+      "llm_evidence_cn": "具有隐式平衡约束系统的边界控制框架",
+      "llm_evidence": "具有隐式平衡约束系统的边界控制框架",
+      "canonical_evidence": "具有隐式平衡约束系统的边界控制框架",
+      "llm_tldr_en": "Neural Control enables efficient learning and trajectory optimization for complex physical AI tasks.",
+      "llm_tldr_cn": "Neural Control为复杂的物理AI任务提供了高效的学习和轨迹优化框架。",
+      "llm_tldr": "Neural Control为复杂的物理AI任务提供了高效的学习和轨迹优化框架。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "state of the art in humanoid robot motion planning and control",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.03269v2",
+      "source": "arxiv",
+      "title": "RLDX-1 Technical Report",
+      "abstract": "While Vision-Language-Action models (VLAs) have shown remarkable progress toward human-like generalist robotic policies through the versatile intelligence (i.e. broad scene understanding and language-conditioned generalization) inherited from pre-trained Vision-Language Models, they still struggle with complex real-world tasks requiring broader functional capabilities (e.g. motion awareness, long-term memory, and physical sensing). To address this, we introduce RLDX-1, a general-purpose robotic policy for dexterous manipulation built on the Multi-Stream Action Transformer (MSAT), an architecture that unifies these capabilities by integrating heterogeneous modalities through modality-specific streams with cross-modal joint self-attention. RLDX-1 further combines this architecture with system-level design choices, including data synthesis for rare manipulation scenarios, learning procedures specialized for human-like manipulation, and inference optimizations for real-time deployment. Through empirical evaluation, we show that RLDX-1 consistently outperforms recent frontier VLAs (e.g. $π_{0.5}$ and GR00T N1.6) across both simulation benchmarks and real-world tasks that require broad functional capabilities beyond general versatility. In particular, RLDX-1 shows superiority in ALLEX humanoid tasks by achieving success rates of 86.8% while $π_{0.5}$ and GR00T N1.6 achieve around 40%, highlighting the ability of RLDX-1 to control a high-DoF humanoid robot under diverse functional demands. Together, these results position RLDX-1 as a promising step toward reliable VLAs for complex, contact-rich, and dynamic real-world dexterous manipulation.",
+      "authors": [
+        "Dongyoung Kim",
+        "Huiwon Jang",
+        "Myungkyu Koo",
+        "Suhyeok Jang",
+        "Taeyoung Kim",
+        "Beomjun Kim",
+        "Byungjun Yoon",
+        "Changsung Jang",
+        "Daewon Choi",
+        "Dongsu Han",
+        "Donguk Lee",
+        "Heeseung Kwon",
+        "Hojin Jeon",
+        "Jaehyun Kang",
+        "Jaekyoung Bae",
+        "Jihyuk Lee",
+        "Jimin Lee",
+        "John Won",
+        "Joonwoo Ahn",
+        "Junhyeong Park",
+        "Junyoung Sung",
+        "Kyungmin Lee",
+        "Minseong Han",
+        "Minsung Yoon",
+        "Sejune Joo",
+        "Seonil Son",
+        "Seungcheol Park",
+        "Seunggeun Cho",
+        "Seungjun Moon",
+        "Seungku Kim",
+        "Yonghoon Dong",
+        "Yongjin Cho",
+        "Youngchan Kim",
+        "Chang Hwan Kim",
+        "Dohyeon Kim",
+        "Heecheol Kim",
+        "Heewon Lee",
+        "Hensen Ahn",
+        "Hyungkyu Ryu",
+        "Hyunsoo Choi",
+        "Hyunsoo Shin",
+        "Jaeheon Jung",
+        "Jaewoo Kim",
+        "Jinwook Kim",
+        "Joochul Chang",
+        "Joonsoo Kim",
+        "Junghun Park",
+        "Jungwoo Park",
+        "Junho Cho",
+        "Junhyeok Park",
+        "Junwon Lee",
+        "Kangwook Lee",
+        "Kwanghoon Kim",
+        "Kyoungwhan Choe",
+        "Manoj Bhadu",
+        "Nayoung Oh",
+        "Sangjun Kim",
+        "Sangwoo Kim",
+        "Seunghoon Shim",
+        "Seunghyun Kim",
+        "Seungjun Lee",
+        "Seungyup Ka",
+        "Sungryol Yang",
+        "Wook Jung",
+        "Yashu Shukla",
+        "Yeonjae Lee",
+        "Yeonwoo Bae",
+        "Jinwoo Shin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-05-05T01:40:15+00:00",
+      "link": "https://arxiv.org/pdf/2605.03269v2",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.5,
+      "llm_evidence_en": "general-purpose robotic policy for dexterous manipulation and physical sensing",
+      "llm_evidence_cn": "用于灵巧操作和物理感知的通用机器人策略",
+      "llm_evidence": "用于灵巧操作和物理感知的通用机器人策略",
+      "canonical_evidence": "用于灵巧操作和物理感知的通用机器人策略",
+      "llm_tldr_en": "A general-purpose robotic policy unifying motion awareness and physical sensing for complex tasks.",
+      "llm_tldr_cn": "一种统一了运动感知和物理感知的通用机器人策略，用于处理复杂任务。",
+      "llm_tldr": "一种统一了运动感知和物理感知的通用机器人策略，用于处理复杂任务。",
+      "llm_tags": [
+        "query:hr-rob:composite"
+      ],
+      "matched_query_tag": "query:hr-rob:composite",
+      "matched_query_text": "Papers central to 人形机器人运动规划、感知与全身操作相关论文检索, especially work that connects or combines: humanoid robot research and development; environmental perception and sensing for robots; integrated locomotion and manipulation for humanoids; whole-body control frameworks for humanoid robots; state of the art in humanoid robot motion planning and control; advancements in humanoid robot perception and environmental mapping; coordinated locomotion and manipulation strategies for humanoid robots; whole body motion planning for complex humanoid tasks.",
+      "matched_requirement_id": "req-composite-hr-rob",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.02881v1",
+      "source": "arxiv",
+      "title": "MolmoAct2: Action Reasoning Models for Real-world Deployment",
+      "abstract": "Vision-Language-Action (VLA) models aim to provide a single generalist controller for robots, but today's systems fall short on the criteria that matter for real-world deployment. Frontier models are closed, open-weight alternatives are tied to expensive hardware, reasoning-augmented policies pay prohibitive latency for their grounding, and fine-tuned success rates remain below the threshold for dependable use. We present MolmoAct2, a fully open action reasoning model built for practical deployment, advancing its predecessor along five axes. We introduce MolmoER, a VLM backbone specialized for spatial and embodied reasoning, trained on a 3.3M-sample corpus with a specialize-then-rehearse recipe. We release three new datasets spanning low-to-medium cost platforms, including MolmoAct2-BimanualYAM, 720 hours of teleoperated bimanual trajectories that constitute the largest open bimanual dataset to date, together with quality-filtered Franka (DROID) and SO100/101 subsets. We provide OpenFAST, an open-weight, open-data action tokenizer trained on millions of trajectories across five embodiments. We redesign the architecture to graft a flow-matching continuous-action expert onto a discrete-token VLM via per-layer KV-cache conditioning. Finally, we propose MolmoThink, an adaptive-depth reasoning variant that re-predicts depth tokens only for scene regions that change between timesteps, retaining geometric grounding at a fraction of prior latency. In the most extensive empirical study of any open VLA to date, spanning 7 simulation and real-world benchmarks, MolmoAct2 outperforms strong baselines including Pi-05, while MolmoER surpasses GPT-5 and Gemini Robotics ER-1.5 across 13 embodied-reasoning benchmarks. We release model weights, training code, and complete training data. Project page: https://allenai.org/blog/molmoact2",
+      "authors": [
+        "Haoquan Fang",
+        "Jiafei Duan",
+        "Donovan Clay",
+        "Sam Wang",
+        "Shuo Liu",
+        "Weikai Huang",
+        "Xiang Fan",
+        "Wei-Chuan Tsai",
+        "Shirui Chen",
+        "Yi Ru Wang",
+        "Shanli Xing",
+        "Jaemin Cho",
+        "Jae Sung Park",
+        "Ainaz Eftekhar",
+        "Peter Sushko",
+        "Karen Farley",
+        "Angad Wadhwa",
+        "Cole Harrison",
+        "Winson Han",
+        "Ying-Chun Lee",
+        "Eli VanderBilt",
+        "Rose Hendrix",
+        "Suveen Ellawela",
+        "Lucas Ngoo",
+        "Joyce Chai",
+        "Zhongzheng Ren",
+        "Ali Farhadi",
+        "Dieter Fox",
+        "Ranjay Krishna"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-05-04T17:51:21+00:00",
+      "link": "https://arxiv.org/pdf/2605.02881v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.5,
+      "llm_evidence_en": "VLA model for spatial and embodied reasoning in real-world deployment",
+      "llm_evidence_cn": "用于现实部署中空间和具身推理的VLA模型",
+      "llm_evidence": "用于现实部署中空间和具身推理的VLA模型",
+      "canonical_evidence": "用于现实部署中空间和具身推理的VLA模型",
+      "llm_tldr_en": "Presents MolmoAct2, an open VLA model specialized for spatial reasoning and practical robot deployment.",
+      "llm_tldr_cn": "提出MolmoAct2，一种专门用于空间推理和实际机器人部署的开放式VLA模型。",
+      "llm_tldr": "提出MolmoAct2，一种专门用于空间推理和实际机器人部署的开放式VLA模型。",
+      "llm_tags": [
+        "query:hr-rob:composite"
+      ],
+      "matched_query_tag": "query:hr-rob:composite",
+      "matched_query_text": "Papers central to 人形机器人运动规划、感知与全身操作相关论文检索, especially work that connects or combines: humanoid robot research and development; environmental perception and sensing for robots; integrated locomotion and manipulation for humanoids; whole-body control frameworks for humanoid robots; state of the art in humanoid robot motion planning and control; advancements in humanoid robot perception and environmental mapping; coordinated locomotion and manipulation strategies for humanoid robots; whole body motion planning for complex humanoid tasks.",
+      "matched_requirement_id": "req-composite-hr-rob",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.04610v1",
+      "source": "arxiv",
+      "title": "Active Contact Sensing for Robust Robot-to-Human Object Handover",
+      "abstract": "Robot-to-human object handover is an essential skill for robot assistants, from serving drinks at home to passing surgical tools in the operating room. We expect robots to perform handover robustly -- to release the object only after a firm human grasp while ignoring incidental touches. Existing passive-sensing methods struggle to generalize across diverse objects and human behaviors, as they lack informative perturbations to disambiguate different contact conditions, such as firm grasp versus incidental touch. We propose an active sensing approach for robust handovers: the robot applies information-gathering motions and senses the resulting human-applied forces to infer the contact state. A firm grasp produces forces in multiple directions, while an accidental touch does not. To capture this distinction, we model the contact state with a Bayesian linear model: a distribution over piecewise-linear mappings from robot motions to human-applied forces. This model enables firm grasp detection and active information gathering. In experiments with 12 participants and 30 diverse rigid objects, our method achieved a 97.5% success rate -- over 30% higher than two common baselines.",
+      "authors": [
+        "Linfeng Li",
+        "Lin Shao",
+        "David Hsu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-05-06T07:59:02+00:00",
+      "link": "https://arxiv.org/pdf/2605.04610v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 6.5,
+      "llm_evidence_en": "active contact sensing for robust robot-to-human object handover",
+      "llm_evidence_cn": "用于机器人向人移交物体的积极接触传感",
+      "llm_evidence": "用于机器人向人移交物体的积极接触传感",
+      "canonical_evidence": "用于机器人向人移交物体的积极接触传感",
+      "llm_tldr_en": "An active sensing approach uses information-gathering motions to ensure robust robot-to-human handovers.",
+      "llm_tldr_cn": "一种主动传感方法通过信息采集运动确保机器人与人之间稳健的物体移交。",
+      "llm_tldr": "一种主动传感方法通过信息采集运动确保机器人与人之间稳健的物体移交。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.03363v1",
+      "source": "arxiv",
+      "title": "Learning Reactive Dexterous Grasping via Hierarchical Task-Space RL Planning and Joint-Space QP Control",
+      "abstract": "In this work, we propose a hybrid hierarchical control framework for reactive dexterous grasping that explicitly decouples high-level spatial intent from low-level joint execution. We introduce a multi-agent reinforcement learning architecture, specialized into distinct arm and hand agents, that acts as a high-level planner by generating desired task-space velocity commands. These commands are then processed by a GPU-parallelized quadratic programming controller, which translates them into feasible joint velocities while strictly enforcing kinematic limits and collision avoidance. This structural isolation not only accelerates training convergence but also strictly enforces hardware safety. Furthermore, the architecture unlocks zero-shot steerability, allowing system operators to dynamically adjust safety margins and avoid dynamic obstacles without retraining the policy. We extensively validate the proposed framework through a rigorous simulation-to-reality pipeline. Real-world hardware experiments on a 7-DoF arm equipped with a 20-DoF anthropomorphic hand demonstrate highly robust zero-shot transferability for dexterous grasping to a diverse set of unseen objects, highlighting the system's ability to reactively recover from unexpected physical disturbances in unstructured environments.",
+      "authors": [
+        "Ho Jae Lee",
+        "Yonghyeon Lee",
+        "Alexander Alexiev",
+        "Tzu-Yuan Lin",
+        "Se Hwan Jeon",
+        "Sangbae Kim"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "published": "2026-05-05T04:49:38+00:00",
+      "link": "https://arxiv.org/pdf/2605.03363v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 8.5,
+      "llm_evidence_en": "hierarchical control framework for reactive dexterous grasping and joint-space QP control",
+      "llm_evidence_cn": "用于反应式灵巧抓取的分层控制框架和关节空间QP控制",
+      "llm_evidence": "用于反应式灵巧抓取的分层控制框架和关节空间QP控制",
+      "canonical_evidence": "用于反应式灵巧抓取的分层控制框架和关节空间QP控制",
+      "llm_tldr_en": "A hybrid hierarchical framework for reactive dexterous grasping using RL planning and QP control.",
+      "llm_tldr_cn": "一种结合强化学习规划与QP控制的混合分层框架，用于实现反应式灵巧抓取。",
+      "llm_tldr": "一种结合强化学习规划与QP控制的混合分层框架，用于实现反应式灵巧抓取。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "integrated locomotion and manipulation for humanoids",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.04327v1",
+      "source": "arxiv",
+      "title": "From Language to Logic: A Theoretical Architecture for VLM-Grounded Safe Navigation",
+      "abstract": "We propose an architecture for integrating high-level, human-provided safety rules and operator-aligned semantic preferences into autonomous robot navigation in unstructured outdoor environments. In our approach, natural-language rules are translated into Signal Temporal Logic (STL) specifications that guide planning and navigation during runtime. Persistent, environment-centric rules and terrain preferences are grounded into a 2D cost map, while temporally dynamic requirements are expressed as STL specifications to be monitored during runtime. We hypothesize the use of Vision-Language Models (VLMs) for zero-shot scene understanding, enabling mapping between human instructions, semantic features, and environmental constraints. Within this framework, we construct an illustrative navigation model that is designed to satisfy a set of STL-encoded specifications and soft operator preferences through formal satisfaction metrics embedded into environmental properties and runtime monitoring.",
+      "authors": [
+        "Kristy Sakano",
+        "Kalonji Harrington",
+        "Mumu Xu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-05-05T22:16:26+00:00",
+      "link": "https://arxiv.org/pdf/2605.04327v1",
+      "tags": [
+        "keyword:HR ROB",
+        "query:HR ROB"
+      ],
+      "llm_score": 7.5,
+      "llm_evidence_en": "VLM-grounded safe navigation and environmental constraint mapping",
+      "llm_evidence_cn": "基于VLM的安全导航与环境约束映射",
+      "llm_evidence": "基于VLM的安全导航与环境约束映射",
+      "canonical_evidence": "基于VLM的安全导航与环境约束映射",
+      "llm_tldr_en": "Integrates natural language safety rules into robot navigation using STL and VLM-based scene understanding.",
+      "llm_tldr_cn": "利用STL和VLM场景理解，将自然语言安全规则集成到机器人导航中。",
+      "llm_tldr": "利用STL和VLM场景理解，将自然语言安全规则集成到机器人导航中。",
+      "llm_tags": [
+        "query:hr-rob"
+      ],
+      "matched_query_tag": "query:hr-rob",
+      "matched_query_text": "environmental perception and sensing for robots",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

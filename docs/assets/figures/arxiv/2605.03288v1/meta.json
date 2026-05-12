@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.03288v1/fig-001.webp",
+      "caption": "Figure 2. Numerical results for Tasks 1–2. (A) Four representative cases of two-end boundary actuation that drive a selected strip node to a user-specified target position. (B) Four representative cases of two-end boundary actuation that guide the strip midpoint along a prescribed planar trajectory. (Shadow is rendered for visualization only.)",
+      "page": 6,
+      "index": 1,
+      "width": 1017,
+      "height": 333
+    },
+    {
+      "url": "assets/figures/arxiv/2605.03288v1/fig-002.webp",
+      "caption": "Figure 3. Neural continuation control for multistable shape formation (Task 3). (A1–A2) Two mirrored C-shaped stable equilibria arise under the same boundary condition (identical end pose), illustrating multistability. (B1–B2) A U-shaped and an M-like stable equilibrium are also obtained under the same boundary condition.",
+      "page": 6,
+      "index": 2,
+      "width": 479,
+      "height": 286
+    },
+    {
+      "url": "assets/figures/arxiv/2605.03288v1/fig-003.webp",
+      "caption": "Figure 4. Optimization steps (iterations) vs. score (log best-so-far loss) for Tasks 1–3 (mean ±1 stderr over four cases). For Task 2, Adjoint+RHC executes the trajectory in segments; we therefore report its full-horizon trajectory objective Ltraj only when a complete rollout is available (i.e., at the end of the executed horizon), and use those values to form the best-so-far curve.",
+      "page": 7,
+      "index": 3,
+      "width": 1010,
+      "height": 202
+    },
+    {
+      "url": "assets/figures/arxiv/2605.03288v1/fig-004.webp",
+      "caption": "Figure 5. Experimental setup and qualitative results for all three tasks. For Task 1 and Task 2, each subfigure shows sampled frames from the control process, illustrating point-to-point manipulation and midpoint trajectory following, respectively. For Task 3, the figure visualizes the initial, intermediate, and final configurations during the shape control process.",
+      "page": 8,
+      "index": 4,
+      "width": 1002,
+      "height": 239
+    },
+    {
+      "url": "assets/figures/arxiv/2605.03288v1/fig-005.webp",
+      "caption": "Figure 6. Discrete schematic of an elastic strip showing the discretization and notation: node positions {qi}, segment tangents {ti}, and turning angles {θi}.",
+      "page": 12,
+      "index": 5,
+      "width": 435,
+      "height": 326
+    }
+  ]
+}
