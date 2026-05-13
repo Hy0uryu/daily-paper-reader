@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.12347v1/fig-001.webp",
+      "caption": "Figure 1: End-to-end teleoperation pipeline: from raw IMU-based motion capture through kinematic retargeting to execution on both the MuJoCo simulator and the physical Unitree G1 humanoid robot.",
+      "page": 2,
+      "index": 1,
+      "width": 1022,
+      "height": 475
+    },
+    {
+      "url": "assets/figures/arxiv/2605.12347v1/fig-002.webp",
+      "caption": "Figure 3: Side-by-side comparison of the human operator and the retargeted MuJoCo Unitree G1 simulation during a representative whole-body motion sequence.",
+      "page": 3,
+      "index": 2,
+      "width": 454,
+      "height": 577
+    },
+    {
+      "url": "assets/figures/arxiv/2605.12347v1/fig-003.webp",
+      "caption": "Figure 2: Virdyn IMU suit output visualized in the vendor reference platform, confirming full-body skeleton tracking prior to integration with the robot pipeline.",
+      "page": 3,
+      "index": 3,
+      "width": 454,
+      "height": 643
+    },
+    {
+      "url": "assets/figures/arxiv/2605.12347v1/fig-004.webp",
+      "caption": "Figure 4: Synchronized human to robot teleoperation on the physical Unitree G1. The operator (left) performs walking and sitting motions that are reproduced in real time by the robot (right) with no perceptible latency.",
+      "page": 4,
+      "index": 4,
+      "width": 429,
+      "height": 817
+    }
+  ]
+}

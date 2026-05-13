@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.11825v1/fig-001.webp",
+      "caption": "Fig. 6: Condition × emotion interaction profiles for the six pressure features, all of which remained significant after correction. The lines show condition-specific mean feature values across emotions for arm-only and torso-only trials.",
+      "page": 10,
+      "index": 1,
+      "width": 990,
+      "height": 544
+    },
+    {
+      "url": "assets/figures/arxiv/2605.11825v1/fig-002.webp",
+      "caption": "Fig. 7: Feature distributions across the three experimental conditions. These plots illustrate how several pressure and motion variables shift across the free, arm-only, and torso-only conditions. Pairwise significance brackets show Holm-corrected Mann– Whitney comparisons, and the inset text reports the omnibus Kruskal-Wallis p value for each feature.",
+      "page": 10,
+      "index": 2,
+      "width": 1076,
+      "height": 342
+    },
+    {
+      "url": "assets/figures/arxiv/2605.11825v1/fig-003.webp",
+      "caption": "TABLE II: Model-derived summary of the strongest emotion-body-part links in the free-touch condition. “Most likely body part (MLBP)” refers to the highest average predicted touch probability;“Most selectively associated body part (MABP)” refers to the largest centered logit effect. The table also reports the second-highest selectively associated body part (2nd MABP) for each emotion. Significance values refer to the overall body-part-specific mixed-effects logistic model for the listed body part, not to a pairwise test of the individual link.",
+      "page": 8,
+      "index": 3,
+      "width": 1076,
+      "height": 194
+    },
+    {
+      "url": "assets/figures/arxiv/2605.11825v1/fig-004.webp",
+      "caption": "Fig. 8: Raincloud-style plots for before and after interaction self report rating changes. Each panel combines a half violin density, a narrow boxplot, and participant-level points. Labels report the direction of change and the Wilcoxon p value. The two multi-item scales showed good internal consistency (Agency & Experience: αpre = 0.905, αpost = 0.908; Agency & Communality: αpre = 0.899, αpost = 0.934). The clearest pre/post effect was in the single-item IOS scale.",
+      "page": 12,
+      "index": 4,
+      "width": 1032,
+      "height": 317
+    },
+    {
+      "url": "assets/figures/arxiv/2605.11825v1/fig-005.webp",
+      "caption": "Fig. 9: Post-interaction comfort scores split by social-role attribution. Each panel shows a half violin, a narrow boxplot, and participant-level points for participants who did and did not endorse the role in the post questionnaire. The clearest separation was for Stranger: participants who still described iCub as a stranger reported much lower comfort than those who did not.",
+      "page": 12,
+      "index": 5,
+      "width": 902,
+      "height": 331
+    }
+  ]
+}

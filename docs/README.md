@@ -6,73 +6,82 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-05-12
-- 运行时间：2026-05-12 21:26:54 UTC
+- 最新运行日期：2026-05-13
+- 运行时间：2026-05-13 20:52:46 UTC
 - 运行状态：成功
-- 本次总论文数：17
-- 精读区：6
+- 本次总论文数：20
+- 精读区：9
 - 速读区：11
 
 ### 今日简报（AI）
-今日深度解析 17 篇前沿成果，聚焦人形机器人全身操控与双足实时行走的重大突破。
-重点推荐 BifrostUMI 跨越无机器人演示的操控方案，以及级联保真度 MPC 对双足行走效率的极致优化。
-建议关注 LLM 驱动的自适应控制与视触觉融合技术，探索复杂任务下机器人感知与决策的新路径。
-- 详情：[/202605/12/README](/202605/12/README)
+今日精选 20 篇机器人前沿论文，重点攻克人形全身操控与双足行走实时控制两大难题。
+BifrostUMI 实现了无机器人演示到人形全身操控的跨越，而级联保真度 MPC 则为双足行走提供了满分的实时优化方案。
+建议深入研读两篇满分论文，掌握从跨媒介动作模仿到高效动力学控制的最新技术闭环。
+- 详情：[/202605/13/README](/202605/13/README)
 
 ### 精读区论文标签
-1. [BifrostUMI: Bridging Robot-Free Demonstrations and Humanoid Whole-Body Manipulation](/202605/12/2605.03452v1-bifrostumi-bridging-robot-free-demonstrations-and-humanoid-whole-body-manipulation)  
+1. [BifrostUMI: Bridging Robot-Free Demonstrations and Humanoid Whole-Body Manipulation](/202605/13/2605.03452v1-bifrostumi-bridging-robot-free-demonstrations-and-humanoid-whole-body-manipulation)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：用于人形机器人全身操作的无机器人数据采集框架
-2. [Right Model, Right Time: Real-Time Cascaded-Fidelity MPC for Bipedal Walking](/202605/12/2605.04607v1-right-model-right-time-real-time-cascaded-fidelity-mpc-for-bipedal-walking)  
+   evidence：人形机器人全身操作与数据采集框架
+2. [Right Model, Right Time: Real-Time Cascaded-Fidelity MPC for Bipedal Walking](/202605/13/2605.04607v1-right-model-right-time-real-time-cascaded-fidelity-mpc-for-bipedal-walking)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：用于双足行走的全身多相模型预测控制
-3. [Explicit Stair Geometry Conditioning for Robust Humanoid Locomotion](/202605/12/2605.09944v1-explicit-stair-geometry-conditioning-for-robust-humanoid-locomotion)  
+   evidence：双足行走的全身模型预测控制
+3. [Explicit Stair Geometry Conditioning for Robust Humanoid Locomotion](/202605/13/2605.09944v1-explicit-stair-geometry-conditioning-for-robust-humanoid-locomotion)  
    标签：评分：10.0/10、query:hr-rob
-   evidence：人形机器人行走与楼梯几何调节
-4. [Beyond Thinking: Imagining in 360$^\circ$ for Humanoid Visual Search](/202605/12/2605.09146v1-beyond-thinking-imagining-in-360circ-for-humanoid-visual-search)  
+   evidence：人形机器人步态的显式楼梯几何调节
+4. [Real-Time Whole-Body Teleoperation of a Humanoid Robot Using IMU-Based Motion Capture with Sim2Sim and Sim2Real Validation](/202605/13/2605.12347v1-real-time-whole-body-teleoperation-of-a-humanoid-robot-using-imu-based-motion-capture-with-sim2sim-and-sim2real-validation)  
+   标签：评分：10.0/10、query:hr-rob
+   evidence：人形机器人的实时全身遥操作
+5. [Beyond Thinking: Imagining in 360$^\circ$ for Humanoid Visual Search](/202605/13/2605.09146v1-beyond-thinking-imagining-in-360circ-for-humanoid-visual-search)  
    标签：评分：9.5/10、query:hr-rob
-   evidence：人形机器人视觉搜索及360度环境下的语义布局推断
-5. [Visibility-Aware Mobile Grasping in Dynamic Environments](/202605/12/2605.02487v2-visibility-aware-mobile-grasping-in-dynamic-environments)  
+   evidence：人形机器人视觉搜索与360度环境语义布局推断
+6. [Mapping Embodied Affective Touch Strategies on a Humanoid Robot](/202605/13/2605.11825v1-mapping-embodied-affective-touch-strategies-on-a-humanoid-robot)  
+   标签：评分：9.5/10、query:hr-rob
+   evidence：配备全身触觉传感器的类人机器人上的情感触摸策略
+7. [ReActor: Reinforcement Learning for Physics-Aware Motion Retargeting](/202605/13/2605.06593v1-reactor-reinforcement-learning-for-physics-aware-motion-retargeting)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：动态环境下移动抓取的全身规划器
-6. [Visibility-Aware Mobile Grasping in Dynamic Environments](/202605/12/2605.02487v3-visibility-aware-mobile-grasping-in-dynamic-environments)  
+   evidence：机器人形态的物理感知运动重定向
+8. [Dynamic Full-body Motion Agent with Object Interaction via Blending Pre-trained Modular Controllers](/202605/13/2605.11369v1-dynamic-full-body-motion-agent-with-object-interaction-via-blending-pre-trained-modular-controllers)  
    标签：评分：9.0/10、query:hr-rob
-   evidence：迭代低级全身规划器结合主动感知
+   evidence：带物体交互的动态全身运动
+9. [OmniHumanoid: Streaming Cross-Embodiment Video Generation with Paired-Free Adaptation](/202605/13/2605.12038v1-omnihumanoid-streaming-cross-embodiment-video-generation-with-paired-free-adaptation)  
+   标签：评分：9.0/10、query:hr-rob
+   evidence：人形机器人的跨本体运动迁移
 
 ### 速读区论文标签
-1. [ShapeGrasp: Simultaneous Visuo-Haptic Shape Completion and Grasping for Improved Robot Manipulation](/202605/12/2605.02347v1-shapegrasp-simultaneous-visuo-haptic-shape-completion-and-grasping-for-improved-robot-manipulation)  
+1. [IMPACT: An Implicit Active-Set Augmented Lagrangian for Fast Contact-Implicit Trajectory Optimization](/202605/13/2605.09127v1-impact-an-implicit-active-set-augmented-lagrangian-for-fast-contact-implicit-trajectory-optimization)  
    标签：评分：8.5/10、query:hr-rob
-   evidence：视觉-触觉形状补全与基于物理的抓取规划
-2. [CoRAL: Contact-Rich Adaptive LLM-based Control for Robotic Manipulation](/202605/12/2605.02600v1-coral-contact-rich-adaptive-llm-based-control-for-robotic-manipulation)  
+   evidence：操作与运动的接触隐式轨迹优化
+2. [EFGCL: Learning Dynamic Motion through Spotting-Inspired External Force Guided Curriculum Learning](/202605/13/2605.10063v1-efgcl-learning-dynamic-motion-through-spotting-inspired-external-force-guided-curriculum-learning)  
    标签：评分：8.5/10、query:hr-rob
-   evidence：基于大语言模型的接触密集型机器人操作与规划控制
-3. [RLDX-1 Technical Report](/202605/12/2605.03269v2-rldx-1-technical-report)  
+   evidence：学习足式机器人的动态全身运动
+3. [X-Imitator: Spatial-Aware Imitation Learning via Bidirectional Action-Pose Interaction](/202605/13/2605.12162v1-x-imitator-spatial-aware-imitation-learning-via-bidirectional-action-pose-interaction)  
    标签：评分：8.5/10、query:hr-rob
-   evidence：用于灵巧操作和物理感知的通用机器人策略
-4. [Learning Reactive Dexterous Grasping via Hierarchical Task-Space RL Planning and Joint-Space QP Control](/202605/12/2605.03363v1-learning-reactive-dexterous-grasping-via-hierarchical-task-space-rl-planning-and-joint-space-qp-control)  
-   标签：评分：8.5/10、query:hr-rob
-   evidence：用于反应式灵巧抓取的分层控制框架和关节空间QP控制
-5. [Adaptive Gait Generation for Multi-Terrain Exoskeletons via Constrained Kernelized Movement Primitives](/202605/12/2605.02513v1-adaptive-gait-generation-for-multi-terrain-exoskeletons-via-constrained-kernelized-movement-primitives)  
+   evidence：空间感知与动作生成的双向交互
+4. [RLDX-1 Technical Report](/202605/13/2605.03269v1-rldx-1-technical-report)  
+   标签：评分：8.0/10、query:hr-rob
+   evidence：具备物理感知的灵巧操作通用机器人策略
+5. [Reduced-order Neural Modeling with Differentiable Simulation for High-Detail Tactile Perception](/202605/13/2605.05053v1-reduced-order-neural-modeling-with-differentiable-simulation-for-high-detail-tactile-perception)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：多地形环境下的自适应步态生成
-6. [Temporally Consistent Object 6D Pose Estimation for Robot Control](/202605/12/2605.02708v1-temporally-consistent-object-6d-pose-estimation-for-robot-control)  
+   evidence：灵巧操作的高细节触觉感知
+6. [Plug-and-Play Label Map Diffusion for Universal Goal-Oriented Navigation](/202605/13/2605.05960v1-plug-and-play-label-map-diffusion-for-universal-goal-oriented-navigation)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：用于机器人控制的时间一致物体6D位姿估计
-7. [MolmoAct2: Action Reasoning Models for Real-world Deployment](/202605/12/2605.02881v1-molmoact2-action-reasoning-models-for-real-world-deployment)  
+   evidence：基于扩散模型的环境感知地图补全
+7. [When to Trust Imagination: Adaptive Action Execution for World Action Models](/202605/13/2605.06222v1-when-to-trust-imagination-adaptive-action-execution-for-world-action-models)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：用于现实部署中空间和具身推理的VLA模型
-8. [From Language to Logic: A Theoretical Architecture for VLM-Grounded Safe Navigation](/202605/12/2605.04327v1-from-language-to-logic-a-theoretical-architecture-for-vlm-grounded-safe-navigation)  
+   evidence：机器人操作的自适应动作执行与重新规划
+8. [When to Trust Imagination: Adaptive Action Execution for World Action Models](/202605/13/2605.06222v2-when-to-trust-imagination-adaptive-action-execution-for-world-action-models)  
    标签：评分：7.5/10、query:hr-rob
-   evidence：基于VLM的安全导航与环境约束映射
-9. [Shared Autonomy Assisted by Impedance-Driven Anisotropic Guidance Field](/202605/12/2605.02410v1-shared-autonomy-assisted-by-impedance-driven-anisotropic-guidance-field)  
+   evidence：针对操作任务的世界动作模型自适应动作执行
+9. [MaMi-HOI: Harmonizing Global Kinematics and Local Geometry for Human-Object Interaction Generation](/202605/13/2605.05756v1-mami-hoi-harmonizing-global-kinematics-and-local-geometry-for-human-object-interaction-generation)  
    标签：评分：6.5/10、query:hr-rob
-   evidence：用于共享自主和人机协作的阻抗驱动引导
-10. [Neural Control: Adjoint Learning Through Equilibrium Constraints](/202605/12/2605.03288v1-neural-control-adjoint-learning-through-equilibrium-constraints)  
+   evidence：协调人体-物体交互中的全局运动学与局部几何
+10. [Modular Lie Algebraic PDE Control of Multibody Flexible Manipulators](/202605/13/2605.06709v1-modular-lie-algebraic-pde-control-of-multibody-flexible-manipulators)  
    标签：评分：6.5/10、query:hr-rob
-   evidence：具有隐式平衡约束系统的边界控制框架
-11. [Active Contact Sensing for Robust Robot-to-Human Object Handover](/202605/12/2605.04610v1-active-contact-sensing-for-robust-robot-to-human-object-handover)  
+   evidence：多体柔性机器人系统的李代数控制
+11. [Trajectory-Consistent Flow Matching for Robust Visuomotor Policy Learning](/202605/13/2605.08511v1-trajectory-consistent-flow-matching-for-robust-visuomotor-policy-learning)  
    标签：评分：6.5/10、query:hr-rob
-   evidence：用于机器人向人移交物体的积极接触传感
+   evidence：鲁棒视觉运动策略的轨迹一致流匹配
 
 
 <div class="dpr-home-promo-card">

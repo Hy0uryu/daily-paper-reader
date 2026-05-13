@@ -1,0 +1,94 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.05960v1/fig-001.webp",
+      "caption": "Table 13. Ablation for diffusion step T on NVIDIA A40.",
+      "page": 21,
+      "index": 1,
+      "width": 721,
+      "height": 225
+    },
+    {
+      "url": "assets/figures/arxiv/2605.05960v1/fig-002.webp",
+      "caption": "Table 12. Ablation for diffusion step T on NVIDIA Jetson AGX Orin.",
+      "page": 21,
+      "index": 2,
+      "width": 721,
+      "height": 224
+    },
+    {
+      "url": "assets/figures/arxiv/2605.05960v1/fig-003.webp",
+      "caption": "Figure 1. Different implementations of map-dependent GON tasks. (a) The original map-based navigation strategy. (b) Our PLMD is able to extend the semantic and obstacle information of the unseen map regions without re-training.",
+      "page": 2,
+      "index": 3,
+      "width": 1004,
+      "height": 371
+    },
+    {
+      "url": "assets/figures/arxiv/2605.05960v1/fig-004.webp",
+      "caption": "Table 1. Comparison of ObjectNav (ON), Instance-ImageNav (IIN) and Multi-Robot ObjectNav (MRON) on HM3D v0.2, HM3D v0.1, and MP3D. RL is reinforcement learning, SL denotes supervised learning and SSL is self-supervised learning. Bolding indicates the performance improvement over state-of-the-art navigation strategies.",
+      "page": 7,
+      "index": 4,
+      "width": 1029,
+      "height": 431
+    },
+    {
+      "url": "assets/figures/arxiv/2605.05960v1/fig-005.webp",
+      "caption": "Figure 5. Visualization of label map observation pair {(sgt, sm5 , cgt, c m 5 )} and {(sgt, sm15, cgt, cm15)}.",
+      "page": 14,
+      "index": 5,
+      "width": 1006,
+      "height": 408
+    },
+    {
+      "url": "assets/figures/arxiv/2605.05960v1/fig-006.webp",
+      "caption": "Figure 8. Visualization of the PLMD navigation process with OpenFMNav (Kuang et al., 2024) (ON). The upper column includes the navigation goal, the current navigation timestep, the RGB view and the semantic map constructed by the robots at each navigation timestep. The lower column displays the predicted visualized semantic maps and label maps. Best viewed when zoomed in.",
+      "page": 18,
+      "index": 6,
+      "width": 1013,
+      "height": 252
+    },
+    {
+      "url": "assets/figures/arxiv/2605.05960v1/fig-007.webp",
+      "caption": "Figure 7. Visualization of the PLMD navigation process (MRON). The upper column includes the navigation goal, the current navigation timestep, the RGB view and the semantic map constructed by the robots at each navigation timestep. The small blue boxes represent the semantic map after removing the robot, navigation trajectory, and long-term target points. The lower column displays the predicted visualized semantic maps and label maps. Best viewed when zoomed in.",
+      "page": 18,
+      "index": 7,
+      "width": 1008,
+      "height": 308
+    },
+    {
+      "url": "assets/figures/arxiv/2605.05960v1/fig-008.webp",
+      "caption": "Figure 4. Visualization of the effect of PLMD execution frequency on navigation performance. Diffuse@[x, y] indicates that PLMD execution starts from the x-th global step of navigation and repeats every y global steps. The size of each point represents the average number of steps consumed in an episode of the navigation task.",
+      "page": 8,
+      "index": 8,
+      "width": 1017,
+      "height": 467
+    },
+    {
+      "url": "assets/figures/arxiv/2605.05960v1/fig-009.webp",
+      "caption": "Table 3. Ablations for PLMD-assisted navigation tasks.",
+      "page": 8,
+      "index": 9,
+      "width": 813,
+      "height": 211
+    },
+    {
+      "url": "assets/figures/arxiv/2605.05960v1/fig-010.webp",
+      "caption": "Figure 2. Framework of PLMD. (a) illustrates the PLMD pipeline for a single robot. In MRON, the same module is executed independently by each robot using its own observations and map state. The predicted label map is used to provide high-level goal candidates for the downstream navigation strategy. ‘DM’ stands for Diffusion Model. (b) shows the obstacle-aware feature modulation network for the semantic map network.",
+      "page": 4,
+      "index": 10,
+      "width": 1013,
+      "height": 358
+    },
+    {
+      "url": "assets/figures/arxiv/2605.05960v1/fig-011.webp",
+      "caption": "Figure 9. Visualization of the PLMD navigation process with IEVE (Lei et al., 2024) (IIN). The upper column includes the navigation goal (instance image), the current navigation timestep, the RGB view and the semantic map constructed by the robots at each navigation timestep. The lower column displays the predicted visualized semantic maps and label maps. Best viewed when zoomed in.",
+      "page": 19,
+      "index": 11,
+      "width": 1008,
+      "height": 271
+    }
+  ]
+}
