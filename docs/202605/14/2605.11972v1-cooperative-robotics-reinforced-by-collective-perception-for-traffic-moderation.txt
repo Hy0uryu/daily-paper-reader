@@ -1,0 +1,313 @@
+Title: Cooperative Robotics Reinforced by Collective Perception for Traffic Moderation
+
+URL Source: https://arxiv.org/pdf/2605.11972v1
+
+Published Time: Wed, 13 May 2026 01:24:57 GMT
+
+Number of Pages: 7
+
+Markdown Content:
+# Cooperative Robotics Reinforced by Collective Perception for Traffic Moderation 
+
+Mohammad Khoshkdahan ∗, John Pravin Arockiasamy ∗, Andy Flores Comeca ∗, Alexey Vinel ∗† ∗Karlsruhe Institute of Technology, Karlsruhe, Germany Email: alexey.vinel@kit.edu 
+
+†Halmstad University, Halmstad, Sweden Email: alexey.vinel@hh.se 
+
+Abstract —Collisions at non-line-of-sight (NLOS) intersections remain a major safety concern because drivers have limited visibility of approaching traffic. V2X based warnings can reduce these risks, yet many vehicles are not equipped with V2X and drivers may ignore in vehicle alerts. Collective perception (CP) can compensate for low V2X penetration by extending the awareness of connected vehicles, but it cannot influence unconnected vehicles. To fill this gap, our work introduces a complementary concept that adds a cooperative humanoid robot as an active traffic moderator capable of physically stopping a vehicle that attempts to merge into an unseen traffic stream. The system operates on two parallel perception pathways. A dual camera infrastructure unit detects the position, speed and motion of approaching vehicles and transmits this information to the robot as a collective perception message (CPM). The robot also receives cooperative awareness messages (CAM) from connected vehicles through its onboard V2X unit and can act as a relay for decentralized environmental notification messages (DENM) when safety events originate elsewhere along the road. A fusion module combines these streams to maintain a robust real time view of the main road. A Zone of Danger (ZoD) is defined and used to predict whether an approaching vehicle creates a collision risk for a merging road user. When such a risk is detected, the robot issues a human-like STOP gesture and blocks the merging path until the hazard disappears. The full system was deployed at the Future Mobility Park (FMP) in Rotterdam. Experiments show that the combined vision and V2X perception allows the robot to detect approaching vehicles early, predict hazards reliably and prevent unsafe merges in real world NLOS conditions. 
+
+Index Terms —Real-time Collision Prevention, V2X-vision Fu-sion, Traffic Moderator Robot 
+
+I. I NTRODUCTION 
+
+High traffic volumes and increasingly complex road layouts require drivers to maintain strong awareness of their surround-ings. Among these, intersections or merging points where a local road joins a main road with limited visibility present particular danger. In such non-line-of-sight (NLOS) scenarios, drivers on both roads may not see each other until it is too late. According to the U.S. Federal Highway Administration, intersections account for about 40 percent of all crashes and roughly 22 percent of fatal crashes worldwide [1]. NLOS situations are especially critical in areas without traffic lights or priority signs, such as exits from campuses, 
+
+∗ The first three authors contributed equally to this work. 
+
+private facilities, or parking areas that connect directly to a main road. In these cases, a curb side marking is often the only indication of lower priority, while the view is blocked by parked cars, buildings, or temporary construction barriers. Naturalistic driving studies report mean brake reaction times of approximately 1.5 s with substantial variance [2], and controlled experiments show that reaction delays grow under reduced visibility [3], which reduces the available response window in NLOS merging scenarios to well under two sec-onds. Even modern vehicles with advanced sensors cannot detect cross traffic that remains fully hidden or approaches from a sharp angle, leading to frequent near misses and side collisions. To address these limitations, we propose a robotic traffic moderation system based on collective perception [4]. A vision based infrastructure setup monitors the main road, while a mobile robot positioned at the local road gate observes vehicles exiting. Both units exchange real time traffic information through a Vision-V2X fusion framework, which allows the robot to interpret approaching traffic even when the line of sight is blocked and to guide vehicles safely with police-like gestures. Our main contribution is the design of a cooperative system that uses a humanoid robot, named ARI from Pal Robotics 1, as an autonomous traffic moderator. The robot is equipped with a V2X communication unit which supports the set of ETSI messages such as Cooperative Awareness Message (CAM) [5] for periodic status broadcasting, Collective Perception Mes-sage (CPM) [6] for cooperative perception sharing of detected objects and sensor data, and Decentralized Environmental Notification Message (DENM) [7] for event-triggered hazard and warning notification. As an autonomous traffic moderator, the robot can move to the center of the road to intervene when a potential collision is detected, using hand gestures to stop a vehicle attempting to enter the main road. Through CPM, the robot receives real time information about traffic conditions on the main road from a dual camera infrastructure system installed near the intersection. In addition, it receives CAM from connected vehicles within the communication range. By combining the infrastructure based CPM stream with the 
+
+> 1
+
+https://pal-robotics.com/robot/ari/  
+
+> arXiv:2605.11972v1 [cs.RO] 12 May 2026 V2X Unit
+> Jetson
+> Orin
+> Power
+> bank
+> Cam_1
+> Cam_2
+> V2X Unit
+> Humanoid
+> Robot
+> Buildings
+> Roadside Perception Unit
+> CPM Format
+> Object IDs, Type,
+> Distance, Speed,
+> Timestamp Fig. 1. The overview of the proposed system in a NLOS road merging.
+
+CAM information from vehicles, the robot attains a more reliable understanding of the environment and makes accurate decisions about when it is safe for a vehicle to proceed. As an additional capability, the robot can rebroadcast DENM (e.g., those transmitted by nearby safety vehicles), thereby extending the hazard notification range beyond the original communica-tion range of the transmitting vehicle. The complete system has been integrated and tested in real world conditions at the Future Mobility Park (FMP) in the Netherlands. This paper is organized as follows. Section II reviews related work on traffic moderation and collision avoidance. The next sections introduce the infrastructure sensing unit and V2X components together with the robot moderator and present the detailed logic used for collision prediction and intervention. II. R ELATED WORKS 
+
+A. Infrastructure-Assisted Perception 
+
+Several studies have investigated the role of infrastructure-based perception systems for traffic safety and collision avoid-ance. This work [8] fused camera and LiDAR data using YOLO-v5 and Kalman tracking to detect vehicle-to-vehicle conflicts at signalised intersections. However, their evaluation was limited to intersections with good visibility and line-of-sight, and did not address NLOS conditions. While multi-sensor fusion can improve robustness, it also increases com-putational complexity, which may be less suitable for mobile platforms with limited onboard resources. In such cases, single-sensor perception can be a more efficient alternative. Recent work has shown that real-time 3D object detection in urban environments is feasible using LiDAR-only perception [9]. Camera-only systems also remain attractive due to their low cost and practical deployment, although fairness-related issues in pedestrian detection should be taken into account [10], [11]. Another work [12] presented a video and LiDAR analytics system for pedestrian–vehicle interaction analysis at intersections, focusing primarily on vulnerable road users rather than dynamic merging traffic flows. The study in [13] explored a hybrid perception system combining roadside radar with V2I/P2I communication to detect occluded vulnerable road users, thereby allowing detection beyond direct line-of-sight. The work [14] proposed fusing traffic video with static 3D LiDAR infrastructure data to reconstruct trajecto-ries of road users, supporting proactive safety monitoring of vehicle behaviour. While these works advance infrastructure-based sensing and cooperative perception, they assume clear visibility, emphasise pedestrian safety, or focus on trajectory reconstruction. Our system fills the gap by combining roadside vision sensing, V2X data exchange, and a robotic moderator to directly manage merging traffic in NLOS situations. 
+
+B. V2X-Based Traffic Management 
+
+Several studies use V2X communication to improve safety at intersections and in limited-visibility scenarios. The dis-tributed right-of-way algorithm in AROW [15] assigns explicit crossing turns among connected vehicles at unsignalized inter-sections and resolves priority ambiguity via V2X message ex-change. A vector-based forward collision warning scheme (V-FCW) transmits position, velocity, and heading via V2V/V2I and uses map information to reliably detect hazards even on curved or non-standard roads [16]. Hardware-in-the-loop tests showed that V2X-based intersection warning systems can drastically reduce collision risk under realistic radio-channel conditions [17]. The cooperative collision avoidance method introduced in [18] predicts future trajectories from V2X data and resolves imminent conflicts at obstructed intersections, even when onboard sensors cannot see the hazard. It demon-strates effective avoidance in NLOS scenarios with limited reaction time. In the state-of-the-art V2X systems the main remedy for low penetration is collective perception, which helps connected vehicles detect non-equipped users but cannot actively influ-ence them. Existing approaches therefore remain limited to warnings or automated control inside the equipped vehicles themselves. Even recent eHMI and V2P solutions that utilize personal devices to deliver visual or vibrotactile warnings provide only communicative signals rather than physical ac-tuation [19]. Our work addresses this gap by combining V2X and infrastructure-vision data with a robotic traffic moderator that can issue explicit commands and physically intervene, creating a way to incorporate non-V2X-equipped users into the cooperative driving ecosystem. 
+
+C. Traffic Moderation Using Robots 
+
+Humanoid police officers for traffic moderation are still rarely explored. Most research remains at the simulation level. This work [20] introduced a robot model for managing intersections through hand signals in a web based simulator, but it was never tested in real traffic and did not involve interaction with actual vehicles. Intel RGB -D D435i         
+
+> 2DoF Head
+> Emergenc yShutdown
+> RGB Screen
+> 5DoF Arms
+> Intel Core i9 CPU
+> + Jetson Orin GPU
+> Speaker
+> V2X OBU
+> (Installation Place)
+> 2D LiDAR for
+> Navigation
+> Differential Wheel
+> System
+> Front Side Back Side Fig. 2. Front and rear views of the ARI robot with its sensing, computation and actuation modules.
+
+Another study [21] used a TIAGO-based humanoid robot designed to act as a traffic officer with scripted gestures. Although it demonstrated gesture recognition and social ac-ceptance, the experiment was limited to a controlled setting without real vehicles or dynamic traffic flows. The system proposed in [22], [23] is designed to explore humanoid robots for assisting pedestrian crossings. These sys-tems demonstrate that physical gestures can support pedestrian safety, yet they focus solely on pedestrian interaction and do not address vehicle-to-vehicle hazards. Without infrastructure supported perception their field of view remains limited, which prevents their application in NLOS merging scenarios. Unmanned aerial vehicles have been studied mainly for traffic observation. Recent UAV-based systems integrate on-board cameras and wireless networks to monitor traffic density, detect near-miss events, and assess safety through cooperative sensing [24]–[26]. While effective for surveillance and data collection, UAVs remain passive observers that cannot directly influence vehicle drivers. Their operation is also limited by occlusion in urban areas, short endurance, and the difficulty of maneuvering in complex environments. III. T RAFFIC MODERATOR ROBOT 
+
+ARI (shown in Fig. 2) is a mobile humanoid robot designed for autonomous operation. It carries a front-mounted RGB-D camera based on the Intel RealSense D435, which provides color and depth information for detecting nearby vehicles, cyclists and pedestrians. A 2D LiDAR supports SLAM based localization and mapping so the robot can navigate safely around the FMP gate where the side road merges with the main road without colliding with obstacles. A V2X communication unit is mounted on the back of the robot and provides direct access to wireless traffic information during deployment. For perception we use a lightweight YOLOv12 [27] network that identifies approaching vehicles and cyclists from the head camera of ARI. The robot’s head has two degrees of freedom (DoF) to extend its field of view and he is using a differential-drive base for moving. Its two five-DoF arms perform the 
+
+STOP and PASS gestures required for traffic moderation. The robot is equipped with an Intel Core i9 processor for navigation and motion control together with a Jetson Orin AGX GPU for real-time vision inference. IV. I NFRASTRUCTURE PERCEPTION SYSTEM 
+
+A. Hardware Setup 
+
+The infrastructure perception system consists of two Intel D455 cameras mounted on a pole at a height of 1.5 meters. The depth information is not used, as the available range is limited. Image processing is handled by a Jetson AGX Orin powered by a portable power bank. The system periodically transmits mandatory CPM fields, including sensorInformation 
+
+and perceivedObject attributes (objectId, position, velocity, and ObjectClass), to the robot via the V2X unit at 5 Hz. 
+
+B. Vehicle Detection and Parameter Estimation 
+
+We use the robot operating system (ROS) to acquire image frames and to assemble the mandatory CPM fields. Each camera stream is fed to a pretrained YOLOv12 (N-variant) detector [27] with approximately 2.6 million parameters, cho-sen for its short inference time suitable for real-time operation. Detections are assigned unique track identifiers, and the 2D bounding box information is retrieved for each frame as illustrated in Fig. 3. Since vehicles only move along a single main road, each frame is cropped to the road region with a small surrounding margin, which reduces input dimensions and achieves an average reduction of 55.2% in inference time. For distance estimation, the road is first calibrated. An imaginary straight reference line is overlaid along the lane center in the image frame, parameterized by a linear coordinate 
+
+s ∈ [0 , S ] from the camera origin. A set of calibration pairs 
+
+C = {(si, d i)}Ni=1 is obtained by placing a test vehicle at ten known positions up to 120 m from the camera origin and recording the true distance di using GPS. Given a detection with bottom-center pixel bt, its horizontal projection onto the line is st = Π line (bt). The distance is then computed through a polynomial regression function 
+
+ˆdt = f (st) = wTϕ(st) (1) where ϕ(st) = [1 , s t, s 2 
+
+> t
+
+, . . . , s kt ]T is the polynomial fea-ture vector and w is the regression coefficient vector esti-mated from the calibration data. Let the design matrix be 
+
+Φ = [ ϕ(s1), ϕ(s2), . . . , ϕ(sN )] T and d = [ d1, d 2, . . . , d N ]T
+
+the corresponding distance vector. The optimal weights are obtained using least squares as 
+
+w = ( ΦTΦ)−1ΦTd. (2) Fig. 3. Detection output of the dual camera infrastructure system showing vehicle tracking and projection of bounding boxes onto the road reference line. 
+
+A low polynomial order k ≤ 2 provides a good trade-off between smoothness and accuracy, since calibration points are closely spaced along the line. For motion and speed estimation, each tracked object is observed at three consecutive timestamps t1 < t 2 < t 3 with corresponding estimated distances ˆdt1 , ˆdt2 , ˆdt3 . The average velocity is computed as 
+
+¯v = 12
+
+ˆdt2 − ˆdt1
+
+t2 − t1
+
++ ˆdt3 − ˆdt2
+
+t3 − t2
+
+!
+
+(3) An object is labeled as moving when |¯v| > 3 m/s; the sign of ¯v indicates whether the object is approaching or receding relative to the camera. This threshold filters out small apparent motions caused by camera vibration or minor bounding-box variations on stationary vehicles due to model uncertainty. All estimated parameters, including object ID, class, dis-tance, speed, and timestamp, are packed into a single CPM and transmitted at 5 Hz through the V2X unit to the robot. V. V2X C OMMUNICATION AND DATA EXCHANGE 
+
+A. V2X Hardware and Protocol 
+
+The system uses three ETSI-compliant On-Board Units (OBUs), each operating over IEEE 802.11p (ITS-G5) based Dedicated Short-Range Communication (DSRC). A V2X-equipped Volkswagen (VW) ID.4 transmits CAMs. The infras-tructure perception system publishes CPMs through a Herman OBU 2. ARI carries a second Herman OBU that broadcasts CAMs using the ETSI pedestrian profile as no official robot-specific profile currently exists. A safety car with a Roadside Unit (RSU) sends DENM messages (e.g., with causecode ”roadworks”) to emulate safety-related event triggers. ARI re-ceives CAMs from the VW ID.4, CPMs from the infrastructure perception system, and DENMs from the RSU. The ITS-G5 stack provides low-latency vehicle-to-infrastructure as well as vehicle-to-vehicle messaging. In our implementation, the OBU interfaces with ROS via a custom 
+
+> 2https://www.herman.cz/en/
+
+bridge node, which is an integration between the V2X data stream and the robot’s perception module. 
+
+B. Hazard Detection 
+
+CAMs from V2X-equipped vehicles and CPMs from the infrastructure cameras (detection results) are merged in the robot’s perception module. Each input provides object position along the road reference line together with heading and timestamp, and camera-only detections are mapped onto this line through the calibrated projection. Because ARI observes the main road from the side rather than along the vehicle trajectory, Time to Collision (ToC) becomes less reliable in this geometry [28]. We therefore use a region based approach, referred to as the Zone of Danger (ZoD), that predicts whether an approaching vehicle will enter a predefined conflict area. The ZoD is dimensioned to cover the stopping distance of a fast approaching vehicle at up to 
+
+80 km /h, including both braking distance and typical driver reaction time, and to match the layout of the FMP. This results in a 50 × 50 m area around the robot. The temporal threshold for intervention is set to τth = 5 s , which matches the time ARI requires to move from its standby position to the centre of the lane and raise the STOP gesture, with only a minor portion attributed to perception and decision processing. For each detected object the system estimates the entry time 
+
+tenter into the ZoD and the exit time texit . If tenter ≤ τth 
+
+the robot issues a STOP gesture and blocks the merging movement until the object leaves the ZoD. Otherwise merging is permitted. 
+
+C. Scenario-Level and Communication-Level KPIs 
+
+To evaluate system behavior during each demonstration run, we define several scenario-level key performance indicators (KPIs). For the test vehicle (VW ID.4), we record the total duration of the run, the total distance traveled, and compute its average speed. We also measure the duration the test vehicle remains within the predefined ZoD region, referred to as VW ZoD Time. To assess the influence of the robot moderator, we log the total time during which ARI blocked merging traffic (ARI Stop Time), based on the five-second threshold for ZoD entry. On the communication side, we evaluate ARI’s inter-generation gap (IGG), defined as the average interval between consecutive CAM generated by ARI to inform other road users about its presence. We also monitor the inter-packet gap (IPG), defined as the average interval between reception of consecutive CAM packets received from a VW ID.4 to check the regularity of incoming messages. Furthermore, we evaluate the latency between the infrastructure system sending the CPM and ARI receiving it, referred further as CPM Latency. These metrics together indicate how reliable and timely the V2X channel is, which is critical for real-time perception fusion and robot decision making. VI. F RAMEWORK LOGIC 
+
+The proposed system was implemented and tested at the FMP in Rotterdam, Netherlands. As illustrated in Fig. 4, the Gate   
+
+> ARI Robot
+> (a) (b)
+> (c) ARI Robot
+> Dual -camera Setup
+> S
+> TFig. 4. Experimental setup at the FMP. (a) Test site map showing the main road, the FMP road, the merging geometry and the defined ZoD. In this example, the V2X-equipped VW ID.4 (yellow) approaches along the main road while a test vehicle inside the FMP (blue) attempts to enter it. (b) Dual-camera infrastructure system used for long-range vehicle detection on the main road. (c) ARI robot executing the STOP gesture while moderating traffic at the FMP gate.
+
+red path represents the narrow internal road used by vehicles and cyclists exiting toward the main road. The ARI humanoid robot is positioned at the gate to monitor and regulate the internal traffic flow. It only grants passage when no potential collision is detected. Possible collisions are predicted from two input sources: (1) the roadside camera system detecting approaching vehicles from both directions of the main road, and (2) V2X communication data received from vehicles equipped with on-board units (OBUs). The detailed decision flow that combines these perception streams is formalised in Algorithm 1. To avoid tracking the same vehicle twice the logic uses a priority based fusion method. It trusts V2X data first and only includes camera detections if they are far enough away from known V2X vehicles. For each tracked vehicle the system calculates when it will enter and leave the Zone of Danger. If a vehicle will enter this zone within a short time limit while the robot sees a local user trying to merge a hazard is triggered. The robot then steps in to block the lane and maintains the stop command until the vehicle clears the area. VII. E XPERIMENTS AND RESULTS 
+
+A. Main Experiments at FMP 
+
+The complete system was evaluated during a four hour deployment in the FMP on an active main road with mixed vehicle traffic (see Fig. 4). To test the fusion of infrastructure sensing and V2X, a VW ID.4 equipped with a V2X unit performed repeated passes along the monitored segment while the robotic moderator remained stationed at the merging gate. During the full deployment, 798 approaching vehicles were recorded. The camera-based infrastructure system, positioned 24 m from ARI, detected all vehicles on the main road, with an average first detection distance of 110.1 m and a standard deviation of 6.5 m. Large trucks and buses showed slightly 
+
+Algorithm 1 Cooperative Vision–V2X Traffic Moderation Algorithm (ZoD + V2X-priority + Local-Merge Check) 
+
+Require: Infrastructure camera CPMs Mc,L , Mc,R , V2X messages Mv from road vehicles, local robot-camera feed 
+
+Mr
+
+Ensure: Safe merging control at NLOS intersection  
+
+> 1:
+
+S ← SAFE  
+
+> 2:
+
+while system active do  
+
+> 3:
+
+Receive Mc,L (t), Mc,R (t), Mv (t), Mr (t) 
+
+> 4:
+
+Parse Ov (t) from V2X and Oc(t) from camera detec-tions  
+
+> 5:
+
+Project all object positions onto the road reference line  
+
+> 6:
+
+Of (t) ← O v (t) ▷ Prioritise V2X detections  
+
+> 7:
+
+for all oj ∈ O c(t) do  
+
+> 8:
+
+if min oi∈O v (t) ∥(xj , v j ) − (xi, v i)∥ ≥ ϵ then  
+
+> 9:
+
+Of (t) ← O f (t) ∪ { oj } 
+
+> 10:
+
+end if  
+
+> 11:
+
+end for  
+
+> 12:
+
+for all oi ∈ O f (t) do  
+
+> 13:
+
+Estimate tenter ,i and texit ,i for ZoD entry/exit  
+
+> 14:
+
+end for  
+
+> 15:
+
+if ∃ ok ∈ O f (t) such that tenter ,k ≤ τth and robot camera Mr sees a merging vehicle then  
+
+> 16:
+
+S ← DANGER  
+
+> 17:
+
+Issue STOP gesture: move robot to lane center, show stop sign  
+
+> 18:
+
+while object ok remains inside ZoD (i.e. current time < t exit ,k ) do  
+
+> 19:
+
+Maintain STOP posture  
+
+> 20:
+
+Receive and process new data streams  
+
+> 21:
+
+Update object states and recalculate texit ,k  
+
+> 22:
+
+end while  
+
+> 23:
+
+S ← SAFE  
+
+> 24:
+
+else  
+
+> 25:
+
+if S = SAFE then  
+
+> 26:
+
+Issue PASS gesture: arms to neutral; step back to clear lane centre  
+
+> 27:
+
+end if  
+
+> 28:
+
+end if  
+
+> 29:
+
+Log L(t) ← (Of (t), S, {tenter ,i , t exit ,i }) 
+
+> 30:
+
+end while 
+
+shorter initial detection distances, but remained within a range that allowed sufficient time for hazard assessment. For the V2X experiment, the VW ID.4 started at 82.8 m and stopped at 127 m (on the other end of the road) relative to ARI. The recorded V2X messages provided a continuous trajectory of the vehicle. The VW ID.4 was tracked for a total duration of 19.82 s, from the beginning of the sequence until it came to a complete stop. During this interval, the vehicle maintained an average speed of 9.35 m/s and covered approximately 185.5 m. From the trajectory, we extracted the time the VW spent inside the ZoD (VW ZoD Time) and the corresponding duration during which ARI maintained the STOP gesture (ARI Stop Time). The relationship between these values (illustrated in TABLE I SCENARIO -LEVEL AND COMMUNICATION KPI S FROM THE ROTTERDAM EXPERIMENT . A LL VALUES ARE IN SECONDS .Metric Value ARI IGG 1.10 VW IPG 0.50 CPM Latency 1.30 VW ZoD Time 10.99 ARI STOP Time 12.59 
+
+Table I) shows that ARI consistently initiated intervention before the vehicle reached the boundary of ZoD and released the road shortly after it exited, ensuring that the side road was not blocked longer than necessary. Communication behavior was analyzed using the timing indicators defined in Section V-C. Table I summarizes all scenario-level and communication-level KPIs measured during the 19.82 s tracking interval. Despite complete NLOS between ARI, the vehicle, and the infrastructure perception system, the observed message timing remained regular and no major degradation of the V2X link occurred. Since ARI remained stationary, CAMs were generated solely according to the ETSI maximum generation interval [5], resulting in an IGG of approximately 1 s. CAM reception from the vehicle was stable, and CPM arrivals from the infrastructure cameras were sufficiently frequent to maintain an accurate view of main road traffic. 
+
+B. DENM Repeater Functionality as a System Extension 
+
+Although the primary aim of this work is collision avoidance using vision and V2X fusion, the presence of a mobile V2X-enabled robot enables an additional extension in which event-driven DENM are boosted to increase the initial range. In this scenario, a safety car with an RSU positioned at the end of the main road broadcasts DENM messages describing safety-related events. ARI, located on the FMP road approximately 134.3 m from the RSU, can receive these messages, whereas the VW ID.4 at the starting point cannot, due to the greater distance (approximately 220 m from the RSU). ARI then rebroadcasts the received DENMs, making them immediately available to the VW ID.4, which is 82.8 m from ARI. This allows the vehicle to decode the forwarded message even when the original transmitter is not yet reachable, effec-tively enabling ARI to function as a DENM repeater. As the vehicle moves along the road, it subsequently receives the same DENM from both ARI and the RSU. Additionally, the data stream from the RSU remains stable throughout the experiment, with an average inter-packet gap of 0.522 s ,demonstrating reliable message reception by ARI. By acting as a mobile relay, ARI expands the spatial coverage of hazard notifications and mitigates communication blind spots in NLOS conditions. VIII. D ISCUSSION AND FUTURE DIRECTIONS 
+
+The system predicted all hazardous situations and the robot successfully stopped the merging vehicle in every case. The dual perception paths ensured consistent situational awareness, yet several improvements can further enhance performance. The detection range for non-V2X vehicles is limited by camera resolution and road geometry. Adding a long-range radar sensor would extend coverage to about 250 m and improve speed estimation accuracy, though at the cost of additional hardware and increased fusion complexity. Radar also produces high data rates, which requires lower end-to-end latency (CPM delay) between the infrastructure unit and the robot than in the current configuration. This delay can be reduced through optimized CPM generation intervals, lighter message payloads, and more efficient scheduling on the V2X channel, which together improve the freshness of perception updates delivered to the robot. Robot actuation is effective for the tested scenarios, but faster motion would help in borderline cases where the merg-ing vehicle is already close to the intersection while a fast-approaching vehicle is detected on the main road. Lowering the overall response time from detection to gesture execution remains an important direction. While the system is highly mobile and easily adapts to various intersections without fixed installations, a physical ground-level robot has drawbacks compared to elevated road signs. Sharing the road exposes the robot to vandalism and accidental collisions, especially during active interventions. Additionally, system malfunctions could endanger pedestrians or parked vehicles. Therefore, large-scale deployment requires strict adherence to safety standards and robust fail-safe mech-anisms to mitigate these risks. In addition, future work will focus on extending the concept to more complex traffic scenarios with explicit quantification of robot interventions and its impact on traffic flow. Future work will focus on strengthening the experimental validation through comprehensive quantitative analysis. Furthermore, adaptive decision thresholds that account for traffic density and environmental conditions will be incorporated. Finally, the integration of predictive models for multi-agent interaction will be explored to further enhance the reliability of the moderator in dynamic traffic scenarios. IX. C ONCLUSION 
+
+This work demonstrated a robotic traffic moderation frame-work that fuses infrastructure vision and V2X communication to manage NLOS merging scenarios. During the deployment at the FMP, the camera system detected more than seven hundred vehicles and a V2X-equipped VW ID.4 was used to evaluate direct V2X information retrieval, allowing ARI to obtain precise position and speed data. The fused perception enabled the humanoid robot to predict conflicts and physically stop the merging vehicle through a STOP gesture, a handheld stop sign, and a short movement to the center of the lane. The results show that robotic intervention is effective in mixed traffic environments where many vehicles lack V2X capabilities or where conventional V2X warnings alone cannot guarantee safe driver response. The mobility of ARI and the lightweight sensing unit supports deployment in varied intersection layouts. ACKNOWLEDGEMENT 
+
+This work was funded by the KIT Future Fields Wild Ideas project ”WildRobot”, the Excellence Strategy of the German Federal and State Governments and the Helmholtz Programs EDF and ESD. This paper is part of the CulturalRoad project, funded by the European Union under grant agreement No. 101147397. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Climate, Infrastructure and Environment Executive Agency (CINEA). Neither the European Union nor the granting authority can be held responsible for them. The authors also thank the Future Mobility Network and FMP foundation for providing access to the test site and for their support during the experimental campaign, as well as the staff members who assisted with on site coordination. REFERENCES [1] D. L. Harkey, B. Lan, R. Srinivasan, W. Kumfer, D. Carter et al. , “Impact of intersection angle on highway safety,” United States. Federal Highway Administration. Office of Safety Research and . . . , Tech. Rep., 2021. [2] N. Arbabzadeh, M. Jafari, M. Jalayer, S. Jiang, and M. Kharbeche, “A hybrid approach for identifying factors affecting driver reaction time using naturalistic driving data,” Transportation research part C: emerging technologies , vol. 100, pp. 107–124, 2019. [3] T. Schl¨ urscheid, A. Stuckert, A. Erkan, and T. Q. Khanh, “An analysis of visibility requirements and reaction times of near-field projections,” 
+
+Applied Sciences , vol. 14, no. 2, p. 872, 2024. [4] Q. Delooz, A. Willecke, K. Garlichs, A.-C. Hagau, L. Wolf, A. Vinel, and A. Festag, “Analysis and evaluation of information redundancy mitigation for v2x collective perception,” IEEE access , vol. 10, pp. 47 076–47 093, 2022. [5] ETSI, “Intelligent transport systems (its); vehicular communications; basic set of applications; part 2: Specification of cooperative awareness basic service,” no. EN 302 637-2 v1.4.1 (2020-05). [6] “Intelligent transport systems (its); vehicular communications; collective perception service,” no. TS 103 324. ETSI, 2022. [7] “Intelligent transport systems (its); vehicular communications; basic set of applications; part 3: Specifications of decentralized environmental notification basic service,” no. EN 302 637-3. ETSI, 2019. [8] A. M. Anisha, M. Abdel-Aty, A. Abdelraouf, Z. Islam, and O. Zheng, “Automated vehicle to vehicle conflict analysis at signalized intersec-tions by camera and lidar sensor fusion,” Transportation research record ,vol. 2677, no. 5, pp. 117–132, 2023. [9] M. Khoshkdahan and A. Vinel, “Triband-bev: Real-time lidar-only 3d pedestrian detection via height-aware bev and high-resolution feature fusion,” in Proceedings of the 25th International Conference on Au-tonomous Agents and Multiagent Systems , 2026. [10] M. Khoshkdahan, N. Kj¨ ar, and F. B. Flohr, “Fair-ped: Fairness evaluation in pedestrian detection using clip,” in 2025 IEEE Intelligent Vehicles Symposium (IV) . IEEE, 2025, pp. 1504–1509. [11] M. Khoshkdahan, A. Akbari, A. Akbari, and X. Zhang, “Beyond overall accuracy: Pose-and occlusion-driven fairness analysis in pedes-trian detection for autonomous driving,” in International Conference on Intelligent Transportation Systems (ITSC) . IEEE, 2025. [12] A. Wu, T. Banerjee, K. Chen, A. Rangarajan, and S. Ranka, “A multi-sensor video/lidar system for analyzing intersection safety,” in 
+
+2023 IEEE 26th International Conference on Intelligent Transportation Systems (ITSC) , 2023, pp. 1158–1165. [13] W. Liu, S. Muramatsu, and Y. Okubo, “Cooperation of v2i/p2i commu-nication and roadside radar perception for the safety of vulnerable road users,” in 2018 16th International Conference on Intelligent Transporta-tion Systems Telecommunications (ITST) . IEEE, 2018, pp. 1–7. [14] T. T. Zhang, M. Guo, P. J. Jin, Y. Ge, and J. Gong, “Longitudinal-scanline-based arterial traffic video analytics with coordinate transforma-tion assisted by 3d infrastructure data,” Transportation Research Record ,vol. 2675, no. 3, pp. 338–357, 2021. [15] G. Shah, D. Tian, E. Moradi-Pari, and Y. P. Fallah, “Arow: V2x-based automated right-of-way algorithm for cooperative intersection management,” IEEE Transactions on Intelligent Transportation Systems ,vol. 25, no. 9, pp. 10 983–10 999, 2024. [16] X. Cai, B. Lv, H. Yao, T. Yang, and H. Dai, “V-fcw: Vector-based forward collision warning algorithm for curved road conflicts using v2x networks,” Accident Analysis & Prevention , vol. 210, p. 107836, 2025. [17] A. Bazzi, T. Blazek, M. Menarini, B. M. Masini, A. Zanella, C. Meck-lenbr¨ auker, and G. Ghiaasi, “A hardware-in-the-loop evaluation of the impact of the v2x channel on the traffic-safety versus efficiency trade-offs,” in 2020 14th European Conference on Antennas and Propagation (EuCAP) . IEEE, 2020, pp. 1–5. [18] S. Y. Gelbal, S. Zhu, G. A. Anantharaman, B. A. Guvenc, and L. Guvenc, “Cooperative collision avoidance in a connected vehicle environment,” 
+
+arXiv preprint arXiv:2306.01889 , 2023. [19] M. Lanzer, I. Koniakowsky, M. Colley, and M. Baumann, “Interaction effects of pedestrian behavior, smartphone distraction and external communication of automated vehicles on crossing and gaze behavior,” in Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems , 2023, pp. 1–18. [20] A. Najjar, H. Prakash, I. Tchappi, J. E. Ndamlabin Mboula, and Y. Mualla, “Towards a smart robot model for traffic signal management in developing countries,” in Proceedings of the 10th International Conference on Human-Agent Interaction , 2022, pp. 333–336. [21] F. Ghaffar, “Controlling traffic with humanoid social robot,” arXiv preprint arXiv:2204.04240 , 2022. [22] A. L. F. Comeca, N. Masarykova, M. Halinkovic, M. Galinski, P. Laskov, and A. Vinel, “Robots for safer pedestrian crossing on two-lane roads,” in 2025 IEEE International Automated Vehicle Validation Conference (IAVVC) , 2025, pp. 1–6. [23] ——, “Social robots for road safety: Pedestrian crossing assistance use-case,” in 2025 International Symposium ELMAR . IEEE, 2025, pp. 53–56. [24] S. Mahendran, S. Paul, N. Ashraf, B. Anbarasu, S. Seralathan et al. ,“Design and development of autonomous drone traffic control system,” in 2025 3rd International Conference on Artificial Intelligence and Machine Learning Applications Theme: Healthcare and Internet of Things (AIMLA) . IEEE, 2025, pp. 1–6. [25] M. Masuduzzaman, A. Islam, K. Sadia, and S. Y. Shin, “Uav-based mec-assisted automated traffic management scheme using blockchain,” 
+
+Future Generation Computer Systems , vol. 134, pp. 256–270, 2022. [26] E. V. Butil˘ a and R. G. Boboc, “Urban traffic monitoring and analysis using unmanned aerial vehicles (uavs): A systematic literature review,” 
+
+Remote Sensing , vol. 14, no. 3, p. 620, 2022. [27] Y. Tian, Q. Ye, and D. Doermann, “Yolov12: Attention-centric real-time object detectors,” arXiv preprint arXiv:2502.12524 , 2025. [28] V. R. S. Banjade, S. C. Jha, K. Sivanesan, L. G. Baltar, S. A. Sehra, and S. J. Tan, “Vulnerable road users safety in infrastructure assisted intelligent transportation system,” in 2021 IEEE International Smart Cities Conference (ISC2) . IEEE, 2021, pp. 1–7.
