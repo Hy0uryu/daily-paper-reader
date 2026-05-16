@@ -1,0 +1,126 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-001.webp",
+      "caption": "Fig. 1: Example multi-robot solution for 30 quadcopters with doubleintegrator dynamics in a cluttered environment. KCBS is used for high-level coordination, with KiTE-Extend guided RRT as the lowlevel kinodynamic planner. Colored curves denote agent trajectories, with matching-colored markers indicating start and goal states; gray prisms represent static obstacles.",
+      "page": 1,
+      "index": 1,
+      "width": 420,
+      "height": 360
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-002.webp",
+      "caption": "Fig. 3: Benchmark environments. The goal region of each vehicle is a circle/sphere of the same color.",
+      "page": 6,
+      "index": 2,
+      "width": 1076,
+      "height": 245
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-003.webp",
+      "caption": "Fig. 10: Detailed results for selected environments in experiments with the Second Order Car model. Each row corresponds to one experimental setting (environment and agent count N ) and contains, from left to right: (i) success rate (SR; bar chart), (ii) computation time (CT; boxen plot), and (iii) total path time (PT; boxen plot), comparing each KCBS planner to its pruning enabled variant. These plots visualize variability and tail behavior underlying the aggregate results in Table V.",
+      "page": 25,
+      "index": 3,
+      "width": 1021,
+      "height": 946
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-004.webp",
+      "caption": "Fig. 6: Detailed results for selected environments in experiments with the Unicycle model (continued). Each row corresponds to one experimental setting (environment and agent count N ) and contains, from left to right: (i) success rate (SR; bar chart), (ii) computation time (CT; boxen plot), and (iii) total path time (PT; boxen plot), comparing each baseline planner to its KiTE-Extend variant. These plots visualize variability and tail behavior underlying the aggregate results in Table II.",
+      "page": 15,
+      "index": 4,
+      "width": 1021,
+      "height": 1186
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-005.webp",
+      "caption": "TABLE IV: Planner performance for the Double Integrator (DI) model across environments and robot counts. Results compare baseline planners and their KiTE-Extend variants for cRRT, pRRT, KCBS, and dbCBS, reported in terms of success rate (SR), computation time (CT), and total path time (PT). Bold entries indicate the best value for each metric within a given planner and environment; for success rate, all entries achieving the maximum value are bolded.",
+      "page": 21,
+      "index": 5,
+      "width": 1072,
+      "height": 585
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-006.webp",
+      "caption": "TABLE I: Representative results across systems and environments at two team sizes per setting. Full results (510 conditions) are reported in Appendix.",
+      "page": 7,
+      "index": 6,
+      "width": 1072,
+      "height": 358
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-007.webp",
+      "caption": "Fig. 9: Detailed results for selected environments in experiments with the Double Integrator model. Each row corresponds to one experimental setting (environment and agent count N ) and contains, from left to right: (i) success rate (SR; bar chart), (ii) computation time (CT; boxen plot), and (iii) total path time (PT; boxen plot), comparing each baseline planner to its KiTE-Extend variant. These plots visualize variability and tail behavior underlying the aggregate results in Table IV.",
+      "page": 22,
+      "index": 7,
+      "width": 1021,
+      "height": 946
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-008.webp",
+      "caption": "Fig. 5: Detailed results for selected environments in experiments with the Unicycle model. Each row corresponds to one experimental setting (environment and agent count N ) and contains, from left to right: (i) success rate (SR; bar chart), (ii) computation time (CT; boxen plot), and (iii) total path time (PT; boxen plot), comparing each baseline planner to its KiTEExtend variant. These plots visualize variability and tail behavior underlying the aggregate results in Table II.",
+      "page": 14,
+      "index": 8,
+      "width": 1021,
+      "height": 1183
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-009.webp",
+      "caption": "Fig. 7: Detailed results for selected environments in experiments with the Second Order Car model. Each row corresponds to one experimental setting (environment and agent count N ) and contains, from left to right: (i) success rate (SR; bar chart), (ii) computation time (CT; boxen plot), and (iii) total path time (PT; boxen plot), comparing each baseline planner to its KiTE-Extend variant. These plots visualize variability and tail behavior underlying the aggregate results in Table III.",
+      "page": 18,
+      "index": 9,
+      "width": 1021,
+      "height": 1183
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-010.webp",
+      "caption": "TABLE II: Planner performance for the Unicycle (UC) model across environments and robot counts. Results compare baseline planners and their KiTE-Extend variants for cRRT, pRRT, KCBS, and dbCBS, reported in terms of success rate (SR), computation time (CT), and total path time (PT). Bold entries indicate the best value for each metric within a given planner and environment; for success rate, all entries achieving the maximum value are bolded.",
+      "page": 13,
+      "index": 10,
+      "width": 1072,
+      "height": 843
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-011.webp",
+      "caption": "Fig. 8: Detailed results for selected environments in experiments with the Second Order Car model (continued). Each row corresponds to one experimental setting (environment and agent count N ) and contains, from left to right: (i) success rate (SR; bar chart), (ii) computation time (CT; boxen plot), and (iii) total path time (PT; boxen plot), comparing each baseline planner to its KiTE-Extend variant. These plots visualize variability and tail behavior underlying the aggregate results in Table III.",
+      "page": 19,
+      "index": 11,
+      "width": 1021,
+      "height": 1186
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-012.webp",
+      "caption": "TABLE III: Planner performance for the Second Order Car (SOC) model across environments and robot counts. Results compare baseline planners and their KiTE-Extend variants for cRRT, pRRT, KCBS, and dbCBS, reported in terms of success rate (SR), computation time (CT), and total path time (PT). Bold entries indicate the best value for each metric within a given planner and environment; for success rate, all entries achieving the maximum value are bolded.",
+      "page": 17,
+      "index": 12,
+      "width": 1070,
+      "height": 1040
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-013.webp",
+      "caption": "TABLE VII: Effect of skip factor p on KiTE-augmented planner performance for the Second-Order Car (SOC) model in the Small Cluttered environment with N = 15 robots, using a fixed edge-bundle size of 50k. Results are reported for pRRT+KiTE and KCBS+KiTE in terms of computation time (CT) and total path time (PT). Metrics are averaged over a common subset of trials for each planner in which all tested skip-factor settings successfully produced a solution. The column “Rounds” indicates the number of such common trials used for aggregation.",
+      "page": 27,
+      "index": 13,
+      "width": 1066,
+      "height": 212
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-014.webp",
+      "caption": "TABLE V: Planner performance for KCBS with and without low-level pruning under the Second-Order Car (SOC) model. Results compare baseline KCBS and KCBS+Pruning planners, both with and without KiTE-Extend, across Swap and Large Cluttered environments and varying robot counts. Metrics include success rate (SR), computation time (CT), and total path time (PT). Bold entries indicate the best value for each metric within a given planner and environment; for success rate, all entries achieving the maximum value are bolded.",
+      "page": 24,
+      "index": 14,
+      "width": 1068,
+      "height": 949
+    },
+    {
+      "url": "assets/figures/arxiv/2605.09801v1/fig-015.webp",
+      "caption": "Fig. 2: Ranked edge-bundle expansion in KiTE-Extend. Top: From a given tree node, KiTE ranks precomputed, dynamically feasible trajectory segments by the distance of their endpoints to the sampled state xrand and attempts them in order, skipping infeasible edges caused by obstacles. Bottom: Under agent collision constraints, the same mechanism naturally favors safe alternatives, including near-zero-velocity trajectories that avoid conflicts. Yellow vehicles denote the controlled agent, red and blue vehicles denote dynamic obstacles, and faint yellow states indicate candidate edge-bundle start configurations sampled within a δ-ball around the current node.",
+      "page": 5,
+      "index": 15,
+      "width": 529,
+      "height": 581
+    }
+  ]
+}
